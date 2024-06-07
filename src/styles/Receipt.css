@@ -1,0 +1,63 @@
+.receipt-container {
+    border: 2px solid #000;
+    border-radius: 5px;
+    padding: 20px;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .receipt-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .print-button {
+    padding: 8px 12px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .receipt-details {
+    margin-top: 20px;
+  }
+  
+  .receipt-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .receipt-list-item {
+    margin-bottom: 10px;
+  }
+  
+  .item-name {
+    font-weight: bold;
+  }
+  
+  .item-details {
+    font-size: 0.9em;
+  }
+  
+  .receipt-summary {
+    margin-top: 20px;
+  }
+  
+  @media print {
+    body * {
+      visibility: hidden;
+    }
+    .receipt-container, .receipt-container * {
+      visibility: visible;
+    }
+    .receipt-container {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+  }
+  
+      

@@ -1,0 +1,19 @@
+.product-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .product-list-item {
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    background-color: #fff;
+    transition: background-color 0.3s ease;
+  }
+  
+  .product-list-item:hover {
+    background-color: #f1f1f1;
+  }
+  
