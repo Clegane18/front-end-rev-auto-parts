@@ -1,75 +1,39 @@
 .checkout-container {
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    padding: 20px;
-    margin-top: 20px;
-    background-color: #fff;
-  }
-  
-  .checkout-list {
-    list-style-type: none;
-    padding: 0;
-    margin-bottom: 20px;
-  }
-  
-  .checkout-list-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    border-bottom: 1px solid #ced4da;
-  }
-  
-  .quantity-buttons {
-    display: flex;
-    gap: 5px;
-  }
-  
-  .payment-input {
-    padding: 8px;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    width: 100%;
-    margin-bottom: 20px;
-  }
-  
-  .pay-button {
-    padding: 10px 20px;
-    background-color: #dc3545;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .pay-button:hover {
-    background-color: #c82333;
-  }
-  
-  .increase-quantity-button, .decrease-quantity-button {
-    padding: 5px 10px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .increase-quantity-button:hover, .decrease-quantity-button:hover {
-    background-color: #0056b3;
-  }
-  
-  .decrease-quantity-button {
-    background-color: #dc3545;
-  }
-  
-  .decrease-quantity-button:hover {
-    background-color: #c82333;
-  }
-  
-  .total-amount {
-    margin-bottom: 20px;
-    text-align: right;
-    font-size: 1.2em;
-  }
-  
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.checkout-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.checkout-list-item {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.quantity-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.decrease-quantity-button,
+.increase-quantity-button {
+  padding: 5px 10px;
+  background-color: #ff5722;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.pay-button {
+  padding: 10px 20px;
+  background-color: #ff5722;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}

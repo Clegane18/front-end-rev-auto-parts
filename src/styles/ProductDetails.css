@@ -1,21 +1,56 @@
+/* ProductDetails.css */
 .product-details {
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    padding: 20px;
-    margin-top: 20px;
-    background-color: #fff;
-  }
-  
-  .add-to-cart-button {
-    padding: 8px 16px;
-    background-color: #28a745;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .add-to-cart-button:hover {
-    background-color: #218838;
-  }
-  
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  max-width: 400px; /* Set a maximum width for the product details container */
+  margin: auto;
+}
+
+.product-details h2 {
+  margin-top: 0;
+}
+
+.product-details p {
+  margin: 8px 0;
+}
+
+.add-to-cart-button, .buy-now-button, .confirm-buy-now-button {
+  display: inline-block;
+  width: auto; /* Adjust width to be auto */
+  padding: 8px 16px; /* Adjust padding for smaller buttons */
+  margin: 10px 5px 10px 0; /* Add a bit of margin for spacing between buttons */
+  background-color: #f57224; /* Shopee orange */
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px; /* Smaller font size */
+}
+
+.add-to-cart-button:hover, .buy-now-button:hover, .confirm-buy-now-button:hover {
+  background-color: #d8641a; /* Darker shade of Shopee orange */
+}
+
+.buy-now-section {
+  margin-top: 20px;
+}
+
+.buy-now-section p {
+  margin: 8px 0;
+}
+
+.buy-now-section label {
+  display: flex;
+  align-items: center;
+  margin: 8px 0;
+}
+
+.buy-now-section input {
+  width: 60px;
+  margin-left: 10px;
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}

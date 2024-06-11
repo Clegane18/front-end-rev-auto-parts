@@ -3,17 +3,17 @@ import "../../styles/ProductList.css";
 
 const ProductList = ({ products, onSelectProduct }) => {
   return (
-    <ul className="product-list">
+    <div className="product-list">
       {products.map((product) => (
-        <li
+        <div
           key={product.id}
+          className="product-item"
           onClick={() => onSelectProduct(product)}
-          className="product-list-item"
         >
-          {product.name}
-        </li>
+          <h3>{product.name}</h3>
+        </div>
       ))}
-    </ul>
+    </div>
   );
 };
 

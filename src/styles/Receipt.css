@@ -1,63 +1,46 @@
 .receipt-container {
-    border: 2px solid #000;
-    border-radius: 5px;
-    padding: 20px;
-    max-width: 400px;
-    margin: 0 auto;
-  }
-  
-  .receipt-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.receipt-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.receipt-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.receipt-list-item {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.print-button {
+  padding: 10px 20px;
+  background-color: #ff5722;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+@media print {
   .print-button {
-    padding: 8px 12px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+    display: none;
   }
-  
-  .receipt-details {
-    margin-top: 20px;
+  body * {
+    visibility: hidden;
   }
-  
-  .receipt-list {
-    list-style-type: none;
-    padding: 0;
+  .receipt-container, .receipt-container * {
+    visibility: visible;
   }
-  
-  .receipt-list-item {
-    margin-bottom: 10px;
+  .receipt-container {
+    position: absolute;
+    left: 0;
+    top: 0;
   }
-  
-  .item-name {
-    font-weight: bold;
-  }
-  
-  .item-details {
-    font-size: 0.9em;
-  }
-  
-  .receipt-summary {
-    margin-top: 20px;
-  }
-  
-  @media print {
-    body * {
-      visibility: hidden;
-    }
-    .receipt-container, .receipt-container * {
-      visibility: visible;
-    }
-    .receipt-container {
-      position: absolute;
-      left: 0;
-      top: 0;
-    }
-  }
-  
-      
+}

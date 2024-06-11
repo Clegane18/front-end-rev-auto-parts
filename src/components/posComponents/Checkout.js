@@ -27,7 +27,7 @@ const Checkout = ({ items, onPay, onIncreaseQuantity, onDecreaseQuantity }) => {
 
   return (
     <div className="checkout-container">
-      <h2>Checkout</h2>
+      <h2>Shopping Cart</h2>
       <ul className="checkout-list">
         {items.map((item) => (
           <li key={item.id} className="checkout-list-item">
@@ -66,7 +66,7 @@ const Checkout = ({ items, onPay, onIncreaseQuantity, onDecreaseQuantity }) => {
         className="payment-input"
       />
       <button onClick={handlePayment} className="pay-button">
-        Pay
+        PA
       </button>
     </div>
   );

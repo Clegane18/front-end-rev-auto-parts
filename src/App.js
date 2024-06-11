@@ -1,114 +1,59 @@
-import React, { useState } from "react";
-import "./styles/App.css";
-import ProductSearch from "./components/posComponents/ProductSearch";
-import ProductList from "./components/posComponents/ProductList";
-import ProductDetails from "./components/posComponents/ProductDetails";
-import Checkout from "./components/posComponents/Checkout";
-import Receipt from "./components/posComponents/Receipt";
-import { searchProducts, buyProductsOnPhysicalStore } from "./services/pos-api";
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import Dashboard from "./components/DashboardPage";
+import LoginPage from "./components/LoginComponents/LoginPage";
+import POSPage from "./components/posComponents/POSPage";
+import InventoryAndPendingStockPage from "./components/inventoryComponents/InventoryAndPendingStocksPage";
+import OnlineStoreFrontPage from "./components/onlineStoreFrontComponents/OnlineStoreFrontPage";
+import useAuthentication from "./components/LoginComponents/useAuthentication";
+import Checkout from "./components/posComponents/Checkout"; // Import the Checkout component
 
 const App = () => {
-  const [products, setProducts] = useState([]);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [checkoutItems, setCheckoutItems] = useState([]);
-  const [receipt, setReceipt] = useState(null);
-
-  const handleSearch = async (query) => {
-    try {
-      const results = await searchProducts(query);
-      setProducts(results.data);
-    } catch (error) {
-      console.error("Search failed", error);
-      alert(`Search failed: ${error.response?.data?.message || error.message}`);
-    }
-  };
-
-  const handleSelectProduct = (product) => {
-    setSelectedProduct(product);
-  };
-
-  const handleAddToCart = (product) => {
-    const existingItem = checkoutItems.find((item) => item.id === product.id);
-    if (existingItem) {
-      setCheckoutItems(
-        checkoutItems.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        )
-      );
-    } else {
-      const item = { ...product, quantity: 1 };
-      setCheckoutItems([...checkoutItems, item]);
-    }
-    setSelectedProduct(null);
-  };
-
-  const handleIncreaseQuantity = (productId) => {
-    setCheckoutItems(
-      checkoutItems.map((item) =>
-        item.id === productId ? { ...item, quantity: item.quantity + 1 } : item
-      )
-    );
-  };
-
-  const handleDecreaseQuantity = (productId) => {
-    setCheckoutItems(
-      checkoutItems.map((item) =>
-        item.id === productId && item.quantity > 1
-          ? { ...item, quantity: item.quantity - 1 }
-          : item
-      )
-    );
-  };
-
-  const handlePay = async (items, paymentAmount) => {
-    const payload = {
-      items: items.map((item) => ({
-        productId: item.id,
-        quantity: item.quantity,
-      })),
-      paymentAmount,
-    };
-    console.log("Payment Payload:", payload); // Log the payload
-    try {
-      const response = await buyProductsOnPhysicalStore(payload);
-      setReceipt(response.receipt);
-      setCheckoutItems([]);
-    } catch (error) {
-      console.error("Payment failed", error);
-      alert(
-        `Payment failed: ${error.response?.data?.message || error.message}`
-      );
-    }
-  };
+  const { authToken, login } = useAuthentication();
 
   return (
-    <div className="app-container">
-      <h1>G&F Auto Supply Store</h1>
-      <ProductSearch onSearch={handleSearch} />
-      {products.length > 0 && (
-        <ProductList
-          products={products}
-          onSelectProduct={handleSelectProduct}
+    <Router>
+      <Routes>
+        <Route path="/login" element={<LoginPage setAuthToken={login} />} />
+        <Route
+          path="/dashboard"
+          element={authToken ? <Dashboard /> : <Navigate to="/login" />}
         />
-      )}
-      {selectedProduct && (
-        <ProductDetails
-          product={selectedProduct}
-          onAddToCart={handleAddToCart}
+        <Route
+          path="/pos"
+          element={authToken ? <POSPage /> : <Navigate to="/login" />}
         />
-      )}
-      {checkoutItems.length > 0 && (
-        <Checkout
-          items={checkoutItems}
-          onPay={handlePay}
-          onIncreaseQuantity={handleIncreaseQuantity}
-          onDecreaseQuantity={handleDecreaseQuantity}
+        <Route
+          path="/inventory-pending"
+          element={
+            authToken ? (
+              <InventoryAndPendingStockPage />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
         />
-      )}
-      {receipt && <Receipt receipt={receipt} />}
-    </div>
+        <Route
+          path="/online-store"
+          element={
+            authToken ? <OnlineStoreFrontPage /> : <Navigate to="/login" />
+          }
+        />
+        <Route
+          path="/checkout"
+          element={authToken ? <Checkout /> : <Navigate to="/login" />} // Add this route for the checkout page
+        />
+        <Route
+          path="*"
+          element={<Navigate to={authToken ? "/dashboard" : "/login"} />}
+        />
+      </Routes>
+    </Router>
   );
 };
 
