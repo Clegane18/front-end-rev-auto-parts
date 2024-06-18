@@ -1,73 +1,88 @@
 import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { buyProductsOnPhysicalStore } from "../../services/pos-api";
 import "../../styles/Checkout.css";
 
-const Checkout = ({ items, onPay, onIncreaseQuantity, onDecreaseQuantity }) => {
-  const [paymentAmount, setPaymentAmount] = useState("");
-  const [subtotals, setSubtotals] = useState({});
+const Checkout = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { items } = location.state || { items: [] };
+  const [paymentAmount, setPaymentAmount] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
 
   useEffect(() => {
-    const newSubtotals = {};
-    let newTotalAmount = 0;
-    items.forEach((item) => {
-      const price = parseFloat(item.price);
-      if (!isNaN(price)) {
-        const subtotal = item.quantity * price;
-        newSubtotals[item.id] = subtotal;
-        newTotalAmount += subtotal;
-      }
-    });
-    setSubtotals(newSubtotals);
-    setTotalAmount(newTotalAmount);
+    const total = items.reduce(
+      (sum, item) => sum + Number(item.subtotalAmount),
+      0
+    );
+    setTotalAmount(total);
   }, [items]);
 
-  const handlePayment = () => {
-    onPay(items, parseFloat(paymentAmount));
+  const handlePaymentAmountChange = (e) => {
+    setPaymentAmount(Number(e.target.value));
+  };
+
+  const handlePay = async () => {
+    const payload = {
+      items: items.map((item) => ({
+        productId: item.id,
+        quantity: item.quantity,
+      })),
+      paymentAmount,
+    };
+
+    try {
+      const response = await buyProductsOnPhysicalStore(payload);
+      if (response.receipt) {
+        navigate("/receipt", { state: { receipt: response.receipt } });
+      } else {
+        alert("No receipt data received from the server.");
+      }
+    } catch (error) {
+      console.error("Payment failed", error);
+      alert(
+        `Payment failed: ${error.response?.data?.message || error.message}`
+      );
+    }
   };
 
   return (
     <div className="checkout-container">
-      <h2>Shopping Cart</h2>
-      <ul className="checkout-list">
-        {items.map((item) => (
-          <li key={item.id} className="checkout-list-item">
-            <span>
-              {item.name} - Quantity: {item.quantity} - Price: ₱
-              {parseFloat(item.price).toFixed(2)}
-            </span>
-            {subtotals[item.id] !== undefined && (
-              <span>Subtotal: ₱{subtotals[item.id].toFixed(2)}</span>
-            )}
-            <div className="quantity-buttons">
-              <button
-                className="decrease-quantity-button"
-                onClick={() => onDecreaseQuantity(item.id)}
-              >
-                -
-              </button>
-              <button
-                className="increase-quantity-button"
-                onClick={() => onIncreaseQuantity(item.id)}
-              >
-                +
-              </button>
-            </div>
-          </li>
-        ))}
-      </ul>
-      <div className="total-amount">
-        <strong>Total Amount: ₱{totalAmount.toFixed(2)}</strong>
-      </div>
-      <input
-        type="number"
-        value={paymentAmount}
-        onChange={(e) => setPaymentAmount(e.target.value)}
-        placeholder="Enter payment amount"
-        className="payment-input"
-      />
-      <button onClick={handlePayment} className="pay-button">
-        PA
-      </button>
+      <h2>Checkout</h2>
+      {items.length === 0 ? (
+        <p>No items in the cart.</p>
+      ) : (
+        <>
+          <ul>
+            {items.map((item, index) => (
+              <li key={index} className="item-details">
+                <div className="quantity-container">
+                  <span>Qty:</span>
+                  <span>{item.quantity}</span>
+                </div>
+                <span>{item.productName || item.name}</span>
+                <span>Amount: ₱{item.unitPrice}</span>
+                <span>Subtotal: ₱{item.subtotalAmount}</span>
+              </li>
+            ))}
+          </ul>
+          <div className="total-amount">
+            Total Amount: ₱{totalAmount.toFixed(2)}
+          </div>
+          <div className="payment-section">
+            <label>
+              Payment Amount: ₱
+              <input
+                type="number"
+                value={paymentAmount}
+                onChange={handlePaymentAmountChange}
+                min="0"
+              />
+            </label>
+            <button onClick={handlePay}>Pay</button>
+          </div>
+        </>
+      )}
     </div>
   );
 };

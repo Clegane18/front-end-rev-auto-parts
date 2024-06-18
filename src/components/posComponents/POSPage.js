@@ -1,8 +1,8 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ProductSearch from "./ProductSearch";
 import ProductList from "./ProductList";
 import ProductDetails from "./ProductDetails";
-import Receipt from "./Receipt";
 import CartIcon from "./CartIcon";
 import Cart from "./Cart";
 import {
@@ -15,8 +15,8 @@ const POSPage = () => {
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [checkoutItems, setCheckoutItems] = useState([]);
-  const [receipt, setReceipt] = useState(null);
   const [showCart, setShowCart] = useState(false);
+  const navigate = useNavigate();
 
   const handleSearch = async (query) => {
     try {
@@ -62,6 +62,17 @@ const POSPage = () => {
     setCheckoutItems(checkoutItems.filter((_, i) => i !== index));
   };
 
+  const handleUpdateQuantity = (index, quantity) => {
+    const newCheckoutItems = [...checkoutItems];
+    newCheckoutItems[index].quantity += quantity;
+    if (newCheckoutItems[index].quantity < 1) {
+      newCheckoutItems[index].quantity = 1; // Ensure quantity doesn't go below 1
+    }
+    newCheckoutItems[index].subtotalAmount =
+      newCheckoutItems[index].quantity * newCheckoutItems[index].unitPrice;
+    setCheckoutItems(newCheckoutItems);
+  };
+
   const handlePay = async (items, paymentAmount) => {
     const payload = {
       items: items.map((item) => ({
@@ -70,10 +81,10 @@ const POSPage = () => {
       })),
       paymentAmount,
     };
+
     try {
       const response = await buyProductsOnPhysicalStore(payload);
-      setReceipt(response.data.receipt);
-      setCheckoutItems([]);
+      navigate("/receipt", { state: { receipt: response.receipt } }); // Navigate to the receipt page with receipt data
     } catch (error) {
       console.error("Payment failed", error);
       alert(
@@ -117,9 +128,9 @@ const POSPage = () => {
               cartItems={checkoutItems}
               onPay={() => handlePay(checkoutItems, 1000)} // Adjust the payment amount as needed
               onRemove={handleRemoveFromCart}
+              onUpdateQuantity={handleUpdateQuantity} // Pass the handleUpdateQuantity function to the Cart component
             />
           )}
-          {receipt && <Receipt receipt={receipt} />}
         </div>
       </main>
     </div>

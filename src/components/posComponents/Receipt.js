@@ -1,48 +1,63 @@
+// src/components/posComponents/Receipt.js
 import React from "react";
+import { useLocation } from "react-router-dom";
 import "../../styles/Receipt.css";
 
-const Receipt = ({ receipt }) => {
+const Receipt = () => {
+  const location = useLocation();
+  const { receipt } = location.state || {};
+
+  if (!receipt) {
+    return <div>No receipt data available.</div>;
+  }
+
+  const formatCurrency = (value) => {
+    const number = Number(value);
+    return isNaN(number) ? value : number.toFixed(2);
+  };
+
   const handlePrint = () => {
     window.print();
   };
 
   return (
     <div className="receipt-container">
-      <div className="receipt-content">
-        <div className="receipt-header">
-          <div className="store-info">
-            <h2>G&F Auto Supply</h2>
-            <p>1234 Guyong, Bulacan, Philippines</p>
-          </div>
-        </div>
-        <div className="receipt-details">
-          <p>Transaction No: {receipt.transactionNo}</p>
-          <p>
-            Transaction Date:{" "}
-            {new Date(receipt.transactionDate).toLocaleString()}
-          </p>
-        </div>
-        <hr />
-        <ul className="receipt-list">
+      <div className="store-info">
+        <h2>G&F Auto Supply</h2>
+        <p>1234 Guyong, Bulacan, Philippines</p>
+      </div>
+      <div className="receipt-header">
+        <h3>Receipt</h3>
+        <p>Transaction No: {receipt.transactionNo}</p>
+        <p>Date: {new Date(receipt.transactionDate).toLocaleString()}</p>
+      </div>
+      <table className="receipt-table">
+        <thead>
+          <tr>
+            <th>Product Name</th>
+            <th>Qty</th>
+            <th>Unit Price</th>
+            <th>Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>
           {receipt.items.map((item, index) => (
-            <li key={index} className="receipt-list-item">
-              <span className="item-name">{item.productName}</span>
-              <span className="item-details">
-                Qty: {item.quantity} | Price: ₱{item.unitPrice} | Subtotal: ₱
-                {item.subtotalAmount}
-              </span>
-            </li>
+            <tr key={index}>
+              <td>{item.productName}</td>
+              <td>{item.quantity}</td>
+              <td>₱{formatCurrency(item.unitPrice)}</td>
+              <td>₱{formatCurrency(item.subtotalAmount)}</td>
+            </tr>
           ))}
-        </ul>
-        <hr />
-        <div className="receipt-summary">
-          <p>Total Amount: ₱{receipt.totalAmount}</p>
-          <p>Payment Amount: ₱{receipt.paymentAmount}</p>
-          <p>Change: ₱{receipt.change}</p>
-        </div>
+        </tbody>
+      </table>
+      <div className="totals">
+        <p>Total Amount: ₱{formatCurrency(receipt.totalAmount)}</p>
+        <p>Payment Amount: ₱{formatCurrency(receipt.paymentAmount)}</p>
+        <p>Change: ₱{formatCurrency(receipt.change)}</p>
       </div>
       <button className="print-button" onClick={handlePrint}>
-        Print
+        Print Receipt
       </button>
     </div>
   );

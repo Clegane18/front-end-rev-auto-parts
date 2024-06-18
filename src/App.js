@@ -1,3 +1,4 @@
+// src/App.js
 import React from "react";
 import {
   BrowserRouter as Router,
@@ -11,7 +12,8 @@ import POSPage from "./components/posComponents/POSPage";
 import InventoryAndPendingStockPage from "./components/inventoryComponents/InventoryAndPendingStocksPage";
 import OnlineStoreFrontPage from "./components/onlineStoreFrontComponents/OnlineStoreFrontPage";
 import useAuthentication from "./components/LoginComponents/useAuthentication";
-import Checkout from "./components/posComponents/Checkout"; // Import the Checkout component
+import Checkout from "./components/posComponents/Checkout";
+import Receipt from "./components/posComponents/Receipt"; // Import the Receipt component
 
 const App = () => {
   const { authToken, login } = useAuthentication();
@@ -46,7 +48,11 @@ const App = () => {
         />
         <Route
           path="/checkout"
-          element={authToken ? <Checkout /> : <Navigate to="/login" />} // Add this route for the checkout page
+          element={authToken ? <Checkout /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/receipt"
+          element={authToken ? <Receipt /> : <Navigate to="/login" />}
         />
         <Route
           path="*"
