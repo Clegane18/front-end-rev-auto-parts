@@ -1,4 +1,3 @@
-// src/App.js
 import React from "react";
 import {
   BrowserRouter as Router,
@@ -13,7 +12,7 @@ import InventoryAndPendingStockPage from "./components/inventoryComponents/Inven
 import OnlineStoreFrontPage from "./components/onlineStoreFrontComponents/OnlineStoreFrontPage";
 import useAuthentication from "./components/LoginComponents/useAuthentication";
 import Checkout from "./components/posComponents/Checkout";
-import Receipt from "./components/posComponents/Receipt"; // Import the Receipt component
+import Receipt from "./components/posComponents/Receipt";
 
 const App = () => {
   const { authToken, login } = useAuthentication();

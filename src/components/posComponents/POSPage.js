@@ -40,20 +40,14 @@ const POSPage = () => {
           item.id === product.id
             ? {
                 ...item,
-                quantity: item.quantity + 1,
-                subtotalAmount: (item.quantity + 1) * item.price,
+                quantity: item.quantity + product.quantity,
+                subtotalAmount: (item.quantity + product.quantity) * item.price,
               }
             : item
         )
       );
     } else {
-      const item = {
-        ...product,
-        quantity: 1,
-        unitPrice: product.price,
-        subtotalAmount: product.price,
-      };
-      setCheckoutItems([...checkoutItems, item]);
+      setCheckoutItems([...checkoutItems, product]);
     }
     setSelectedProduct(null);
   };
@@ -126,9 +120,9 @@ const POSPage = () => {
           {showCart && (
             <Cart
               cartItems={checkoutItems}
-              onPay={() => handlePay(checkoutItems, 1000)} // Adjust the payment amount as needed
+              onPay={() => handlePay(checkoutItems, 1000)}
               onRemove={handleRemoveFromCart}
-              onUpdateQuantity={handleUpdateQuantity} // Pass the handleUpdateQuantity function to the Cart component
+              onUpdateQuantity={handleUpdateQuantity}
             />
           )}
         </div>

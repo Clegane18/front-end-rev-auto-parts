@@ -1,18 +1,34 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../../styles/ProductDetails.css";
 
 const ProductDetails = ({ product, onAddToCart }) => {
   const [showBuyNow, setShowBuyNow] = useState(false);
   const [quantity, setQuantity] = useState(1);
+  const navigate = useNavigate();
 
   const handleBuyNowClick = () => {
     setShowBuyNow(true);
   };
 
+  const handleConfirmPurchaseClick = () => {
+    const productWithQuantity = {
+      ...product,
+      quantity,
+      unitPrice: product.price,
+      subtotalAmount: quantity * product.price,
+    };
+    navigate("/checkout", { state: { items: [productWithQuantity] } });
+  };
+
   const handleAddToCartClick = () => {
-    const productWithQuantity = { ...product, quantity };
+    const productWithQuantity = {
+      ...product,
+      quantity,
+      unitPrice: product.price,
+      subtotalAmount: quantity * product.price,
+    };
     onAddToCart(productWithQuantity);
-    setShowBuyNow(false); // Close the buy now section after adding to cart
   };
 
   return (
@@ -21,14 +37,11 @@ const ProductDetails = ({ product, onAddToCart }) => {
       <p>{product.description}</p>
       <p>Price: ₱{product.price}</p>
       <p>Item Code: {product.itemCode}</p>
-      <button
-        onClick={() => onAddToCart({ ...product, quantity: 1 })}
-        className="add-to-cart-button"
-      >
-        Add to Cart
-      </button>
       <button onClick={handleBuyNowClick} className="buy-now-button">
         Buy Now
+      </button>
+      <button onClick={handleAddToCartClick} className="add-to-cart-button">
+        Add to Cart
       </button>
       {showBuyNow && (
         <div className="buy-now-section">
@@ -44,7 +57,7 @@ const ProductDetails = ({ product, onAddToCart }) => {
             />
           </label>
           <button
-            onClick={handleAddToCartClick}
+            onClick={handleConfirmPurchaseClick}
             className="confirm-buy-now-button"
           >
             Confirm Purchase

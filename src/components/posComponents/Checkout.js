@@ -66,9 +66,7 @@ const Checkout = () => {
               </li>
             ))}
           </ul>
-          <div className="total-amount">
-            Total Amount: ₱{totalAmount.toFixed(2)}
-          </div>
+          <div className="total-amount">Total Amount: ₱{totalAmount}</div>
           <div className="payment-section">
             <label>
               Payment Amount: ₱
