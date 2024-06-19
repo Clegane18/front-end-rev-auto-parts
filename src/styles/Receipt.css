@@ -1,12 +1,13 @@
-/* src/styles/Receipt.css */
 .receipt-container {
-  width: 80%;
-  margin: 0 auto;
+  width: 90%;
+  max-width: 400px;
+  margin: 20px auto;
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 8px;
   background-color: #fff;
   font-family: Arial, sans-serif;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .store-info {
@@ -17,6 +18,7 @@
 .store-info h2 {
   margin: 0;
   font-size: 24px;
+  font-weight: bold;
 }
 
 .store-info p {
@@ -25,7 +27,7 @@
 }
 
 .receipt-header {
-  text-align: left;
+  text-align: center;
   margin-bottom: 20px;
 }
 
@@ -39,26 +41,56 @@
   font-size: 14px;
 }
 
-.receipt-table {
-  width: 100%;
-  border-collapse: collapse;
+.receipt-items {
+  list-style: none;
+  padding: 0;
   margin-bottom: 20px;
 }
 
-.receipt-table th, .receipt-table td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
+.item-details {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+  gap: 10px;
+  padding: 10px;
+  box-sizing: border-box;
+  border-bottom: 1px solid #ddd;
 }
 
-.receipt-table th {
-  background-color: #f2f2f2;
+.item-details .item-name {
+  align-self: center;
+  flex: 2;
+  text-align: center;
+}
+
+.quantity-container,
+.item-name,
+.item-price,
+.item-subtotal {
+  flex: 1;
+}
+
+.quantity-container span:first-child {
+  display: block;
+}
+
+.quantity-container span:last-child {
+  display: block;
+  margin-top: 5px;
+}
+
+.item-price,
+.item-subtotal {
+  text-align: right;
 }
 
 .totals {
   text-align: left;
   margin-top: 20px;
   font-size: 16px;
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
 }
 
 .totals p {

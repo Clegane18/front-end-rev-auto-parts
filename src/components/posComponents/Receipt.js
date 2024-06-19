@@ -1,4 +1,3 @@
-// src/components/posComponents/Receipt.js
 import React from "react";
 import { useLocation } from "react-router-dom";
 import "../../styles/Receipt.css";
@@ -31,26 +30,19 @@ const Receipt = () => {
         <p>Transaction No: {receipt.transactionNo}</p>
         <p>Date: {new Date(receipt.transactionDate).toLocaleString()}</p>
       </div>
-      <table className="receipt-table">
-        <thead>
-          <tr>
-            <th>Product Name</th>
-            <th>Qty</th>
-            <th>Unit Price</th>
-            <th>Subtotal</th>
-          </tr>
-        </thead>
-        <tbody>
-          {receipt.items.map((item, index) => (
-            <tr key={index}>
-              <td>{item.productName}</td>
-              <td>{item.quantity}</td>
-              <td>₱{formatCurrency(item.unitPrice)}</td>
-              <td>₱{formatCurrency(item.subtotalAmount)}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <ul className="receipt-items">
+        {receipt.items.map((item, index) => (
+          <li key={index} className="item-details">
+            <div className="quantity-container">
+              <span>Qty:</span>
+              <span>{item.quantity}</span>
+            </div>
+            <span className="item-name">{item.productName}</span>
+            <span>Amount: ₱{formatCurrency(item.unitPrice)}</span>
+            <span>Subtotal: ₱{formatCurrency(item.subtotalAmount)}</span>
+          </li>
+        ))}
+      </ul>
       <div className="totals">
         <p>Total Amount: ₱{formatCurrency(receipt.totalAmount)}</p>
         <p>Payment Amount: ₱{formatCurrency(receipt.paymentAmount)}</p>
