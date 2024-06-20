@@ -5,6 +5,7 @@ import {
   updateProductById,
   deleteProductById,
 } from "../../services/inventory-api";
+import "../../styles/inventoryComponents/ProductManagement.css";
 
 const ProductManagement = () => {
   const [products, setProducts] = useState([]);

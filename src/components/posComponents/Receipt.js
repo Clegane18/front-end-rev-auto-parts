@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
-import "../../styles/Receipt.css";
+import "../../styles/posComponents/Receipt.css";
 
 const Receipt = () => {
   const location = useLocation();

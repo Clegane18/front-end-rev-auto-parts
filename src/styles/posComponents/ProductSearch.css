@@ -1,7 +1,7 @@
 .product-search {
   display: flex;
   gap: 5px;
-  align-items: center; /* Ensure alignment */
+  align-items: center; 
 }
 
 .search-input {
@@ -19,7 +19,7 @@
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s;
-  height: 100%; /* Ensure it matches input height */
+  height: 100%; 
 }
 
 .search-button:hover {

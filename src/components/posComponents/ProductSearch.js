@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { searchProducts } from "../../services/pos-api";
+import "../../styles/posComponents/ProductSearch.css";
 
 const ProductSearch = ({ onSearch }) => {
   const [searchTerm, setSearchTerm] = useState("");

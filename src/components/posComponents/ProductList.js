@@ -1,5 +1,5 @@
 import React from "react";
-import "../../styles/ProductList.css";
+import "../../styles/posComponents/ProductList.css";
 
 const ProductList = ({ products, onSelectProduct }) => {
   return (

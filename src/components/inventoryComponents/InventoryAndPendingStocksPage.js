@@ -1,6 +1,7 @@
 import React from "react";
 import ProductManagement from "./ProductManagement";
 import PendingStockManagement from "./PendingStockManagement";
+import "../../styles/inventoryComponents/InventoryAndPendingStocksPage.css";
 
 const InventoryAndPendingStocksPage = () => {
   return (

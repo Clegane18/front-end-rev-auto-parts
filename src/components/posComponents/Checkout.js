@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { buyProductsOnPhysicalStore } from "../../services/pos-api";
-import "../../styles/Checkout.css";
+import "../../styles/posComponents/Checkout.css";
 
 const Checkout = () => {
   const navigate = useNavigate();

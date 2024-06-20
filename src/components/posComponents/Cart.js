@@ -2,7 +2,7 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import "../../styles/Cart.css";
+import "../../styles/posComponents/Cart.css";
 
 const Cart = ({ cartItems, onRemove, onUpdateQuantity }) => {
   const navigate = useNavigate();

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../../styles/ProductDetails.css";
+import "../../styles/posComponents/ProductDetails.css";
 
 const ProductDetails = ({ product, onAddToCart }) => {
   const [showBuyNow, setShowBuyNow] = useState(false);

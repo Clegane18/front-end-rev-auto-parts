@@ -6,7 +6,7 @@ import ProductDetails from "./ProductDetails";
 import CartIcon from "./CartIcon";
 import Cart from "./Cart";
 import { buyProductsOnPhysicalStore } from "../../services/pos-api";
-import "../../styles/POSPage.css";
+import "../../styles/posComponents/POSPage.css";
 
 const POSPage = () => {
   const [products, setProducts] = useState([]);

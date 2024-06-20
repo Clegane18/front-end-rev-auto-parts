@@ -5,6 +5,7 @@ import {
   confirmStock,
   cancelPendingStock,
 } from "../../services/inventory-api";
+import "../../styles/inventoryComponents/PendingStockManagement.css";
 
 const PendingStockManagement = () => {
   const [pendingStocks, setPendingStocks] = useState([]);
