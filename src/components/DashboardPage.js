@@ -14,8 +14,13 @@ const DashboardPage = () => {
             </Link>
           </li>
           <li>
+            <Link to="/inventory" className="dashboard-link">
+              Inventory Management
+            </Link>
+          </li>
+          <li>
             <Link to="/inventory-pending" className="dashboard-link">
-              Inventory & Pending Stock Management
+              Pending Stock Management
             </Link>
           </li>
           <li>

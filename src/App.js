@@ -8,7 +8,8 @@ import {
 import Dashboard from "./components/DashboardPage";
 import LoginPage from "./components/LoginComponents/LoginPage";
 import POSPage from "./components/posComponents/POSPage";
-import InventoryAndPendingStockPage from "./components/inventoryComponents/InventoryAndPendingStocksPage";
+import InventoryManagementPage from "./components/inventoryComponents/InventoryManagementPage";
+import PendingStockManagementPage from "./components/inventoryComponents/PendingStockManagementPage";
 import OnlineStoreFrontPage from "./components/onlineStoreFrontComponents/OnlineStoreFrontPage";
 import useAuthentication from "./components/LoginComponents/useAuthentication";
 import Checkout from "./components/posComponents/Checkout";
@@ -30,10 +31,16 @@ const App = () => {
           element={authToken ? <POSPage /> : <Navigate to="/login" />}
         />
         <Route
+          path="/inventory"
+          element={
+            authToken ? <InventoryManagementPage /> : <Navigate to="/login" />
+          }
+        />
+        <Route
           path="/inventory-pending"
           element={
             authToken ? (
-              <InventoryAndPendingStockPage />
+              <PendingStockManagementPage />
             ) : (
               <Navigate to="/login" />
             )

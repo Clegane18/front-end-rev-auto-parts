@@ -6,28 +6,30 @@ import {
   deleteProductById,
 } from "../../services/inventory-api";
 import "../../styles/inventoryComponents/ProductManagement.css";
+import { FaTrash, FaEdit } from "react-icons/fa";
 
 const ProductManagement = () => {
   const [products, setProducts] = useState([]);
   const [newProduct, setNewProduct] = useState({ name: "", price: 0 });
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await getAllProducts();
-        if (Array.isArray(response.data)) {
-          setProducts(response.data);
-        } else {
-          console.error("API response data is not an array:", response.data);
-          setProducts([]);
-        }
-      } catch (error) {
-        console.error("Failed to fetch products", error);
-        setProducts([]);
-      }
-    };
     fetchProducts();
   }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const response = await getAllProducts();
+      if (Array.isArray(response.data)) {
+        setProducts(response.data);
+      } else {
+        console.error("API response data is not an array:", response.data);
+        setProducts([]);
+      }
+    } catch (error) {
+      console.error("Failed to fetch products", error);
+      setProducts([]);
+    }
+  };
 
   const handleAddProduct = async () => {
     try {
@@ -62,9 +64,9 @@ const ProductManagement = () => {
   };
 
   return (
-    <div>
+    <div className="product-management-container">
       <h2>Product Management</h2>
-      <div>
+      <div className="product-form">
         <input
           type="text"
           placeholder="Product Name"
@@ -83,11 +85,11 @@ const ProductManagement = () => {
         />
         <button onClick={handleAddProduct}>Add Product</button>
       </div>
-      <ul>
-        {Array.isArray(products) && products.length > 0 ? (
-          products.map((product) => (
+      <div className="product-list">
+        <ul>
+          {products.map((product) => (
             <li key={product.id}>
-              {product.name} - ${product.price}
+              {product.name} - ${product.price.toFixed(2)}
               <button
                 onClick={() =>
                   handleUpdateProduct(product.id, {
@@ -96,17 +98,18 @@ const ProductManagement = () => {
                   })
                 }
               >
-                Update
+                <FaEdit />
               </button>
-              <button onClick={() => handleDeleteProduct(product.id)}>
-                Delete
+              <button
+                onClick={() => handleDeleteProduct(product.id)}
+                className="delete"
+              >
+                <FaTrash />
               </button>
             </li>
-          ))
-        ) : (
-          <li>No products available</li>
-        )}
-      </ul>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };

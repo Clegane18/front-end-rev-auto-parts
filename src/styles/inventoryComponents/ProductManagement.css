@@ -1,68 +1,63 @@
-.product-management {
-    padding: 20px;
+.product-management-container {
+    margin: 20px 0;
   }
   
-  .add-product {
-    display: flex;
-    gap: 10px;
+  .product-form {
     margin-bottom: 20px;
   }
   
-  .add-product input {
+  .product-form input {
+    display: block;
+    margin-bottom: 10px;
     padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    width: 100%;
+    max-width: 300px;
+    box-sizing: border-box; /* Ensure padding and border are included in the element's total width and height */
   }
   
-  .add-product button {
+  .product-form button {
     padding: 8px 12px;
-    border: none;
-    border-radius: 4px;
-    background-color: #28a745;
+    background-color: #007bff;
     color: white;
+    border: none;
     cursor: pointer;
   }
   
-  .add-product button:hover {
-    background-color: #218838;
+  .product-form button:hover {
+    background-color: #0056b3;
   }
   
-  .product-list {
-    list-style-type: none;
+  .product-list ul {
+    list-style: none;
     padding: 0;
   }
   
   .product-list li {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    padding: 10px;
+    align-items: center;
+    padding: 8px;
     border-bottom: 1px solid #ddd;
   }
   
   .product-list button {
-    margin-left: 10px;
-    padding: 6px 10px;
+    padding: 5px 10px;
+    margin-left: 5px;
+    background-color: #ffc107;
+    color: white;
     border: none;
-    border-radius: 4px;
     cursor: pointer;
   }
   
-  .product-list .update-button {
-    background-color: #ffc107;
-    color: white;
-  }
-  
-  .product-list .update-button:hover {
-    background-color: #e0a800;
-  }
-  
-  .product-list .delete-button {
+  .product-list button.delete {
     background-color: #dc3545;
-    color: white;
   }
   
-  .product-list .delete-button:hover {
-    background-color: #c82333;
+  .product-list button:hover {
+    opacity: 0.8;
+  }
+  
+  .product-list .icon {
+    margin-left: 10px;
   }
   
