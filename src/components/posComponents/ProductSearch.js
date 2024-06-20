@@ -1,24 +1,34 @@
 import React, { useState } from "react";
-import "../../styles/ProductSearch.css";
+import { searchProducts } from "../../services/pos-api";
 
 const ProductSearch = ({ onSearch }) => {
-  const [query, setQuery] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const handleSearch = () => {
-    onSearch({ name: query });
+  const handleSearch = async () => {
+    if (!searchTerm) {
+      alert("Please enter a search term.");
+      return;
+    }
+
+    try {
+      const query = { name: searchTerm, description: searchTerm };
+      const products = await searchProducts(query);
+      onSearch(products);
+    } catch (error) {
+      console.error("Error during product search:", error);
+      alert(`Search failed: ${error.response?.data?.message || error.message}`);
+    }
   };
+
   return (
     <div className="product-search">
       <input
         type="text"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder="Search products..."
-        className="search-input"
+        placeholder="Search by name or description"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
       />
-      <button onClick={handleSearch} className="search-button">
-        Search
-      </button>
+      <button onClick={handleSearch}>Search</button>
     </div>
   );
 };

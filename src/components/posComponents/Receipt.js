@@ -23,7 +23,7 @@ const Receipt = () => {
     <div className="receipt-container">
       <div className="store-info">
         <h2>G&F Auto Supply</h2>
-        <p>1234 Guyong, Bulacan, Philippines</p>
+        <p>1104 Gov Fortunato Halili Rd, Santa Maria, Bulacan, Philippines</p>
       </div>
       <div className="receipt-header">
         <h3>Receipt</h3>

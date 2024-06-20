@@ -5,10 +5,7 @@ import ProductList from "./ProductList";
 import ProductDetails from "./ProductDetails";
 import CartIcon from "./CartIcon";
 import Cart from "./Cart";
-import {
-  searchProducts,
-  buyProductsOnPhysicalStore,
-} from "../../services/pos-api";
+import { buyProductsOnPhysicalStore } from "../../services/pos-api";
 import "../../styles/POSPage.css";
 
 const POSPage = () => {
@@ -17,16 +14,6 @@ const POSPage = () => {
   const [checkoutItems, setCheckoutItems] = useState([]);
   const [showCart, setShowCart] = useState(false);
   const navigate = useNavigate();
-
-  const handleSearch = async (query) => {
-    try {
-      const results = await searchProducts(query);
-      setProducts(results.data);
-    } catch (error) {
-      console.error("Search failed", error);
-      alert(`Search failed: ${error.response?.data?.message || error.message}`);
-    }
-  };
 
   const handleSelectProduct = (product) => {
     setSelectedProduct(product);
@@ -60,7 +47,7 @@ const POSPage = () => {
     const newCheckoutItems = [...checkoutItems];
     newCheckoutItems[index].quantity += quantity;
     if (newCheckoutItems[index].quantity < 1) {
-      newCheckoutItems[index].quantity = 1; // Ensure quantity doesn't go below 1
+      newCheckoutItems[index].quantity = 1;
     }
     newCheckoutItems[index].subtotalAmount =
       newCheckoutItems[index].quantity * newCheckoutItems[index].unitPrice;
@@ -78,7 +65,7 @@ const POSPage = () => {
 
     try {
       const response = await buyProductsOnPhysicalStore(payload);
-      navigate("/receipt", { state: { receipt: response.receipt } }); // Navigate to the receipt page with receipt data
+      navigate("/receipt", { state: { receipt: response.receipt } });
     } catch (error) {
       console.error("Payment failed", error);
       alert(
@@ -89,6 +76,10 @@ const POSPage = () => {
 
   const handleCartIconClick = () => {
     setShowCart(!showCart);
+  };
+
+  const handleSearch = (products) => {
+    setProducts(products);
   };
 
   return (
