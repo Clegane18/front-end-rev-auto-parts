@@ -1,12 +1,33 @@
-.receipt-container {
-  width: 90%;
-  max-width: 400px;
+.page-container {
+  width: 100%;
+  max-width: 600px;
   margin: 20px auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  position: relative;
+}
+
+.back-icon {
+  font-size: 24px;
+  color: #6c757d; /* Gray color */
+  cursor: pointer;
+  position: absolute;
+  top: 10px; /* Adjust this value to position it higher or lower */
+  left: 0px; /* Adjust this value to position it more to the left or right */
+}
+
+.back-icon:hover {
+  color: #5a6268; /* Darker gray */
+}
+
+.receipt-container {
+  width: 100%;
+  max-width: 400px;
+  margin: 40px auto 0 auto; /* Adjust the top margin to provide space for the back button */
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 8px;
   background-color: #fff;
-  font-family: Arial, sans-serif;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
