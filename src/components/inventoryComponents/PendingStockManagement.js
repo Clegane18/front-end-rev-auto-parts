@@ -51,6 +51,10 @@ const PendingStockManagement = () => {
   };
 
   const handleCancelStock = async (id) => {
+    const confirmCancel = window.confirm(
+      "Are you sure you want to cancel this stock?"
+    );
+    if (!confirmCancel) return;
     try {
       await cancelPendingStock(id);
       fetchPendingStocks();
@@ -124,6 +128,7 @@ const PendingStockManagement = () => {
           <div>ETA</div>
           <div>Actions</div>
         </div>
+
         {pendingStocks.map((stock) => (
           <div key={stock.id} className="pending-stock-item">
             <div>{stock.productId}</div>

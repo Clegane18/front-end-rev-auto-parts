@@ -1,8 +1,8 @@
 .inventory-management-page {
-    margin: 20px;
+    padding: 20px;
   }
   
-  .inventory-management-page h2 {
+  button {
     margin-bottom: 20px;
   }
   
