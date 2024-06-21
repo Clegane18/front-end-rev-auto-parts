@@ -4,6 +4,7 @@ import {
   addPendingStock,
   confirmStock,
   cancelPendingStock,
+  updateArrivalDate,
 } from "../../services/inventory-api";
 import "../../styles/inventoryComponents/PendingStockManagement.css";
 
@@ -14,23 +15,22 @@ const PendingStockManagement = () => {
     quantity: 0,
     arrivalDate: "",
   });
+  const [editingStockId, setEditingStockId] = useState(null);
+  const [newDate, setNewDate] = useState("");
 
   useEffect(() => {
     fetchPendingStocks();
   }, []);
 
-  // Fetch all pending stocks
   const fetchPendingStocks = async () => {
     try {
       const response = await getAllPendingStocks();
       setPendingStocks(response.data.pendingStocks || []);
     } catch (error) {
       console.error("Failed to fetch pending stocks", error);
-      setPendingStocks([]);
     }
   };
 
-  // Add a new pending stock
   const handleAddPendingStock = async () => {
     try {
       await addPendingStock(newPendingStock);
@@ -41,7 +41,6 @@ const PendingStockManagement = () => {
     }
   };
 
-  // Confirm a pending stock
   const handleConfirmStock = async (id) => {
     try {
       await confirmStock(id);
@@ -51,7 +50,6 @@ const PendingStockManagement = () => {
     }
   };
 
-  // Cancel a pending stock
   const handleCancelStock = async (id) => {
     try {
       await cancelPendingStock(id);
@@ -61,11 +59,25 @@ const PendingStockManagement = () => {
     }
   };
 
+  const handleUpdateArrivalDate = async (pendingStockId) => {
+    try {
+      const response = await updateArrivalDate(pendingStockId, newDate);
+      console.log("Response:", response.data);
+      fetchPendingStocks();
+      setEditingStockId(null);
+      setNewDate("");
+    } catch (error) {
+      console.error(
+        "Failed to update arrival date",
+        error.response?.data || error.message || error
+      );
+    }
+  };
+
   return (
     <div className="pending-stock-container">
       <h2>Pending Stock Management</h2>
 
-      {/* Section: Add Pending Stock */}
       <div className="pending-stock-form">
         <h3>Add Pending Stock</h3>
         <input
@@ -104,27 +116,58 @@ const PendingStockManagement = () => {
         <button onClick={handleAddPendingStock}>Add Pending Stock</button>
       </div>
 
-      {/* Section: Pending Stock List */}
       <div className="pending-stock-list">
         <h3>Pending Stock List</h3>
-        <ul>
-          {pendingStocks.map((stock) => (
-            <li key={stock.id}>
-              {stock.productId} - {stock.quantity} - {stock.arrivalDate}
-              <div>
-                <button onClick={() => handleConfirmStock(stock.id)}>
-                  Confirm
+        <div className="pending-stock-header">
+          <div>ProdID</div>
+          <div>Qty</div>
+          <div>ETA</div>
+          <div>Actions</div>
+        </div>
+        {pendingStocks.map((stock) => (
+          <div key={stock.id} className="pending-stock-item">
+            <div>{stock.productId}</div>
+            <div>{stock.quantity}</div>
+            <div>
+              {editingStockId === stock.id ? (
+                <input
+                  type="date"
+                  value={newDate}
+                  onChange={(e) => setNewDate(e.target.value)}
+                />
+              ) : (
+                new Date(stock.arrivalDate).toLocaleDateString()
+              )}
+            </div>
+            <div className="actions">
+              {editingStockId === stock.id ? (
+                <button onClick={() => handleUpdateArrivalDate(stock.id)}>
+                  Save
                 </button>
+              ) : (
                 <button
-                  className="cancel"
-                  onClick={() => handleCancelStock(stock.id)}
+                  onClick={() => {
+                    setEditingStockId(stock.id);
+                    setNewDate(
+                      new Date(stock.arrivalDate).toISOString().split("T")[0]
+                    );
+                  }}
                 >
-                  Cancel
+                  Edit
                 </button>
-              </div>
-            </li>
-          ))}
-        </ul>
+              )}
+              <button onClick={() => handleConfirmStock(stock.id)}>
+                Confirm
+              </button>
+              <button
+                className="cancel"
+                onClick={() => handleCancelStock(stock.id)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

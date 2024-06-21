@@ -41,5 +41,7 @@ export const confirmStock = (id) =>
 export const cancelPendingStock = (id) =>
   api.put(`/products/pendingStocks/cancel-stock/${id}`);
 export const getAllPendingStocks = () => api.get("/products/pending-stocks");
-export const updateArrivalDate = (id, newDate) =>
-  api.put(`/products/pendingStocks/updateArrivalDate/${id}`, { newDate });
+export const updateArrivalDate = (id, newArrivalDate) =>
+  api.put(`/products/pendingStocks/updateArrivalDate/${id}`, {
+    newArrivalDate,
+  });
