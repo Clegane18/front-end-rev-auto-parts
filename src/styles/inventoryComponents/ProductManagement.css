@@ -1,5 +1,11 @@
 .product-management-container {
     padding: 20px;
+    max-width: 1200px; /* Adjust width to a more reasonable size */
+    margin: 40px auto; /* Center the container and add top margin */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff; /* Optional: Add background color for better contrast */
   }
   
   .product-list {
@@ -24,6 +30,7 @@
     padding: 10px;
     border: 1px solid #ddd;
     text-align: left;
+    font-size: 0.9em; /* Make the text smaller */
   }
   
   .product-table-row {
@@ -34,9 +41,10 @@
   
   .product-table-row div {
     display: table-cell;
-    padding: 10px;
+    padding: 8px; /* Reduce padding to make rows less tall */
     border: 1px solid #ddd;
     text-align: left;
+    font-size: 0.9em; /* Make the text smaller */
   }
   
   .product-table-row:nth-child(even) {

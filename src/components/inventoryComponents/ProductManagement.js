@@ -6,10 +6,12 @@ import {
 } from "../../services/inventory-api";
 import "../../styles/inventoryComponents/ProductManagement.css";
 import ProductForm from "./ProductForm";
+import EditProductModal from "./EditProductModal";
 import { FaTrash, FaEdit } from "react-icons/fa";
 
 const ProductManagement = () => {
   const [products, setProducts] = useState([]);
+  const [editingProduct, setEditingProduct] = useState(null);
 
   useEffect(() => {
     fetchProducts();
@@ -18,7 +20,6 @@ const ProductManagement = () => {
   const fetchProducts = async () => {
     try {
       const response = await getAllProducts();
-      console.log("API response:", response);
       if (response.data && Array.isArray(response.data.data)) {
         setProducts(response.data.data);
       } else {
@@ -35,14 +36,15 @@ const ProductManagement = () => {
     setProducts([...products, newProduct]);
   };
 
-  const handleUpdateProduct = async (productId, updatedProduct) => {
+  const handleUpdateProduct = async (updatedProduct) => {
     try {
-      await updateProductById(productId, updatedProduct);
+      await updateProductById(updatedProduct.id, updatedProduct);
       setProducts(
         products.map((product) =>
-          product.id === productId ? updatedProduct : product
+          product.id === updatedProduct.id ? updatedProduct : product
         )
       );
+      setEditingProduct(null);
     } catch (error) {
       console.error("Failed to update product", error);
     }
@@ -94,12 +96,7 @@ const ProductManagement = () => {
               <div>{product.description}</div>
               <div>
                 <button
-                  onClick={() =>
-                    handleUpdateProduct(product.id, {
-                      ...product,
-                      price: product.price + 1,
-                    })
-                  }
+                  onClick={() => setEditingProduct(product)}
                   className="edit"
                 >
                   <FaEdit />
@@ -115,6 +112,13 @@ const ProductManagement = () => {
           ))}
         </div>
       </div>
+      {editingProduct && (
+        <EditProductModal
+          product={editingProduct}
+          onClose={() => setEditingProduct(null)}
+          onSave={handleUpdateProduct}
+        />
+      )}
     </div>
   );
 };
