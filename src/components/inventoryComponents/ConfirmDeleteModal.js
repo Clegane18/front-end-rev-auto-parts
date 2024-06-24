@@ -1,3 +1,4 @@
+// ConfirmDeleteModal.js
 import React from "react";
 import "../../styles/inventoryComponents/ConfirmDeleteModal.css";
 

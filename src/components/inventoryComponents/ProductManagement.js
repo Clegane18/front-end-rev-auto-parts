@@ -2,18 +2,16 @@ import React, { useEffect, useState } from "react";
 import {
   getAllProducts,
   updateProductById,
-  deleteProductById,
+  deleteProductById, // Import the delete function
 } from "../../services/inventory-api";
 import "../../styles/inventoryComponents/ProductManagement.css";
 import ProductForm from "./ProductForm";
 import EditProductModal from "./EditProductModal";
-import ConfirmDeleteModal from "./ConfirmDeleteModal";
 import { FaTrash, FaEdit } from "react-icons/fa";
 
 const ProductManagement = () => {
   const [products, setProducts] = useState([]);
   const [editingProduct, setEditingProduct] = useState(null);
-  const [deletingProduct, setDeletingProduct] = useState(null);
 
   useEffect(() => {
     fetchProducts();
@@ -56,7 +54,6 @@ const ProductManagement = () => {
     try {
       await deleteProductById(productId);
       setProducts(products.filter((product) => product.id !== productId));
-      setDeletingProduct(null);
     } catch (error) {
       console.error("Failed to delete product", error);
     }
@@ -105,7 +102,7 @@ const ProductManagement = () => {
                   <FaEdit />
                 </button>
                 <button
-                  onClick={() => setDeletingProduct(product)}
+                  onClick={() => handleDeleteProduct(product.id)}
                   className="delete"
                 >
                   <FaTrash />
@@ -120,13 +117,6 @@ const ProductManagement = () => {
           product={editingProduct}
           onClose={() => setEditingProduct(null)}
           onSave={handleUpdateProduct}
-        />
-      )}
-      {deletingProduct && (
-        <ConfirmDeleteModal
-          product={deletingProduct}
-          onClose={() => setDeletingProduct(null)}
-          onConfirm={handleDeleteProduct}
         />
       )}
     </div>
