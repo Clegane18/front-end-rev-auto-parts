@@ -134,7 +134,10 @@ const ProductManagement = () => {
       {deletingProduct && (
         <ConfirmDeleteModal
           product={products.find((p) => p.id === deletingProduct)}
-          onClose={() => setDeletingProduct(null)}
+          onClose={() => {
+            setDeletingProduct(null);
+            clearErrorMessage();
+          }}
           onConfirm={handleDeleteProduct}
           errorMessage={errorMessage}
           clearErrorMessage={clearErrorMessage}

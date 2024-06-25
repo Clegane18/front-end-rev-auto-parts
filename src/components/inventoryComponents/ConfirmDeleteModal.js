@@ -1,7 +1,13 @@
 import React from "react";
 import "../../styles/inventoryComponents/ConfirmDeleteModal.css";
 
-const ConfirmDeleteModal = ({ product, onClose, onConfirm, errorMessage }) => {
+const ConfirmDeleteModal = ({
+  product,
+  onClose,
+  onConfirm,
+  errorMessage,
+  clearErrorMessage,
+}) => {
   return (
     <div className="modal-overlay">
       <div className="modal-content">
@@ -17,9 +23,15 @@ const ConfirmDeleteModal = ({ product, onClose, onConfirm, errorMessage }) => {
             className="delete-button"
             onClick={() => onConfirm(product.id)}
           >
-            Delete field
+            Delete
           </button>
-          <button className="cancel-button" onClick={onClose}>
+          <button
+            className="cancel-button"
+            onClick={() => {
+              onClose();
+              clearErrorMessage();
+            }}
+          >
             Cancel
           </button>
         </div>
