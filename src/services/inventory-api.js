@@ -11,8 +11,19 @@ export const getProductById = (productId) =>
   api.get(`/getProductById/${productId}`);
 export const updateProductById = (productId, productData) =>
   api.put(`/updateProductById/${productId}`, productData);
-export const deleteProductById = (productId) =>
-  api.delete(`/products/${productId}`);
+export const deleteProductById = async (productId) => {
+  try {
+    const response = await api.delete(`/products/${productId}`);
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data && error.response.data.error) {
+      throw new Error(error.response.data.error);
+    } else {
+      throw new Error("Failed to delete product. Please try again later.");
+    }
+  }
+};
+
 export const addToProductStock = (productId, quantityToAdd) =>
   api.put(`/addToProductStock/${productId}`, { quantityToAdd });
 

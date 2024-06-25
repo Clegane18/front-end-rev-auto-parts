@@ -1,50 +1,115 @@
-/* ConfirmDeleteModal.css */
+/* General modal overlay */
 .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7); /* Darker overlay for better focus */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease-in-out; /* Subtle fade-in animation */
+}
+
+/* Modal content styling */
+.modal-content {
+  background: #fff; /* White background */
+  padding: 30px; /* Increased padding for better spacing */
+  border-radius: 12px; /* Softer rounded corners */
+  width: 450px; /* Slightly wider modal */
+  max-width: 90%;
+  max-height: 90%;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  animation: slideIn 0.4s ease-out; /* Slide-in animation */
+}
+
+/* Warning icon styling */
+.warning-icon {
+  font-size: 48px; /* Larger icon for better visibility */
+  color: #ff6347; /* Tomato color for warning */
+  margin-bottom: 20px;
+}
+
+/* Heading styling */
+.modal-content h2 {
+  margin-top: 0;
+  color: #333; /* Dark gray color */
+  font-weight: bold; /* Bold heading */
+  margin-bottom: 10px; /* Space below heading */
+}
+
+/* Paragraph styling */
+.modal-content p {
+  color: #555; /* Slightly darker gray */
+  line-height: 1.6; /* Improved readability */
+  margin-bottom: 20px; /* Space below paragraphs */
+}
+
+/* Button group styling */
+.button-group {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* General button styling */
+.button-group button {
+  margin: 0 10px;
+  padding: 12px 25px; /* Increased padding */
+  border: none;
+  border-radius: 25px; /* Fully rounded corners */
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s, transform 0.2s; /* Add smooth transitions */
+}
+
+/* Delete button styling */
+.delete-button {
+  background-color: #ff6347; /* Tomato color */
+  color: white;
+}
+
+.delete-button:hover {
+  background-color: #e5533d; /* Darker tomato on hover */
+  transform: scale(1.05); /* Slight scale on hover */
+}
+
+/* Cancel button styling */
+.cancel-button {
+  background-color: #e0e0e0; /* Light gray background */
+  color: #333;
+  border: 1px solid #ccc; /* Slightly darker border */
+}
+
+.cancel-button:hover {
+  background-color: #d4d4d4; /* Darker gray on hover */
+  transform: scale(1.05); /* Slight scale on hover */
+}
+
+/* Error text styling */
+.error-text {
+  color: #ff6347; /* Tomato color */
+  margin-bottom: 15px;
+  font-weight: bold; /* Bold error message */
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
-  
-  .modal-content {
-    background: white;
-    padding: 20px;
-    border-radius: 5px;
-    width: 300px;
-    max-width: 90%;
-    text-align: center;
+  to {
+    opacity: 1;
   }
-  
-  .modal-content h2 {
-    margin-top: 0;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
   }
-  
-  .modal-content p {
-    margin: 20px 0;
+  to {
+    transform: translateY(0);
   }
-  
-  .button-group {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .button-group button {
-    flex: 1;
-    margin: 0 5px;
-    padding: 10px;
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .button-group button:last-child {
-    background-color: #6c757d;
-  }
-  
+}

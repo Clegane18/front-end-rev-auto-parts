@@ -14,6 +14,7 @@ const ProductManagement = () => {
   const [products, setProducts] = useState([]);
   const [editingProduct, setEditingProduct] = useState(null);
   const [deletingProduct, setDeletingProduct] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     fetchProducts();
@@ -49,6 +50,7 @@ const ProductManagement = () => {
       setEditingProduct(null);
     } catch (error) {
       console.error("Failed to update product", error);
+      alert("Failed to update product. Please try again later.");
     }
   };
 
@@ -58,8 +60,15 @@ const ProductManagement = () => {
       setProducts(products.filter((product) => product.id !== productId));
       setDeletingProduct(null);
     } catch (error) {
-      console.error("Failed to delete product", error);
+      console.error("Failed to delete product:", error);
+      setErrorMessage(
+        error.message || "Failed to delete product. Please try again later."
+      );
     }
+  };
+
+  const clearErrorMessage = () => {
+    setErrorMessage(null);
   };
 
   return (
@@ -105,7 +114,7 @@ const ProductManagement = () => {
                   <FaEdit />
                 </button>
                 <button
-                  onClick={() => setDeletingProduct(product)}
+                  onClick={() => setDeletingProduct(product.id)}
                   className="delete"
                 >
                   <FaTrash />
@@ -124,9 +133,11 @@ const ProductManagement = () => {
       )}
       {deletingProduct && (
         <ConfirmDeleteModal
-          product={deletingProduct}
+          product={products.find((p) => p.id === deletingProduct)}
           onClose={() => setDeletingProduct(null)}
           onConfirm={handleDeleteProduct}
+          errorMessage={errorMessage}
+          clearErrorMessage={clearErrorMessage}
         />
       )}
     </div>

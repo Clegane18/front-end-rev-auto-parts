@@ -1,15 +1,27 @@
 import React from "react";
 import "../../styles/inventoryComponents/ConfirmDeleteModal.css";
 
-const ConfirmDeleteModal = ({ product, onClose, onConfirm }) => {
+const ConfirmDeleteModal = ({ product, onClose, onConfirm, errorMessage }) => {
   return (
     <div className="modal-overlay">
       <div className="modal-content">
-        <h2>Confirm Delete</h2>
-        <p>Are you sure you want to delete the product "{product.name}"?</p>
+        <div className="warning-icon">&#9888;</div>
+        <h2>Are you sure?</h2>
+        <p>
+          This action cannot be undone. All values associated with this field
+          will be permanently lost.
+        </p>
+        {errorMessage && <p className="error-text">{errorMessage}</p>}
         <div className="button-group">
-          <button onClick={() => onConfirm(product.id)}>Yes, Delete</button>
-          <button onClick={onClose}>Cancel</button>
+          <button
+            className="delete-button"
+            onClick={() => onConfirm(product.id)}
+          >
+            Delete field
+          </button>
+          <button className="cancel-button" onClick={onClose}>
+            Cancel
+          </button>
         </div>
       </div>
     </div>
