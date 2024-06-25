@@ -1,98 +1,88 @@
-/* General modal overlay */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.7); /* Darker overlay for better focus */
+  background: rgba(0, 0, 0, 0.7); 
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: fadeIn 0.3s ease-in-out; /* Subtle fade-in animation */
+  animation: fadeIn 0.3s ease-in-out;
 }
 
-/* Modal content styling */
 .modal-content {
-  background: #fff; /* White background */
-  padding: 30px; /* Increased padding for better spacing */
-  border-radius: 12px; /* Softer rounded corners */
-  width: 450px; /* Slightly wider modal */
+  background: #fff; 
+  padding: 30px; 
+  border-radius: 12px; 
+  width: 450px; 
   max-width: 90%;
   max-height: 90%;
   text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
-  animation: slideIn 0.4s ease-out; /* Slide-in animation */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  animation: slideIn 0.4s ease-out; 
 }
 
-/* Warning icon styling */
 .warning-icon {
-  font-size: 48px; /* Larger icon for better visibility */
-  color: #ff6347; /* Tomato color for warning */
+  font-size: 48px; 
+  color: #ff6347; 
   margin-bottom: 20px;
 }
 
-/* Heading styling */
 .modal-content h2 {
   margin-top: 0;
-  color: #333; /* Dark gray color */
-  font-weight: bold; /* Bold heading */
-  margin-bottom: 10px; /* Space below heading */
+  color: #333; 
+  font-weight: bold; 
+  margin-bottom: 10px; 
 }
 
-/* Paragraph styling */
 .modal-content p {
-  color: #555; /* Slightly darker gray */
-  line-height: 1.6; /* Improved readability */
-  margin-bottom: 20px; /* Space below paragraphs */
+  color: #555; 
+  line-height: 1.6; 
+  margin-bottom: 20px; 
 }
 
-/* Button group styling */
-.button-group {
+.modal-content .button-group {
   display: flex;
   justify-content: center;
   margin-top: 20px;
 }
 
-/* General button styling */
-.button-group button {
+.modal-content .button-group button {
   margin: 0 10px;
-  padding: 12px 25px; /* Increased padding */
+  padding: 12px 25px; 
   border: none;
-  border-radius: 25px; /* Fully rounded corners */
+  border-radius: 25px; 
   cursor: pointer;
   font-size: 16px;
-  transition: background-color 0.3s, transform 0.2s; /* Add smooth transitions */
+  transition: background-color 0.3s, transform 0.2s; 
 }
 
-/* Delete button styling */
-.delete-button {
-  background-color: #ff6347; /* Tomato color */
+.modal-content .button-group .delete-button {
+  background-color: #ff6347; 
   color: white;
 }
 
-.delete-button:hover {
-  background-color: #e5533d; /* Darker tomato on hover */
-  transform: scale(1.05); /* Slight scale on hover */
+.modal-content .button-group .delete-button:hover {
+  background-color: #cc3d2b; 
+  transform: scale(1.05); 
 }
 
-/* Cancel button styling */
-.cancel-button {
-  background-color: #e0e0e0; /* Light gray background */
+.modal-content .button-group .cancel-button {
+  background-color: #e0e0e0; 
   color: #333;
-  border: 1px solid #ccc; /* Slightly darker border */
+  border: 1px solid #ccc; 
 }
 
-.cancel-button:hover {
-  background-color: #d4d4d4; /* Darker gray on hover */
-  transform: scale(1.05); /* Slight scale on hover */
+.modal-content .button-group .cancel-button:hover {
+  background-color: #a8a8a8;
+  transform: scale(1.05);
 }
 
-/* Error text styling */
-.error-text {
-  color: #ff6347; /* Tomato color */
+.modal-content .error-text {
+  color: #ff6347;
   margin-bottom: 15px;
-  font-weight: bold; /* Bold error message */
+  font-weight: bold; 
 }
 
 /* Animations */
