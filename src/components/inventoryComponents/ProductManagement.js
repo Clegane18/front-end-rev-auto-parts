@@ -3,17 +3,19 @@ import {
   getAllProducts,
   updateProductById,
   deleteProductById,
+  addProduct,
 } from "../../services/inventory-api";
 import "../../styles/inventoryComponents/ProductManagement.css";
-import ProductForm from "./ProductForm";
 import EditProductModal from "./EditProductModal";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
-import { FaTrash, FaEdit } from "react-icons/fa";
+import AddProductModal from "./AddProductModal";
+import { FaTrash, FaEdit, FaPlus } from "react-icons/fa";
 
 const ProductManagement = () => {
   const [products, setProducts] = useState([]);
   const [editingProduct, setEditingProduct] = useState(null);
   const [deletingProduct, setDeletingProduct] = useState(null);
+  const [addingProduct, setAddingProduct] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
@@ -37,6 +39,17 @@ const ProductManagement = () => {
 
   const handleProductAdded = (newProduct) => {
     setProducts([...products, newProduct]);
+  };
+
+  const handleAddProduct = async (productData) => {
+    try {
+      const response = await addProduct(productData);
+      handleProductAdded(response.data.product);
+      setAddingProduct(false);
+    } catch (error) {
+      console.error("Failed to add product", error);
+      alert("Failed to add product. Please try again later.");
+    }
   };
 
   const handleUpdateProduct = async (updatedProduct) => {
@@ -73,7 +86,15 @@ const ProductManagement = () => {
 
   return (
     <div className="product-management-container">
-      <ProductForm onProductAdded={handleProductAdded} />
+      <div className="search-bar">
+        <input type="text" placeholder="Search products..." />
+      </div>
+      <button
+        className="add-product-button"
+        onClick={() => setAddingProduct(true)}
+      >
+        <FaPlus /> Add Product
+      </button>
       <div className="product-list">
         <div className="product-table">
           <div className="product-table-header">
@@ -141,6 +162,12 @@ const ProductManagement = () => {
           onConfirm={handleDeleteProduct}
           errorMessage={errorMessage}
           clearErrorMessage={clearErrorMessage}
+        />
+      )}
+      {addingProduct && (
+        <AddProductModal
+          onClose={() => setAddingProduct(false)}
+          onSave={handleAddProduct}
         />
       )}
     </div>
