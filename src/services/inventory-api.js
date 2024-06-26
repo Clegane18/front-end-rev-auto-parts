@@ -11,6 +11,7 @@ export const getProductById = (productId) =>
   api.get(`/getProductById/${productId}`);
 export const updateProductById = (productId, productData) =>
   api.put(`/updateProductById/${productId}`, productData);
+
 export const deleteProductById = async (productId) => {
   try {
     const response = await api.delete(`/products/${productId}`);

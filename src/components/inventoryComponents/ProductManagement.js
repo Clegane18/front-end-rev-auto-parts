@@ -84,8 +84,7 @@ const ProductManagement = () => {
     } catch (error) {
       console.error("Failed to delete product:", error);
       setErrorMessage(
-        error.response?.data?.error ||
-          "Failed to delete product. Please try again later."
+        error.message || "Failed to delete product. Please try again later."
       );
     }
   };
