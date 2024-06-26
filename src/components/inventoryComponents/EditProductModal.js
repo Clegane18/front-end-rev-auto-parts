@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import "../../styles/inventoryComponents/EditProductModal.css";
 
-const EditProductModal = ({ product, onClose, onSave }) => {
+const EditProductModal = ({
+  product,
+  onClose,
+  onSave,
+  errorMessage,
+  clearErrorMessage,
+}) => {
   const [formData, setFormData] = useState({ ...product });
 
   const handleChange = (e) => {
@@ -18,6 +24,7 @@ const EditProductModal = ({ product, onClose, onSave }) => {
     <div className="modal-overlay">
       <div className="modal-content">
         <h2>Edit Product</h2>
+        {errorMessage && <div className="error-message">{errorMessage}</div>}
         <form onSubmit={handleSubmit}>
           <label>
             Item Code:
@@ -92,7 +99,13 @@ const EditProductModal = ({ product, onClose, onSave }) => {
           </label>
           <div className="button-group">
             <button type="submit">Save</button>
-            <button type="button" onClick={onClose}>
+            <button
+              type="button"
+              onClick={() => {
+                onClose();
+                clearErrorMessage();
+              }}
+            >
               Cancel
             </button>
           </div>

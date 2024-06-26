@@ -46,9 +46,13 @@ const ProductManagement = () => {
       const response = await addProduct(productData);
       handleProductAdded(response.data.product);
       setAddingProduct(false);
+      clearErrorMessage();
     } catch (error) {
       console.error("Failed to add product", error);
-      alert("Failed to add product. Please try again later.");
+      setErrorMessage(
+        error.response?.data?.error ||
+          "Failed to add product. Please try again later."
+      );
     }
   };
 
@@ -61,9 +65,13 @@ const ProductManagement = () => {
         )
       );
       setEditingProduct(null);
+      clearErrorMessage();
     } catch (error) {
       console.error("Failed to update product", error);
-      alert("Failed to update product. Please try again later.");
+      setErrorMessage(
+        error.response?.data?.error ||
+          "Failed to update product. Please try again later."
+      );
     }
   };
 
@@ -72,10 +80,12 @@ const ProductManagement = () => {
       await deleteProductById(productId);
       setProducts(products.filter((product) => product.id !== productId));
       setDeletingProduct(null);
+      clearErrorMessage();
     } catch (error) {
       console.error("Failed to delete product:", error);
       setErrorMessage(
-        error.message || "Failed to delete product. Please try again later."
+        error.response?.data?.error ||
+          "Failed to delete product. Please try again later."
       );
     }
   };
@@ -91,7 +101,10 @@ const ProductManagement = () => {
       </div>
       <button
         className="add-product-button"
-        onClick={() => setAddingProduct(true)}
+        onClick={() => {
+          setAddingProduct(true);
+          clearErrorMessage();
+        }}
       >
         <FaPlus /> Add Product
       </button>
@@ -129,13 +142,19 @@ const ProductManagement = () => {
               <div>{product.description}</div>
               <div>
                 <button
-                  onClick={() => setEditingProduct(product)}
+                  onClick={() => {
+                    setEditingProduct(product);
+                    clearErrorMessage();
+                  }}
                   className="edit"
                 >
                   <FaEdit />
                 </button>
                 <button
-                  onClick={() => setDeletingProduct(product.id)}
+                  onClick={() => {
+                    setDeletingProduct(product.id);
+                    clearErrorMessage();
+                  }}
                   className="delete"
                 >
                   <FaTrash />
@@ -148,8 +167,13 @@ const ProductManagement = () => {
       {editingProduct && (
         <EditProductModal
           product={editingProduct}
-          onClose={() => setEditingProduct(null)}
+          onClose={() => {
+            setEditingProduct(null);
+            clearErrorMessage();
+          }}
           onSave={handleUpdateProduct}
+          errorMessage={errorMessage}
+          clearErrorMessage={clearErrorMessage}
         />
       )}
       {deletingProduct && (
@@ -166,8 +190,13 @@ const ProductManagement = () => {
       )}
       {addingProduct && (
         <AddProductModal
-          onClose={() => setAddingProduct(false)}
+          onClose={() => {
+            setAddingProduct(false);
+            clearErrorMessage();
+          }}
           onSave={handleAddProduct}
+          errorMessage={errorMessage}
+          clearErrorMessage={clearErrorMessage}
         />
       )}
     </div>

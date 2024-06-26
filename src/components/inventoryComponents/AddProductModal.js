@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import "../../styles/inventoryComponents/AddProductModal.css";
 
-const AddProductModal = ({ onClose, onSave }) => {
+const AddProductModal = ({
+  onClose,
+  onSave,
+  errorMessage,
+  clearErrorMessage,
+}) => {
   const [formData, setFormData] = useState({
     category: "",
     itemCode: "",
@@ -27,6 +32,7 @@ const AddProductModal = ({ onClose, onSave }) => {
     <div className="modal-overlay">
       <div className="modal-content">
         <h2>Add Product</h2>
+        {errorMessage && <div className="error-message">{errorMessage}</div>}
         <form onSubmit={handleSubmit}>
           <label>
             Item Code:
@@ -101,7 +107,13 @@ const AddProductModal = ({ onClose, onSave }) => {
           </label>
           <div className="button-group">
             <button type="submit">Add</button>
-            <button type="button" onClick={onClose}>
+            <button
+              type="button"
+              onClick={() => {
+                onClose();
+                clearErrorMessage();
+              }}
+            >
               Cancel
             </button>
           </div>
