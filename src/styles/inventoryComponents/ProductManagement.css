@@ -1,87 +1,85 @@
 .product-management-container {
-    padding: 20px;
-    max-width: 1200px; /* Adjust width to a more reasonable size */
-    margin: 40px auto; /* Center the container and add top margin */
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: #ffffff; /* Optional: Add background color for better contrast */
-  }
-  
-  .product-list {
-    margin-top: 20px;
-  }
-  
-  .product-table {
-    display: table;
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .product-table-header {
-    display: table-row;
-    background-color: #e9e9e9;
-    border: 1px solid #ddd;
-    font-weight: bold;
-  }
-  
-  .product-table-header div {
-    display: table-cell;
-    padding: 10px;
-    border: 1px solid #ddd;
-    text-align: left;
-    font-size: 0.9em; /* Make the text smaller */
-  }
-  
-  .product-table-row {
-    display: table-row;
-    background-color: #f5f5f5;
-    border: 1px solid #ddd;
-  }
-  
-  .product-table-row div {
-    display: table-cell;
-    padding: 8px; /* Reduce padding to make rows less tall */
-    border: 1px solid #ddd;
-    text-align: left;
-    font-size: 0.9em; /* Make the text smaller */
-  }
-  
-  .product-table-row:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-  
-  .product-table-row:hover {
-    background-color: #f1f1f1;
-  }
-  
-  .product-table-row div button {
-    margin-right: 5px;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .product-table-row div button.delete {
-    color: red;
-  }
-  
-  .product-table-row div button.edit {
-    color: blue;
-  }
-  
-  .product-table-row div button:hover {
-    opacity: 0.7;
-  }
+  padding: 20px;
+  max-width: 1200px; /* Adjust width to a more reasonable size */
+  margin: 40px auto; /* Center the container and add top margin */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff; /* Optional: Add background color for better contrast */
+}
 
-  .error-message {
-    background-color: #f8d7da;
-    color: #721c24;
-    padding: 10px;
-    border: 1px solid #f5c6cb;
-    border-radius: 5px;
-    margin-bottom: 15px;
-    text-align: center;
-  }
-  
-  
+.product-list {
+  margin-top: 20px;
+}
+
+.product-table {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.product-table-header {
+  display: table-row;
+  background-color: #e9e9e9;
+  border: 1px solid #ddd;
+  font-weight: bold;
+}
+
+.product-table-header div {
+  display: table-cell;
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: center;
+  font-size: 0.9em; 
+}
+
+.product-table-row {
+  display: table-row;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+}
+
+.product-table-row div {
+  display: table-cell;
+  padding: 8px; 
+  border: 1px solid #ddd;
+  text-align: center; 
+  font-size: 0.9em; 
+}
+
+.product-table-row:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.product-table-row:hover {
+  background-color: #f1f1f1;
+}
+
+.product-table-row div button {
+  margin-right: 5px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+} 
+
+.product-table-row div button.delete {
+  color: red;
+}
+
+.product-table-row div button.edit {
+  color: blue;
+}
+
+.product-table-row div button:hover {
+  opacity: 0.7;
+}
+
+.error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 10px;
+  border: 1px solid #f5c6cb;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  text-align: center;
+}
