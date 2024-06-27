@@ -1,15 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   getAllProducts,
   updateProductById,
   deleteProductById,
   addProduct,
+  getProductByItemCode,
+  getProductByBrand,
+  getProductByPriceRange,
+  getProductByNameOrDescription,
+  getProductsByDateRange,
+  getLowStockProducts,
 } from "../../services/inventory-api";
 import "../../styles/inventoryComponents/ProductManagement.css";
 import EditProductModal from "./EditProductModal";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
 import AddProductModal from "./AddProductModal";
-import { FaTrash, FaEdit, FaPlus } from "react-icons/fa";
+import { FaTrash, FaEdit, FaPlus, FaSearch } from "react-icons/fa";
+import { debounce } from "../../utils/debounce";
 
 const ProductManagement = () => {
   const [products, setProducts] = useState([]);
@@ -17,6 +24,8 @@ const ProductManagement = () => {
   const [deletingProduct, setDeletingProduct] = useState(null);
   const [addingProduct, setAddingProduct] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchFilter, setSearchFilter] = useState("itemCode");
 
   useEffect(() => {
     fetchProducts();
@@ -36,6 +45,61 @@ const ProductManagement = () => {
       setProducts([]);
     }
   };
+
+  const handleSearch = async () => {
+    if (!searchQuery) {
+      fetchProducts();
+      return;
+    }
+
+    let response;
+    try {
+      switch (searchFilter) {
+        case "itemCode":
+          response = await getProductByItemCode(searchQuery);
+          break;
+        case "brand":
+          response = await getProductByBrand(searchQuery);
+          break;
+        case "priceRange":
+          const [minPrice, maxPrice] = searchQuery.split("-");
+          response = await getProductByPriceRange(minPrice, maxPrice);
+          break;
+        case "nameOrDescription":
+          response = await getProductByNameOrDescription(searchQuery);
+          break;
+        case "dateRange":
+          const [startDate, endDate] = searchQuery.split(",");
+          response = await getProductsByDateRange(startDate, endDate);
+          break;
+        case "lowStock":
+          response = await getLowStockProducts();
+          break;
+        default:
+          return;
+      }
+      if (response.data && Array.isArray(response.data.data)) {
+        setProducts(response.data.data);
+      } else {
+        setProducts([]);
+      }
+    } catch (error) {
+      console.error("Failed to search products", error);
+    }
+  };
+
+  const debouncedSearch = useCallback(
+    debounce(() => handleSearch(), 300),
+    [searchQuery, searchFilter]
+  );
+
+  useEffect(() => {
+    if (searchQuery === "") {
+      fetchProducts();
+    } else {
+      debouncedSearch();
+    }
+  }, [searchQuery, debouncedSearch]);
 
   const handleProductAdded = (newProduct) => {
     setProducts([...products, newProduct]);
@@ -96,7 +160,27 @@ const ProductManagement = () => {
   return (
     <div className="product-management-container">
       <div className="search-bar">
-        <input type="text" placeholder="Search products..." />
+        <input
+          type="text"
+          placeholder="Search products..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <button id="search-button" onClick={handleSearch}>
+          <FaSearch />
+        </button>
+        <select
+          id="search-filter"
+          value={searchFilter}
+          onChange={(e) => setSearchFilter(e.target.value)}
+        >
+          <option value="itemCode">Item Code</option>
+          <option value="brand">Brand</option>
+          <option value="priceRange">Price Range</option>
+          <option value="nameOrDescription">Name or Description</option>
+          <option value="dateRange">Date Range</option>
+          <option value="lowStock">Low Stock</option>
+        </select>
       </div>
       <button
         className="add-product-button"

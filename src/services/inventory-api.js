@@ -11,7 +11,6 @@ export const getProductById = (productId) =>
   api.get(`/getProductById/${productId}`);
 export const updateProductById = (productId, productData) =>
   api.put(`/updateProductById/${productId}`, productData);
-
 export const deleteProductById = async (productId) => {
   try {
     const response = await api.delete(`/products/${productId}`);
@@ -24,7 +23,6 @@ export const deleteProductById = async (productId) => {
     }
   }
 };
-
 export const addToProductStock = (productId, quantityToAdd) =>
   api.put(`/addToProductStock/${productId}`, { quantityToAdd });
 
