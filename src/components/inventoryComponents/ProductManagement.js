@@ -4,12 +4,7 @@ import {
   updateProductById,
   deleteProductById,
   addProduct,
-  getProductByItemCode,
-  getProductByBrand,
-  getProductByPriceRange,
-  getProductByNameOrDescription,
-  getProductsByDateRange,
-  getLowStockProducts,
+  getLowStockProducts, // Import the function for fetching low stock products
 } from "../../services/inventory-api";
 import "../../styles/inventoryComponents/ProductManagement.css";
 import EditProductModal from "./EditProductModal";
@@ -20,12 +15,14 @@ import { debounce } from "../../utils/debounce";
 
 const ProductManagement = () => {
   const [products, setProducts] = useState([]);
+  const [allProducts, setAllProducts] = useState([]);
   const [editingProduct, setEditingProduct] = useState(null);
   const [deletingProduct, setDeletingProduct] = useState(null);
   const [addingProduct, setAddingProduct] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchFilter, setSearchFilter] = useState("itemCode");
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
 
   useEffect(() => {
     fetchProducts();
@@ -36,73 +33,84 @@ const ProductManagement = () => {
       const response = await getAllProducts();
       if (response.data && Array.isArray(response.data.data)) {
         setProducts(response.data.data);
+        setAllProducts(response.data.data); // Store all products for filtering
       } else {
         console.error("API response data is not an array:", response.data);
         setProducts([]);
+        setAllProducts([]);
       }
     } catch (error) {
       console.error("Failed to fetch products", error);
       setProducts([]);
+      setAllProducts([]);
     }
   };
 
   const handleSearch = async () => {
-    if (!searchQuery) {
-      fetchProducts();
-      return;
-    }
-
-    let response;
     try {
-      switch (searchFilter) {
-        case "itemCode":
-          response = await getProductByItemCode(searchQuery);
-          break;
-        case "brand":
-          response = await getProductByBrand(searchQuery);
-          break;
-        case "priceRange":
-          const [minPrice, maxPrice] = searchQuery.split("-");
-          response = await getProductByPriceRange(minPrice, maxPrice);
-          break;
-        case "nameOrDescription":
-          response = await getProductByNameOrDescription(searchQuery);
-          break;
-        case "dateRange":
-          const [startDate, endDate] = searchQuery.split(",");
-          response = await getProductsByDateRange(startDate, endDate);
-          break;
-        case "lowStock":
-          response = await getLowStockProducts();
-          break;
-        default:
-          return;
-      }
-      if (response.data && Array.isArray(response.data.data)) {
-        setProducts(response.data.data);
+      let filteredProducts = allProducts;
+
+      if (searchQuery.toLowerCase() === "low stock") {
+        const lowStockResponse = await getLowStockProducts();
+        if (lowStockResponse.data && Array.isArray(lowStockResponse.data)) {
+          filteredProducts = lowStockResponse.data;
+        } else if (lowStockResponse.data && lowStockResponse.data.message) {
+          console.log(lowStockResponse.data.message);
+          filteredProducts = []; // If there are no low stock products
+        } else {
+          console.error("Unexpected response structure:", lowStockResponse);
+          filteredProducts = [];
+        }
       } else {
-        setProducts([]);
+        if (searchQuery) {
+          filteredProducts = filteredProducts.filter(
+            (product) =>
+              product.itemCode
+                .toLowerCase()
+                .includes(searchQuery.toLowerCase()) ||
+              product.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
+              product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+              product.category
+                .toLowerCase()
+                .includes(searchQuery.toLowerCase()) ||
+              product.description
+                .toLowerCase()
+                .includes(searchQuery.toLowerCase()) ||
+              product.supplierName
+                .toLowerCase()
+                .includes(searchQuery.toLowerCase())
+          );
+        }
+
+        if (minPrice || maxPrice) {
+          filteredProducts = filteredProducts.filter((product) => {
+            const price = parseFloat(product.price);
+            const min = minPrice ? parseFloat(minPrice) : -Infinity;
+            const max = maxPrice ? parseFloat(maxPrice) : Infinity;
+            return price >= min && price <= max;
+          });
+        }
       }
+
+      setProducts(filteredProducts);
     } catch (error) {
       console.error("Failed to search products", error);
+      setErrorMessage("Failed to search products. Please try again later.");
     }
   };
 
   const debouncedSearch = useCallback(
     debounce(() => handleSearch(), 300),
-    [searchQuery, searchFilter]
+    [searchQuery, minPrice, maxPrice, allProducts] // Declare searchQuery, minPrice, maxPrice, and allProducts as dependencies
   );
 
   useEffect(() => {
-    if (searchQuery === "") {
-      fetchProducts();
-    } else {
-      debouncedSearch();
-    }
-  }, [searchQuery, debouncedSearch]);
+    debouncedSearch();
+  }, [searchQuery, minPrice, maxPrice, debouncedSearch]);
 
   const handleProductAdded = (newProduct) => {
     setProducts([...products, newProduct]);
+    setAllProducts([...allProducts, newProduct]); // Update allProducts
   };
 
   const handleAddProduct = async (productData) => {
@@ -123,11 +131,11 @@ const ProductManagement = () => {
   const handleUpdateProduct = async (updatedProduct) => {
     try {
       await updateProductById(updatedProduct.id, updatedProduct);
-      setProducts(
-        products.map((product) =>
-          product.id === updatedProduct.id ? updatedProduct : product
-        )
+      const updatedProducts = products.map((product) =>
+        product.id === updatedProduct.id ? updatedProduct : product
       );
+      setProducts(updatedProducts);
+      setAllProducts(updatedProducts); // Update allProducts
       setEditingProduct(null);
       clearErrorMessage();
     } catch (error) {
@@ -142,7 +150,11 @@ const ProductManagement = () => {
   const handleDeleteProduct = async (productId) => {
     try {
       await deleteProductById(productId);
-      setProducts(products.filter((product) => product.id !== productId));
+      const updatedProducts = products.filter(
+        (product) => product.id !== productId
+      );
+      setProducts(updatedProducts);
+      setAllProducts(updatedProducts); // Update allProducts
       setDeletingProduct(null);
       clearErrorMessage();
     } catch (error) {
@@ -162,25 +174,25 @@ const ProductManagement = () => {
       <div className="search-bar">
         <input
           type="text"
-          placeholder="Search products..."
+          placeholder="Search products by item code, brand, name, etc..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <input
+          type="number"
+          placeholder="Min Price"
+          value={minPrice}
+          onChange={(e) => setMinPrice(e.target.value)}
+        />
+        <input
+          type="number"
+          placeholder="Max Price"
+          value={maxPrice}
+          onChange={(e) => setMaxPrice(e.target.value)}
         />
         <button id="search-button" onClick={handleSearch}>
           <FaSearch />
         </button>
-        <select
-          id="search-filter"
-          value={searchFilter}
-          onChange={(e) => setSearchFilter(e.target.value)}
-        >
-          <option value="itemCode">Item Code</option>
-          <option value="brand">Brand</option>
-          <option value="priceRange">Price Range</option>
-          <option value="nameOrDescription">Name or Description</option>
-          <option value="dateRange">Date Range</option>
-          <option value="lowStock">Low Stock</option>
-        </select>
       </div>
       <button
         className="add-product-button"
@@ -206,45 +218,51 @@ const ProductManagement = () => {
             <div>Description</div>
             <div>Actions</div>
           </div>
-          {products.map((product) => (
-            <div className="product-table-row" key={product.id}>
-              <div>{product.id}</div>
-              <div>{product.itemCode}</div>
-              <div>{product.brand}</div>
-              <div>{product.name}</div>
-              <div>
-                ₱
-                {product.price !== undefined && !isNaN(product.price)
-                  ? product.price
-                  : "N/A"}
+          {Array.isArray(products) && products.length > 0 ? (
+            products.map((product) => (
+              <div className="product-table-row" key={product.id}>
+                <div>{product.id}</div>
+                <div>{product.itemCode}</div>
+                <div>{product.brand}</div>
+                <div>{product.name}</div>
+                <div>
+                  ₱
+                  {product.price !== undefined && !isNaN(product.price)
+                    ? product.price
+                    : "N/A"}
+                </div>
+                <div>{product.category}</div>
+                <div>{product.stock}</div>
+                <div>{product.supplierName}</div>
+                <div>{new Date(product.dateAdded).toLocaleDateString()}</div>
+                <div>{product.description}</div>
+                <div>
+                  <button
+                    onClick={() => {
+                      setEditingProduct(product);
+                      clearErrorMessage();
+                    }}
+                    className="edit"
+                  >
+                    <FaEdit />
+                  </button>
+                  <button
+                    onClick={() => {
+                      setDeletingProduct(product.id);
+                      clearErrorMessage();
+                    }}
+                    className="delete"
+                  >
+                    <FaTrash />
+                  </button>
+                </div>
               </div>
-              <div>{product.category}</div>
-              <div>{product.stock}</div>
-              <div>{product.supplierName}</div>
-              <div>{new Date(product.dateAdded).toLocaleDateString()}</div>
-              <div>{product.description}</div>
-              <div>
-                <button
-                  onClick={() => {
-                    setEditingProduct(product);
-                    clearErrorMessage();
-                  }}
-                  className="edit"
-                >
-                  <FaEdit />
-                </button>
-                <button
-                  onClick={() => {
-                    setDeletingProduct(product.id);
-                    clearErrorMessage();
-                  }}
-                  className="delete"
-                >
-                  <FaTrash />
-                </button>
-              </div>
+            ))
+          ) : (
+            <div className="product-table-row">
+              <div colSpan="11">No products found</div>
             </div>
-          ))}
+          )}
         </div>
       </div>
       {editingProduct && (
@@ -266,7 +284,7 @@ const ProductManagement = () => {
             setDeletingProduct(null);
             clearErrorMessage();
           }}
-          onConfirm={handleDeleteProduct}
+          onConfirm={() => handleDeleteProduct(deletingProduct)}
           errorMessage={errorMessage}
           clearErrorMessage={clearErrorMessage}
         />
