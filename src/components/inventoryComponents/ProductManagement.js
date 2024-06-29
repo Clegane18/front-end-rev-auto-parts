@@ -23,6 +23,7 @@ const ProductManagement = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
+  const [isShowingLowStock, setIsShowingLowStock] = useState(false);
 
   useEffect(() => {
     fetchProducts();
@@ -34,6 +35,7 @@ const ProductManagement = () => {
       if (response.data && Array.isArray(response.data.data)) {
         setProducts(response.data.data);
         setAllProducts(response.data.data);
+        setIsShowingLowStock(false); // Reset to show all products
       } else {
         console.error("API response data is not an array:", response.data);
         setProducts([]);
@@ -51,6 +53,7 @@ const ProductManagement = () => {
       const response = await getLowStockProducts();
       if (response.data && Array.isArray(response.data.data)) {
         setProducts(response.data.data);
+        setIsShowingLowStock(true); // Set to show low stock products
       } else if (response.data && response.data.message) {
         console.log(response.data.message);
         setProducts([]);
@@ -69,11 +72,6 @@ const ProductManagement = () => {
   const handleSearch = async () => {
     try {
       let filteredProducts = allProducts;
-
-      if (searchQuery.toLowerCase() === "low stock") {
-        handleLowStock();
-        return;
-      }
 
       if (searchQuery) {
         filteredProducts = filteredProducts.filter(
@@ -208,6 +206,11 @@ const ProductManagement = () => {
         <button className="low-stock-button" onClick={handleLowStock}>
           Low Stock
         </button>
+        {isShowingLowStock && (
+          <button className="show-all-button" onClick={fetchProducts}>
+            Show All
+          </button>
+        )}
       </div>
       <button
         className="add-product-button"
