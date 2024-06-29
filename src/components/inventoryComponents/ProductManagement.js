@@ -4,7 +4,7 @@ import {
   updateProductById,
   deleteProductById,
   addProduct,
-  getLowStockProducts, // Import the function for fetching low stock products
+  getLowStockProducts,
 } from "../../services/inventory-api";
 import "../../styles/inventoryComponents/ProductManagement.css";
 import EditProductModal from "./EditProductModal";
@@ -33,7 +33,7 @@ const ProductManagement = () => {
       const response = await getAllProducts();
       if (response.data && Array.isArray(response.data.data)) {
         setProducts(response.data.data);
-        setAllProducts(response.data.data); // Store all products for filtering
+        setAllProducts(response.data.data);
       } else {
         console.error("API response data is not an array:", response.data);
         setProducts([]);
@@ -46,50 +46,62 @@ const ProductManagement = () => {
     }
   };
 
+  const handleLowStock = async () => {
+    try {
+      const response = await getLowStockProducts();
+      if (response.data && Array.isArray(response.data.data)) {
+        setProducts(response.data.data);
+      } else if (response.data && response.data.message) {
+        console.log(response.data.message);
+        setProducts([]);
+      } else {
+        console.error("Unexpected response structure:", response);
+        setProducts([]);
+      }
+    } catch (error) {
+      console.error("Failed to fetch low stock products", error);
+      setErrorMessage(
+        "Failed to fetch low stock products. Please try again later."
+      );
+    }
+  };
+
   const handleSearch = async () => {
     try {
       let filteredProducts = allProducts;
 
       if (searchQuery.toLowerCase() === "low stock") {
-        const lowStockResponse = await getLowStockProducts();
-        if (lowStockResponse.data && Array.isArray(lowStockResponse.data)) {
-          filteredProducts = lowStockResponse.data;
-        } else if (lowStockResponse.data && lowStockResponse.data.message) {
-          console.log(lowStockResponse.data.message);
-          filteredProducts = []; // If there are no low stock products
-        } else {
-          console.error("Unexpected response structure:", lowStockResponse);
-          filteredProducts = [];
-        }
-      } else {
-        if (searchQuery) {
-          filteredProducts = filteredProducts.filter(
-            (product) =>
-              product.itemCode
-                .toLowerCase()
-                .includes(searchQuery.toLowerCase()) ||
-              product.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
-              product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-              product.category
-                .toLowerCase()
-                .includes(searchQuery.toLowerCase()) ||
-              product.description
-                .toLowerCase()
-                .includes(searchQuery.toLowerCase()) ||
-              product.supplierName
-                .toLowerCase()
-                .includes(searchQuery.toLowerCase())
-          );
-        }
+        handleLowStock();
+        return;
+      }
 
-        if (minPrice || maxPrice) {
-          filteredProducts = filteredProducts.filter((product) => {
-            const price = parseFloat(product.price);
-            const min = minPrice ? parseFloat(minPrice) : -Infinity;
-            const max = maxPrice ? parseFloat(maxPrice) : Infinity;
-            return price >= min && price <= max;
-          });
-        }
+      if (searchQuery) {
+        filteredProducts = filteredProducts.filter(
+          (product) =>
+            product.itemCode
+              .toLowerCase()
+              .includes(searchQuery.toLowerCase()) ||
+            product.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            product.category
+              .toLowerCase()
+              .includes(searchQuery.toLowerCase()) ||
+            product.description
+              .toLowerCase()
+              .includes(searchQuery.toLowerCase()) ||
+            product.supplierName
+              .toLowerCase()
+              .includes(searchQuery.toLowerCase())
+        );
+      }
+
+      if (minPrice || maxPrice) {
+        filteredProducts = filteredProducts.filter((product) => {
+          const price = parseFloat(product.price);
+          const min = minPrice ? parseFloat(minPrice) : -Infinity;
+          const max = maxPrice ? parseFloat(maxPrice) : Infinity;
+          return price >= min && price <= max;
+        });
       }
 
       setProducts(filteredProducts);
@@ -101,7 +113,7 @@ const ProductManagement = () => {
 
   const debouncedSearch = useCallback(
     debounce(() => handleSearch(), 300),
-    [searchQuery, minPrice, maxPrice, allProducts] // Declare searchQuery, minPrice, maxPrice, and allProducts as dependencies
+    [searchQuery, minPrice, maxPrice, allProducts]
   );
 
   useEffect(() => {
@@ -110,7 +122,7 @@ const ProductManagement = () => {
 
   const handleProductAdded = (newProduct) => {
     setProducts([...products, newProduct]);
-    setAllProducts([...allProducts, newProduct]); // Update allProducts
+    setAllProducts([...allProducts, newProduct]);
   };
 
   const handleAddProduct = async (productData) => {
@@ -135,7 +147,7 @@ const ProductManagement = () => {
         product.id === updatedProduct.id ? updatedProduct : product
       );
       setProducts(updatedProducts);
-      setAllProducts(updatedProducts); // Update allProducts
+      setAllProducts(updatedProducts);
       setEditingProduct(null);
       clearErrorMessage();
     } catch (error) {
@@ -154,7 +166,7 @@ const ProductManagement = () => {
         (product) => product.id !== productId
       );
       setProducts(updatedProducts);
-      setAllProducts(updatedProducts); // Update allProducts
+      setAllProducts(updatedProducts);
       setDeletingProduct(null);
       clearErrorMessage();
     } catch (error) {
@@ -192,6 +204,9 @@ const ProductManagement = () => {
         />
         <button id="search-button" onClick={handleSearch}>
           <FaSearch />
+        </button>
+        <button className="low-stock-button" onClick={handleLowStock}>
+          Low Stock
         </button>
       </div>
       <button
