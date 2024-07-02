@@ -53,23 +53,27 @@ const ProductManagement = () => {
   };
 
   const handleLowStock = async () => {
-    try {
-      const response = await getLowStockProducts();
-      if (response.data && Array.isArray(response.data.data)) {
-        setProducts(response.data.data);
-        setIsShowingLowStock(true); // Set to show low stock products
-      } else if (response.data && response.data.message) {
-        console.log(response.data.message);
-        setProducts([]);
-      } else {
-        console.error("Unexpected response structure:", response);
-        setProducts([]);
+    if (isShowingLowStock) {
+      fetchProducts();
+    } else {
+      try {
+        const response = await getLowStockProducts();
+        if (response.data && Array.isArray(response.data.data)) {
+          setProducts(response.data.data);
+          setIsShowingLowStock(true); // Set to show low stock products
+        } else if (response.data && response.data.message) {
+          console.log(response.data.message);
+          setProducts([]);
+        } else {
+          console.error("Unexpected response structure:", response);
+          setProducts([]);
+        }
+      } catch (error) {
+        console.error("Failed to fetch low stock products", error);
+        setErrorMessage(
+          "Failed to fetch low stock products. Please try again later."
+        );
       }
-    } catch (error) {
-      console.error("Failed to fetch low stock products", error);
-      setErrorMessage(
-        "Failed to fetch low stock products. Please try again later."
-      );
     }
   };
 
@@ -264,13 +268,8 @@ const ProductManagement = () => {
           <FaSearch />
         </button>
         <button className="low-stock-button" onClick={handleLowStock}>
-          Low Stock
+          {isShowingLowStock ? "Show All" : "Low Stock"}
         </button>
-        {isShowingLowStock && (
-          <button className="show-all-button" onClick={fetchProducts}>
-            Show All
-          </button>
-        )}
       </div>
       <button
         className="add-product-button"
