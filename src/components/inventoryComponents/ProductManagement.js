@@ -5,6 +5,7 @@ import {
   deleteProductById,
   addProduct,
   getLowStockProducts,
+  getProductsByDateRange,
 } from "../../services/inventory-api";
 import "../../styles/inventoryComponents/ProductManagement.css";
 import EditProductModal from "./EditProductModal";
@@ -23,7 +24,10 @@ const ProductManagement = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const [isShowingLowStock, setIsShowingLowStock] = useState(false);
+  const [filterType, setFilterType] = useState("default");
 
   useEffect(() => {
     fetchProducts();
@@ -118,6 +122,25 @@ const ProductManagement = () => {
     debouncedSearch();
   }, [searchQuery, minPrice, maxPrice, debouncedSearch]);
 
+  const handleDateRangeSearch = async () => {
+    try {
+      const response = await getProductsByDateRange(startDate, endDate);
+      if (response.data && Array.isArray(response.data.data)) {
+        setProducts(response.data.data);
+        setIsShowingLowStock(false); // Reset to show all products
+      } else {
+        console.error("API response data is not an array:", response.data);
+        setProducts([]);
+      }
+    } catch (error) {
+      console.error("Failed to fetch products by date range", error);
+      setErrorMessage(
+        error.response?.data?.message ||
+          "Failed to fetch products. Please try again later."
+      );
+    }
+  };
+
   const handleProductAdded = (newProduct) => {
     setProducts([...products, newProduct]);
     setAllProducts([...allProducts, newProduct]);
@@ -182,25 +205,62 @@ const ProductManagement = () => {
   return (
     <div className="product-management-container">
       <div className="search-bar">
-        <input
-          type="text"
-          placeholder="Search products by item code, brand, name, etc..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        <input
-          type="number"
-          placeholder="Min Price"
-          value={minPrice}
-          onChange={(e) => setMinPrice(e.target.value)}
-        />
-        <input
-          type="number"
-          placeholder="Max Price"
-          value={maxPrice}
-          onChange={(e) => setMaxPrice(e.target.value)}
-        />
-        <button id="search-button" onClick={handleSearch}>
+        <select
+          value={filterType}
+          onChange={(e) => setFilterType(e.target.value)}
+        >
+          <option value="default">Default</option>
+          <option value="price">Price Range</option>
+          <option value="date">Date Range</option>
+        </select>
+
+        {filterType === "default" && (
+          <input
+            type="text"
+            placeholder="Search products by item code, brand, name, etc..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        )}
+
+        {filterType === "price" && (
+          <>
+            <input
+              type="number"
+              placeholder="Min Price"
+              value={minPrice}
+              onChange={(e) => setMinPrice(e.target.value)}
+            />
+            <input
+              type="number"
+              placeholder="Max Price"
+              value={maxPrice}
+              onChange={(e) => setMaxPrice(e.target.value)}
+            />
+          </>
+        )}
+
+        {filterType === "date" && (
+          <>
+            <input
+              type="date"
+              placeholder="Start Date"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+            />
+            <input
+              type="date"
+              placeholder="End Date"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+            />
+          </>
+        )}
+
+        <button
+          id="search-button"
+          onClick={filterType === "date" ? handleDateRangeSearch : handleSearch}
+        >
           <FaSearch />
         </button>
         <button className="low-stock-button" onClick={handleLowStock}>
