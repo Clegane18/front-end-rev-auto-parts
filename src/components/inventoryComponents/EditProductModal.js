@@ -1,3 +1,5 @@
+// EditProductModal.js
+
 import React, { useState } from "react";
 import "../../styles/inventoryComponents/EditProductModal.css";
 
