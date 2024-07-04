@@ -271,15 +271,19 @@ const ProductManagement = () => {
           {isShowingLowStock ? "Show All" : "Low Stock"}
         </button>
       </div>
-      <button
-        className="add-product-button"
-        onClick={() => {
-          setAddingProduct(true);
-          clearErrorMessage();
-        }}
-      >
-        <FaPlus /> Add Product
-      </button>
+
+      <div className="button-container">
+        <button
+          className="add-product-button"
+          onClick={() => {
+            setAddingProduct(true);
+            clearErrorMessage();
+          }}
+        >
+          <FaPlus /> Add Product
+        </button>
+      </div>
+
       <div className="product-list">
         <div className="product-table">
           <div className="product-table-header">

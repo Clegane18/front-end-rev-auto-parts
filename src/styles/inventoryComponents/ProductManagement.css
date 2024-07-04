@@ -124,6 +124,7 @@
 }
 
 .add-product-button {
+  width: auto; /* Adjust the width as needed */
   padding: 8px 12px;
   background-color: #007BFF;
   color: white;
@@ -131,4 +132,14 @@
   border-radius: 4px;
   cursor: pointer;
   margin-bottom: 20px;
+  margin-right: 10px; /* Adjust the margin if needed */
 }
+
+/* Optional: add a container class to align buttons */
+.button-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+}
+
