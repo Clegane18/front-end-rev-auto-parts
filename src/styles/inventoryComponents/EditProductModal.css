@@ -1,4 +1,3 @@
-/* EditProductModal.css */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -13,7 +12,7 @@
 }
 
 .modal-content {
-  background: white;
+  background: var(--background-color); /* Use the same background color as defined in the main CSS */
   padding: 20px;
   border-radius: 5px;
   width: 400px;
@@ -25,6 +24,16 @@
 
 .modal-content h2 {
   margin-top: 0;
+  color: var(--text-color); /* Dark gray text color */
+}
+
+.modal-content .error-message {
+  background-color: var(--error-color); /* Red error color */
+  color: var(--background-color); /* Text color */
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  text-align: center;
 }
 
 .modal-content form {
@@ -34,6 +43,7 @@
 
 .modal-content label {
   margin: 10px 0;
+  color: var(--text-color); /* Dark gray text color */
 }
 
 .modal-content input,
@@ -54,7 +64,7 @@
 .modal-content button {
   margin: 10px 0;
   padding: 10px;
-  background-color: #007bff;
+  background-color: var(--button-color); /* Green button color */
   color: white;
   border: none;
   border-radius: 5px;
@@ -62,7 +72,7 @@
 }
 
 .modal-content button[type="button"] {
-  background-color: #6c757d;
+  background-color: var(--low-stock-color); /* Red Cancel button color */
 }
 
 .button-group {
@@ -73,4 +83,12 @@
 .button-group button {
   flex: 1;
   margin: 0 5px;
+}
+
+.button-group button:hover {
+  background-color: var(--button-hover-color); /* Darker green on hover */
+}
+
+.button-group button[type="button"]:hover {
+  background-color: var(--low-stock-hover-color); /* Darker red on hover */
 }

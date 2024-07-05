@@ -1,5 +1,3 @@
-/* AddProductModal.css */
-
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -14,7 +12,7 @@
 }
 
 .modal-content {
-  background-color: #fff;
+  background-color: var(--background-color); /* Use the same background color as defined in the main CSS */
   padding: 20px;
   border-radius: 8px;
   width: 400px;
@@ -24,10 +22,9 @@
 }
 
 .error-message {
-  background-color: #f8d7da;
-  color: #721c24;
+  background-color: var(--error-color); /* Red error color */
+  color: var(--background-color); /* Text color */
   padding: 10px;
-  border: 1px solid #f5c6cb;
   border-radius: 5px;
   margin-bottom: 15px;
   text-align: center;
@@ -40,13 +37,17 @@ form {
 
 label {
   margin-bottom: 10px;
+  color: var(--text-color); /* Dark gray text color */
 }
 
-input, textarea {
+input,
+textarea {
   width: 100%;
   padding: 8px;
   margin-top: 5px;
   box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 textarea {
@@ -67,19 +68,19 @@ button {
 }
 
 button[type="submit"] {
-  background-color: #4CAF50;
+  background-color: var(--button-color); /* Green button color */
   color: white;
 }
 
-button[type="button"] {
-  background-color: #ccc;
-  color: black;
+button[type="submit"]:hover {
+  background-color: var(--button-hover-color); /* Darker green on hover */
 }
 
-button[type="submit"]:hover {
-  background-color: #45a049;
+button[type="button"] {
+  background-color: var(--low-stock-color); /* Green for Cancel button */
+  color: white;
 }
 
 button[type="button"]:hover {
-  background-color: #bbb;
+  background-color: var(--low-stock-hover-color); /* Darker green on hover */
 }
