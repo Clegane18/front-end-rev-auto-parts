@@ -1,5 +1,3 @@
-// AddProductModal.js
-
 import React, { useState } from "react";
 import "../../styles/inventoryComponents/AddProductModal.css";
 
@@ -18,6 +16,7 @@ const AddProductModal = ({
     price: "",
     stock: "",
     supplierName: "",
+    supplierCost: "",
   });
 
   const handleChange = (e) => {
@@ -104,6 +103,15 @@ const AddProductModal = ({
             <textarea
               name="description"
               value={formData.description}
+              onChange={handleChange}
+            />
+          </label>
+          <label>
+            Supplier Cost:
+            <input
+              type="number"
+              name="supplierCost"
+              value={formData.supplierCost}
               onChange={handleChange}
             />
           </label>

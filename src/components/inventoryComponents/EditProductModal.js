@@ -1,5 +1,3 @@
-// EditProductModal.js
-
 import React, { useState } from "react";
 import "../../styles/inventoryComponents/EditProductModal.css";
 
@@ -96,6 +94,15 @@ const EditProductModal = ({
             <textarea
               name="description"
               value={formData.description}
+              onChange={handleChange}
+            />
+          </label>
+          <label>
+            Supplier Cost:
+            <input
+              type="number"
+              name="supplierCost"
+              value={formData.supplierCost}
               onChange={handleChange}
             />
           </label>

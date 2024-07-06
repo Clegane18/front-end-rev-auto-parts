@@ -297,6 +297,7 @@ const ProductManagement = () => {
             <div>Supplier</div>
             <div>Date Added</div>
             <div>Description</div>
+            <div>Supplier Cost</div>
             <div>Actions</div>
           </div>
           {Array.isArray(products) && products.length > 0 ? (
@@ -317,6 +318,13 @@ const ProductManagement = () => {
                 <div>{product.supplierName}</div>
                 <div>{new Date(product.dateAdded).toLocaleDateString()}</div>
                 <div>{product.description}</div>
+                <div>
+                  ₱
+                  {product.supplierCost !== undefined &&
+                  !isNaN(product.supplierCost)
+                    ? product.supplierCost
+                    : "N/A"}
+                </div>
                 <div>
                   <button
                     onClick={() => {
@@ -341,7 +349,7 @@ const ProductManagement = () => {
             ))
           ) : (
             <div className="product-table-row">
-              <div colSpan="11">No products found</div>
+              <div colSpan="12">No products found</div>
             </div>
           )}
         </div>
