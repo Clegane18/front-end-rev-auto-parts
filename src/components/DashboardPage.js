@@ -35,7 +35,7 @@ const DashboardPage = () => {
     const fetchBestSellers = async () => {
       try {
         const bestSellersData = await getTopBestSellerItems();
-        setBestSellers(bestSellersData.data); // Ensure this sets the state correctly
+        setBestSellers(bestSellersData.data);
       } catch (error) {
         console.error("Error fetching best seller items:", error);
       }
@@ -150,6 +150,7 @@ const DashboardPage = () => {
                 <th>Price</th>
                 <th>Sold</th>
                 <th>Profit</th>
+                <th>Sales Location</th>
               </tr>
             </thead>
             <tbody>
@@ -160,11 +161,12 @@ const DashboardPage = () => {
                     <td>₱{item.price}</td>
                     <td>{item.totalSold}</td>
                     <td>₱{item.totalProfit}</td>
+                    <td>{item.salesLocation}</td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan="4">No best sellers found</td>
+                  <td colSpan="5">No best sellers found</td>
                 </tr>
               )}
             </tbody>
