@@ -26,6 +26,16 @@ export const deleteProductById = async (productId) => {
   }
 };
 
+export const getTopBestSellerItems = async () => {
+  try {
+    const response = await api.get("/products/best-seller-items");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching top best seller items:", error);
+    throw error;
+  }
+};
+
 export const addToProductStock = (productId, quantityToAdd) =>
   api.put(`/addToProductStock/${productId}`, { quantityToAdd });
 

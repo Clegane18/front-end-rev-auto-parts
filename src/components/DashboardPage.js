@@ -5,11 +5,13 @@ import {
   calculateTotalIncomeInPhysicalStore,
   calculateIncomeByMonthInPhysicalStore,
 } from "../services/pos-api";
+import { getTopBestSellerItems } from "../services/inventory-api";
 import "../styles/DashboardPage.css";
 
 const DashboardPage = () => {
   const [totalIncome, setTotalIncome] = useState(null);
   const [monthlyIncome, setMonthlyIncome] = useState([]);
+  const [bestSellers, setBestSellers] = useState([]);
 
   useEffect(() => {
     const fetchIncomeData = async () => {
@@ -30,7 +32,17 @@ const DashboardPage = () => {
       }
     };
 
+    const fetchBestSellers = async () => {
+      try {
+        const bestSellersData = await getTopBestSellerItems();
+        setBestSellers(bestSellersData.data); // Ensure this sets the state correctly
+      } catch (error) {
+        console.error("Error fetching best seller items:", error);
+      }
+    };
+
     fetchIncomeData();
+    fetchBestSellers();
   }, []);
 
   const formattedData = monthlyIncome.map((entry) => ({
@@ -141,14 +153,20 @@ const DashboardPage = () => {
               </tr>
             </thead>
             <tbody>
-              {/* Example data */}
-              <tr>
-                <td>Ratchet</td>
-                <td>₱639.03</td>
-                <td>409</td>
-                <td>₱122,827</td>
-              </tr>
-              {/* Add more rows as needed */}
+              {bestSellers.length > 0 ? (
+                bestSellers.map((item, index) => (
+                  <tr key={index}>
+                    <td>{item.productName}</td>
+                    <td>₱{item.price}</td>
+                    <td>{item.totalSold}</td>
+                    <td>₱{item.totalProfit}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="4">No best sellers found</td>
+                </tr>
+              )}
             </tbody>
           </table>
         </section>
