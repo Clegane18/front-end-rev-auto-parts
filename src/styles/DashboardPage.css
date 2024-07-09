@@ -1,45 +1,153 @@
-/* General styles for the dashboard page */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f2f5;
+  color: #333;
+}
+
 .dashboard-container {
-    border: 1px solid #bdc3c7;
-    border-radius: 8px;
-    padding: 40px;
-    background-color: #fff;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    max-width: 600px;
-    margin: 40px auto;
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
+.sidebar {
+  flex: 0 0 20%; /* Adjust this percentage as necessary */
+  background-color: #1a1a1a;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: auto;
+}
+
+.sidebar-header {
+  padding: 20px;
+  text-align: center;
+  background-color: #595656;
+}
+
+.sidebar-nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar-nav ul li {
+  padding: 15px 20px;
+}
+
+.sidebar-nav ul li a {
+  color: #bbb;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.sidebar-nav ul li a:hover {
+  color: #fff;
+}
+
+.main-content {
+  flex: 1; /* Take up the remaining space */
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  overflow-y: auto;
+  background-color: #fff;
+}
+
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.search-input {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 100%;
+  max-width: 300px;
+}
+
+.account-info {
+  display: flex;
+  align-items: center;
+}
+
+.account-info span {
+  margin-left: 10px;
+  color: #666;
+}
+
+.sales-section, .transactions-section, .bestsellers-section, .stock-reminder-section {
+  margin-top: 20px;
+}
+
+.sales-chart {
+  height: 300px;
+  background-color: #e9ecef;
+  border-radius: 5px;
+  padding: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table th, table td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ddd;
+  background-color: #fff;
+}
+
+table th {
+  background-color: #f7f7f7;
+}
+
+.stock-reminder-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.stock-reminder-section ul li {
+  padding: 5px 0;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .dashboard-container {
+    flex-direction: column;
   }
-  
-  .dashboard-container h2 {
-    margin-bottom: 30px;
-    font-size: 24px;
-    color: #2c3e50;
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
   }
-  
-  .dashboard-nav {
-    list-style-type: none;
-    padding: 0;
+
+  .main-content {
+    margin-left: 0;
   }
-  
-  .dashboard-nav li {
-    margin: 15px 0;
+
+  .main-header {
+    flex-direction: column;
+    align-items: flex-start;
   }
-  
-  .dashboard-link {
-    text-decoration: none;
-    padding: 12px 20px;
-    border: 1px solid #3498db;
-    border-radius: 4px;
-    color: #3498db;
-    font-size: 16px;
-    transition: background-color 0.3s, color 0.3s;
-    display: block; 
-    width: 100%; 
-    box-sizing: border-box;
+
+  .search-input {
+    width: 100%;
+    margin-bottom: 10px;
   }
-  
-  .dashboard-link:hover {
-    background-color: #3498db;
-    color: #fff;
-  }
-  
+}
