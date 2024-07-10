@@ -1,0 +1,87 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal-content {
+    background-color: var(--background-color); /* Use your main background color variable */
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    max-height: 80vh;
+    overflow-y: auto;
+    z-index: 1001;
+  }
+  
+  .error-message {
+    background-color: var(--error-color); /* Red error color */
+    color: var(--background-color); /* Text color */
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  label {
+    margin-bottom: 10px;
+    color: var(--text-color); /* Dark gray text color */
+  }
+  
+  input,
+  textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  textarea {
+    resize: vertical;
+  }
+  
+  .button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  button[type="submit"] {
+    background-color: var(--button-color); /* Green button color */
+    color: white;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: var(--button-hover-color); /* Darker green on hover */
+  }
+  
+  button[type="button"] {
+    background-color: var(--low-stock-color); /* Green for Cancel button */
+    color: white;
+  }
+  
+  button[type="button"]:hover {
+    background-color: var(--low-stock-hover-color); /* Darker green on hover */
+  }
+  

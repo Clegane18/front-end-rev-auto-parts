@@ -6,11 +6,12 @@ import {
   addProduct,
   getLowStockProducts,
   getProductsByDateRange,
-} from "../../services/inventory-api";
+} from "../../services/inventory-api"; // Adjust the import path as necessary
 import "../../styles/inventoryComponents/ProductManagement.css";
 import EditProductModal from "./EditProductModal";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
 import AddProductModal from "./AddProductModal";
+import AddStockModal from "./AddStockModal"; // Import the AddStockModal
 import { FaTrash, FaEdit, FaPlus, FaSearch } from "react-icons/fa";
 import { debounce } from "../../utils/debounce";
 
@@ -20,6 +21,7 @@ const ProductManagement = () => {
   const [editingProduct, setEditingProduct] = useState(null);
   const [deletingProduct, setDeletingProduct] = useState(null);
   const [addingProduct, setAddingProduct] = useState(false);
+  const [addingStockProduct, setAddingStockProduct] = useState(null); // State to manage adding stock
   const [errorMessage, setErrorMessage] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [minPrice, setMinPrice] = useState("");
@@ -54,7 +56,8 @@ const ProductManagement = () => {
 
   const handleLowStock = async () => {
     if (isShowingLowStock) {
-      fetchProducts();
+      setProducts(allProducts); // Show all products
+      setIsShowingLowStock(false); // Toggle off low stock view
     } else {
       try {
         const response = await getLowStockProducts();
@@ -64,15 +67,18 @@ const ProductManagement = () => {
         } else if (response.data && response.data.message) {
           console.log(response.data.message);
           setProducts([]);
+          setIsShowingLowStock(true); // Show no products found but still toggle low stock view
         } else {
           console.error("Unexpected response structure:", response);
           setProducts([]);
+          setIsShowingLowStock(true); // Show no products found but still toggle low stock view
         }
       } catch (error) {
         console.error("Failed to fetch low stock products", error);
         setErrorMessage(
           "Failed to fetch low stock products. Please try again later."
         );
+        setIsShowingLowStock(true); // Show no products found but still toggle low stock view
       }
     }
   };
@@ -344,6 +350,15 @@ const ProductManagement = () => {
                   >
                     <FaTrash />
                   </button>
+                  <button
+                    onClick={() => {
+                      setAddingStockProduct(product); // Open AddStockModal
+                      clearErrorMessage();
+                    }}
+                    className="add-stock"
+                  >
+                    Add Stock
+                  </button>
                 </div>
               </div>
             ))
@@ -387,6 +402,18 @@ const ProductManagement = () => {
           onSave={handleAddProduct}
           errorMessage={errorMessage}
           clearErrorMessage={clearErrorMessage}
+        />
+      )}
+      {addingStockProduct && (
+        <AddStockModal
+          product={addingStockProduct}
+          onClose={() => {
+            setAddingStockProduct(null);
+            clearErrorMessage();
+          }}
+          onSave={(updatedProduct) => {
+            handleUpdateProduct(updatedProduct); // Optional: Refresh UI after saving
+          }}
         />
       )}
     </div>

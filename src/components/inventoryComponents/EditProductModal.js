@@ -72,15 +72,6 @@ const EditProductModal = ({
             />
           </label>
           <label>
-            Stock:
-            <input
-              type="number"
-              name="stock"
-              value={formData.stock}
-              onChange={handleChange}
-            />
-          </label>
-          <label>
             Supplier:
             <input
               type="text"

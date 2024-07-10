@@ -36,8 +36,20 @@ export const getTopBestSellerItems = async () => {
   }
 };
 
-export const addToProductStock = (productId, quantityToAdd) =>
-  api.put(`/addToProductStock/${productId}`, { quantityToAdd });
+export const addToProductStock = async (productId, quantityToAdd) => {
+  try {
+    const response = await api.put(`/addToProductStock/${productId}`, {
+      quantityToAdd,
+    });
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error("Failed to add stock. Please try again later.");
+    }
+  }
+};
 
 // Filter APIs
 export const getProductByItemCode = (productItemCode) =>
