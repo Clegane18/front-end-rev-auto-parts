@@ -13,6 +13,21 @@ import {
 import { getTopBestSellerItems } from "../services/inventory-api";
 import "../styles/DashboardPage.css";
 
+// Importing Font Awesome icons
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faHome,
+  faListAlt,
+  faCashRegister,
+  faStoreAlt,
+  faUsers,
+  faClipboardList,
+  faBox,
+  faFileInvoice,
+  faChartLine,
+  faCog,
+} from "@fortawesome/free-solid-svg-icons";
+
 const DashboardPage = () => {
   const [totalIncome, setTotalIncome] = useState(null);
   const [monthlyIncome, setMonthlyIncome] = useState([]);
@@ -87,34 +102,54 @@ const DashboardPage = () => {
         <nav className="sidebar-nav">
           <ul>
             <li>
-              <Link to="/">Home</Link>
+              <Link to="/">
+                <FontAwesomeIcon icon={faHome} /> Home
+              </Link>
             </li>
             <li>
-              <Link to="/inventory-pending">Pending Stocks</Link>
+              <Link to="/inventory-pending">
+                <FontAwesomeIcon icon={faListAlt} /> Pending Stocks
+              </Link>
             </li>
             <li>
-              <Link to="/pos">POS System</Link>
+              <Link to="/pos">
+                <FontAwesomeIcon icon={faCashRegister} /> POS System
+              </Link>
             </li>
             <li>
-              <Link to="/online-store">Online Store Front</Link>
+              <Link to="/online-store">
+                <FontAwesomeIcon icon={faStoreAlt} /> Online Store Front
+              </Link>
             </li>
             <li>
-              <Link to="/customers">Customers</Link>
+              <Link to="/customers">
+                <FontAwesomeIcon icon={faUsers} /> Customers
+              </Link>
             </li>
             <li>
-              <Link to="/orders">Orders</Link>
+              <Link to="/orders">
+                <FontAwesomeIcon icon={faClipboardList} /> Orders
+              </Link>
             </li>
             <li>
-              <Link to="/inventory">Inventory</Link>
+              <Link to="/inventory">
+                <FontAwesomeIcon icon={faBox} /> Inventory
+              </Link>
             </li>
             <li>
-              <Link to="/billing">Billing</Link>
+              <Link to="/billing">
+                <FontAwesomeIcon icon={faFileInvoice} /> Billing
+              </Link>
             </li>
             <li>
-              <Link to="/reports">Reports</Link>
+              <Link to="/reports">
+                <FontAwesomeIcon icon={faChartLine} /> Reports
+              </Link>
             </li>
             <li>
-              <Link to="/settings">Settings</Link>
+              <Link to="/settings">
+                <FontAwesomeIcon icon={faCog} /> Settings
+              </Link>
             </li>
           </ul>
         </nav>
