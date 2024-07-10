@@ -98,23 +98,22 @@ body {
   color: #666;
 }
 
-h2{
-  color: 000000;
+h2 {
+  color: #000000;
 }
-/* Consistent section styling */
+
 .sales-section .section-container,
 .transactions-section .section-container,
 .bestsellers-section .section-container,
 .stock-reminder-section .section-container {
   padding: 20px;
   background-color: #fff;
-  border-radius: 8px; /* Match the border-radius of total-income */
-  border: 1px solid #ddd; /* Match the border of total-income */
+  border-radius: 8px;
+  border: 1px solid #ddd;
   margin-bottom: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Match the box-shadow of total-income */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Table styling */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -133,7 +132,6 @@ table th {
   font-weight: bold;
 }
 
-/* Low Stock Reminder */
 .low-stock-list {
   list-style: none;
   padding: 0;
@@ -143,15 +141,38 @@ table th {
 .low-stock-list-item {
   margin-bottom: 8px;
   padding: 10px;
-  background-color: #f8d7da; /* Light red background for low stock items */
-  border-left: 5px solid #dc3545; /* Red left border */
+  border-left: 5px solid #343a40;
   border-radius: 3px;
   transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
+.low-stock-list-item.in-stock {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.low-stock-list-item.total-items {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.low-stock-list-item.low-stock {
+  background-color: #f8d7da;
+  border-left-color: #dc3545;
+  color: #721c24;
+}
+
 .low-stock-list-item:hover {
   transform: scale(1.05);
-  background-color: #f5c6cb; /* Slightly darker red on hover */
+}
+
+.low-stock-list-item:hover.in-stock,
+.low-stock-list-item:hover.total-items {
+  background-color: #e9ecef;
+}
+
+.low-stock-list-item:hover.low-stock {
+  background-color: #f5c6cb;
 }
 
 .low-stock-list-item span {
@@ -161,10 +182,9 @@ table th {
 
 .no-low-stock {
   margin-top: 10px;
-  color: #721c24; /* Dark red color for no low stock message */
+  color: #721c24;
 }
 
-/* Bottom Section */
 .bottom-section {
   display: flex;
   justify-content: space-between;
@@ -177,9 +197,9 @@ table th {
   border-radius: 8px;
   margin-right: 10px;
   flex: 1 0 auto;
-  background-color: #fff; /* Background color same as total-income */
-  border: 1px solid #ddd; /* Border same as total-income */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow same as total-income */
+  background-color: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .total-income {
@@ -272,39 +292,21 @@ table th {
   .total-income p,
   .low-stock-reminder ul {
     margin: 0;
-  }.logout-button {
-    background: none;
-    border: none;
-    color: #bd4138; /* Text color */
-    font-size: 18px;
-    cursor: pointer;
-    padding: 0px;/* Add some padding for better appearance */
-    display: flex;
-    align-items: center;
-    transition: color 0.3s, background-color 0.3s; /* Add a transition for smooth hover effect */
-  }
-  
-  .logout-button:hover {
-    color: #ff0707; /* Text color on hover */
   }
 }
 
 .logout-button {
   background: none;
   border: none;
-  color: #bd4138; /* Text color */
+  color: #bd4138;
   font-size: 18px;
   cursor: pointer;
-  padding: 0px;/* Add some padding for better appearance */
+  padding: 0px;
   display: flex;
   align-items: center;
-  transition: color 0.3s, background-color 0.3s; /* Add a transition for smooth hover effect */
+  transition: color 0.3s, background-color 0.3s;
 }
 
 .logout-button:hover {
-  color: #ff0707; /* Text color on hover */
+  color: #ff0707;
 }
-
-
-
-

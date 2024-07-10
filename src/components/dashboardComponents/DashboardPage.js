@@ -244,13 +244,13 @@ const DashboardPage = () => {
           <div className="stock-reminder low-stock-reminder">
             <h3>Stock Reminder</h3>
             <ul className="low-stock-list">
-              <li className="low-stock-list-item">
+              <li className="low-stock-list-item in-stock">
                 <FontAwesomeIcon icon={faCheckCircle} /> In Stock: {totalStock}
               </li>
-              <li className="low-stock-list-item">
+              <li className="low-stock-list-item total-items">
                 <FontAwesomeIcon icon={faArchive} /> Total Items: {totalItems}
               </li>
-              <li className="low-stock-list-item">
+              <li className="low-stock-list-item low-stock">
                 <FontAwesomeIcon icon={faExclamationTriangle} /> Low Stock:{" "}
                 {lowStockProducts.length > 0 ? (
                   lowStockProducts.map((product, index) => (
