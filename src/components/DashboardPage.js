@@ -24,7 +24,6 @@ import {
   faFileInvoice,
   faChartLine,
   faCog,
-  faExclamationCircle,
   faCheckCircle,
   faArchive,
   faExclamationTriangle,
@@ -221,9 +220,7 @@ const DashboardPage = () => {
         </section>
         <section className="bottom-section">
           <div className="stock-reminder low-stock-reminder">
-            <h3>
-              <FontAwesomeIcon icon={faExclamationCircle} /> Stock Reminder
-            </h3>
+            <h3>Stock Reminder</h3>
             <ul className="low-stock-list">
               <li className="low-stock-list-item">
                 <FontAwesomeIcon icon={faCheckCircle} /> In Stock: {totalStock}

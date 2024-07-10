@@ -98,14 +98,9 @@ body {
   color: #666;
 }
 
-/* New Heading Colors */
-.sales-section h2,
-.transactions-section h2,
-.bestsellers-section h2,
-.stock-reminder-section h2 {
-  color: #000000;
+h2{
+  color: 000000;
 }
-
 /* Consistent section styling */
 .sales-section .section-container,
 .transactions-section .section-container,
