@@ -6,7 +6,8 @@ import "../../styles/LoginComponents/LoginPage.css";
 const LoginPage = ({ setAuthToken }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const navigate = useNavigate();
 
   const handleLogin = async (event) => {
@@ -16,37 +17,57 @@ const LoginPage = ({ setAuthToken }) => {
       setAuthToken(response.token);
       navigate("/dashboard");
     } catch (error) {
-      setError(error.response?.data?.message || "Login failed");
+      const { data } = error.response || {};
+      setEmailError(data?.message?.includes("email") ? data.message : "");
+      setPasswordError(
+        data?.message?.includes("password") ? "Incorrect password" : ""
+      );
+
+      // Clear the incorrect input field
+      if (data?.message?.includes("email")) {
+        setEmail("");
+      } else if (data?.message?.includes("password")) {
+        setPassword("");
+      }
     }
   };
 
   return (
-    <div className="login-container">
-      <h2>Admin Login</h2>
-      <form onSubmit={handleLogin} className="login-form">
-        <div className="form-group">
-          <label>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        {error && <div className="error-message">{error}</div>}
-        <button type="submit" className="login-button">
-          Login
-        </button>
-      </form>
+    <div className="login-page-wrapper">
+      <div className="login-content">
+        <h2>Admin Login</h2>
+        <form onSubmit={handleLogin} className="login-form">
+          <div className={`form-group ${emailError ? "has-error" : ""}`}>
+            <input
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              placeholder={emailError ? emailError : "Email"}
+              className={`login-input ${emailError ? "input-error" : ""}`}
+            />
+            {!emailError && !email && (
+              <div className="placeholder-text">Email</div>
+            )}
+          </div>
+          <div className={`form-group ${passwordError ? "has-error" : ""}`}>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              placeholder={passwordError ? passwordError : "Password"}
+              className={`login-input ${passwordError ? "input-error" : ""}`}
+            />
+            {!passwordError && !password && (
+              <div className="placeholder-text">Password</div>
+            )}
+          </div>
+          <button type="submit" className="login-button">
+            Log In
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
