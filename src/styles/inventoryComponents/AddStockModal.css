@@ -8,22 +8,22 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 1000; 
   }
   
   .modal-content {
-    background-color: var(--background-color); /* Use your main background color variable */
+    background-color: var(--background-color); 
     padding: 20px;
     border-radius: 8px;
     width: 400px;
     max-height: 80vh;
     overflow-y: auto;
-    z-index: 1001;
+    z-index: 1001; 
   }
   
   .error-message {
-    background-color: var(--error-color); /* Red error color */
-    color: var(--background-color); /* Text color */
+    background-color: var(--error-color);
+    color: var(--background-color); 
     padding: 10px;
     border-radius: 5px;
     margin-bottom: 15px;
@@ -37,7 +37,7 @@
   
   label {
     margin-bottom: 10px;
-    color: var(--text-color); /* Dark gray text color */
+    color: var(--text-color);
   }
   
   input,
@@ -68,20 +68,20 @@
   }
   
   button[type="submit"] {
-    background-color: var(--button-color); /* Green button color */
+    background-color: var(--button-color); 
     color: white;
   }
   
   button[type="submit"]:hover {
-    background-color: var(--button-hover-color); /* Darker green on hover */
+    background-color: var(--button-hover-color); 
   }
   
   button[type="button"] {
-    background-color: var(--low-stock-color); /* Green for Cancel button */
+    background-color: var(--low-stock-color); 
     color: white;
   }
   
   button[type="button"]:hover {
-    background-color: var(--low-stock-hover-color); /* Darker green on hover */
+    background-color: var(--low-stock-hover-color); 
   }
   
