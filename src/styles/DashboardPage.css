@@ -21,12 +21,13 @@ body {
   display: flex;
   height: 100vh;
   width: 100vw;
+  overflow: hidden; /* Prevents scrollbars */
 }
 
 /* Sidebar styles */
 .sidebar {
   flex: 0 0 20%; /* Adjust this percentage as necessary */
-  background-color: #1a1a1a;
+  background-color: #2c3e50;
   color: #fff;
   display: flex;
   flex-direction: column;
@@ -37,12 +38,19 @@ body {
 .sidebar-header {
   padding: 20px;
   text-align: center;
-  background-color: #595656;
+  background-color: #34495e;
+  border-bottom: 2px solid #fff; /* Added border for separation */
+}
+
+.sidebar-header h2 {
+  margin: 0;
+  color: #ecf0f1; /* Light color for the header text */
 }
 
 .sidebar-nav ul {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 .sidebar-nav ul li {
@@ -67,8 +75,10 @@ body {
   padding: 20px;
   overflow-y: auto;
   background-color: #fff;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1); /* Added shadow for main content */
 }
 
+/* Header for the main content (not used in current design but kept for potential future use) */
 .main-header {
   display: flex;
   justify-content: space-between;
@@ -76,6 +86,7 @@ body {
   margin-bottom: 20px;
 }
 
+/* Search input */
 .search-input {
   padding: 10px;
   border-radius: 5px;
@@ -84,6 +95,7 @@ body {
   max-width: 300px;
 }
 
+/* Account info styles */
 .account-info {
   display: flex;
   align-items: center;
@@ -108,6 +120,7 @@ body {
   background-color: #e9ecef;
   border-radius: 5px;
   padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Added shadow for the chart */
 }
 
 /* Table styles */
@@ -126,9 +139,10 @@ table td {
 
 table th {
   background-color: #f7f7f7;
+  font-weight: bold; /* Added bold font for table headers */
 }
 
-/* Stock reminder list */
+/* Stock reminder section */
 .stock-reminder-section {
   margin-top: 20px;
 }
@@ -141,10 +155,7 @@ table th {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.stock-reminder-section h3 {
-  margin-bottom: 10px;
-}
-
+/* Low stock list */
 .low-stock-list {
   list-style: none;
   padding: 0;
@@ -169,7 +180,7 @@ table th {
   color: #6c757d;
 }
 
-
+/* Section container */
 .section-container {
   padding: 20px;
   background-color: #fff;
@@ -185,7 +196,7 @@ table th {
   margin-top: 20px;
 }
 
-
+/* Total Income and Stock Reminder styles */
 .total-income,
 .low-stock-reminder {
   padding: 20px;
@@ -208,8 +219,8 @@ table th {
   flex-direction: column;
   align-items: center; /* Center the text horizontally */
   padding: 20px; /* Add padding for better spacing */
+  position: relative;
 }
-
 
 .total-income h3 {
   font-size: 1.4em;
@@ -219,21 +230,22 @@ table th {
   text-transform: uppercase; /* Make heading uppercase */
 }
 
+/* Total Income details */
 .total-income-details {
   margin-top: 15px;
   display: flex;
+  flex-direction: column; /* Arrange items vertically */
   justify-content: space-around; /* Evenly distribute items */
   width: 100%; /* Full width for details container */
 }
 
 .total-income-details-item {
   text-align: center;
-  flex: 1;
-  margin: 0 10px;
+  margin: 10px 0; /* Vertical spacing between items */
 }
 
 .total-income-details-item p {
-  margin: 5px 0;
+  margin: 0;
   padding: 10px;
   background-color: #ffffff; /* White background for text blocks */
   border-radius: 5px;
@@ -243,6 +255,23 @@ table th {
   font-weight: bold; /* Bold text */
   font-size: 1.1em; /* Slightly larger text */
   text-align: center; /* Center the text */
+  transition: transform 0.3s ease; /* Smooth transformation */
+}
+
+.total-income-details-item p:hover {
+  transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+.total-income::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 5px;
+  background-color: #dc3545;
+  border-radius: 5px;
 }
 
 /* Responsive styles */
@@ -272,10 +301,8 @@ table th {
   }
 
   .bottom-section {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
     flex-direction: column;
+    margin-top: 20px;
   }
 
   .total-income,
