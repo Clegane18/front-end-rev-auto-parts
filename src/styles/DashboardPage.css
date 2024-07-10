@@ -272,5 +272,39 @@ table th {
   .total-income p,
   .low-stock-reminder ul {
     margin: 0;
+  }.logout-button {
+    background: none;
+    border: none;
+    color: #bd4138; /* Text color */
+    font-size: 18px;
+    cursor: pointer;
+    padding: 0px;/* Add some padding for better appearance */
+    display: flex;
+    align-items: center;
+    transition: color 0.3s, background-color 0.3s; /* Add a transition for smooth hover effect */
+  }
+  
+  .logout-button:hover {
+    color: #ff0707; /* Text color on hover */
   }
 }
+
+.logout-button {
+  background: none;
+  border: none;
+  color: #bd4138; /* Text color */
+  font-size: 18px;
+  cursor: pointer;
+  padding: 0px;/* Add some padding for better appearance */
+  display: flex;
+  align-items: center;
+  transition: color 0.3s, background-color 0.3s; /* Add a transition for smooth hover effect */
+}
+
+.logout-button:hover {
+  color: #ff0707; /* Text color on hover */
+}
+
+
+
+
