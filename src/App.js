@@ -5,7 +5,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import Dashboard from "./components/DashboardPage";
+import Dashboard from "./components/dashboardComponents/DashboardPage";
 import LoginPage from "./components/LoginComponents/LoginPage";
 import POSPage from "./components/posComponents/POSPage";
 import InventoryManagementPage from "./components/inventoryComponents/InventoryManagementPage";

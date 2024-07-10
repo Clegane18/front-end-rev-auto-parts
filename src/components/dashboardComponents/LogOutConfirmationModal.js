@@ -1,6 +1,6 @@
 import React from "react";
-import { FaExclamationTriangle } from "react-icons/fa"; // Importing an icon for the modal
-import "../styles/LogOutConfirmationModal.css";
+import { FaExclamationTriangle } from "react-icons/fa";
+import "../../styles/dashboardComponents/LogOutConfirmationModal.css";
 
 const LogOutConfirmationModal = ({ isOpen, onClose, onConfirm }) => {
   if (!isOpen) return null;
@@ -8,7 +8,7 @@ const LogOutConfirmationModal = ({ isOpen, onClose, onConfirm }) => {
   return (
     <div className="logout-confirmation-modal">
       <div className="logout-confirmation-modal-content">
-        <FaExclamationTriangle className="warning-icon" /> {/* Warning Icon */}
+        <FaExclamationTriangle className="warning-icon" />
         <h3>Confirm Logout</h3>
         <p>Are you sure you want to log out?</p>
         <div className="logout-confirmation-modal-actions">

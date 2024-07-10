@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom"; // Import useNavigate for redirection
+import { Link, useNavigate } from "react-router-dom";
 import SalesChart from "./SalesChart";
 import {
   calculateTotalIncomeInPhysicalStore,
   calculateIncomeByMonthInPhysicalStore,
-} from "../services/pos-api";
+} from "../../services/pos-api";
 import {
   getTotalStock,
   getTotalItems,
   getLowStockProducts,
   getTopBestSellerItems,
-} from "../services/inventory-api";
-import "../styles/DashboardPage.css";
+} from "../../services/inventory-api";
+import "../../styles/dashboardComponents/DashboardPage.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHome,
@@ -27,9 +27,9 @@ import {
   faCheckCircle,
   faArchive,
   faExclamationTriangle,
-  faSignOutAlt, // Import logout icon
+  faSignOutAlt,
 } from "@fortawesome/free-solid-svg-icons";
-import LogOutConfirmationModal from "./LogOutConfirmationModal"; // Import the modal component
+import LogOutConfirmationModal from "./LogOutConfirmationModal";
 
 const DashboardPage = () => {
   const [totalIncome, setTotalIncome] = useState(null);
@@ -38,8 +38,8 @@ const DashboardPage = () => {
   const [totalStock, setTotalStock] = useState(0);
   const [totalItems, setTotalItems] = useState(0);
   const [lowStockProducts, setLowStockProducts] = useState([]);
-  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false); // State for modal
-  const navigate = useNavigate(); // Initialize useNavigate
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchIncomeData = async () => {
@@ -104,9 +104,8 @@ const DashboardPage = () => {
   };
 
   const handleLogout = () => {
-    // Add logout logic here, e.g., clearing tokens or session data
     closeLogoutModal();
-    navigate("/login"); // Redirect to the login page
+    navigate("/login");
   };
 
   return (
@@ -167,7 +166,6 @@ const DashboardPage = () => {
                 <FontAwesomeIcon icon={faCog} /> Settings
               </Link>
             </li>
-            {/* Logout button */}
             <li>
               <button onClick={openLogoutModal} className="logout-button">
                 <FontAwesomeIcon icon={faSignOutAlt} /> Log Out
