@@ -250,14 +250,14 @@ const DashboardPage = () => {
             <h3>Total Income</h3>
             <div className="total-income-details">
               {totalIncome && (
-                <p className="income-detail">
-                  Gross Income: ₱{totalIncome.totalGrossIncome}
-                </p>
+                <div className="total-income-details-item">
+                  <p>Gross Income: ₱{totalIncome.totalGrossIncome}</p>
+                </div>
               )}
               {totalIncome && (
-                <p className="income-detail">
-                  Net Income: ₱{totalIncome.totalNetIncome}
-                </p>
+                <div className="total-income-details-item">
+                  <p>Net Income: ₱{totalIncome.totalNetIncome}</p>
+                </div>
               )}
             </div>
           </div>
