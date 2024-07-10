@@ -23,7 +23,7 @@
 
 .form-group {
   margin-bottom: 20px;
-  position: relative; 
+  position: relative;
 }
 
 .login-input {
@@ -41,15 +41,6 @@
 
 .input-error::placeholder {
   color: red;
-}
-
-.placeholder-text {
-  position: absolute;
-  top: 50%;
-  left: 10px;
-  transform: translateY(-50%);
-  color: #aaa;
-  pointer-events: none; 
 }
 
 .login-button {

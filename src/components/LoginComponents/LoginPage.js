@@ -43,12 +43,9 @@ const LoginPage = ({ setAuthToken }) => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              placeholder={emailError ? emailError : "Email"}
               className={`login-input ${emailError ? "input-error" : ""}`}
+              placeholder={emailError ? emailError : "Email"}
             />
-            {!emailError && !email && (
-              <div className="placeholder-text">Email</div>
-            )}
           </div>
           <div className={`form-group ${passwordError ? "has-error" : ""}`}>
             <input
@@ -56,12 +53,9 @@ const LoginPage = ({ setAuthToken }) => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              placeholder={passwordError ? passwordError : "Password"}
               className={`login-input ${passwordError ? "input-error" : ""}`}
+              placeholder={passwordError ? passwordError : "Password"}
             />
-            {!passwordError && !password && (
-              <div className="placeholder-text">Password</div>
-            )}
           </div>
           <button type="submit" className="login-button">
             Log In
