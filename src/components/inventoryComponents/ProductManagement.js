@@ -6,13 +6,19 @@ import {
   addProduct,
   getLowStockProducts,
   getProductsByDateRange,
-} from "../../services/inventory-api"; // Adjust the import path as necessary
+} from "../../services/inventory-api";
 import "../../styles/inventoryComponents/ProductManagement.css";
 import EditProductModal from "./EditProductModal";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
 import AddProductModal from "./AddProductModal";
-import AddStockModal from "./AddStockModal"; // Import the AddStockModal
-import { FaTrash, FaEdit, FaPlus, FaSearch } from "react-icons/fa";
+import AddStockModal from "./AddStockModal";
+import {
+  FaTrash,
+  FaEdit,
+  FaPlus,
+  FaSearch,
+  FaPlusCircle,
+} from "react-icons/fa";
 import { debounce } from "../../utils/debounce";
 
 const ProductManagement = () => {
@@ -21,7 +27,7 @@ const ProductManagement = () => {
   const [editingProduct, setEditingProduct] = useState(null);
   const [deletingProduct, setDeletingProduct] = useState(null);
   const [addingProduct, setAddingProduct] = useState(false);
-  const [addingStockProduct, setAddingStockProduct] = useState(null); // State to manage adding stock
+  const [addingStockProduct, setAddingStockProduct] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [minPrice, setMinPrice] = useState("");
@@ -41,7 +47,7 @@ const ProductManagement = () => {
       if (response.data && Array.isArray(response.data.data)) {
         setProducts(response.data.data);
         setAllProducts(response.data.data);
-        setIsShowingLowStock(false); // Reset to show all products
+        setIsShowingLowStock(false);
       } else {
         console.error("API response data is not an array:", response.data);
         setProducts([]);
@@ -56,29 +62,29 @@ const ProductManagement = () => {
 
   const handleLowStock = async () => {
     if (isShowingLowStock) {
-      setProducts(allProducts); // Show all products
-      setIsShowingLowStock(false); // Toggle off low stock view
+      setProducts(allProducts);
+      setIsShowingLowStock(false);
     } else {
       try {
         const response = await getLowStockProducts();
         if (response.data && Array.isArray(response.data.data)) {
           setProducts(response.data.data);
-          setIsShowingLowStock(true); // Set to show low stock products
+          setIsShowingLowStock(true);
         } else if (response.data && response.data.message) {
           console.log(response.data.message);
           setProducts([]);
-          setIsShowingLowStock(true); // Show no products found but still toggle low stock view
+          setIsShowingLowStock(true);
         } else {
           console.error("Unexpected response structure:", response);
           setProducts([]);
-          setIsShowingLowStock(true); // Show no products found but still toggle low stock view
+          setIsShowingLowStock(true);
         }
       } catch (error) {
         console.error("Failed to fetch low stock products", error);
         setErrorMessage(
           "Failed to fetch low stock products. Please try again later."
         );
-        setIsShowingLowStock(true); // Show no products found but still toggle low stock view
+        setIsShowingLowStock(true);
       }
     }
   };
@@ -137,7 +143,7 @@ const ProductManagement = () => {
       const response = await getProductsByDateRange(startDate, endDate);
       if (response.data && Array.isArray(response.data.data)) {
         setProducts(response.data.data);
-        setIsShowingLowStock(false); // Reset to show all products
+        setIsShowingLowStock(false);
       } else {
         console.error("API response data is not an array:", response.data);
         setProducts([]);
@@ -352,12 +358,12 @@ const ProductManagement = () => {
                   </button>
                   <button
                     onClick={() => {
-                      setAddingStockProduct(product); // Open AddStockModal
+                      setAddingStockProduct(product);
                       clearErrorMessage();
                     }}
                     className="add-stock"
                   >
-                    Add Stock
+                    <FaPlusCircle /> {/* Use the FaPlusCircle icon */}
                   </button>
                 </div>
               </div>
@@ -412,7 +418,7 @@ const ProductManagement = () => {
             clearErrorMessage();
           }}
           onSave={(updatedProduct) => {
-            handleUpdateProduct(updatedProduct); // Optional: Refresh UI after saving
+            handleUpdateProduct(updatedProduct);
           }}
         />
       )}
