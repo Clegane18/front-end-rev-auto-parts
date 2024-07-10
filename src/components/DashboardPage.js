@@ -5,6 +5,11 @@ import {
   calculateTotalIncomeInPhysicalStore,
   calculateIncomeByMonthInPhysicalStore,
 } from "../services/pos-api";
+import {
+  getTotalStock,
+  getTotalItems,
+  getLowStockProducts,
+} from "../services/inventory-api";
 import { getTopBestSellerItems } from "../services/inventory-api";
 import "../styles/DashboardPage.css";
 
@@ -12,6 +17,9 @@ const DashboardPage = () => {
   const [totalIncome, setTotalIncome] = useState(null);
   const [monthlyIncome, setMonthlyIncome] = useState([]);
   const [bestSellers, setBestSellers] = useState([]);
+  const [totalStock, setTotalStock] = useState(0);
+  const [totalItems, setTotalItems] = useState(0);
+  const [lowStockProducts, setLowStockProducts] = useState([]);
 
   useEffect(() => {
     const fetchIncomeData = async () => {
@@ -41,8 +49,27 @@ const DashboardPage = () => {
       }
     };
 
+    const fetchStockData = async () => {
+      try {
+        const totalStockData = await getTotalStock();
+        console.log("Total Stock Data:", totalStockData); // Log the fetched total stock data
+        setTotalStock(totalStockData.totalStocks);
+
+        const totalItemsData = await getTotalItems();
+        console.log("Total Items Data:", totalItemsData); // Log the fetched total items data
+        setTotalItems(totalItemsData.totalItems);
+
+        const lowStockProductsData = await getLowStockProducts();
+        console.log("Low Stock Products Data:", lowStockProductsData); // Log the fetched low stock products data
+        setLowStockProducts(lowStockProductsData.data);
+      } catch (error) {
+        console.error("Error fetching stock data:", error);
+      }
+    };
+
     fetchIncomeData();
     fetchBestSellers();
+    fetchStockData();
   }, []);
 
   const formattedData = monthlyIncome.map((entry) => ({
@@ -175,8 +202,19 @@ const DashboardPage = () => {
         <section className="stock-reminder-section">
           <h3>Stock Reminder</h3>
           <ul>
-            <li>In Stock: 9,520</li>
-            <li>Low Stock: Motor Oil (105), Fanbelt (77)</li>
+            <li>In Stock: {totalStock}</li>
+            <li>Total Items: {totalItems}</li>
+            <li>
+              Low Stock:{" "}
+              {lowStockProducts.length > 0
+                ? lowStockProducts.map((product, index) => (
+                    <span key={index}>
+                      {product.name} ({product.stock})
+                      {index < lowStockProducts.length - 1 ? ", " : ""}
+                    </span>
+                  ))
+                : "No low stock products"}
+            </li>
           </ul>
         </section>
       </main>

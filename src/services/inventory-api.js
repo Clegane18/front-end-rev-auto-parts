@@ -51,6 +51,32 @@ export const addToProductStock = async (productId, quantityToAdd) => {
   }
 };
 
+export const getTotalStock = async () => {
+  try {
+    const response = await api.get("/products/totalNumberOfStocks");
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error("Failed to fetch total stock. Please try again later.");
+    }
+  }
+};
+
+export const getTotalItems = async () => {
+  try {
+    const response = await api.get("/products/totalNumberOfItems");
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error("Failed to fetch total item. Please try again later.");
+    }
+  }
+};
+
 // Filter APIs
 export const getProductByItemCode = (productItemCode) =>
   api.get(`/products/filter/itemCode`, { params: { productItemCode } });
@@ -66,7 +92,21 @@ export const getProductsByDateRange = (startDate, endDate) =>
   api.get(
     `/products/filter/dateRange?startDate=${startDate}&endDate=${endDate}`
   );
-export const getLowStockProducts = () => api.get("/products/filter/lowStocks");
+
+export const getLowStockProducts = async () => {
+  try {
+    const response = await api.get("/products/filter/lowStocks");
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(
+        "Failed to fetch low stock products. Please try again later."
+      );
+    }
+  }
+};
 
 // Pending Stock APIs
 export const addPendingStock = (pendingStockData) =>
