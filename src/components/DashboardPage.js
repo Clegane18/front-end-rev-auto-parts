@@ -26,6 +26,11 @@ import {
   faFileInvoice,
   faChartLine,
   faCog,
+  faExclamationCircle,
+  faCheckCircle,
+  faArchive,
+  faExclamationTriangle,
+  faAngleDoubleRight,
 } from "@fortawesome/free-solid-svg-icons";
 
 const DashboardPage = () => {
@@ -156,101 +161,113 @@ const DashboardPage = () => {
       </aside>
       <main className="main-content">
         <header className="main-header">
-          <input
-            type="text"
-            placeholder="Search product..."
-            className="search-input"
-          />
-          <div className="account-info">
-            <span>Admin Account</span>
-          </div>
+          {/* Removed search input and account info */}
         </header>
         <section className="total-income-section">
-          <h3>Total Income</h3>
-          {totalIncome && (
-            <div>
-              <p>Gross Income: ₱{totalIncome.totalGrossIncome}</p>
-              <p>Net Income: ₱{totalIncome.totalNetIncome}</p>
-            </div>
-          )}
+          <div className="section-container">
+            <h3>Total Income</h3>
+            {totalIncome && (
+              <div>
+                <p>Gross Income: ₱{totalIncome.totalGrossIncome}</p>
+                <p>Net Income: ₱{totalIncome.totalNetIncome}</p>
+              </div>
+            )}
+          </div>
         </section>
         <section className="sales-section">
-          <h3>Sales</h3>
-          <div className="sales-chart">
-            <SalesChart data={formattedData} />
+          <div className="section-container">
+            <h3>Sales</h3>
+            <div className="sales-chart">
+              <SalesChart data={formattedData} />
+            </div>
           </div>
         </section>
         <section className="transactions-section">
-          <h3>Transactions</h3>
-          <table>
-            <thead>
-              <tr>
-                <th>Transaction</th>
-                <th>Date & Time</th>
-                <th>Amount</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {/* Example data */}
-              <tr>
-                <td>Payment from Bonnie Green</td>
-                <td>Apr 23, 2021</td>
-                <td>₱2300</td>
-                <td>Completed</td>
-              </tr>
-              {/* Add more rows as needed */}
-            </tbody>
-          </table>
+          <div className="section-container">
+            <h3>Transactions</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>Transaction</th>
+                  <th>Date & Time</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {/* Example data */}
+                <tr>
+                  <td>Payment from Bonnie Green</td>
+                  <td>Apr 23, 2021</td>
+                  <td>₱2300</td>
+                  <td>Completed</td>
+                </tr>
+                {/* Add more rows as needed */}
+              </tbody>
+            </table>
+          </div>
         </section>
         <section className="bestsellers-section">
-          <h3>Bestsellers</h3>
-          <table>
-            <thead>
-              <tr>
-                <th>Product</th>
-                <th>Price</th>
-                <th>Sold</th>
-                <th>Profit</th>
-                <th>Sales Location</th>
-              </tr>
-            </thead>
-            <tbody>
-              {bestSellers.length > 0 ? (
-                bestSellers.map((item, index) => (
-                  <tr key={index}>
-                    <td>{item.productName}</td>
-                    <td>₱{item.price}</td>
-                    <td>{item.totalSold}</td>
-                    <td>₱{item.totalProfit}</td>
-                    <td>{item.salesLocation}</td>
-                  </tr>
-                ))
-              ) : (
+          <div className="section-container">
+            <h3>Bestsellers</h3>
+            <table>
+              <thead>
                 <tr>
-                  <td colSpan="5">No best sellers found</td>
+                  <th>Product</th>
+                  <th>Price</th>
+                  <th>Sold</th>
+                  <th>Profit</th>
+                  <th>Sales Location</th>
                 </tr>
-              )}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {bestSellers.length > 0 ? (
+                  bestSellers.map((item, index) => (
+                    <tr key={index}>
+                      <td>{item.productName}</td>
+                      <td>₱{item.price}</td>
+                      <td>{item.totalSold}</td>
+                      <td>₱{item.totalProfit}</td>
+                      <td>{item.salesLocation}</td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="5">No best sellers found</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </section>
         <section className="stock-reminder-section">
-          <h3>Stock Reminder</h3>
-          <ul>
-            <li>In Stock: {totalStock}</li>
-            <li>Total Items: {totalItems}</li>
-            <li>
-              Low Stock:{" "}
-              {lowStockProducts.length > 0
-                ? lowStockProducts.map((product, index) => (
+          <div className="section-container">
+            <h3>
+              <FontAwesomeIcon icon={faExclamationCircle} /> Stock Reminder
+            </h3>
+            <ul className="low-stock-list">
+              <li className="low-stock-list-item">
+                <FontAwesomeIcon icon={faCheckCircle} /> In Stock: {totalStock}
+              </li>
+              <li className="low-stock-list-item">
+                <FontAwesomeIcon icon={faArchive} /> Total Items: {totalItems}
+              </li>
+              <li className="low-stock-list-item">
+                <FontAwesomeIcon icon={faExclamationTriangle} /> Low Stock:{" "}
+                {lowStockProducts.length > 0 ? (
+                  lowStockProducts.map((product, index) => (
                     <span key={index}>
+                      <FontAwesomeIcon icon={faAngleDoubleRight} />{" "}
                       {product.name} ({product.stock})
                       {index < lowStockProducts.length - 1 ? ", " : ""}
                     </span>
                   ))
-                : "No low stock products"}
-            </li>
-          </ul>
+                ) : (
+                  <span className="no-low-stock">No low stock products</span>
+                )}
+              </li>
+            </ul>
+          </div>
         </section>
       </main>
     </div>

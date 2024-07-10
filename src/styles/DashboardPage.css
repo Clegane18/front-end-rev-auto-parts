@@ -1,9 +1,11 @@
+/* Reset and box model */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* Base styles */
 html, body, #root {
   height: 100%;
 }
@@ -14,12 +16,14 @@ body {
   color: #333;
 }
 
+/* Dashboard container */
 .dashboard-container {
   display: flex;
   height: 100vh;
   width: 100vw;
 }
 
+/* Sidebar styles */
 .sidebar {
   flex: 0 0 20%; /* Adjust this percentage as necessary */
   background-color: #1a1a1a;
@@ -55,6 +59,7 @@ body {
   color: #fff;
 }
 
+/* Main content styles */
 .main-content {
   flex: 1; /* Take up the remaining space */
   display: flex;
@@ -89,10 +94,15 @@ body {
   color: #666;
 }
 
-.sales-section, .transactions-section, .bestsellers-section, .stock-reminder-section {
+/* Sections within main content */
+.sales-section,
+.transactions-section,
+.bestsellers-section,
+.stock-reminder-section {
   margin-top: 20px;
 }
 
+/* Sales chart */
 .sales-chart {
   height: 300px;
   background-color: #e9ecef;
@@ -100,12 +110,14 @@ body {
   padding: 20px;
 }
 
+/* Table styles */
 table {
   width: 100%;
   border-collapse: collapse;
 }
 
-table th, table td {
+table th,
+table td {
   padding: 10px;
   text-align: left;
   border: 1px solid #ddd;
@@ -116,16 +128,55 @@ table th {
   background-color: #f7f7f7;
 }
 
-.stock-reminder-section ul {
+/* Stock reminder list */
+.stock-reminder-section {
+  margin-top: 20px;
+}
+
+.stock-reminder-section .section-container {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.stock-reminder-section h3 {
+  margin-bottom: 10px;
+}
+
+.low-stock-list {
   list-style: none;
   padding: 0;
+  margin-top: 10px;
 }
 
-.stock-reminder-section ul li {
-  padding: 5px 0;
+.low-stock-list-item {
+  margin-bottom: 8px;
+  padding: 10px;
+  background-color: #f8d7da;
+  border-left: 5px solid #dc3545; /* Red border for emphasis */
+  border-radius: 3px;
 }
 
-/* Responsive Styles */
+.low-stock-list-item span {
+  font-weight: bold;
+}
+
+.no-low-stock {
+  margin-top: 10px;
+  color: #6c757d;
+}
+
+.section-container {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive styles */
 @media (max-width: 768px) {
   .dashboard-container {
     flex-direction: column;
