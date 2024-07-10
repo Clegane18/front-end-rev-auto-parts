@@ -161,6 +161,7 @@ table th {
 
 .low-stock-list-item span {
   font-weight: bold;
+  display: block;
 }
 
 .no-low-stock {
@@ -168,12 +169,80 @@ table th {
   color: #6c757d;
 }
 
+
 .section-container {
   padding: 20px;
   background-color: #fff;
   border-radius: 5px;
   margin-bottom: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Bottom section styles */
+.bottom-section {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+
+.total-income,
+.low-stock-reminder {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-right: 10px;
+  flex: 1 0 auto; /* Flex-grow to fit content, no shrinking */
+}
+
+.low-stock-reminder {
+  margin-right: 10px;
+}
+
+.total-income {
+  margin-left: 10px;
+  background-color: #f8f9fa; /* Light gray background */
+  border: 1px solid #dee2e6; /* Light border */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center the text horizontally */
+  padding: 20px; /* Add padding for better spacing */
+}
+
+
+.total-income h3 {
+  font-size: 1.4em;
+  color: #dc3545; /* Red color for heading */
+  margin-bottom: 15px;
+  font-weight: bold;
+  text-transform: uppercase; /* Make heading uppercase */
+}
+
+.total-income-details {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-around; /* Evenly distribute items */
+  width: 100%; /* Full width for details container */
+}
+
+.total-income-details-item {
+  text-align: center;
+  flex: 1;
+  margin: 0 10px;
+}
+
+.total-income-details-item p {
+  margin: 5px 0;
+  padding: 10px;
+  background-color: #ffffff; /* White background for text blocks */
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a slight shadow */
+  border: 1px solid #dc3545; /* Red border for emphasis */
+  color: #dc3545; /* Red text color */
+  font-weight: bold; /* Bold text */
+  font-size: 1.1em; /* Slightly larger text */
+  text-align: center; /* Center the text */
 }
 
 /* Responsive styles */
@@ -200,5 +269,24 @@ table th {
   .search-input {
     width: 100%;
     margin-bottom: 10px;
+  }
+
+  .bottom-section {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    flex-direction: column;
+  }
+
+  .total-income,
+  .low-stock-reminder {
+    margin-right: 0;
+    margin-bottom: 10px;
+    margin-left: 0;
+  }
+
+  .total-income p,
+  .low-stock-reminder ul {
+    margin: 0;
   }
 }

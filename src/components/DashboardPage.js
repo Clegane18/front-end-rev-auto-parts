@@ -12,8 +12,6 @@ import {
 } from "../services/inventory-api";
 import { getTopBestSellerItems } from "../services/inventory-api";
 import "../styles/DashboardPage.css";
-
-// Importing Font Awesome icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHome,
@@ -30,7 +28,6 @@ import {
   faCheckCircle,
   faArchive,
   faExclamationTriangle,
-  faAngleDoubleRight,
 } from "@fortawesome/free-solid-svg-icons";
 
 const DashboardPage = () => {
@@ -72,15 +69,12 @@ const DashboardPage = () => {
     const fetchStockData = async () => {
       try {
         const totalStockData = await getTotalStock();
-        console.log("Total Stock Data:", totalStockData); // Log the fetched total stock data
         setTotalStock(totalStockData.totalStocks);
 
         const totalItemsData = await getTotalItems();
-        console.log("Total Items Data:", totalItemsData); // Log the fetched total items data
         setTotalItems(totalItemsData.totalItems);
 
         const lowStockProductsData = await getLowStockProducts();
-        console.log("Low Stock Products Data:", lowStockProductsData); // Log the fetched low stock products data
         setLowStockProducts(lowStockProductsData.data);
       } catch (error) {
         console.error("Error fetching stock data:", error);
@@ -160,20 +154,7 @@ const DashboardPage = () => {
         </nav>
       </aside>
       <main className="main-content">
-        <header className="main-header">
-          {/* Removed search input and account info */}
-        </header>
-        <section className="total-income-section">
-          <div className="section-container">
-            <h3>Total Income</h3>
-            {totalIncome && (
-              <div>
-                <p>Gross Income: ₱{totalIncome.totalGrossIncome}</p>
-                <p>Net Income: ₱{totalIncome.totalNetIncome}</p>
-              </div>
-            )}
-          </div>
-        </section>
+        <header className="main-header"></header>
         <section className="sales-section">
           <div className="section-container">
             <h3>Sales</h3>
@@ -195,14 +176,12 @@ const DashboardPage = () => {
                 </tr>
               </thead>
               <tbody>
-                {/* Example data */}
                 <tr>
                   <td>Payment from Bonnie Green</td>
                   <td>Apr 23, 2021</td>
                   <td>₱2300</td>
                   <td>Completed</td>
                 </tr>
-                {/* Add more rows as needed */}
               </tbody>
             </table>
           </div>
@@ -240,8 +219,8 @@ const DashboardPage = () => {
             </table>
           </div>
         </section>
-        <section className="stock-reminder-section">
-          <div className="section-container">
+        <section className="bottom-section">
+          <div className="stock-reminder low-stock-reminder">
             <h3>
               <FontAwesomeIcon icon={faExclamationCircle} /> Stock Reminder
             </h3>
@@ -257,7 +236,6 @@ const DashboardPage = () => {
                 {lowStockProducts.length > 0 ? (
                   lowStockProducts.map((product, index) => (
                     <span key={index}>
-                      <FontAwesomeIcon icon={faAngleDoubleRight} />{" "}
                       {product.name} ({product.stock})
                       {index < lowStockProducts.length - 1 ? ", " : ""}
                     </span>
@@ -267,6 +245,21 @@ const DashboardPage = () => {
                 )}
               </li>
             </ul>
+          </div>
+          <div className="total-income">
+            <h3>Total Income</h3>
+            <div className="total-income-details">
+              {totalIncome && (
+                <p className="income-detail">
+                  Gross Income: ₱{totalIncome.totalGrossIncome}
+                </p>
+              )}
+              {totalIncome && (
+                <p className="income-detail">
+                  Net Income: ₱{totalIncome.totalNetIncome}
+                </p>
+              )}
+            </div>
           </div>
         </section>
       </main>
