@@ -67,11 +67,11 @@ const ProductManagement = () => {
     } else {
       try {
         const response = await getLowStockProducts();
-        if (response.data && Array.isArray(response.data.data)) {
-          setProducts(response.data.data);
+        if (response && Array.isArray(response.data)) {
+          setProducts(response.data);
           setIsShowingLowStock(true);
-        } else if (response.data && response.data.message) {
-          console.log(response.data.message);
+        } else if (response && response.message) {
+          console.log(response.message);
           setProducts([]);
           setIsShowingLowStock(true);
         } else {
@@ -180,11 +180,22 @@ const ProductManagement = () => {
   const handleUpdateProduct = async (updatedProduct) => {
     try {
       await updateProductById(updatedProduct.id, updatedProduct);
-      const updatedProducts = products.map((product) =>
+      const updatedAllProducts = allProducts.map((product) =>
         product.id === updatedProduct.id ? updatedProduct : product
       );
-      setProducts(updatedProducts);
-      setAllProducts(updatedProducts);
+      setAllProducts(updatedAllProducts);
+
+      const minimumStockLevel = 15;
+
+      if (isShowingLowStock) {
+        const updatedLowStockProducts = updatedAllProducts.filter(
+          (product) => product.stock < minimumStockLevel
+        );
+        setProducts(updatedLowStockProducts);
+      } else {
+        setProducts(updatedAllProducts);
+      }
+
       setEditingProduct(null);
       clearErrorMessage();
     } catch (error) {
