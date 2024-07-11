@@ -280,14 +280,33 @@ const DashboardPage = () => {
               )}
             </div>
           </div>
+          <div className="monthly-income">
+            <h3>Monthly Income</h3>
+            <div className="monthly-income-details">
+              {formattedData.map((entry) => (
+                <div key={entry.name} className="monthly-income-item">
+                  <div className="monthly-income-details-item">
+                    <p>Month: {entry.name}:</p>
+                  </div>
+                  <div className="monthly-income-details-item">
+                    <p>Net Income: ₱{entry.netIncome.toLocaleString()}</p>
+                  </div>
+                  <div className="monthly-income-details-item">
+                    <p>Gross Income: ₱{entry.grossIncome.toLocaleString()}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </section>
       </main>
-      {/* Logout modal */}
-      <LogOutConfirmationModal
-        isOpen={isLogoutModalOpen}
-        onClose={closeLogoutModal}
-        onConfirm={handleLogout} // Call handleLogout on confirm
-      />
+      {isLogoutModalOpen && (
+        <LogOutConfirmationModal
+          isOpen={isLogoutModalOpen}
+          onClose={closeLogoutModal}
+          onConfirm={handleLogout}
+        />
+      )}
     </div>
   );
 };

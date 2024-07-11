@@ -191,6 +191,7 @@ table th {
   margin-top: 20px;
 }
 
+.monthly-income,
 .total-income,
 .low-stock-reminder {
   padding: 20px;
@@ -202,7 +203,7 @@ table th {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.total-income {
+.monthly-income, .total-income {
   margin-left: 10px;
   display: flex;
   flex-direction: column;
@@ -211,7 +212,7 @@ table th {
   position: relative;
 }
 
-.total-income h3 {
+.monthly-income h3, .total-income h3 {
   font-size: 1.6em;
   color: #000000;
   margin-bottom: 20px;
@@ -220,7 +221,7 @@ table th {
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
 }
 
-.total-income-details {
+.monthly-income-details, .total-income-details {
   margin-top: 15px;
   display: flex;
   flex-direction: column;
@@ -228,12 +229,12 @@ table th {
   width: 100%;
 }
 
-.total-income-details-item {
+.monthly-income-item, .total-income-details-item {
   text-align: center;
   margin: 10px 0;
 }
 
-.total-income-details-item p {
+.total-income-details-item p, .monthly-income-item p {
   margin: 0;
   padding: 15px;
   background-color: #f0f0f0;
@@ -247,11 +248,14 @@ table th {
   transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
-.total-income-details-item p:hover {
+.monthly-income-item p:hover, .total-income-details-item p:hover {
   transform: scale(1.05);
   background-color: #e9ecef;
 }
 
+.monthly-income-details-item {
+  margin-bottom: 10px;
+}
 @media (max-width: 768px) {
   .dashboard-container {
     flex-direction: column;
@@ -282,14 +286,14 @@ table th {
     margin-top: 20px;
   }
 
-  .total-income,
+  .monthly-income, .total-income,
   .low-stock-reminder {
     margin-right: 0;
     margin-bottom: 10px;
     margin-left: 0;
   }
 
-  .total-income p,
+  .monthly-income p, .total-income p,
   .low-stock-reminder ul {
     margin: 0;
   }
