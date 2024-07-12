@@ -149,11 +149,19 @@ const ProductManagement = () => {
         setProducts([]);
       }
     } catch (error) {
-      console.error("Failed to fetch products by date range", error);
-      setErrorMessage(
-        error.response?.data?.message ||
-          "Failed to fetch products. Please try again later."
-      );
+      if (error.response && error.response.status === 404) {
+        console.warn(
+          "No products found within the date range:",
+          error.response.data.message
+        );
+        setProducts([]);
+      } else {
+        console.error("Failed to fetch products by date range", error);
+        setErrorMessage(
+          error.response?.data?.message ||
+            "Failed to fetch products. Please try again later."
+        );
+      }
     }
   };
 
@@ -229,13 +237,19 @@ const ProductManagement = () => {
     setErrorMessage(null);
   };
 
+  const handleFilterChange = (e) => {
+    setFilterType(e.target.value);
+    if (e.target.value !== "date") {
+      setStartDate("");
+      setEndDate("");
+      setProducts(allProducts);
+    }
+  };
+
   return (
     <div className="product-management-container">
       <div className="search-bar">
-        <select
-          value={filterType}
-          onChange={(e) => setFilterType(e.target.value)}
-        >
+        <select value={filterType} onChange={handleFilterChange}>
           <option value="default">Default</option>
           <option value="price">Price Range</option>
           <option value="date">Date Range</option>
