@@ -286,7 +286,7 @@ const DashboardPage = () => {
               {formattedData.map((entry) => (
                 <div key={entry.name} className="monthly-income-item">
                   <div className="monthly-income-details-item">
-                    <p>Month: {entry.name}:</p>
+                    <p>Month: {entry.name}</p>
                   </div>
                   <div className="monthly-income-details-item">
                     <p>Net Income: ₱{entry.netIncome.toLocaleString()}</p>
