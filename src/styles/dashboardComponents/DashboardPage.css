@@ -22,20 +22,18 @@ body {
 }
 
 .sidebar {
-  flex: 0 0 20%;
-  background-color: #333  ;
+  width: 250px;
+  background-color: #2f3b4c;
   color: #fff;
   display: flex;
   flex-direction: column;
-  height: 100%;
-  overflow: auto;
 }
 
 .sidebar-header {
   padding: 20px;
   text-align: center;
-  background-color: #444;
-  border-bottom: 2px solid #fff;
+  background-color: #2f3b4c;
+  border-bottom: 2px solid #0e072f;
 }
 
 .sidebar-header h2 {
@@ -54,13 +52,13 @@ body {
 }
 
 .sidebar-nav ul li a {
-  color: #bbb;
+  color: #bbbbbb;
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .sidebar-nav ul li a:hover {
-  color: #fff;
+  color: #ffffff;
 }
 
 .main-content {
@@ -361,6 +359,5 @@ table th {
   font-size: 1.4em;
   margin: 0;
 }
-
 
 
