@@ -33,7 +33,7 @@ body {
   padding: 20px;
   text-align: center;
   background-color: #2f3b4c;
-  border-bottom: 2px solid #0e072f;
+  border-bottom: 3px solid #404b5e;
 }
 
 .sidebar-header h2 {
@@ -52,13 +52,13 @@ body {
 }
 
 .sidebar-nav ul li a {
-  color: #bbbbbb;
+  color: #bbb;
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .sidebar-nav ul li a:hover {
-  color: #ffffff;
+  color: #fff;
 }
 
 .main-content {
@@ -189,8 +189,7 @@ table th {
   margin-top: 20px;
 }
 
-.monthly-income,
-.total-income,
+.transaction-overview,
 .low-stock-reminder {
   padding: 20px;
   border-radius: 8px;
@@ -201,7 +200,7 @@ table th {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.monthly-income, .total-income {
+.transaction-overview {
   margin-left: 10px;
   display: flex;
   flex-direction: column;
@@ -210,7 +209,7 @@ table th {
   position: relative;
 }
 
-.monthly-income h3, .total-income h3 {
+.transaction-overview h3 {
   font-size: 1.6em;
   color: #000000;
   margin-bottom: 20px;
@@ -219,7 +218,7 @@ table th {
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
 }
 
-.monthly-income-details, .total-income-details {
+.transactions-boxes {
   margin-top: 15px;
   display: flex;
   flex-direction: column;
@@ -227,12 +226,12 @@ table th {
   width: 100%;
 }
 
-.monthly-income-item, .total-income-details-item {
+.transaction-box {
   text-align: center;
   margin: 10px 0;
 }
 
-.total-income-details-item p, .monthly-income-item p {
+.transaction-box p {
   margin: 0;
   padding: 15px;
   background-color: #f0f0f0;
@@ -246,14 +245,81 @@ table th {
   transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
-.monthly-income-item p:hover, .total-income-details-item p:hover {
+.transaction-box p:hover {
   transform: scale(1.05);
   background-color: #e9ecef;
 }
 
-.monthly-income-details-item {
+.monthly-income {
+  padding: 20px;
+  border-radius: 8px;
+  margin-left: 10px;
+  flex: 1 0 auto;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  position: relative;
+}
+
+.monthly-income h3 {
+  font-size: 1.6em;
+  color: #000000;
+  margin-bottom: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.monthly-income-details,
+.transactions-details {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.monthly-income-item,
+.transactions-item {
+  text-align: center;
+  margin: 10px 0;
+}
+.monthly-income-item p,
+.transaction-details-total p, 
+.transaction-details-pos p,
+.transaction-details-online p{
+  margin: 0;
+  padding: 15px;
+  background-color: #f0f0f0;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+  color: #333;
+  font-weight: bold;
+  font-size: 1.2em;
+  text-align: center;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.monthly-income-item p:hover,
+.transaction-details-total p:hover,
+.transaction-details-pos p:hover,
+.transaction-details-online p:hover {
+  transform: scale(1.05);
+  background-color: #e9ecef;
+}
+
+.monthly-income-details-item,
+.transaction-details-total,
+.transaction-details-pos,
+.transaction-details-online {
   margin-bottom: 10px;
 }
+
 @media (max-width: 768px) {
   .dashboard-container {
     flex-direction: column;
@@ -284,14 +350,14 @@ table th {
     margin-top: 20px;
   }
 
-  .monthly-income, .total-income,
+  .transaction-overview,
   .low-stock-reminder {
     margin-right: 0;
     margin-bottom: 10px;
     margin-left: 0;
   }
 
-  .monthly-income p, .total-income p,
+  .transaction-overview p,
   .low-stock-reminder ul {
     margin: 0;
   }
@@ -313,51 +379,6 @@ table th {
   color: #ff0707;
 }
 
-.transactions-section {
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  margin-bottom: 20px;
-}
 
-.transactions-title {
-  font-size: 1.8em;
-  color: #000;
-  margin-bottom: 20px;
-  font-weight: bold;
-  text-transform: uppercase;
-  text-align: center;
-}
-
-.transactions-boxes {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.transaction-box {
-  text-align: center;
-  margin: 0 10px;
-  padding: 10px 20px;
-  background-color: #f0f0f0;
-  border-radius: 6px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border: 1px solid #ddd;
-  color: #333;
-  font-weight: bold;
-  flex: 1;
-  max-width: 150px;
-}
-
-.transaction-box h4 {
-  font-size: 1.2em;
-  margin-bottom: 5px;
-}
-
-.transaction-box p {
-  font-size: 1.4em;
-  margin: 0;
-}
 
 

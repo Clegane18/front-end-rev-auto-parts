@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import SalesChart from "./SalesChart";
-import {
-  calculateTotalIncomeInPhysicalStore,
-  calculateIncomeByMonthInPhysicalStore,
-} from "../../services/pos-api";
+import { calculateIncomeByMonthInPhysicalStore } from "../../services/pos-api";
 import {
   getTotalStock,
   getTotalItems,
@@ -37,7 +34,6 @@ import {
 import LogOutConfirmationModal from "./LogOutConfirmationModal";
 
 const DashboardPage = () => {
-  const [totalIncome, setTotalIncome] = useState(null);
   const [monthlyIncome, setMonthlyIncome] = useState([]);
   const [bestSellers, setBestSellers] = useState([]);
   const [totalStock, setTotalStock] = useState(0);
@@ -52,9 +48,6 @@ const DashboardPage = () => {
   useEffect(() => {
     const fetchIncomeData = async () => {
       try {
-        const totalIncomeData = await calculateTotalIncomeInPhysicalStore();
-        setTotalIncome(totalIncomeData.data);
-
         const monthlyIncomeData = await calculateIncomeByMonthInPhysicalStore();
         setMonthlyIncome(
           Object.entries(monthlyIncomeData.data).map(([key, value]) => ({
@@ -211,24 +204,6 @@ const DashboardPage = () => {
             </div>
           </div>
         </section>
-        <section className="transactions-section">
-          <h3 className="transactions-title">Transactions for Today</h3>
-          <div className="transactions-boxes">
-            <div className="transaction-box">
-              <h4>Total Transactions</h4>
-              <p>{totalTransactions !== null ? totalTransactions : "0"}</p>
-            </div>
-            <div className="transaction-box">
-              <h4>Total POS Transactions</h4>
-              <p>{posTransactions !== null ? posTransactions : "0"}</p>
-            </div>
-            <div className="transaction-box">
-              <h4>Total Online Transactions</h4>
-              <p>{onlineTransactions !== null ? onlineTransactions : "0"}</p>
-            </div>
-          </div>
-        </section>
-
         <section className="bestsellers-section">
           <div className="section-container">
             <h3>Bestsellers</h3>
@@ -287,19 +262,29 @@ const DashboardPage = () => {
               </div>
             </div>
           </div>
-          <div className="total-income">
-            <h3>Total Income</h3>
-            <div className="total-income-details">
-              {totalIncome && (
-                <div className="total-income-details-item">
-                  <p>Gross Income: ₱{totalIncome.totalGrossIncome}</p>
+          <div className="transaction-overview">
+            <h3>Transactions Overview</h3>
+            <div className="transactions-details">
+              <div className="transactions-item">
+                <div className="transaction-details-total">
+                  <p>
+                    Total Transactions:{" "}
+                    {totalTransactions !== null ? totalTransactions : "0"}
+                  </p>
                 </div>
-              )}
-              {totalIncome && (
-                <div className="total-income-details-item">
-                  <p>Net Income: ₱{totalIncome.totalNetIncome}</p>
+                <div className="transaction-details-pos">
+                  <p>
+                    Total POS Transactions:{" "}
+                    {posTransactions !== null ? posTransactions : "0"}
+                  </p>
                 </div>
-              )}
+                <div className="transaction-details-online">
+                  <p>
+                    Total Online Transactions:{" "}
+                    {onlineTransactions !== null ? onlineTransactions : "0"}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
           <div className="monthly-income">
