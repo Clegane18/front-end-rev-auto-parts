@@ -11,6 +11,11 @@ import {
   getLowStockProducts,
   getTopBestSellerItems,
 } from "../../services/inventory-api";
+import {
+  getTotalNumberTransactions,
+  getTotalCountOfTransactionsFromPOS,
+  getTotalCountOfTransactionsFromOnline,
+} from "../../services/transaction-api";
 import "../../styles/dashboardComponents/DashboardPage.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -38,6 +43,9 @@ const DashboardPage = () => {
   const [totalStock, setTotalStock] = useState(0);
   const [totalItems, setTotalItems] = useState(0);
   const [lowStockProducts, setLowStockProducts] = useState([]);
+  const [totalTransactions, setTotalTransactions] = useState(0);
+  const [posTransactions, setPosTransactions] = useState(0);
+  const [onlineTransactions, setOnlineTransactions] = useState(0);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -84,9 +92,28 @@ const DashboardPage = () => {
       }
     };
 
+    const fetchTransactionData = async () => {
+      try {
+        const totalTransactionsData = await getTotalNumberTransactions();
+        setTotalTransactions(totalTransactionsData.TotalTransactions || 0);
+
+        const posTransactionsData = await getTotalCountOfTransactionsFromPOS();
+        setPosTransactions(posTransactionsData.TotalCountOfTransactions || 0);
+
+        const onlineTransactionsData =
+          await getTotalCountOfTransactionsFromOnline();
+        setOnlineTransactions(
+          onlineTransactionsData.TotalCountOfTransactions || 0
+        );
+      } catch (error) {
+        console.error("Error fetching transaction data:", error);
+      }
+    };
+
     fetchIncomeData();
     fetchBestSellers();
     fetchStockData();
+    fetchTransactionData();
   }, []);
 
   const formattedData = monthlyIncome.map((entry) => ({
@@ -185,28 +212,23 @@ const DashboardPage = () => {
           </div>
         </section>
         <section className="transactions-section">
-          <div className="section-container">
-            <h3>Transactions</h3>
-            <table>
-              <thead>
-                <tr>
-                  <th>Transaction</th>
-                  <th>Date & Time</th>
-                  <th>Amount</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Payment from Bonnie Green</td>
-                  <td>Apr 23, 2021</td>
-                  <td>₱2300</td>
-                  <td>Completed</td>
-                </tr>
-              </tbody>
-            </table>
+          <h3 className="transactions-title">Transactions for Today</h3>
+          <div className="transactions-boxes">
+            <div className="transaction-box">
+              <h4>Total Transactions</h4>
+              <p>{totalTransactions !== null ? totalTransactions : "0"}</p>
+            </div>
+            <div className="transaction-box">
+              <h4>Total POS Transactions</h4>
+              <p>{posTransactions !== null ? posTransactions : "0"}</p>
+            </div>
+            <div className="transaction-box">
+              <h4>Total Online Transactions</h4>
+              <p>{onlineTransactions !== null ? onlineTransactions : "0"}</p>
+            </div>
           </div>
         </section>
+
         <section className="bestsellers-section">
           <div className="section-container">
             <h3>Bestsellers</h3>
@@ -243,14 +265,14 @@ const DashboardPage = () => {
         <section className="bottom-section">
           <div className="stock-reminder low-stock-reminder">
             <h3>Stock Reminder</h3>
-            <ul className="low-stock-list">
-              <li className="low-stock-list-item in-stock">
+            <div className="low-stock-list">
+              <div className="low-stock-list-item in-stock">
                 <FontAwesomeIcon icon={faCheckCircle} /> In Stock: {totalStock}
-              </li>
-              <li className="low-stock-list-item total-items">
+              </div>
+              <div className="low-stock-list-item total-items">
                 <FontAwesomeIcon icon={faArchive} /> Total Items: {totalItems}
-              </li>
-              <li className="low-stock-list-item low-stock">
+              </div>
+              <div className="low-stock-list-item low-stock">
                 <FontAwesomeIcon icon={faExclamationTriangle} /> Low Stock:{" "}
                 {lowStockProducts.length > 0 ? (
                   lowStockProducts.map((product, index) => (
@@ -262,8 +284,8 @@ const DashboardPage = () => {
                 ) : (
                   <span className="no-low-stock">No low stock products</span>
                 )}
-              </li>
-            </ul>
+              </div>
+            </div>
           </div>
           <div className="total-income">
             <h3>Total Income</h3>
