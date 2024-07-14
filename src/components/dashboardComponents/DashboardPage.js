@@ -109,11 +109,13 @@ const DashboardPage = () => {
     fetchTransactionData();
   }, []);
 
-  const formattedData = monthlyIncome.map((entry) => ({
-    name: entry.month,
-    grossIncome: entry.grossIncome,
-    netIncome: entry.netIncome,
-  }));
+  const currentMonthIncome = monthlyIncome.find((entry) => {
+    const currentDate = new Date();
+    const currentMonthYear = `${currentDate.getFullYear()}-${
+      currentDate.getMonth() + 1
+    }`;
+    return entry.month === currentMonthYear;
+  });
 
   const openLogoutModal = () => {
     setIsLogoutModalOpen(true);
@@ -200,7 +202,7 @@ const DashboardPage = () => {
           <div className="section-container">
             <h3>Sales</h3>
             <div className="sales-chart">
-              <SalesChart data={formattedData} />
+              <SalesChart data={monthlyIncome} />
             </div>
           </div>
         </section>
@@ -289,21 +291,29 @@ const DashboardPage = () => {
           </div>
           <div className="monthly-income">
             <h3>Monthly Income</h3>
-            <div className="monthly-income-details">
-              {formattedData.map((entry) => (
-                <div key={entry.name} className="monthly-income-item">
+            {currentMonthIncome ? (
+              <div className="monthly-income-details">
+                <div className="monthly-income-item">
                   <div className="monthly-income-details-item">
-                    <p>Month: {entry.name}</p>
+                    <p>Month: {currentMonthIncome.month}</p>
                   </div>
                   <div className="monthly-income-details-item">
-                    <p>Net Income: ₱{entry.netIncome.toLocaleString()}</p>
+                    <p>
+                      Net Income: ₱
+                      {currentMonthIncome.netIncome.toLocaleString()}
+                    </p>
                   </div>
                   <div className="monthly-income-details-item">
-                    <p>Gross Income: ₱{entry.grossIncome.toLocaleString()}</p>
+                    <p>
+                      Gross Income: ₱
+                      {currentMonthIncome.grossIncome.toLocaleString()}
+                    </p>
                   </div>
                 </div>
-              ))}
-            </div>
+              </div>
+            ) : (
+              <p>No income data available for the current month</p>
+            )}
           </div>
         </section>
       </main>
