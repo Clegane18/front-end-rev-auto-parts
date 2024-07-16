@@ -32,6 +32,7 @@ import {
   faSignOutAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import LogOutConfirmationModal from "./LogOutConfirmationModal";
+import { formatCurrency } from "../../utils/formatCurrency";
 
 const DashboardPage = () => {
   const [monthlyIncome, setMonthlyIncome] = useState([]);
@@ -224,9 +225,9 @@ const DashboardPage = () => {
                   bestSellers.map((item, index) => (
                     <tr key={index}>
                       <td>{item.productName}</td>
-                      <td>₱{item.price}</td>
+                      <td>{formatCurrency(item.price)}</td>
                       <td>{item.totalSold}</td>
-                      <td>₱{item.totalProfit}</td>
+                      <td>{formatCurrency(item.totalProfit)}</td>
                       <td>{item.salesLocation}</td>
                     </tr>
                   ))

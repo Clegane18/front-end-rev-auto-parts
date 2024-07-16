@@ -120,10 +120,11 @@ table {
 table th,
 table td {
   padding: 10px;
-  text-align: left;
+  text-align: center; 
   border: 1px solid #ddd;
   background-color: #fff;
 }
+
 
 table th {
   background-color: #f7f7f7;

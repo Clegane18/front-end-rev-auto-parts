@@ -20,6 +20,7 @@ import {
   FaPlusCircle,
 } from "react-icons/fa";
 import { debounce } from "../../utils/debounce";
+import { formatCurrency } from "../../utils/formatCurrency";
 
 const ProductManagement = () => {
   const [products, setProducts] = useState([]);
@@ -344,24 +345,13 @@ const ProductManagement = () => {
                 <div>{product.itemCode}</div>
                 <div>{product.brand}</div>
                 <div>{product.name}</div>
-                <div>
-                  ₱
-                  {product.price !== undefined && !isNaN(product.price)
-                    ? product.price
-                    : "N/A"}
-                </div>
+                <div>{formatCurrency(product.price)}</div>
                 <div>{product.category}</div>
                 <div>{product.stock}</div>
                 <div>{product.supplierName}</div>
                 <div>{new Date(product.dateAdded).toLocaleDateString()}</div>
                 <div>{product.description}</div>
-                <div>
-                  ₱
-                  {product.supplierCost !== undefined &&
-                  !isNaN(product.supplierCost)
-                    ? product.supplierCost
-                    : "N/A"}
-                </div>
+                <div>{formatCurrency(product.supplierCost)}</div>
                 <div>
                   <button
                     onClick={() => {
