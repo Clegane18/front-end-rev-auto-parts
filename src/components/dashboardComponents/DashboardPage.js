@@ -23,9 +23,7 @@ import {
   faUsers,
   faClipboardList,
   faBox,
-  faFileInvoice,
   faChartLine,
-  faCog,
   faCheckCircle,
   faArchive,
   faExclamationTriangle,
@@ -175,18 +173,8 @@ const DashboardPage = () => {
               </Link>
             </li>
             <li>
-              <Link to="/billing">
-                <FontAwesomeIcon icon={faFileInvoice} /> Billing
-              </Link>
-            </li>
-            <li>
               <Link to="/reports">
                 <FontAwesomeIcon icon={faChartLine} /> Reports
-              </Link>
-            </li>
-            <li>
-              <Link to="/settings">
-                <FontAwesomeIcon icon={faCog} /> Settings
               </Link>
             </li>
             <li>

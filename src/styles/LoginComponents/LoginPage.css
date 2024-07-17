@@ -1,8 +1,13 @@
 .login-page-wrapper {
   height: 100vh;
+  width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-image: url('../../components/LoginComponents/assets/g&f-background.png');
+  background-size: 100% 100%; 
+  background-position: center;
+  background-repeat: no-repeat;
   background-color: #f4f4f9;
 }
 
@@ -11,9 +16,10 @@
   max-width: 400px;
   width: 100%;
   padding: 20px;
-  background-color: #fff;
+  background-color: rgba(0, 0, 0, 0.727); 
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  color: white; 
 }
 
 .login-form {
@@ -26,11 +32,17 @@
   position: relative;
 }
 
+h2 {
+  color: whitesmoke;
+}
+
 .login-input {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
+  padding: 10px 10px 10px 40px; 
+  border: 1px solid #ccc; 
   border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.162);
+  color: white; 
   box-sizing: border-box;
   transition: border-color 0.3s ease-in-out;
 }
@@ -42,6 +54,15 @@
 .input-error::placeholder {
   color: red;
 }
+
+.input-icon {
+  position: absolute;
+  left: 12px; 
+  padding-top: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #aaa;
+} 
 
 .login-button {
   background-color: #007bff;

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { adminLogIn } from "../../services/admin-api";
 import "../../styles/LoginComponents/LoginPage.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser, faLock } from "@fortawesome/free-solid-svg-icons";
 
 const LoginPage = ({ setAuthToken }) => {
   const [email, setEmail] = useState("");
@@ -38,6 +40,7 @@ const LoginPage = ({ setAuthToken }) => {
         <h2>Admin Login</h2>
         <form onSubmit={handleLogin} className="login-form">
           <div className={`form-group ${emailError ? "has-error" : ""}`}>
+            <FontAwesomeIcon icon={faUser} className="input-icon" />
             <input
               type="text"
               value={email}
@@ -48,6 +51,7 @@ const LoginPage = ({ setAuthToken }) => {
             />
           </div>
           <div className={`form-group ${passwordError ? "has-error" : ""}`}>
+            <FontAwesomeIcon icon={faLock} className="input-icon" />
             <input
               type="password"
               value={password}
