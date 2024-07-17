@@ -44,3 +44,16 @@ export const getTotalCountOfTransactionsFromOnline = async () => {
     throw error;
   }
 };
+
+export const getTodaysTransactions = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}/transactions/today`);
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Error fetching today's transactions:",
+      error.response || error.message
+    );
+    throw error;
+  }
+};

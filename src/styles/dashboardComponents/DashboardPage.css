@@ -100,10 +100,7 @@ h2 {
   color: #000000;
 }
 
-.sales-section .section-container,
-.transactions-section .section-container,
-.bestsellers-section .section-container,
-.stock-reminder-section .section-container {
+.section-container {
   padding: 20px;
   background-color: #fff;
   border-radius: 8px;
@@ -124,7 +121,6 @@ table td {
   border: 1px solid #ddd;
   background-color: #fff;
 }
-
 
 table th {
   background-color: #f7f7f7;
@@ -191,7 +187,7 @@ table th {
 }
 
 .transaction-overview,
-.low-stock-reminder {
+.low-stock-reminder{
   padding: 20px;
   border-radius: 8px;
   margin-right: 10px;
@@ -289,6 +285,7 @@ table th {
   text-align: center;
   margin: 10px 0;
 }
+
 .monthly-income-item p,
 .transaction-details-total p, 
 .transaction-details-pos p,

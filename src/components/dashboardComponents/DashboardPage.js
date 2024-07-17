@@ -12,6 +12,7 @@ import {
   getTotalNumberTransactions,
   getTotalCountOfTransactionsFromPOS,
   getTotalCountOfTransactionsFromOnline,
+  getTodaysTransactions,
 } from "../../services/transaction-api";
 import "../../styles/dashboardComponents/DashboardPage.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -42,6 +43,7 @@ const DashboardPage = () => {
   const [posTransactions, setPosTransactions] = useState(0);
   const [onlineTransactions, setOnlineTransactions] = useState(0);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+  const [todaysTransactions, setTodaysTransactions] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -97,6 +99,9 @@ const DashboardPage = () => {
         setOnlineTransactions(
           onlineTransactionsData.TotalCountOfTransactions || 0
         );
+
+        const todaysTransactionsData = await getTodaysTransactions();
+        setTodaysTransactions(todaysTransactionsData.TodaysTransactions);
       } catch (error) {
         console.error("Error fetching transaction data:", error);
       }
@@ -133,7 +138,7 @@ const DashboardPage = () => {
     <div className="dashboard-container">
       <aside className="sidebar">
         <div className="sidebar-header">
-          <h2>GNF Auto Supply</h2>
+          <h2>G&F Auto Supply</h2>
         </div>
         <nav className="sidebar-nav">
           <ul>
@@ -195,6 +200,45 @@ const DashboardPage = () => {
             </div>
           </div>
         </section>
+        <section className="todays-transactions-section">
+          <div className="section-container">
+            <h3>Today's Transactions</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>Transaction No</th>
+                  <th>Type</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                  <th>Total Amount</th>
+                  <th>Total Items</th>
+                  <th>Sales Location</th>
+                </tr>
+              </thead>
+              <tbody>
+                {todaysTransactions.length > 0 ? (
+                  todaysTransactions.map((transaction, index) => (
+                    <tr key={index}>
+                      <td>{transaction.transactionNo}</td>
+                      <td>{transaction.transactionType}</td>
+                      <td>{transaction.transactionStatus}</td>
+                      <td>
+                        {new Date(transaction.transactionDate).toLocaleString()}
+                      </td>
+                      <td>{formatCurrency(transaction.totalAmount)}</td>
+                      <td>{transaction.totalItemsBought}</td>
+                      <td>{transaction.salesLocation}</td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="7">No transactions today</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </section>
         <section className="bestsellers-section">
           <div className="section-container">
             <h3>Bestsellers</h3>
@@ -254,7 +298,7 @@ const DashboardPage = () => {
             </div>
           </div>
           <div className="transaction-overview">
-            <h3>Transactions Overview</h3>
+            <h3>Today's transactions Overview</h3>
             <div className="transactions-details">
               <div className="transactions-item">
                 <div className="transaction-details-total">
