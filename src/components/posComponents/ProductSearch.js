@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { searchProducts } from "../../services/pos-api";
 import "../../styles/posComponents/ProductSearch.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 const ProductSearch = ({ onSearch }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -21,6 +23,12 @@ const ProductSearch = ({ onSearch }) => {
     }
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+
   return (
     <div className="product-search">
       <input
@@ -28,8 +36,11 @@ const ProductSearch = ({ onSearch }) => {
         placeholder="Search by name or description"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
+        onKeyPress={handleKeyPress}
       />
-      <button onClick={handleSearch}>Search</button>
+      <div className="search-icon" onClick={handleSearch}>
+        <FontAwesomeIcon icon={faSearch} />
+      </div>
     </div>
   );
 };

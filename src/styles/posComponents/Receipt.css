@@ -9,21 +9,21 @@
 
 .back-icon {
   font-size: 24px;
-  color: #6c757d; /* Gray color */
+  color: #6c757d; 
   cursor: pointer;
   position: absolute;
-  top: 10px; /* Adjust this value to position it higher or lower */
-  left: 0px; /* Adjust this value to position it more to the left or right */
+  top: 10px; 
+  left: 0px; 
 }
 
 .back-icon:hover {
-  color: #5a6268; /* Darker gray */
+  color: #5a6268; 
 }
 
 .receipt-container {
   width: 100%;
   max-width: 400px;
-  margin: 40px auto 0 auto; /* Adjust the top margin to provide space for the back button */
+  margin: 40px auto 0 auto; 
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 8px;

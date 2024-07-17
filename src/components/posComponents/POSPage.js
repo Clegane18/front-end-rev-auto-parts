@@ -85,12 +85,18 @@ const POSPage = () => {
   return (
     <div className="pos-page">
       <header className="pos-header">
-        <h1>POS System</h1>
-        <ProductSearch onSearch={handleSearch} />
-        <CartIcon
-          itemCount={checkoutItems.length}
-          onClick={handleCartIconClick}
-        />
+        <div className="shop-info">
+          <h1>G&F Auto Supply</h1>
+        </div>
+        <div className="search-bar">
+          <ProductSearch onSearch={handleSearch} />
+        </div>
+        <div className="cart-icon">
+          <CartIcon
+            itemCount={checkoutItems.length}
+            onClick={handleCartIconClick}
+          />
+        </div>
       </header>
       <main className="pos-main">
         <div className="products-section">

@@ -14,6 +14,7 @@ import OnlineStoreFrontPage from "./components/onlineStoreFrontComponents/Online
 import useAuthentication from "./components/LoginComponents/useAuthentication";
 import Checkout from "./components/posComponents/Checkout";
 import Receipt from "./components/posComponents/Receipt";
+import Reports from "./components/dashboardComponents/Reports";
 
 const App = () => {
   const { authToken, login } = useAuthentication();
@@ -63,6 +64,10 @@ const App = () => {
         <Route
           path="*"
           element={<Navigate to={authToken ? "/dashboard" : "/login"} />}
+        />
+        <Route
+          path="/reports"
+          element={authToken ? <Reports /> : <Navigate to="/login" />}
         />
       </Routes>
     </Router>
