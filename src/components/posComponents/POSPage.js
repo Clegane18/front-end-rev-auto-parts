@@ -2,22 +2,24 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ProductSearch from "./ProductSearch";
 import ProductList from "./ProductList";
+import CategoryProductList from "./CategoryProductList"; // New component
 import ProductDetails from "./ProductDetails";
 import CartIcon from "./CartIcon";
 import Cart from "./Cart";
 import CategoriesSidebar from "./CategoriesSidebar";
-import {
-  searchProducts,
-  buyProductsOnPhysicalStore,
-} from "../../services/pos-api";
+import { getProductByCategory } from "../../services/inventory-api";
+import { buyProductsOnPhysicalStore } from "../../services/pos-api";
 import "../../styles/posComponents/POSPage.css";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 
 const POSPage = () => {
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [checkoutItems, setCheckoutItems] = useState([]);
   const [showCart, setShowCart] = useState(false);
+  const [showSidebar, setShowSidebar] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isCategoryView, setIsCategoryView] = useState(false);
   const navigate = useNavigate();
 
   const handleSelectProduct = (product) => {
@@ -85,6 +87,7 @@ const POSPage = () => {
   };
 
   const handleSearch = (products) => {
+    setIsCategoryView(false);
     setProducts(products);
   };
 
@@ -95,8 +98,9 @@ const POSPage = () => {
   const handleCategorySelect = async (category) => {
     try {
       const query = { category };
-      const products = await searchProducts(query);
-      setProducts(products);
+      const response = await getProductByCategory(query);
+      setProducts(response.data.Product);
+      setIsCategoryView(true);
     } catch (error) {
       console.error("Failed to fetch products by category", error);
     }
@@ -107,6 +111,10 @@ const POSPage = () => {
       setProducts([]);
     }
   }, [searchTerm]);
+
+  const toggleSidebar = () => {
+    setShowSidebar(!showSidebar);
+  };
 
   return (
     <div className="pos-page">
@@ -128,16 +136,34 @@ const POSPage = () => {
         </div>
       </header>
       <div className="pos-content">
-        <aside className="categories-sidebar-wrapper">
+        <button className="toggle-sidebar-btn" onClick={toggleSidebar}>
+          {showSidebar ? (
+            <ChevronLeftIcon className="h-6 w-6" />
+          ) : (
+            <ChevronRightIcon className="h-6 w-6" />
+          )}
+        </button>
+        <aside
+          className={`categories-sidebar-wrapper ${
+            showSidebar ? "visible" : "hidden"
+          }`}
+        >
           <CategoriesSidebar onCategorySelect={handleCategorySelect} />
         </aside>
         <main className="pos-main">
           <div className="products-section">
-            {products.length > 0 && (
-              <ProductList
+            {isCategoryView ? (
+              <CategoryProductList
                 products={products}
                 onSelectProduct={handleSelectProduct}
               />
+            ) : (
+              products.length > 0 && (
+                <ProductList
+                  products={products}
+                  onSelectProduct={handleSelectProduct}
+                />
+              )
             )}
             {selectedProduct && (
               <ProductDetails

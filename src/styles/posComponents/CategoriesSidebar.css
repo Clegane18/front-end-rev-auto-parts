@@ -2,12 +2,12 @@
     background-color: #f8f9fa;
     padding: 20px;
     border-right: 1px solid #dee2e6;
-    height: calc(100vh - 70px); /* Adjust based on the header height */
+    height: calc(100vh - 70px); 
     overflow-y: auto;
-    overflow-x: hidden; /* Prevent horizontal scrolling */
+    overflow-x: hidden;
     width: 250px;
     position: relative;
-    transition: width 0.3s ease, padding 0.3s ease; /* Smooth transition */
+    transition: width 0.3s ease, padding 0.3s ease; 
   }
   
   .categories-sidebar h3 {

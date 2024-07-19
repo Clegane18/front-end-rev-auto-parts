@@ -101,6 +101,19 @@ export const getProductByPriceRange = (minPrice, maxPrice) =>
   );
 export const getProductByNameOrDescription = (query) =>
   api.get(`/products/filter/nameOrDescription?query=${query}`);
+
+export const getProductByCategory = async (query) => {
+  try {
+    const response = await api.get(`/products/filter/category`, {
+      params: query,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching products by category:", error);
+    throw error;
+  }
+};
+
 export const getProductsByDateRange = (startDate, endDate) =>
   api.get(
     `/products/filter/dateRange?startDate=${startDate}&endDate=${endDate}`

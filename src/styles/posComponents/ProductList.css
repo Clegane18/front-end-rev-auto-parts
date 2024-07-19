@@ -1,7 +1,7 @@
 .product-list {
   position: absolute;
-  top: 60px; 
-  right: 380px; 
+  top: 40px; 
+  right: 350px; 
   width: 600px; 
   display: flex;
   flex-direction: column;
