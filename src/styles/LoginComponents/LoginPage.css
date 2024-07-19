@@ -65,14 +65,15 @@ h2 {
 } 
 
 .login-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  border-radius: 5px;
+  background-color: #007bff !important;
+  color: white !important;
+  border: none !important;
+  padding: 10px 20px !important;
+  cursor: pointer !important;
+  border-radius: 5px !important;
+  transition: background-color 0.3s !important;
 }
 
 .login-button:hover {
-  background-color: #0056b3;
+  background-color: #0056b3 !important;
 }

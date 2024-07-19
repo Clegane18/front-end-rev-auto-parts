@@ -25,7 +25,6 @@ const LoginPage = ({ setAuthToken }) => {
         data?.message?.includes("password") ? "Incorrect password" : ""
       );
 
-      // Clear the incorrect input field
       if (data?.message?.includes("email")) {
         setEmail("");
       } else if (data?.message?.includes("password")) {

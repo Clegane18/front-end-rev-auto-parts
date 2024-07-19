@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   getAllPendingStocks,
   addPendingStock,
@@ -7,6 +8,13 @@ import {
   updateArrivalDate,
 } from "../../services/inventory-api";
 import "../../styles/inventoryComponents/PendingStockManagement.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faSave,
+  faEdit,
+  faCheck,
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons";
 
 const PendingStockManagement = () => {
   const [pendingStocks, setPendingStocks] = useState([]);
@@ -17,6 +25,8 @@ const PendingStockManagement = () => {
   });
   const [editingStockId, setEditingStockId] = useState(null);
   const [newDate, setNewDate] = useState("");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchPendingStocks();
@@ -51,22 +61,19 @@ const PendingStockManagement = () => {
   };
 
   const handleCancelStock = async (id) => {
-    const confirmCancel = window.confirm(
-      "Are you sure you want to cancel this stock?"
-    );
-    if (!confirmCancel) return;
-    try {
-      await cancelPendingStock(id);
-      fetchPendingStocks();
-    } catch (error) {
-      console.error("Failed to cancel stock", error);
+    if (window.confirm("Are you sure you want to cancel this stock?")) {
+      try {
+        await cancelPendingStock(id);
+        fetchPendingStocks();
+      } catch (error) {
+        console.error("Failed to cancel stock", error);
+      }
     }
   };
 
   const handleUpdateArrivalDate = async (pendingStockId) => {
     try {
-      const response = await updateArrivalDate(pendingStockId, newDate);
-      console.log("Response:", response.data);
+      await updateArrivalDate(pendingStockId, newDate);
       fetchPendingStocks();
       setEditingStockId(null);
       setNewDate("");
@@ -78,8 +85,15 @@ const PendingStockManagement = () => {
     }
   };
 
+  const handleBack = () => {
+    navigate("/dashboard");
+  };
+
   return (
     <div className="pending-stock-container">
+      <div className="store-name" onClick={handleBack}>
+        G&F Auto Supply
+      </div>
       <h2>Pending Stock Management</h2>
 
       <div className="pending-stock-form">
@@ -108,7 +122,6 @@ const PendingStockManagement = () => {
         />
         <input
           type="date"
-          placeholder="Arrival Date"
           value={newPendingStock.arrivalDate}
           onChange={(e) =>
             setNewPendingStock({
@@ -117,7 +130,9 @@ const PendingStockManagement = () => {
             })
           }
         />
-        <button onClick={handleAddPendingStock}>Add Pending Stock</button>
+        <button onClick={handleAddPendingStock}>
+          <FontAwesomeIcon icon={faSave} /> Add Pending Stock
+        </button>
       </div>
 
       <div className="pending-stock-list">
@@ -147,7 +162,7 @@ const PendingStockManagement = () => {
             <div className="actions">
               {editingStockId === stock.id ? (
                 <button onClick={() => handleUpdateArrivalDate(stock.id)}>
-                  Save
+                  <FontAwesomeIcon icon={faSave} /> Save
                 </button>
               ) : (
                 <button
@@ -158,17 +173,17 @@ const PendingStockManagement = () => {
                     );
                   }}
                 >
-                  Edit
+                  <FontAwesomeIcon icon={faEdit} />
                 </button>
               )}
               <button onClick={() => handleConfirmStock(stock.id)}>
-                Confirm
+                <FontAwesomeIcon icon={faCheck} />
               </button>
               <button
                 className="cancel"
                 onClick={() => handleCancelStock(stock.id)}
               >
-                Cancel
+                <FontAwesomeIcon icon={faTimes} />
               </button>
             </div>
           </div>
