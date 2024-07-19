@@ -1,20 +1,18 @@
 .pos-page {
   font-family: Arial, sans-serif;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
 .pos-header {
+  background-color: #343a40;
+  color: #ffffff;
+  padding: 10px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #2f3b4c;
-  color: #fff; 
-  padding: 10px 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  position: relative; 
 }
 
 .shop-info {
@@ -25,7 +23,6 @@
 .shop-info h1 {
   font-size: 24px;
   margin: 0;
-  padding-bottom: 10px;
   padding-left: 10px;
 }
 
@@ -33,29 +30,45 @@
   cursor: pointer;
 }
 
+.pos-content {
+  display: flex;
+  flex: 1;
+  overflow-x: hidden;
+}
+
 .pos-main {
   display: flex;
-  margin-top: 20px;
+  flex: 1;
+  background-color: #ffffff;
+  padding: 20px;
+  overflow-x: hidden; 
+}
+
+.products-section,
+.cart-section {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
 }
 
 .products-section {
-  flex: 1;
-  background-color: #fff;
-  padding: 20px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-  margin-right: 20px;
+  border-right: 1px solid #dee2e6;
 }
 
 .cart-section {
-  flex: 0 0 300px; 
-  background-color: #fff;
-  padding: 20px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  padding-left: 20px;
 }
 
 @media (max-width: 768px) {
   .pos-main {
     flex-direction: column;
+  }
+
+  .categories-sidebar {
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid #dee2e6;
   }
 
   .cart-section {

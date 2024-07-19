@@ -77,6 +77,19 @@ export const getTotalItems = async () => {
   }
 };
 
+export const getAllCategories = async () => {
+  try {
+    const response = await api.get("/products/categories");
+    return response.data.Categories;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error("Failed to fetch total item. Please try again later.");
+    }
+  }
+};
+
 // Filter APIs
 export const getProductByItemCode = (productItemCode) =>
   api.get(`/products/filter/itemCode`, { params: { productItemCode } });

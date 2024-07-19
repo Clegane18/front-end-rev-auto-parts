@@ -4,12 +4,12 @@ import "../../styles/posComponents/ProductSearch.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
-const ProductSearch = ({ onSearch }) => {
+const ProductSearch = ({ onSearch, onSearchTermChange }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleSearch = async () => {
     if (!searchTerm) {
-      alert("Please enter a search term.");
+      onSearch([]);
       return;
     }
 
@@ -29,13 +29,18 @@ const ProductSearch = ({ onSearch }) => {
     }
   };
 
+  const handleChange = (e) => {
+    setSearchTerm(e.target.value);
+    onSearchTermChange(e.target.value);
+  };
+
   return (
     <div className="product-search">
       <input
         type="text"
         placeholder="Search by name or description"
         value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
+        onChange={handleChange}
         onKeyPress={handleKeyPress}
       />
       <div className="search-icon" onClick={handleSearch}>
