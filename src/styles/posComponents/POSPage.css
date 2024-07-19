@@ -100,12 +100,12 @@
   cursor: pointer;
   font-size: 24px;
   padding: 10px;
-  color: #343a40; /* Default color */
-  transition: color 0.3s ease; /* Smooth color transition */
+  color: #343a40;
+  transition: color 0.3s ease; 
 }
 
 .toggle-sidebar-btn:hover {
-  color: #007bff; /* Color on hover */
+  color: #007bff; 
 }
 .h-6 {
   height: 24px;
@@ -113,4 +113,11 @@
 
 .w-6 {
   width: 24px;
+}
+
+.shop-info {
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #ffffff;
 }

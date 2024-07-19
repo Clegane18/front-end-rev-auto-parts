@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ProductSearch from "./ProductSearch";
 import ProductList from "./ProductList";
-import CategoryProductList from "./CategoryProductList"; // New component
+import CategoryProductList from "./CategoryProductList";
 import ProductDetails from "./ProductDetails";
 import CartIcon from "./CartIcon";
 import Cart from "./Cart";
@@ -116,11 +116,15 @@ const POSPage = () => {
     setShowSidebar(!showSidebar);
   };
 
+  const handleBack = () => {
+    navigate("/dashboard");
+  };
+
   return (
     <div className="pos-page">
       <header className="pos-header">
-        <div className="shop-info">
-          <h1>G&F Auto Supply POS</h1>
+        <div className="shop-info" onClick={handleBack}>
+          <h1>G&F Auto Supply</h1>
         </div>
         <div className="search-bar">
           <ProductSearch
