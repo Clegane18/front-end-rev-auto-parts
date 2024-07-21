@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ProductSearch from "./ProductSearch";
 import ProductList from "./ProductList";
 import ProductDetails from "./ProductDetails";
 import CartIcon from "./CartIcon";
+import ItemsByCategory from "./ItemsByCategory";
 import "../../styles/posComponents/POSPage.css";
 
 const POSPage = () => {
@@ -11,7 +12,6 @@ const POSPage = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [checkoutItems, setCheckoutItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [isCategoryView, setIsCategoryView] = useState(false);
   const navigate = useNavigate();
 
   const handleSelectProduct = (product) => {
@@ -40,7 +40,6 @@ const POSPage = () => {
   };
 
   const handleSearch = (products) => {
-    setIsCategoryView(false);
     setProducts(products);
   };
 
@@ -48,18 +47,11 @@ const POSPage = () => {
     setSearchTerm(term);
   };
 
-  useEffect(() => {
-    if (!searchTerm) {
-      setProducts([]);
-    }
-  }, [searchTerm]);
-
   const handleBack = () => {
     navigate("/dashboard");
   };
 
   const handleCartIconClick = () => {
-    console.log("Navigating to cart with items:", checkoutItems); // Debug statement
     navigate("/cart", { state: { checkoutItems } });
   };
 
@@ -85,15 +77,12 @@ const POSPage = () => {
       <div className="pos-content">
         <main className="pos-main">
           <div className="products-section">
-            {isCategoryView ? (
-              <p>Category view is not implemented.</p>
-            ) : (
-              products.length > 0 && (
-                <ProductList
-                  products={products}
-                  onSelectProduct={handleSelectProduct}
-                />
-              )
+            <ItemsByCategory onSelectProduct={handleSelectProduct} />
+            {searchTerm && products.length > 0 && (
+              <ProductList
+                products={products}
+                onSelectProduct={handleSelectProduct}
+              />
             )}
             {selectedProduct && (
               <ProductDetails

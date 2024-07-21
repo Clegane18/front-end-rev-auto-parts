@@ -7,7 +7,6 @@ const CartPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { checkoutItems } = location.state || { checkoutItems: [] };
-  console.log("CartPage received items:", checkoutItems); // Debug statement
 
   const handlePay = async (items, paymentAmount) => {
     const payload = {
