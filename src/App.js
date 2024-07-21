@@ -17,6 +17,7 @@ import Receipt from "./components/posComponents/Receipt";
 import Reports from "./components/dashboardComponents/Reports";
 import CartPage from "./components/posComponents/CartPage";
 
+
 const App = () => {
   const { authToken, login } = useAuthentication();
 

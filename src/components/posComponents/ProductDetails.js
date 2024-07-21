@@ -34,23 +34,30 @@ const ProductDetails = ({ product, onAddToCart, onClose }) => {
   return (
     <div className="product-modal-overlay" onClick={onClose}>
       <div className="product-modal" onClick={(e) => e.stopPropagation()}>
-        <button className="close-btn" onClick={onClose}>
+        <button className="close-btn" onClick={onClose} aria-label="Close">
           &times;
         </button>
-        <h2>{product.name}</h2>
-        <p>{product.description}</p>
-        <p>Price: ₱{product.price}</p>
-        <p>Item Code: {product.itemCode}</p>
-        <button onClick={handleBuyNowClick} className="buy-now-button">
-          Buy Now
-        </button>
-        <button onClick={handleAddToCartClick} className="add-to-cart-button">
-          Add to Cart
-        </button>
+        <div className="product-details-header">
+          <h2>{product.name}</h2>
+          <p className="product-price">₱{product.price}</p>
+          <p className="product-item-code">Item Code: {product.itemCode}</p>
+        </div>
+        <div className="product-description">
+          <p>• {product.description.split("\n").join("</p><p>• ")}</p>{" "}
+          {/* Format description with bullets */}
+        </div>
+        <div className="product-actions">
+          <button onClick={handleBuyNowClick} className="buy-now-button">
+            Buy Now
+          </button>
+          <button onClick={handleAddToCartClick} className="add-to-cart-button">
+            Add to Cart
+          </button>
+        </div>
         {showBuyNow && (
           <div className="buy-now-section">
             <p>Current Stock: {product.stock}</p>
-            <label>
+            <label className="quantity-label">
               Quantity:
               <input
                 type="number"
@@ -58,6 +65,7 @@ const ProductDetails = ({ product, onAddToCart, onClose }) => {
                 onChange={(e) => setQuantity(Number(e.target.value))}
                 min="1"
                 max={product.stock}
+                className="quantity-input"
               />
             </label>
             <button
