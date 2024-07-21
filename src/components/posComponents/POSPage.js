@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ProductDetails from "./ProductDetails";
 import ProductSearch from "./ProductSearch";
 import ProductList from "./ProductList";
-import ProductDetails from "./ProductDetails";
 import CartIcon from "./CartIcon";
 import ItemsByCategory from "./ItemsByCategory";
 import "../../styles/posComponents/POSPage.css";
@@ -55,6 +55,10 @@ const POSPage = () => {
     navigate("/cart", { state: { checkoutItems } });
   };
 
+  const handleCloseModal = () => {
+    setSelectedProduct(null);
+  };
+
   return (
     <div className="pos-page">
       <header className="pos-header">
@@ -84,14 +88,15 @@ const POSPage = () => {
                 onSelectProduct={handleSelectProduct}
               />
             )}
-            {selectedProduct && (
-              <ProductDetails
-                product={selectedProduct}
-                onAddToCart={handleAddToCart}
-              />
-            )}
           </div>
         </main>
+        {selectedProduct && (
+          <ProductDetails
+            product={selectedProduct}
+            onAddToCart={handleAddToCart}
+            onClose={handleCloseModal}
+          />
+        )}
       </div>
     </div>
   );
