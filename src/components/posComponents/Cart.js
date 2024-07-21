@@ -11,11 +11,20 @@ const Cart = ({ cartItems, onRemove, onUpdateQuantity }) => {
     navigate("/checkout", { state: { items: cartItems } });
   };
 
+  const handleGoToPOS = () => {
+    navigate("/pos");
+  };
+
   return (
     <div className="cart-container">
       <h2>Your Cart</h2>
       {cartItems.length === 0 ? (
-        <p className="empty-cart">Cart is empty.</p>
+        <div className="empty-cart">
+          <p>Cart is empty.</p>
+          <button className="back-to-pos-button" onClick={handleGoToPOS}>
+            Buy Something
+          </button>
+        </div>
       ) : (
         <div className="cart-items">
           {cartItems.map((item, index) => (

@@ -77,15 +77,17 @@ export const getTotalItems = async () => {
   }
 };
 
-export const getAllCategories = async () => {
+export const getAllItemsByCategory = async () => {
   try {
-    const response = await api.get("/products/categories");
-    return response.data.Categories;
+    const response = await api.get("products/itemsByCategory");
+    return response.data;
   } catch (error) {
     if (error.response && error.response.data) {
       throw new Error(error.response.data.message);
     } else {
-      throw new Error("Failed to fetch total item. Please try again later.");
+      throw new Error(
+        "Failed to fetch all items by category. Please try again later."
+      );
     }
   }
 };
@@ -101,18 +103,6 @@ export const getProductByPriceRange = (minPrice, maxPrice) =>
   );
 export const getProductByNameOrDescription = (query) =>
   api.get(`/products/filter/nameOrDescription?query=${query}`);
-
-export const getProductByCategory = async (query) => {
-  try {
-    const response = await api.get(`/products/filter/category`, {
-      params: query,
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching products by category:", error);
-    throw error;
-  }
-};
 
 export const getProductsByDateRange = (startDate, endDate) =>
   api.get(

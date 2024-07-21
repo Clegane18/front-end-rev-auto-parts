@@ -36,15 +36,6 @@
   overflow-x: hidden;
 }
 
-.toggle-sidebar-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 24px;
-  padding: 10px;
-  color: #343a40;
-}
-
 .pos-main {
   display: flex;
   flex: 1;
@@ -73,46 +64,10 @@
     flex-direction: column;
   }
 
-  .categories-sidebar {
-    width: 100%;
-    height: auto;
-    border-right: none;
-    border-bottom: 1px solid #dee2e6;
-  }
-
   .cart-section {
     width: 100%;
     margin-top: 20px;
   }
-}
-
-.categories-sidebar-wrapper.hidden {
-  display: none;
-}
-
-.categories-sidebar-wrapper.visible {
-  display: block;
-}
-
-.toggle-sidebar-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 24px;
-  padding: 10px;
-  color: #343a40;
-  transition: color 0.3s ease; 
-}
-
-.toggle-sidebar-btn:hover {
-  color: #007bff; 
-}
-.h-6 {
-  height: 24px;
-}
-
-.w-6 {
-  width: 24px;
 }
 
 .shop-info {
