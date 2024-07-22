@@ -1,17 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import ProductDetails from "./ProductDetails";
 import ProductSearch from "./ProductSearch";
 import ProductList from "./ProductList";
 import CartIcon from "./CartIcon";
 import ItemsByCategory from "./ItemsByCategory";
+import { CartContext } from "./CartContext";
 import "../../styles/posComponents/POSPage.css";
 
 const POSPage = () => {
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [checkoutItems, setCheckoutItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const { addToCart, cartItems } = useContext(CartContext);
   const navigate = useNavigate();
 
   const handleSelectProduct = (product) => {
@@ -19,23 +20,7 @@ const POSPage = () => {
   };
 
   const handleAddToCart = (product) => {
-    const existingItem = checkoutItems.find((item) => item.id === product.id);
-    if (existingItem) {
-      setCheckoutItems(
-        checkoutItems.map((item) =>
-          item.id === product.id
-            ? {
-                ...item,
-                quantity: item.quantity + product.quantity,
-                subtotalAmount:
-                  (item.quantity + product.quantity) * item.unitPrice,
-              }
-            : item
-        )
-      );
-    } else {
-      setCheckoutItems([...checkoutItems, product]);
-    }
+    addToCart(product);
     setSelectedProduct(null);
   };
 
@@ -52,7 +37,7 @@ const POSPage = () => {
   };
 
   const handleCartIconClick = () => {
-    navigate("/cart", { state: { checkoutItems } });
+    navigate("/cart");
   };
 
   const handleCloseModal = () => {
@@ -73,7 +58,7 @@ const POSPage = () => {
         </div>
         <div className="cart-icon">
           <CartIcon
-            itemCount={checkoutItems.length}
+            itemCount={cartItems.length}
             onClick={handleCartIconClick}
           />
         </div>

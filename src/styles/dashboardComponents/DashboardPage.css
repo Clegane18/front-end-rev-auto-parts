@@ -27,6 +27,7 @@ body {
   color: #fff;
   display: flex;
   flex-direction: column;
+  overflow: hidden; 
 }
 
 .sidebar-header {
@@ -49,6 +50,7 @@ body {
 
 .sidebar-nav ul li {
   padding: 15px 20px;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .sidebar-nav ul li a {
@@ -67,6 +69,7 @@ body {
   flex-direction: column;
   padding: 20px;
   overflow-y: auto;
+  overflow-x: hidden; 
   background-color: #fff;
   box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -112,6 +115,7 @@ h2 {
 table {
   width: 100%;
   border-collapse: collapse;
+  overflow-x: auto; 
 }
 
 table th,
@@ -120,6 +124,7 @@ table td {
   text-align: center; 
   border: 1px solid #ddd;
   background-color: #fff;
+  font-family: 'Montserrat', sans-serif; 
 }
 
 table th {
@@ -139,6 +144,7 @@ table th {
   border-left: 5px solid #343a40;
   border-radius: 3px;
   transition: transform 0.3s ease, background-color 0.3s ease;
+  font-family: 'Montserrat', sans-serif; 
 }
 
 .low-stock-list-item.in-stock {
@@ -187,18 +193,16 @@ table th {
 }
 
 .transaction-overview,
-.low-stock-reminder{
+.low-stock-reminder {
   padding: 20px;
   border-radius: 8px;
-  margin-right: 10px;
-  flex: 1 0 auto;
+  flex: 1;
   background-color: #fff;
   border: 1px solid #ddd;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .transaction-overview {
-  margin-left: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -250,15 +254,13 @@ table th {
 .monthly-income {
   padding: 20px;
   border-radius: 8px;
-  margin-left: 10px;
-  flex: 1 0 auto;
+  flex: 1;
   background-color: #fff;
   border: 1px solid #ddd;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
   position: relative;
 }
 
@@ -289,7 +291,7 @@ table th {
 .monthly-income-item p,
 .transaction-details-total p, 
 .transaction-details-pos p,
-.transaction-details-online p{
+.transaction-details-online p {
   margin: 0;
   padding: 15px;
   background-color: #f0f0f0;
@@ -376,7 +378,4 @@ table th {
 .logout-button:hover {
   color: #ff0707;
 }
-
-
-
 

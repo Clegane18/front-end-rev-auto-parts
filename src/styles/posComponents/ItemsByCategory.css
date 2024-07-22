@@ -1,72 +1,70 @@
 .items-by-category {
-    padding: 20px;
-    background-color: #f9f9f9;
-  }
-  
-  .category-section {
-    margin-bottom: 40px;
-  }
-  
-  .category-title {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 24px;
-    color: #333;
-  }
-  
-  .products {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    justify-items: center;
-  }
-  
-  .product-item {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    width: 100%;
-  }
-  
-  .item-name {
-    margin: 0;
-    font-size: 18px;
-    color: #333;
-  }
-  
-  .item-code {
-    margin-top: 5px;
-    font-size: 14px;
-    color: #777;
-  }
-  
-  .view-all-container {
-    text-align: center;
-    margin-top: 20px;
-  }
-  
-  .view-all {
-    display: inline-block;
-    padding: 10px 15px;
-    font-size: 16px;
-    color: #fff; 
-    background-color: #0056b3;
-    border: none;
-    border-radius: 2px;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-  }
-  
-  .view-all:hover {
-    background-color: #003d7a; 
-  }
-  
-  
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.category-section {
+  margin-bottom: 40px;
+}
+
+.category-title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+.products {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  justify-items: center;
+}
+
+.product-item {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+.item-name {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.item-code {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #777;
+}
+
+.view-all-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.view-all {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 13px;
+  color: #ffffff;
+  background-color: #0c619b;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+}
+
+.view-all:hover {
+  background-color: #003d7a;
+}
