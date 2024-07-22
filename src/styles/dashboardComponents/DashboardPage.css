@@ -27,7 +27,7 @@ body {
   color: #fff;
   display: flex;
   flex-direction: column;
-  overflow: hidden; 
+  overflow: hidden;
 }
 
 .sidebar-header {
@@ -100,7 +100,7 @@ body {
 }
 
 h2 {
-  color: #000000;
+  color: #000;
 }
 
 .section-container {
@@ -193,13 +193,15 @@ table th {
 }
 
 .transaction-overview,
-.low-stock-reminder {
+.low-stock-reminder,
+.monthly-income {
   padding: 20px;
   border-radius: 8px;
   flex: 1;
   background-color: #fff;
   border: 1px solid #ddd;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin: 10px;
 }
 
 .transaction-overview {
@@ -212,7 +214,7 @@ table th {
 
 .transaction-overview h3 {
   font-size: 1.6em;
-  color: #000000;
+  color: #000;
   margin-bottom: 20px;
   font-weight: bold;
   text-transform: uppercase;
@@ -251,22 +253,9 @@ table th {
   background-color: #e9ecef;
 }
 
-.monthly-income {
-  padding: 20px;
-  border-radius: 8px;
-  flex: 1;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-}
-
 .monthly-income h3 {
   font-size: 1.6em;
-  color: #000000;
+  color: #000;
   margin-bottom: 20px;
   font-weight: bold;
   text-transform: uppercase;
@@ -351,7 +340,8 @@ table th {
   }
 
   .transaction-overview,
-  .low-stock-reminder {
+  .low-stock-reminder,
+  .monthly-income {
     margin-right: 0;
     margin-bottom: 10px;
     margin-left: 0;
@@ -378,4 +368,3 @@ table th {
 .logout-button:hover {
   color: #ff0707;
 }
-
