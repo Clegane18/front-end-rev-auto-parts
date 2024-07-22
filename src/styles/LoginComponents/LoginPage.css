@@ -45,6 +45,7 @@ h2 {
   color: white; 
   box-sizing: border-box;
   transition: border-color 0.3s ease-in-out;
+  text-transform: none
 }
 
 .form-group.has-error .login-input {
