@@ -38,8 +38,8 @@
 
 .pending-stock-form button {
   padding: 8px 15px;
-  background-color: #28a745;
-  color: white;
+  background-color: #0c619b;
+  color: #ffffff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -49,8 +49,14 @@
   margin-left: 20px;
 }
 
-.pending-stock-form button:hover {
-  background-color: #218838;
+.pending-stock-form button:hover,
+.pending-stock-item .actions button.cancel:hover,
+.pending-stock-item .actions button.confirm:hover,
+.pending-stock-item .actions button.edit:hover {
+  opacity: 0.75;
+}
+.store-name:hover {
+  color: #727272;
 }
 
 .pending-stock-list {
@@ -104,7 +110,15 @@
   color: white;
 }
 
+.pending-stock-item .actions button.cancel:hover {
+  background-color: #c0392b;
+}
+
 .pending-stock-item .actions button.save {
   background-color: #3498db;
   color: white;
+}
+
+.pending-stock-item .actions button.save:hover {
+  background-color: #2980b9;
 }

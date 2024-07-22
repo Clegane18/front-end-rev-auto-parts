@@ -7,19 +7,6 @@
   position: relative;
 }
 
-.back-icon {
-  font-size: 24px;
-  color: #6c757d; 
-  cursor: pointer;
-  position: absolute;
-  top: 10px; 
-  left: 0px; 
-}
-
-.back-icon:hover {
-  color: #5a6268; 
-}
-
 .receipt-container {
   width: 100%;
   max-width: 400px;
@@ -119,12 +106,13 @@
   margin: 4px 0;
 }
 
-.print-button {
+.print-button, 
+.new-transaction-button {
   display: block;
   width: 100%;
   padding: 10px;
-  background-color: #4CAF50;
-  color: white;
+  background-color: #0c619b;
+  color: #ffffff;
   border: none;
   border-radius: 4px;
   font-size: 16px;
@@ -133,12 +121,14 @@
   margin-top: 20px;
 }
 
-.print-button:hover {
-  background-color: #45a049;
+.print-button:hover, 
+.new-transaction-button:hover {
+  opacity: 0.75;
 }
 
 @media print {
-  .print-button {
+  .print-button, 
+  .new-transaction-button {
     display: none;
   }
 }

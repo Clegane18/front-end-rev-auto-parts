@@ -24,6 +24,11 @@
   font-size: 24px;
   margin: 0;
   padding-left: 10px;
+  font-weight: 300;
+}
+
+.shop-info h1:hover {
+  opacity: 0.85;
 }
 
 .cart-icon {

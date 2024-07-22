@@ -161,11 +161,15 @@ const PendingStockManagement = () => {
             </div>
             <div className="actions">
               {editingStockId === stock.id ? (
-                <button onClick={() => handleUpdateArrivalDate(stock.id)}>
+                <button
+                  className="save"
+                  onClick={() => handleUpdateArrivalDate(stock.id)}
+                >
                   <FontAwesomeIcon icon={faSave} /> Save
                 </button>
               ) : (
                 <button
+                  className="edit"
                   onClick={() => {
                     setEditingStockId(stock.id);
                     setNewDate(
@@ -176,7 +180,10 @@ const PendingStockManagement = () => {
                   <FontAwesomeIcon icon={faEdit} />
                 </button>
               )}
-              <button onClick={() => handleConfirmStock(stock.id)}>
+              <button
+                className="confirm"
+                onClick={() => handleConfirmStock(stock.id)}
+              >
                 <FontAwesomeIcon icon={faCheck} />
               </button>
               <button

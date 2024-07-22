@@ -37,9 +37,11 @@ body {
   border-bottom: 3px solid #404b5e;
 }
 
-.sidebar-header h2 {
+.dashboard-container .sidebar .sidebar-header h2 {
   margin: 0;
-  color: #ecf0f1;
+  color: #ffffff;
+  font-weight: 300;
+  font-size: 22px;
 }
 
 .sidebar-nav ul {
@@ -129,7 +131,7 @@ table td {
 
 table th {
   background-color: #f7f7f7;
-  font-weight: bold;
+  font-weight: 500;
 }
 
 .low-stock-list {
@@ -177,7 +179,7 @@ table th {
 }
 
 .low-stock-list-item span {
-  font-weight: bold;
+  font-weight: 300;
   display: block;
 }
 
@@ -193,7 +195,7 @@ table th {
 }
 
 .transaction-overview,
-.low-stock-reminder,
+.stock-reminder-low-stock-reminder,
 .monthly-income {
   padding: 20px;
   border-radius: 8px;
@@ -212,11 +214,13 @@ table th {
   position: relative;
 }
 
-.transaction-overview h3 {
+.transaction-overview h3, 
+.monthly-income h3, 
+.stock-reminder-low-stock-reminder h3 {
   font-size: 1.6em;
   color: #000;
   margin-bottom: 20px;
-  font-weight: bold;
+  font-weight: 300;
   text-transform: uppercase;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
 }
@@ -253,15 +257,6 @@ table th {
   background-color: #e9ecef;
 }
 
-.monthly-income h3 {
-  font-size: 1.6em;
-  color: #000;
-  margin-bottom: 20px;
-  font-weight: bold;
-  text-transform: uppercase;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
-}
-
 .monthly-income-details,
 .transactions-details {
   margin-top: 15px;
@@ -288,7 +283,7 @@ table th {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border: 1px solid #ddd;
   color: #333;
-  font-weight: bold;
+  font-weight: 500;
   font-size: 1.2em;
   text-align: center;
   transition: transform 0.3s ease, background-color 0.3s ease;
@@ -300,6 +295,11 @@ table th {
 .transaction-details-online p:hover {
   transform: scale(1.05);
   background-color: #e9ecef;
+}
+
+.dashboard-container .main-content .section-container h3 {
+  font-weight: 500; 
+  font-size: 25px;
 }
 
 .monthly-income-details-item,
@@ -340,7 +340,7 @@ table th {
   }
 
   .transaction-overview,
-  .low-stock-reminder,
+  .stock-reminder-low-stock-reminder,
   .monthly-income {
     margin-right: 0;
     margin-bottom: 10px;
@@ -348,7 +348,7 @@ table th {
   }
 
   .transaction-overview p,
-  .low-stock-reminder ul {
+  .stock-reminder-low-stock-reminder ul {
     margin: 0;
   }
 }

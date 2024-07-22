@@ -4,7 +4,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5); /* Slightly darker background for better contrast */
+    background: rgba(0, 0, 0, 0.5); 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -13,20 +13,20 @@
   
   .logout-confirmation-modal-content {
     background: #fff; 
-    padding: 25px; /* Adjusted padding */
-    border-radius: 8px; /* Slightly reduced border radius */
-    width: 300px; /* Smaller width */
+    padding: 25px; 
+    border-radius: 8px; 
+    width: 380px; 
     max-width: 90%;
-    max-height: 60%; /* Adjusted max-height */
+    max-height: 60%; 
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
     animation: slideIn 0.4s ease-out;
   }
   
   .warning-icon {
-    font-size: 36px; /* Slightly smaller icon size */
+    font-size: 36px; 
     color: #ff6347; 
-    margin-bottom: 15px; /* Adjusted margin */
+    margin-bottom: 15px; 
   }
   
   .logout-confirmation-modal-content h3 {
@@ -38,50 +38,45 @@
   
   .logout-confirmation-modal-content p {
     color: #555; 
-    line-height: 1.5; /* Slightly reduced line-height */
-    margin-bottom: 20px; /* Adjusted margin */
+    line-height: 1.5; 
+    margin-bottom: 20px; 
   }
   
   .logout-confirmation-modal-actions {
     display: flex;
     justify-content: center;
-    gap: 15px; /* Space between buttons */
+    gap: 15px; 
   }
   
   .confirm-button {
-    padding: 12px 20px; /* Increased padding for a bigger button */
+    padding: 12px 20px; 
     border: none;
     border-radius: 25px; 
     cursor: pointer;
-    font-size: 16px; /* Larger font size */
-    background-color: #bd4138; /* Confirm button color */
+    font-size: 16px; 
+    background-color: #bd4138;
     color: white;
     transition: background-color 0.3s, transform 0.2s;
   }
   
-  .confirm-button:hover {
-    background-color: #a62e28; /* Confirm button hover color */
-    transform: scale(1.05);
-  }
-  
   .cancel-button {
-    padding: 12px 20px; /* Increased padding for a bigger button */
+    padding: 12px 20px; 
     border: none;
     border-radius: 25px; 
     cursor: pointer;
-    font-size: 16px; /* Larger font size */
-    background-color: #e0e0e0; /* Cancel button color */
+    font-size: 16px; 
+    background-color: #e0e0e0;
     color: #333;
     border: 1px solid #ccc; 
     transition: background-color 0.3s, transform 0.2s;
   }
   
-  .cancel-button:hover {
-    background-color: #a8a8a8;
+  .cancel-button:hover, 
+  .confirm-button:hover {
+    opacity: 0.75;
     transform: scale(1.05);
   }
   
-  /* Animations */
   @keyframes fadeIn {
     from {
       opacity: 0;

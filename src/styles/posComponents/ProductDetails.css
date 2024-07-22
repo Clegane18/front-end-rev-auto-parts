@@ -22,13 +22,17 @@
 
 .close-btn {
   position: absolute;
-  top: 15px;
-  right: 15px;
+  top: 1px;
+  right: 1px;
   background: transparent;
   border: none;
   font-size: 28px;
   cursor: pointer;
   color: #666;
+}
+
+.close-btn:hover {
+  opacity: 0.75;
 }
 
 .product-details-header {
@@ -59,7 +63,14 @@
   font-size: 1rem;
   color: #444;
   line-height: 1.6;
-  text-align: justify;
+  text-align: left;
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+.product-description p {
+  margin: 0;
+  padding: 5px 0;
 }
 
 .product-actions {
@@ -120,19 +131,3 @@
 .confirm-buy-now-button:hover {
   background-color: #218838;
 }
-
-.product-description {
-  margin-bottom: 20px;
-  font-size: 1rem;
-  color: #444;
-  line-height: 1.6;
-  text-align: left; 
-  list-style-type: disc; 
-  padding-left: 20px; 
-}
-
-.product-description p {
-  margin: 0;
-  padding: 5px 0; 
-}
-

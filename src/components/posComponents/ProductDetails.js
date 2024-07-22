@@ -44,7 +44,6 @@ const ProductDetails = ({ product, onAddToCart, onClose }) => {
         </div>
         <div className="product-description">
           <p>• {product.description.split("\n").join("</p><p>• ")}</p>{" "}
-          {/* Format description with bullets */}
         </div>
         <div className="product-actions">
           <button onClick={handleBuyNowClick} className="buy-now-button">

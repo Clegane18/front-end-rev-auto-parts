@@ -273,7 +273,7 @@ const DashboardPage = () => {
           </div>
         </section>
         <section className="bottom-section">
-          <div className="stock-reminder low-stock-reminder">
+          <div className="stock-reminder-low-stock-reminder">
             <h3>Stock Reminder</h3>
             <div className="low-stock-list">
               <div className="low-stock-list-item in-stock">
@@ -286,7 +286,7 @@ const DashboardPage = () => {
                 <FontAwesomeIcon icon={faExclamationTriangle} /> Low Stock:{" "}
                 {lowStockProducts.length > 0 ? (
                   lowStockProducts.map((product, index) => (
-                    <span key={index}>
+                    <span className="product-name" key={index}>
                       {product.name} ({product.stock})
                       {index < lowStockProducts.length - 1 ? ", " : ""}
                     </span>
@@ -303,19 +303,19 @@ const DashboardPage = () => {
               <div className="transactions-item">
                 <div className="transaction-details-total">
                   <p>
-                    Total Transactions:{" "}
+                    Total:{" "}
                     {totalTransactions !== null ? totalTransactions : "0"}
                   </p>
                 </div>
                 <div className="transaction-details-pos">
                   <p>
-                    Total POS Transactions:{" "}
+                    Point of Sale:{" "}
                     {posTransactions !== null ? posTransactions : "0"}
                   </p>
                 </div>
                 <div className="transaction-details-online">
                   <p>
-                    Total Online Transactions:{" "}
+                    Online Store Front:{" "}
                     {onlineTransactions !== null ? onlineTransactions : "0"}
                   </p>
                 </div>

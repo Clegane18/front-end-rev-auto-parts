@@ -32,8 +32,10 @@
   position: relative;
 }
 
-h2 {
+.login-content h2 {
   color: whitesmoke;
+  font-weight: 300;
+
 }
 
 .login-input {
@@ -66,8 +68,8 @@ h2 {
 } 
 
 .login-button {
-  background-color: #007bff !important;
-  color: white !important;
+  background-color: #0c619b !important;
+  color: #ffffff !important;
   border: none !important;
   padding: 10px 20px !important;
   cursor: pointer !important;
@@ -76,5 +78,5 @@ h2 {
 }
 
 .login-button:hover {
-  background-color: #0056b3 !important;
+  background-color: #4989B4 !important;
 }

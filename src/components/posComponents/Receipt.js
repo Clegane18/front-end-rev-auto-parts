@@ -1,6 +1,5 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { FaArrowLeft } from "react-icons/fa";
 import "../../styles/posComponents/Receipt.css";
 
 const Receipt = () => {
@@ -21,9 +20,12 @@ const Receipt = () => {
     window.print();
   };
 
+  const handleNewTransaction = () => {
+    navigate("/pos");
+  };
+
   return (
     <div className="page-container">
-      <FaArrowLeft className="back-icon" onClick={() => navigate(-2)} />
       <div className="receipt-container">
         <div className="store-info">
           <h2>G&F Auto Supply</h2>
@@ -52,9 +54,17 @@ const Receipt = () => {
           <p>Payment Amount: ₱{formatCurrency(receipt.paymentAmount)}</p>
           <p>Change: ₱{formatCurrency(receipt.change)}</p>
         </div>
-        <button className="print-button" onClick={handlePrint}>
-          Print Receipt
-        </button>
+        <div className="buttons-container">
+          <button className="print-button" onClick={handlePrint}>
+            Print Receipt
+          </button>
+          <button
+            className="new-transaction-button"
+            onClick={handleNewTransaction}
+          >
+            Start New Transaction
+          </button>
+        </div>
       </div>
     </div>
   );

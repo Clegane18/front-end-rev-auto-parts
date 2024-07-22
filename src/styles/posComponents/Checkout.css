@@ -88,8 +88,8 @@
 .payment-section button {
   font-size: 16px;
   padding: 10px 20px;
-  background-color: #4CAF50;
-  color: white;
+  background-color: #0c619b;
+  color: #ffffff;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -97,11 +97,11 @@
 }
 
 .payment-section button:hover {
-  background-color: #45a049;
+  opacity: 0.75;
 }
 
 .payment-section input:focus,
 .payment-section button:focus {
   outline: none;
-  box-shadow: 0 0 5px rgba(0, 150, 0, 0.5);
+  box-shadow: 0 0 5px #0c619b;
 }
