@@ -21,11 +21,21 @@
 .empty-cart .back-to-pos-button {
   padding: 10px 20px;
   font-size: 16px;
-  color: white;
-  background-color: #0c619b;
-  border: none;
+  color: #696868;
+  background-color: #ffffff;
+  border: 1px solid #d4d4d8;
   border-radius: 4px;
   cursor: pointer;
+  margin-top: 10px;
+  width: fit-content;
+  align-self: center;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.empty-cart .back-to-pos-button:hover {
+  background-color: #f9f9f9;
+  color: #333;
+  border-color: #bbb;
 }
 
 .cart-items {
@@ -94,7 +104,6 @@
   border-color: #bbb;
 }
 
-
 .item-price, .item-total {
   font-size: 16px;
   color: #333;
@@ -117,11 +126,12 @@
 }
 
 .cart-summary {
-  display: flex ;
+  display: flex;
   justify-content: space-between;
   padding: 15px;
   font-size: 16px;
   color: #333;
+  border-top: 2px solid #ddd;
 }
 
 .cart-summary .subtotal-label {
@@ -138,35 +148,37 @@
   display: flex;
   justify-content: flex-end;
   gap: 10px;
-  margin-top: 20px;
+  padding-right: 120px;
 }
 
 .cart-summary-buttons button {
   padding: 10px 20px;
   font-size: 16px;
-  color: #dddddd;
-  background-color: #0c619b;
-  border: none;
+  color: #696868;
+  background-color: #ffffff;
+  border: 1px solid #d4d4d8;
   border-radius: 4px;
   cursor: pointer;
-}
-
-.cart-summary-buttons .update-button {
-  color: #696868;
-  background-color: #FFFFFF;
-  border: 1px solid #d4d4d8;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 .cart-summary-buttons .pay-button {
   background-color: #0c619b;
+  color: #ffffff;
+}
+
+.cart-summary-buttons .pay-button:hover {
+  opacity: 0.75;
 }
 
 .cart-summary-buttons .back-to-pos-button {
+  background-color: #ffffff;
   color: #696868;
-  background-color: #FFFFFF;
   border: 1px solid #d4d4d8;
 }
 
-.cart-summary-buttons button:hover {
-  opacity: 0.9;
+.cart-summary-buttons .back-to-pos-button:hover {
+  background-color: #f9f9f9;
+  color: #333;
+  border-color: #bbb;
 }

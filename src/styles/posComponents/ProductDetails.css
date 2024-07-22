@@ -83,7 +83,7 @@
 
 .buy-now-button:hover,
 .add-to-cart-button:hover {
-  background-color: #003d7a;
+  opacity: 0.75;
 }
 
 .buy-now-section {

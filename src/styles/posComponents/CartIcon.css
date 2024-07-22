@@ -1,8 +1,8 @@
-.cart-icon-container {
+  .cart-icon-container {
     position: relative;
     cursor: pointer;
   }
-  
+
   .cart-icon {
     font-size: 24px;
     color: #f0f0f0; 
@@ -19,3 +19,6 @@
     font-size: 12px;
   }
   
+  .cart-icon-container:hover{
+    opacity: 0.85;
+  }

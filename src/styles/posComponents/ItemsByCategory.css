@@ -66,5 +66,6 @@
 }
 
 .view-all:hover {
-  background-color: #003d7a;
+  opacity: 0.75;
 }
+
