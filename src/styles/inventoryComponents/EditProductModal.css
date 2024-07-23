@@ -23,8 +23,22 @@
 }
 
 #root-edit-product-modal .modal-content h2 {
-  margin-top: 0;
-  color: #333333;
+  font-weight: 300;
+  position: relative;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+#root-edit-product-modal .modal-overlay .modal-content h2::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  bottom: 0;
+  left: 0;
 }
 
 #root-edit-product-modal .modal-content .error-message {
@@ -78,21 +92,13 @@
   transition: background-color 0.3s, transform 0.2s;
 }
 
-#root-edit-product-modal .modal-content .button-group .save-button {
-  background-color: #4caf50;
-  color: white;
+#root-edit-product-modal .modal-content .button-group button[type="submit"], 
+#root-edit-product-modal .modal-content .button-group button[type="button"]{
+  background-color: #0c619b;
+  color: #ffffff;
 }
 
-#root-edit-product-modal .modal-content .button-group .save-button:hover {
-  background-color: #45a049;
-}
-
-#root-edit-product-modal .modal-content .button-group .cancel-button {
-  background-color: #f44336;
-  color: white;
-  border: 1px solid #f44336;
-}
-
-#root-edit-product-modal .modal-content .button-group .cancel-button:hover {
-  background-color: #d32f2f;
+#root-edit-product-modal .modal-content .button-group button[type="submit"]:hover, 
+#root-edit-product-modal .modal-content .button-group button[type="button"]:hover {
+  opacity: 0.75;
 }

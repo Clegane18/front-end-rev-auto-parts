@@ -2,7 +2,7 @@ body {
     font-family: 'Cinzel', serif;
   }
   
-  h1, h2, h3, h4, h5, h6, p, button, input, textarea {
+  h1, h2, h3, h4, h5, h6, p, button, input, textarea, label {
     font-family: 'Montserrat', serif;
     text-transform: uppercase;
   }
