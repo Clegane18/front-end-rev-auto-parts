@@ -14,7 +14,7 @@ const SalesChart = ({ data }) => (
   <ResponsiveContainer width="100%" height={300}>
     <LineChart data={data}>
       <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="name" />
+      <XAxis dataKey="month" />
       <YAxis />
       <Tooltip />
       <Legend />

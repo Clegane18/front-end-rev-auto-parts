@@ -46,6 +46,10 @@ const Checkout = () => {
     }
   };
 
+  const handleCancel = () => {
+    navigate("/pos");
+  };
+
   return (
     <div className="checkout-container">
       <h2>Checkout</h2>
@@ -78,6 +82,9 @@ const Checkout = () => {
               />
             </label>
             <button onClick={handlePay}>Pay</button>
+            <button onClick={handleCancel} className="cancel-button">
+              Cancel
+            </button>
           </div>
         </>
       )}
