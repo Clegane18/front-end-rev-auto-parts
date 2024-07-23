@@ -113,26 +113,38 @@ h2 {
   border: 1px solid #ddd;
   margin-bottom: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.table-container {
+  max-height: 400px;
+  overflow-x: auto;
+  overflow-y: auto;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  overflow-x: auto; 
 }
 
 table th,
 table td {
   padding: 10px;
-  text-align: center; 
+  text-align: center;
   border: 1px solid #ddd;
   background-color: #fff;
-  font-family: 'Montserrat', sans-serif; 
+  font-family: 'Montserrat', sans-serif;
 }
 
 table th {
   background-color: #f7f7f7;
   font-weight: 500;
+  background-color: #f7f7f7;
+  font-weight: 500;
+  position: -webkit-sticky; 
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 .low-stock-list {
@@ -147,7 +159,7 @@ table th {
   border-left: 5px solid #343a40;
   border-radius: 3px;
   transition: transform 0.3s ease, background-color 0.3s ease;
-  font-family: 'Montserrat', sans-serif; 
+  font-family: 'Montserrat', sans-serif;
 }
 
 .low-stock-list-item.in-stock {
@@ -377,15 +389,15 @@ table th {
 .logout-button {
   background: none;
   border: none;
-  color: #bd4138;
-  font-size: 18px;
+  color: #ddd;
   cursor: pointer;
-  padding: 0px;
+  font-size: 16px;
   display: flex;
   align-items: center;
-  transition: color 0.3s, background-color 0.3s;
+  padding: 10px;
+  transition: color 0.3s ease;
 }
 
 .logout-button:hover {
-  color: #ff0707;
+  color: #fff;
 }

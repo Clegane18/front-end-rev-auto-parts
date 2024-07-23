@@ -203,40 +203,44 @@ const DashboardPage = () => {
         <section className="todays-transactions-section">
           <div className="section-container">
             <h3>Today's Transactions</h3>
-            <table>
-              <thead>
-                <tr>
-                  <th>Transaction No</th>
-                  <th>Type</th>
-                  <th>Status</th>
-                  <th>Date</th>
-                  <th>Total Amount</th>
-                  <th>Total Items</th>
-                  <th>Sales Location</th>
-                </tr>
-              </thead>
-              <tbody>
-                {todaysTransactions.length > 0 ? (
-                  todaysTransactions.map((transaction, index) => (
-                    <tr key={index}>
-                      <td>{transaction.transactionNo}</td>
-                      <td>{transaction.transactionType}</td>
-                      <td>{transaction.transactionStatus}</td>
-                      <td>
-                        {new Date(transaction.transactionDate).toLocaleString()}
-                      </td>
-                      <td>{formatCurrency(transaction.totalAmount)}</td>
-                      <td>{transaction.totalItemsBought}</td>
-                      <td>{transaction.salesLocation}</td>
-                    </tr>
-                  ))
-                ) : (
+            <div className="table-container">
+              <table>
+                <thead>
                   <tr>
-                    <td colSpan="7">No transactions today</td>
+                    <th>Transaction No</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Total Amount</th>
+                    <th>Total Items</th>
+                    <th>Sales Location</th>
                   </tr>
-                )}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {todaysTransactions.length > 0 ? (
+                    todaysTransactions.map((transaction, index) => (
+                      <tr key={index}>
+                        <td>{transaction.transactionNo}</td>
+                        <td>{transaction.transactionType}</td>
+                        <td>{transaction.transactionStatus}</td>
+                        <td>
+                          {new Date(
+                            transaction.transactionDate
+                          ).toLocaleString()}
+                        </td>
+                        <td>{formatCurrency(transaction.totalAmount)}</td>
+                        <td>{transaction.totalItemsBought}</td>
+                        <td>{transaction.salesLocation}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="7">No transactions today</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
         </section>
         <section className="bestsellers-section">
