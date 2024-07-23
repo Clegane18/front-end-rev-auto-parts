@@ -244,208 +244,152 @@ const ProductManagement = () => {
   };
 
   return (
-    <div className="product-management-container">
-      <div className="filter-bar">
-        <select value={filterType} onChange={handleFilterChange}>
-          <option value="default">Default</option>
-          <option value="price">Price Range</option>
-          <option value="date">Date Range</option>
-        </select>
-
-        {filterType === "default" && (
-          <input
-            type="text"
-            placeholder="Search products..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        )}
-
-        {filterType === "price" && (
-          <div className="price-filter">
-            <input
-              type="number"
-              placeholder="Min Price"
-              value={minPrice}
-              onChange={(e) => setMinPrice(e.target.value)}
-            />
-            <input
-              type="number"
-              placeholder="Max Price"
-              value={maxPrice}
-              onChange={(e) => setMaxPrice(e.target.value)}
-            />
+    <div id="root-product-management">
+      <div className="product-management-container">
+        <div className="filter-bar">
+          <select value={filterType} onChange={handleFilterChange}>
+            <option value="default">Default</option>
+            <option value="price">Price Range</option>
+            <option value="date">Date Range</option>
+          </select>
+          <div className="filter-inputs-container">
+            {filterType === "default" && (
+              <input
+                type="text"
+                placeholder="Search products..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            )}
+            {filterType === "price" && (
+              <div className="price-filter">
+                <input
+                  type="number"
+                  placeholder="Min Price"
+                  value={minPrice}
+                  onChange={(e) => setMinPrice(e.target.value)}
+                />
+                <input
+                  type="number"
+                  placeholder="Max Price"
+                  value={maxPrice}
+                  onChange={(e) => setMaxPrice(e.target.value)}
+                />
+              </div>
+            )}
+            {filterType === "date" && (
+              <div className="date-filter">
+                <input
+                  type="date"
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                />
+                <input
+                  type="date"
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                />
+                <button onClick={handleDateRangeSearch}>
+                  <FaSearch />
+                </button>
+              </div>
+            )}
+            {filterType === "default" && (
+              <button onClick={debouncedSearch}>
+                <FaSearch />
+              </button>
+            )}
           </div>
-        )}
-
-        {filterType === "date" && (
-          <div className="date-filter">
-            <input
-              type="date"
-              placeholder="Start Date"
-              value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
-            />
-            <input
-              type="date"
-              placeholder="End Date"
-              value={endDate}
-              onChange={(e) => setEndDate(e.target.value)}
-            />
-          </div>
-        )}
-
-        <button
-          id="search-button"
-          onClick={() => {
-            if (filterType === "date") {
-              handleDateRangeSearch();
-            } else {
-              handleSearch();
-            }
-          }}
-        >
-          <FaSearch />
-        </button>
-        <button className="low-stock-button" onClick={handleLowStock}>
-          {isShowingLowStock ? "Show All" : "Low Stock"}
-        </button>
-      </div>
-
-      <div className="action-bar">
-        <button
-          className="add-product-button"
-          onClick={() => {
-            setAddingProduct(true);
-            clearErrorMessage();
-          }}
-        >
-          <FaPlus /> Add Product
-        </button>
-      </div>
-
-      <div className="product-list">
-        <div className="product-table">
-          <div className="product-table-header">
-            <div className="column">ID</div>
-            <div className="column">Item Code</div>
-            <div className="column">Brand</div>
-            <div className="column">Name</div>
-            <div className="column">Price</div>
-            <div className="column">Category</div>
-            <div className="column">Stock</div>
-            <div className="column">Supplier</div>
-            <div className="column">Date Added</div>
-            <div className="column">Description</div>
-            <div className="column">Supplier Cost</div>
-            <div className="column">Actions</div>
-          </div>
-          {Array.isArray(products) && products.length > 0 ? (
-            products.map((product) => (
-              <div className="product-table-row" key={product.id}>
-                <div className="column">{product.id}</div>
-                <div className="column">{product.itemCode}</div>
-                <div className="column">{product.brand}</div>
-                <div className="column">{product.name}</div>
-                <div className="column">{formatCurrency(product.price)}</div>
-                <div className="column">{product.category}</div>
-                <div className="column">{product.stock}</div>
-                <div className="column">{product.supplierName}</div>
-                <div className="column">
-                  {new Date(product.dateAdded).toLocaleDateString()}
-                </div>
-                <div className="column">{product.description}</div>
-                <div className="column">
-                  {formatCurrency(product.supplierCost)}
-                </div>
-                <div className="column action-buttons">
-                  <button
-                    onClick={() => {
-                      setEditingProduct(product);
-                      clearErrorMessage();
-                    }}
-                    className="edit"
-                  >
+          <button onClick={handleLowStock} className="low-stock-button">
+            Low Stock
+          </button>
+          <button onClick={() => setAddingProduct(true)}>
+            <FaPlusCircle /> Add Product
+          </button>
+        </div>
+        <table className="product-table">
+          <thead>
+            <tr>
+              <th>Product ID</th>
+              <th>Item Code</th>
+              <th>Brand</th>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Description</th>
+              <th>Supplier Name</th>
+              <th>Price</th>
+              <th>Stock</th>
+              <th>Added Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {products.map((product) => (
+              <tr key={product.id}>
+                <td>{product.id}</td>
+                <td>{product.itemCode}</td>
+                <td>{product.brand}</td>
+                <td>{product.name}</td>
+                <td>{product.category}</td>
+                <td>{product.description}</td>
+                <td>{product.supplierName}</td>
+                <td>{formatCurrency(product.price)}</td>
+                <td>{product.stock}</td>
+                <td>{new Date(product.dateAdded).toLocaleDateString()}</td>
+                <td>
+                  <button onClick={() => setEditingProduct(product)}>
                     <FaEdit />
                   </button>
-                  <button
-                    onClick={() => {
-                      setDeletingProduct(product.id);
-                      clearErrorMessage();
-                    }}
-                    className="delete"
-                  >
+                  <button onClick={() => setDeletingProduct(product)}>
                     <FaTrash />
                   </button>
-                  <button
-                    onClick={() => {
-                      setAddingStockProduct(product);
-                      clearErrorMessage();
-                    }}
-                    className="add-stock"
-                  >
-                    <FaPlusCircle />
+                  <button onClick={() => setAddingStockProduct(product)}>
+                    <FaPlus />
                   </button>
-                </div>
-              </div>
-            ))
-          ) : (
-            <div className="product-table-row">
-              <div className="column" colSpan="12">
-                No products found
-              </div>
-            </div>
-          )}
-        </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        {editingProduct && (
+          <EditProductModal
+            product={editingProduct}
+            onClose={() => setEditingProduct(null)}
+            onSave={handleUpdateProduct}
+            errorMessage={errorMessage}
+            clearErrorMessage={clearErrorMessage}
+          />
+        )}
+        {deletingProduct && (
+          <ConfirmDeleteModal
+            product={deletingProduct}
+            onClose={() => setDeletingProduct(null)}
+            onDelete={() => handleDeleteProduct(deletingProduct.id)}
+            errorMessage={errorMessage}
+            clearErrorMessage={clearErrorMessage}
+          />
+        )}
+        {addingProduct && (
+          <AddProductModal
+            onClose={() => setAddingProduct(false)}
+            onSave={handleAddProduct}
+            errorMessage={errorMessage}
+            clearErrorMessage={clearErrorMessage}
+          />
+        )}
+        {addingStockProduct && (
+          <AddStockModal
+            product={addingStockProduct}
+            onClose={() => setAddingStockProduct(null)}
+            onSave={handleUpdateProduct}
+          />
+        )}
+        {errorMessage && (
+          <div className="error-message">
+            <span>{errorMessage}</span>
+          </div>
+        )}
       </div>
-
-      {editingProduct && (
-        <EditProductModal
-          product={editingProduct}
-          onClose={() => {
-            setEditingProduct(null);
-            clearErrorMessage();
-          }}
-          onSave={handleUpdateProduct}
-          errorMessage={errorMessage}
-          clearErrorMessage={clearErrorMessage}
-        />
-      )}
-      {deletingProduct && (
-        <ConfirmDeleteModal
-          product={products.find((p) => p.id === deletingProduct)}
-          onClose={() => {
-            setDeletingProduct(null);
-            clearErrorMessage();
-          }}
-          onConfirm={() => handleDeleteProduct(deletingProduct)}
-          errorMessage={errorMessage}
-          clearErrorMessage={clearErrorMessage}
-        />
-      )}
-      {addingProduct && (
-        <AddProductModal
-          onClose={() => {
-            setAddingProduct(false);
-            clearErrorMessage();
-          }}
-          onSave={handleAddProduct}
-          errorMessage={errorMessage}
-          clearErrorMessage={clearErrorMessage}
-        />
-      )}
-      {addingStockProduct && (
-        <AddStockModal
-          product={addingStockProduct}
-          onClose={() => {
-            setAddingStockProduct(null);
-            clearErrorMessage();
-          }}
-          onSave={(updatedProduct) => {
-            handleUpdateProduct(updatedProduct);
-          }}
-        />
-      )}
     </div>
   );
 };

@@ -4,7 +4,7 @@ import "../../styles/inventoryComponents/InventoryManagementPage.css";
 
 const InventoryManagementPage = () => {
   return (
-    <div className="inventory-management-page">
+    <div id="inventory-management-page">
       <ProductManagement />
     </div>
   );

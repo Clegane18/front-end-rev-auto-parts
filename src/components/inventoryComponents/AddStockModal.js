@@ -7,7 +7,7 @@ const AddStockModal = ({ product, onClose, onSave }) => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleSave = async (event) => {
-    event.preventDefault(); // Prevent the default form submission behavior
+    event.preventDefault();
     try {
       if (quantity <= 0 || isNaN(quantity)) {
         setErrorMessage("Please enter a valid quantity.");
@@ -24,24 +24,26 @@ const AddStockModal = ({ product, onClose, onSave }) => {
   };
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
-        <h2>Add Stock for {product.name}</h2>
-        {errorMessage && <div className="error-message">{errorMessage}</div>}
-        <form onSubmit={handleSave}>
-          <label>Quantity to Add</label>
-          <input
-            type="number"
-            value={quantity}
-            onChange={(e) => setQuantity(parseInt(e.target.value))}
-          />
-          <div className="button-group">
-            <button type="submit">Save</button>
-            <button type="button" onClick={onClose}>
-              Cancel
-            </button>
-          </div>
-        </form>
+    <div id="root-add-stock-modal">
+      <div className="modal-overlay">
+        <div className="modal-content">
+          <h2>Add Stock for {product.name}</h2>
+          {errorMessage && <div className="error-message">{errorMessage}</div>}
+          <form onSubmit={handleSave}>
+            <label>Quantity to Add</label>
+            <input
+              type="number"
+              value={quantity}
+              onChange={(e) => setQuantity(parseInt(e.target.value))}
+            />
+            <div className="button-group">
+              <button type="submit">Save</button>
+              <button type="button" onClick={onClose}>
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

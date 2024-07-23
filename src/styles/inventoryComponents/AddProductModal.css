@@ -1,4 +1,4 @@
-.modal-overlay {
+#root-add-product-modal .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -11,37 +11,37 @@
   z-index: 1000;
 }
 
-.modal-content {
-  background-color: var(--background-color); 
+#root-add-product-modal .modal-content {
+  background-color: #ffffff;
   padding: 20px;
   border-radius: 8px;
   width: 400px;
   max-height: 80vh;
   overflow-y: auto;
-  z-index: 1001; 
+  z-index: 1001;
 }
 
-.error-message {
-  background-color: var(--error-color);
-  color: var(--background-color); 
+#root-add-product-modal .error-message {
+  background-color: #f44336;
+  color: #ffffff;
   padding: 10px;
   border-radius: 5px;
   margin-bottom: 15px;
   text-align: center;
 }
 
-form {
+#root-add-product-modal form {
   display: flex;
   flex-direction: column;
 }
 
-label {
+#root-add-product-modal label {
   margin-bottom: 10px;
-  color: var(--text-color); 
+  color: #333333;
 }
 
-input,
-textarea {
+#root-add-product-modal input,
+#root-add-product-modal textarea {
   width: 100%;
   padding: 8px;
   margin-top: 5px;
@@ -50,37 +50,37 @@ textarea {
   border-radius: 4px;
 }
 
-textarea {
+#root-add-product-modal textarea {
   resize: vertical;
 }
 
-.button-group {
+#root-add-product-modal .button-group {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
 }
 
-button {
+#root-add-product-modal button {
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
 
-button[type="submit"] {
-  background-color: var(--button-color);
+#root-add-product-modal button[type="submit"] {
+  background-color: #4caf50;
   color: white;
 }
 
-button[type="submit"]:hover {
-  background-color: var(--button-hover-color); 
+#root-add-product-modal button[type="submit"]:hover {
+  background-color: #45a049;
 }
 
-button[type="button"] {
-  background-color: var(--low-stock-color); 
+#root-add-product-modal button[type="button"] {
+  background-color: #f44336;
   color: white;
 }
 
-button[type="button"]:hover {
-  background-color: var(--low-stock-hover-color); 
+#root-add-product-modal button[type="button"]:hover {
+  background-color: #d32f2f;
 }

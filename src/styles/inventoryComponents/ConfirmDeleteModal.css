@@ -1,4 +1,4 @@
-.modal-overlay {
+#root-confirm-delete-modal .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -11,7 +11,7 @@
   animation: fadeIn 0.3s ease-in-out;
 }
 
-.modal-content {
+#root-confirm-delete-modal .modal-content {
   background: #fff; 
   padding: 30px; 
   border-radius: 12px; 
@@ -23,32 +23,32 @@
   animation: slideIn 0.4s ease-out; 
 }
 
-.warning-icon {
+#root-confirm-delete-modal .warning-icon {
   font-size: 48px; 
   color: #ff6347; 
   margin-bottom: 20px;
 }
 
-.modal-content h2 {
+#root-confirm-delete-modal .modal-content h2 {
   margin-top: 0;
   color: #333; 
   font-weight: bold; 
   margin-bottom: 10px; 
 }
 
-.modal-content p {
+#root-confirm-delete-modal .modal-content p {
   color: #555; 
   line-height: 1.6; 
   margin-bottom: 20px; 
 }
 
-.modal-content .button-group {
+#root-confirm-delete-modal .modal-content .button-group {
   display: flex;
   justify-content: center;
   margin-top: 20px;
 }
 
-.modal-content .button-group button {
+#root-confirm-delete-modal .modal-content .button-group button {
   margin: 0 10px;
   padding: 12px 25px; 
   border: none;
@@ -58,28 +58,28 @@
   transition: background-color 0.3s, transform 0.2s; 
 }
 
-.modal-content .button-group .delete-button {
+#root-confirm-delete-modal .modal-content .button-group .delete-button {
   background-color: #ff6347; 
   color: white;
 }
 
-.modal-content .button-group .delete-button:hover {
+#root-confirm-delete-modal .modal-content .button-group .delete-button:hover {
   background-color: #cc3d2b; 
   transform: scale(1.05); 
 }
 
-.modal-content .button-group .cancel-button {
+#root-confirm-delete-modal .modal-content .button-group .cancel-button {
   background-color: #e0e0e0; 
   color: #333;
   border: 1px solid #ccc; 
 }
 
-.modal-content .button-group .cancel-button:hover {
+#root-confirm-delete-modal .modal-content .button-group .cancel-button:hover {
   background-color: #a8a8a8;
   transform: scale(1.05);
 }
 
-.modal-content .error-text {
+#root-confirm-delete-modal .modal-content .error-text {
   color: #ff6347;
   margin-bottom: 15px;
   font-weight: bold; 

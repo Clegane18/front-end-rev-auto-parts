@@ -1,4 +1,4 @@
-.modal-overlay {
+#root-edit-product-modal .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -8,46 +8,46 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* Ensure the overlay is above other elements */
+  z-index: 1000;
 }
 
-.modal-content {
-  background: var(--background-color); /* Use the same background color as defined in the main CSS */
+#root-edit-product-modal .modal-content {
+  background: #ffffff;
   padding: 20px;
-  border-radius: 5px;
+  border-radius: 8px;
   width: 400px;
   max-width: 90%;
   overflow-y: auto;
   max-height: 90%;
-  z-index: 1001; /* Ensure the modal content is above the overlay */
+  z-index: 1001;
 }
 
-.modal-content h2 {
+#root-edit-product-modal .modal-content h2 {
   margin-top: 0;
-  color: var(--text-color); /* Dark gray text color */
+  color: #333333;
 }
 
-.modal-content .error-message {
-  background-color: var(--error-color); /* Red error color */
-  color: var(--background-color); /* Text color */
+#root-edit-product-modal .modal-content .error-message {
+  background-color: #f44336;
+  color: #ffffff;
   padding: 10px;
   border-radius: 5px;
   margin-bottom: 15px;
   text-align: center;
 }
 
-.modal-content form {
+#root-edit-product-modal .modal-content form {
   display: flex;
   flex-direction: column;
 }
 
-.modal-content label {
+#root-edit-product-modal .modal-content label {
   margin: 10px 0;
-  color: var(--text-color); /* Dark gray text color */
+  color: #333333;
 }
 
-.modal-content input,
-.modal-content textarea {
+#root-edit-product-modal .modal-content input,
+#root-edit-product-modal .modal-content textarea {
   padding: 8px;
   margin-top: 5px;
   border: 1px solid #ccc;
@@ -56,39 +56,42 @@
   box-sizing: border-box;
 }
 
-.modal-content textarea {
+#root-edit-product-modal .modal-content textarea {
   resize: vertical;
   min-height: 80px;
 }
 
-.modal-content button {
-  margin: 10px 0;
+#root-edit-product-modal .modal-content .button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+#root-edit-product-modal .modal-content .button-group button {
+  flex: 1;
+  margin: 0 5px;
   padding: 10px;
-  background-color: var(--button-color); /* Green button color */
-  color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
-.modal-content button[type="button"] {
-  background-color: var(--low-stock-color); /* Red Cancel button color */
+#root-edit-product-modal .modal-content .button-group .save-button {
+  background-color: #4caf50;
+  color: white;
 }
 
-.button-group {
-  display: flex;
-  justify-content: space-between;
+#root-edit-product-modal .modal-content .button-group .save-button:hover {
+  background-color: #45a049;
 }
 
-.button-group button {
-  flex: 1;
-  margin: 0 5px;
+#root-edit-product-modal .modal-content .button-group .cancel-button {
+  background-color: #f44336;
+  color: white;
+  border: 1px solid #f44336;
 }
 
-.button-group button:hover {
-  background-color: var(--button-hover-color); /* Darker green on hover */
-}
-
-.button-group button[type="button"]:hover {
-  background-color: var(--low-stock-hover-color); /* Darker red on hover */
+#root-edit-product-modal .modal-content .button-group .cancel-button:hover {
+  background-color: #d32f2f;
 }
