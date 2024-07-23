@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { CartContext } from "./CartContext";
 import "../../styles/posComponents/Receipt.css";
 
 const Receipt = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { receipt } = location.state || {};
+  const { clearCart } = useContext(CartContext);
 
   if (!receipt) {
     return <div>No receipt data available.</div>;
@@ -21,6 +23,7 @@ const Receipt = () => {
   };
 
   const handleNewTransaction = () => {
+    clearCart();
     navigate("/pos");
   };
 
