@@ -389,7 +389,7 @@ table th {
 .logout-button {
   background: none;
   border: none;
-  color: #ddd;
+  color: #d30a0a;
   cursor: pointer;
   font-size: 16px;
   display: flex;
@@ -399,5 +399,5 @@ table th {
 }
 
 .logout-button:hover {
-  color: #fff;
+  opacity: 0.95;
 }
