@@ -1,8 +1,37 @@
 .pending-stock-management-page {
-    margin: 20px;
+  margin: 20px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading Style */
+.pending-stock-management-page h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .pending-stock-management-page {
+    margin: 10px;
+    padding: 8px;
   }
-  
+
   .pending-stock-management-page h2 {
-    margin-bottom: 20px;
+    font-size: 20px;
   }
-  
+}
+
+@media (max-width: 480px) {
+  .pending-stock-management-page {
+    margin: 5px;
+    padding: 5px;
+  }
+
+  .pending-stock-management-page h2 {
+    font-size: 18px;
+  }
+}
