@@ -48,6 +48,7 @@
   box-sizing: border-box;
   border: 1px solid #ccc;
   border-radius: 4px;
+  text-transform: none;
 }
 
 #root-add-stock-modal textarea {

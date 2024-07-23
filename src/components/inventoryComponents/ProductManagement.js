@@ -307,50 +307,52 @@ const ProductManagement = () => {
             <FaPlusCircle /> Add Product
           </button>
         </div>
-        <table className="product-table">
-          <thead>
-            <tr>
-              <th>Product ID</th>
-              <th>Item Code</th>
-              <th>Brand</th>
-              <th>Name</th>
-              <th>Category</th>
-              <th>Description</th>
-              <th>Supplier Name</th>
-              <th>Price</th>
-              <th>Stock</th>
-              <th>Added Date</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {products.map((product) => (
-              <tr key={product.id}>
-                <td>{product.id}</td>
-                <td>{product.itemCode}</td>
-                <td>{product.brand}</td>
-                <td>{product.name}</td>
-                <td>{product.category}</td>
-                <td>{product.description}</td>
-                <td>{product.supplierName}</td>
-                <td>{formatCurrency(product.price)}</td>
-                <td>{product.stock}</td>
-                <td>{new Date(product.dateAdded).toLocaleDateString()}</td>
-                <td>
-                  <button onClick={() => setEditingProduct(product)}>
-                    <FaEdit />
-                  </button>
-                  <button onClick={() => setDeletingProduct(product)}>
-                    <FaTrash />
-                  </button>
-                  <button onClick={() => setAddingStockProduct(product)}>
-                    <FaPlus />
-                  </button>
-                </td>
+        <div className="table-container">
+          <table className="product-table">
+            <thead>
+              <tr>
+                <th>Product ID</th>
+                <th>Item Code</th>
+                <th>Brand</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Description</th>
+                <th>Supplier Name</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Added Date</th>
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {products.map((product) => (
+                <tr key={product.id}>
+                  <td>{product.id}</td>
+                  <td>{product.itemCode}</td>
+                  <td>{product.brand}</td>
+                  <td>{product.name}</td>
+                  <td>{product.category}</td>
+                  <td>{product.description}</td>
+                  <td>{product.supplierName}</td>
+                  <td>{formatCurrency(product.price)}</td>
+                  <td>{product.stock}</td>
+                  <td>{new Date(product.dateAdded).toLocaleDateString()}</td>
+                  <td>
+                    <button onClick={() => setEditingProduct(product)}>
+                      <FaEdit />
+                    </button>
+                    <button onClick={() => setDeletingProduct(product)}>
+                      <FaTrash />
+                    </button>
+                    <button onClick={() => setAddingStockProduct(product)}>
+                      <FaPlus />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
         {editingProduct && (
           <EditProductModal
             product={editingProduct}

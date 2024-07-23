@@ -3,6 +3,8 @@
     flex-direction: column;
     gap: 1rem;
     padding: 1rem;
+    overflow: hidden;
+    max-height: calc(100vh - 2rem); 
   }
   
   #root-product-management .filter-bar {
@@ -50,7 +52,8 @@
   }
   
   #root-product-management .table-container {
-    overflow-x: auto;
+    overflow-y: auto; 
+    max-height: 537px; 
   }
   
   #root-product-management .product-table {

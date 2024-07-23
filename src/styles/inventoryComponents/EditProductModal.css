@@ -54,6 +54,7 @@
   border-radius: 4px;
   width: 100%;
   box-sizing: border-box;
+  text-transform: none;
 }
 
 #root-edit-product-modal .modal-content textarea {
