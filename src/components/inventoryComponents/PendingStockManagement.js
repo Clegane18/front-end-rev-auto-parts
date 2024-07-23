@@ -95,7 +95,6 @@ const PendingStockManagement = () => {
         G&F Auto Supply
       </div>
       <h2>Pending Stock Management</h2>
-
       <div className="pending-stock-form">
         <h3>Add Pending Stock</h3>
         <input
@@ -134,7 +133,6 @@ const PendingStockManagement = () => {
           <FontAwesomeIcon icon={faSave} /> Add Pending Stock
         </button>
       </div>
-
       <div className="pending-stock-list">
         <h3>Pending Stock List</h3>
         <div className="pending-stock-header">
@@ -143,7 +141,6 @@ const PendingStockManagement = () => {
           <div>ETA</div>
           <div>Actions</div>
         </div>
-
         {pendingStocks.map((stock) => (
           <div key={stock.id} className="pending-stock-item">
             <div>{stock.productId}</div>

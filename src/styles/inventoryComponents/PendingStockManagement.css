@@ -32,10 +32,13 @@
 }
 
 .pending-stock-form input {
-  margin: 5px 0;
   padding: 5px;
   font-size: 14px;
-  width: calc(100% - 22px); /* Full width with padding adjustment */
+  padding-left: 10px;
+  padding-right: 10px;
+  flex: 1;
+  min-width: 0;
+  max-width: calc(100% - 20px);
 }
 
 .pending-stock-form button {
@@ -126,7 +129,6 @@
   background-color: #2980b9;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .pending-stock-container {
     padding: 10px;
@@ -138,7 +140,7 @@
   }
 
   .pending-stock-form input {
-    width: calc(100% - 18px); /* Adjust for smaller screens */
+    width: calc(100% - 18px);
     font-size: 12px;
   }
 
