@@ -27,13 +27,23 @@
   #root-product-management .filter-bar button {
     padding: 0.5rem 1rem;
     border: none;
-    background-color: #0056b3;
-    color: #fff;
+    background-color: #0c619b;
+    color: #ffffff;
     border-radius: 4px;
     cursor: pointer;
     display: flex;
     align-items: center;
     gap: 0.5rem;
+  }
+  
+  #root-product-management .low-stock-button {
+    background-color: #0c619b !important;
+    color: #ffffff !important;
+  }
+
+  #root-product-management .filter-bar button:hover, 
+  #root-product-management .low-stock-button button:hover {
+    opacity: 0.75; 
   }
   
   #root-product-management .filter-bar button .icon {
@@ -85,31 +95,7 @@
   #root-product-management .product-table tr:hover {
     background-color: #e6f7ff;
   }
-  
-  #root-product-management .actions button {
-    margin-right: 0.5rem;
-  }
-  
-  #root-product-management .edit-button,
-  #root-product-management .delete-button,
-  #root-product-management .add-stock-button {
-    padding: 0.25rem 0.5rem;
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
-  }
-  
-  #root-product-management .edit-button {
-    color: #4caf50;
-  }
-  
-  #root-product-management .delete-button {
-    color: #f44336;
-  }
-  
-  #root-product-management .add-stock-button {
-    color: #2196f3;
-  }
+
   
   #root-product-management .error-message {
     color: #f44336;
@@ -129,4 +115,28 @@
     color: #f44336;
     cursor: pointer;
   }
+
+  #root-product-management .action-buttons {
+    display: flex;
+    justify-content: space-around;
+    gap: 0.5rem;
+  }
+  
+  #root-product-management .action-buttons button {
+    padding: 0.3rem 0.5rem;
+    border: none;
+    background-color: #0c619b;
+    color: #ffffff;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+  }
+  
+  #root-product-management .action-buttons button:hover {
+    opacity: 0.75;
+  }
+  
+  
   

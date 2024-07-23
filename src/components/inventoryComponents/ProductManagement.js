@@ -305,11 +305,7 @@ const ProductManagement = () => {
               </button>
             )}
           </div>
-          <button
-            className="low-stock-button"
-            onClick={handleLowStock}
-            style={{ backgroundColor: "#0056b3", color: "white" }}
-          >
+          <button className="low-stock-button" onClick={handleLowStock}>
             {isShowingLowStock ? "Show All Products" : "Show Low Stock"}
           </button>
           <button onClick={() => setAddingProduct(true)}>
@@ -348,15 +344,26 @@ const ProductManagement = () => {
                     <td>{product.stock}</td>
                     <td>{new Date(product.dateAdded).toLocaleDateString()}</td>
                     <td>
-                      <button onClick={() => setEditingProduct(product)}>
-                        <FaEdit />
-                      </button>
-                      <button onClick={() => setDeletingProduct(product)}>
-                        <FaTrash />
-                      </button>
-                      <button onClick={() => setAddingStockProduct(product)}>
-                        <FaPlus />
-                      </button>
+                      <div className="action-buttons">
+                        <button
+                          className="edit-button"
+                          onClick={() => setEditingProduct(product)}
+                        >
+                          <FaEdit />
+                        </button>
+                        <button
+                          className="delete-button"
+                          onClick={() => setDeletingProduct(product)}
+                        >
+                          <FaTrash />
+                        </button>
+                        <button
+                          className="add-stock-button"
+                          onClick={() => setAddingStockProduct(product)}
+                        >
+                          <FaPlus />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))
@@ -414,4 +421,3 @@ const ProductManagement = () => {
 };
 
 export default ProductManagement;
-//lumA
