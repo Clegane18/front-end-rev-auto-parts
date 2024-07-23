@@ -131,3 +131,37 @@
 .confirm-buy-now-button:hover {
   background-color: #218838;
 }
+
+/* Responsive design */
+@media (min-width: 1024px) {
+  .product-modal {
+    max-width: 600px;
+    padding: 30px;
+  }
+
+  .product-details-header h2 {
+    font-size: 2rem;
+  }
+
+  .product-price {
+    font-size: 1.5rem;
+  }
+
+  .product-item-code {
+    font-size: 1rem;
+  }
+
+  .product-description {
+    font-size: 1.2rem;
+  }
+
+  .buy-now-button,
+  .add-to-cart-button,
+  .confirm-buy-now-button {
+    font-size: 1rem;
+  }
+
+  .quantity-input {
+    width: 80px;
+  }
+}

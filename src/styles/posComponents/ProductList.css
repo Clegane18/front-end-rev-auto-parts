@@ -31,3 +31,11 @@
 .product-item p {
   margin: 0;
 }
+
+/* Responsive design */
+@media (min-width: 1024px) {
+  .product-list {
+    width: 800px;
+    right: 50px;
+  }
+}

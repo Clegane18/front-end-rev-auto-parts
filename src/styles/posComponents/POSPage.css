@@ -64,14 +64,74 @@
   padding-left: 20px;
 }
 
-@media (max-width: 768px) {
-  .pos-main {
-    flex-direction: column;
+/* Responsive Design */
+@media (min-width: 1200px) {
+  .pos-header {
+    padding: 15px 30px;
+    justify-content: space-between;
   }
 
+  .shop-info h1 {
+    font-size: 28px;
+  }
+
+  .cart-icon {
+    font-size: 26px;
+  }
+
+  .pos-main {
+    padding: 30px;
+  }
+
+  .products-section,
   .cart-section {
-    width: 100%;
-    margin-top: 20px;
+    padding: 20px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .pos-header {
+    padding: 20px 40px;
+  }
+
+  .shop-info h1 {
+    font-size: 32px;
+  }
+
+  .cart-icon {
+    font-size: 30px;
+  }
+
+  .pos-main {
+    padding: 40px;
+  }
+
+  .products-section,
+  .cart-section {
+    padding: 30px;
+  }
+}
+
+@media (min-width: 1920px) {
+  .pos-header {
+    padding: 25px 50px;
+  }
+
+  .shop-info h1 {
+    font-size: 36px;
+  }
+
+  .cart-icon {
+    font-size: 32px;
+  }
+
+  .pos-main {
+    padding: 50px;
+  }
+
+  .products-section,
+  .cart-section {
+    padding: 40px;
   }
 }
 

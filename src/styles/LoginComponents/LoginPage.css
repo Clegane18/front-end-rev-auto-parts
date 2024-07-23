@@ -5,7 +5,7 @@
   justify-content: center;
   align-items: center;
   background-image: url('../../components/LoginComponents/assets/g&f-background.png');
-  background-size: 100% 100%; 
+  background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
   background-color: #f4f4f9;
@@ -16,10 +16,10 @@
   max-width: 400px;
   width: 100%;
   padding: 20px;
-  background-color: rgba(0, 0, 0, 0.727); 
+  background-color: rgba(0, 0, 0, 0.727);
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  color: white; 
+  color: white;
 }
 
 .login-form {
@@ -35,19 +35,18 @@
 .login-content h2 {
   color: whitesmoke;
   font-weight: 300;
-
 }
 
 .login-input {
   width: 100%;
-  padding: 10px 10px 10px 40px; 
-  border: 1px solid #ccc; 
+  padding: 10px 10px 10px 40px;
+  border: 1px solid #ccc;
   border-radius: 4px;
   background-color: rgba(0, 0, 0, 0.162);
-  color: white; 
+  color: white;
   box-sizing: border-box;
   transition: border-color 0.3s ease-in-out;
-  text-transform: none
+  text-transform: none;
 }
 
 .form-group.has-error .login-input {
@@ -60,12 +59,12 @@
 
 .input-icon {
   position: absolute;
-  left: 12px; 
+  left: 12px;
   padding-top: 4px;
   top: 50%;
   transform: translateY(-50%);
   color: #aaa;
-} 
+}
 
 .login-button {
   background-color: #0c619b !important;
@@ -79,4 +78,26 @@
 
 .login-button:hover {
   background-color: #4989B4 !important;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .login-content {
+    padding: 15px;
+    max-width: 90%;
+  }
+
+  .login-content h2 {
+    font-size: 20px;
+  }
+
+  .login-input {
+    padding: 8px 8px 8px 35px;
+    font-size: 14px;
+  }
+
+  .login-button {
+    padding: 8px 15px;
+    font-size: 14px;
+  }
 }

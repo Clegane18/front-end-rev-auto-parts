@@ -9,7 +9,7 @@
 
 .receipt-container {
   width: 100%;
-  max-width: 400px;
+  max-width: 100%;
   margin: 40px auto 0 auto; 
   padding: 20px;
   border: 1px solid #ddd;
@@ -110,7 +110,7 @@
 .new-transaction-button {
   display: block;
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   background-color: #0c619b;
   color: #ffffff;
   border: none;
@@ -126,9 +126,62 @@
   opacity: 0.75;
 }
 
+@media (max-width: 600px) {
+  .store-info h2 {
+    font-size: 20px;
+  }
+
+  .store-info p {
+    font-size: 12px;
+  }
+
+  .receipt-header h3 {
+    font-size: 18px;
+  }
+
+  .receipt-header p {
+    font-size: 12px;
+  }
+
+  .item-details {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .item-details .item-name {
+    text-align: left;
+    margin-bottom: 10px;
+  }
+
+  .quantity-container,
+  .item-price,
+  .item-subtotal {
+    text-align: center;
+  }
+
+  .totals {
+    font-size: 14px;
+  }
+
+  .print-button, 
+  .new-transaction-button {
+    padding: 10px;
+    font-size: 14px;
+  }
+}
+
 @media print {
   .print-button, 
   .new-transaction-button {
     display: none;
+  }
+
+  .receipt-items {
+    display: block;
+  }
+
+  .item-details {
+    display: flex;
+    flex-direction: row;
   }
 }
