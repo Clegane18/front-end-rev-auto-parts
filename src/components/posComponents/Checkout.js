@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { buyProductsOnPhysicalStore } from "../../services/pos-api";
+import InsufficientModal from "./InsufficientModal";
 import "../../styles/posComponents/Checkout.css";
 
 const Checkout = () => {
@@ -9,6 +10,7 @@ const Checkout = () => {
   const { items } = location.state || { items: [] };
   const [paymentAmount, setPaymentAmount] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const total = items.reduce(
@@ -23,6 +25,11 @@ const Checkout = () => {
   };
 
   const handlePay = async () => {
+    if (paymentAmount < totalAmount) {
+      setIsModalOpen(true);
+      return;
+    }
+
     const payload = {
       items: items.map((item) => ({
         productId: item.id,
@@ -48,6 +55,10 @@ const Checkout = () => {
 
   const handleCancel = () => {
     navigate("/pos");
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -88,6 +99,11 @@ const Checkout = () => {
           </div>
         </>
       )}
+      <InsufficientModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        message={`Payment amount is less than the total amount of ₱${totalAmount}. Please enter the correct payment amount.`}
+      />
     </div>
   );
 };
