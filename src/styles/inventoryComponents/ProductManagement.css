@@ -4,7 +4,7 @@
     gap: 1rem;
     padding: 1rem;
     overflow: hidden;
-    max-height: calc(100vh - 2rem); 
+    max-height: calc(100vh - 2rem);
   }
   
   #root-product-management .filter-bar {
@@ -21,6 +21,7 @@
     padding: 0.5rem;
     border: 1px solid #ccc;
     border-radius: 4px;
+    width: 190px;
   }
   
   #root-product-management .filter-bar button {
@@ -43,6 +44,7 @@
     display: flex;
     gap: 1rem;
     align-items: center;
+    width: 450px;
   }
   
   #root-product-management .price-filter,
@@ -52,8 +54,8 @@
   }
   
   #root-product-management .table-container {
-    overflow-y: auto; 
-    max-height: 537px; 
+    overflow-y: auto;
+    max-height: 537px;
   }
   
   #root-product-management .product-table {

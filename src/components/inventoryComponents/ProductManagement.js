@@ -259,6 +259,7 @@ const ProductManagement = () => {
                 placeholder="Search products..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                style={{ width: "100%" }}
               />
             )}
             {filterType === "price" && (
@@ -268,12 +269,14 @@ const ProductManagement = () => {
                   placeholder="Min Price"
                   value={minPrice}
                   onChange={(e) => setMinPrice(e.target.value)}
+                  style={{ width: "100%" }}
                 />
                 <input
                   type="number"
                   placeholder="Max Price"
                   value={maxPrice}
                   onChange={(e) => setMaxPrice(e.target.value)}
+                  style={{ width: "100%" }}
                 />
               </div>
             )}
@@ -283,11 +286,13 @@ const ProductManagement = () => {
                   type="date"
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
+                  style={{ width: "100%" }}
                 />
                 <input
                   type="date"
                   value={endDate}
                   onChange={(e) => setEndDate(e.target.value)}
+                  style={{ width: "100%" }}
                 />
                 <button onClick={handleDateRangeSearch}>
                   <FaSearch />
@@ -300,8 +305,12 @@ const ProductManagement = () => {
               </button>
             )}
           </div>
-          <button onClick={handleLowStock} className="low-stock-button">
-            Low Stock
+          <button
+            className="low-stock-button"
+            onClick={handleLowStock}
+            style={{ backgroundColor: "#0056b3", color: "white" }}
+          >
+            {isShowingLowStock ? "Show All Products" : "Show Low Stock"}
           </button>
           <button onClick={() => setAddingProduct(true)}>
             <FaPlusCircle /> Add Product
@@ -325,31 +334,39 @@ const ProductManagement = () => {
               </tr>
             </thead>
             <tbody>
-              {products.map((product) => (
-                <tr key={product.id}>
-                  <td>{product.id}</td>
-                  <td>{product.itemCode}</td>
-                  <td>{product.brand}</td>
-                  <td>{product.name}</td>
-                  <td>{product.category}</td>
-                  <td>{product.description}</td>
-                  <td>{product.supplierName}</td>
-                  <td>{formatCurrency(product.price)}</td>
-                  <td>{product.stock}</td>
-                  <td>{new Date(product.dateAdded).toLocaleDateString()}</td>
-                  <td>
-                    <button onClick={() => setEditingProduct(product)}>
-                      <FaEdit />
-                    </button>
-                    <button onClick={() => setDeletingProduct(product)}>
-                      <FaTrash />
-                    </button>
-                    <button onClick={() => setAddingStockProduct(product)}>
-                      <FaPlus />
-                    </button>
+              {products.length > 0 ? (
+                products.map((product) => (
+                  <tr key={product.id}>
+                    <td>{product.id}</td>
+                    <td>{product.itemCode}</td>
+                    <td>{product.brand}</td>
+                    <td>{product.name}</td>
+                    <td>{product.category}</td>
+                    <td>{product.description}</td>
+                    <td>{product.supplierName}</td>
+                    <td>{formatCurrency(product.price)}</td>
+                    <td>{product.stock}</td>
+                    <td>{new Date(product.dateAdded).toLocaleDateString()}</td>
+                    <td>
+                      <button onClick={() => setEditingProduct(product)}>
+                        <FaEdit />
+                      </button>
+                      <button onClick={() => setDeletingProduct(product)}>
+                        <FaTrash />
+                      </button>
+                      <button onClick={() => setAddingStockProduct(product)}>
+                        <FaPlus />
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="11" style={{ textAlign: "center" }}>
+                    No products found.
                   </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
@@ -397,3 +414,4 @@ const ProductManagement = () => {
 };
 
 export default ProductManagement;
+//lumA
