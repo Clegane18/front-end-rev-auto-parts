@@ -71,10 +71,6 @@ const ProductManagement = () => {
         if (response && Array.isArray(response.data)) {
           setProducts(response.data);
           setIsShowingLowStock(true);
-        } else if (response && response.message) {
-          console.log(response.message);
-          setProducts([]);
-          setIsShowingLowStock(true);
         } else {
           console.error("Unexpected response structure:", response);
           setProducts([]);
@@ -249,7 +245,7 @@ const ProductManagement = () => {
 
   return (
     <div className="product-management-container">
-      <div className="search-bar">
+      <div className="filter-bar">
         <select value={filterType} onChange={handleFilterChange}>
           <option value="default">Default</option>
           <option value="price">Price Range</option>
@@ -259,14 +255,14 @@ const ProductManagement = () => {
         {filterType === "default" && (
           <input
             type="text"
-            placeholder="Search products by item code, brand, name, etc..."
+            placeholder="Search products..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         )}
 
         {filterType === "price" && (
-          <>
+          <div className="price-filter">
             <input
               type="number"
               placeholder="Min Price"
@@ -279,11 +275,11 @@ const ProductManagement = () => {
               value={maxPrice}
               onChange={(e) => setMaxPrice(e.target.value)}
             />
-          </>
+          </div>
         )}
 
         {filterType === "date" && (
-          <>
+          <div className="date-filter">
             <input
               type="date"
               placeholder="Start Date"
@@ -296,12 +292,18 @@ const ProductManagement = () => {
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
             />
-          </>
+          </div>
         )}
 
         <button
           id="search-button"
-          onClick={filterType === "date" ? handleDateRangeSearch : handleSearch}
+          onClick={() => {
+            if (filterType === "date") {
+              handleDateRangeSearch();
+            } else {
+              handleSearch();
+            }
+          }}
         >
           <FaSearch />
         </button>
@@ -310,7 +312,7 @@ const ProductManagement = () => {
         </button>
       </div>
 
-      <div className="button-container">
+      <div className="action-bar">
         <button
           className="add-product-button"
           onClick={() => {
@@ -325,34 +327,38 @@ const ProductManagement = () => {
       <div className="product-list">
         <div className="product-table">
           <div className="product-table-header">
-            <div>ID</div>
-            <div>Item Code</div>
-            <div>Brand</div>
-            <div>Name</div>
-            <div>Price</div>
-            <div>Category</div>
-            <div>Stock</div>
-            <div>Supplier</div>
-            <div>Date Added</div>
-            <div>Description</div>
-            <div>Supplier Cost</div>
-            <div>Actions</div>
+            <div className="column">ID</div>
+            <div className="column">Item Code</div>
+            <div className="column">Brand</div>
+            <div className="column">Name</div>
+            <div className="column">Price</div>
+            <div className="column">Category</div>
+            <div className="column">Stock</div>
+            <div className="column">Supplier</div>
+            <div className="column">Date Added</div>
+            <div className="column">Description</div>
+            <div className="column">Supplier Cost</div>
+            <div className="column">Actions</div>
           </div>
           {Array.isArray(products) && products.length > 0 ? (
             products.map((product) => (
               <div className="product-table-row" key={product.id}>
-                <div>{product.id}</div>
-                <div>{product.itemCode}</div>
-                <div>{product.brand}</div>
-                <div>{product.name}</div>
-                <div>{formatCurrency(product.price)}</div>
-                <div>{product.category}</div>
-                <div>{product.stock}</div>
-                <div>{product.supplierName}</div>
-                <div>{new Date(product.dateAdded).toLocaleDateString()}</div>
-                <div>{product.description}</div>
-                <div>{formatCurrency(product.supplierCost)}</div>
-                <div>
+                <div className="column">{product.id}</div>
+                <div className="column">{product.itemCode}</div>
+                <div className="column">{product.brand}</div>
+                <div className="column">{product.name}</div>
+                <div className="column">{formatCurrency(product.price)}</div>
+                <div className="column">{product.category}</div>
+                <div className="column">{product.stock}</div>
+                <div className="column">{product.supplierName}</div>
+                <div className="column">
+                  {new Date(product.dateAdded).toLocaleDateString()}
+                </div>
+                <div className="column">{product.description}</div>
+                <div className="column">
+                  {formatCurrency(product.supplierCost)}
+                </div>
+                <div className="column action-buttons">
                   <button
                     onClick={() => {
                       setEditingProduct(product);
@@ -378,18 +384,21 @@ const ProductManagement = () => {
                     }}
                     className="add-stock"
                   >
-                    <FaPlusCircle /> {/* Use the FaPlusCircle icon */}
+                    <FaPlusCircle />
                   </button>
                 </div>
               </div>
             ))
           ) : (
             <div className="product-table-row">
-              <div colSpan="12">No products found</div>
+              <div className="column" colSpan="12">
+                No products found
+              </div>
             </div>
           )}
         </div>
       </div>
+
       {editingProduct && (
         <EditProductModal
           product={editingProduct}

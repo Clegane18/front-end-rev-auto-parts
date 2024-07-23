@@ -32,7 +32,7 @@
   margin: 0;
 }
 
-/* Responsive design */
+/* Responsive design  */
 @media (min-width: 1024px) {
   .product-list {
     width: 800px;

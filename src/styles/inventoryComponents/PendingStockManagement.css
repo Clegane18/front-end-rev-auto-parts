@@ -1,4 +1,4 @@
-.pending-stock-container {
+#pending-stock-root {
   padding: 20px;
   max-width: 800px;
   margin: auto;
@@ -8,7 +8,7 @@
   text-align: center;
 }
 
-.store-name {
+#pending-stock-root .store-name {
   margin-bottom: 20px;
   font-size: 24px;
   font-weight: bold;
@@ -17,31 +17,36 @@
   font-family: 'Montserrat', sans-serif;
 }
 
-.pending-stock-container h2 {
+#pending-stock-root h2 {
   color: #000000;
   margin-bottom: 20px;
 }
 
-.pending-stock-form {
+#pending-stock-root .pending-stock-form {
   margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
-.pending-stock-form h3 {
+#pending-stock-root .pending-stock-form h3 {
   margin-bottom: 10px;
   color: #000000;
 }
 
-.pending-stock-form input {
-  padding: 5px;
-  font-size: 14px;
-  padding-left: 10px;
-  padding-right: 10px;
-  flex: 1;
-  min-width: 0;
-  max-width: calc(100% - 20px);
+#pending-stock-root .pending-stock-form .form-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
 }
 
-.pending-stock-form button {
+#pending-stock-root .pending-stock-form input {
+  padding: 5px;
+  font-size: 14px;
+  flex: 1;
+  min-width: 0;
+}
+
+#pending-stock-root .pending-stock-form button {
   padding: 8px 15px;
   background-color: #0c619b;
   color: #ffffff;
@@ -54,55 +59,59 @@
   margin-top: 10px;
 }
 
-.pending-stock-form button:hover,
-.pending-stock-item .actions button.cancel:hover,
-.pending-stock-item .actions button.confirm:hover,
-.pending-stock-item .actions button.edit:hover {
+#pending-stock-root .pending-stock-form button.short {
+  width: 200px;
+}
+
+#pending-stock-root .pending-stock-form button:hover {
   opacity: 0.75;
 }
 
-.store-name:hover {
+#pending-stock-root .store-name:hover {
   color: #727272;
 }
 
-.pending-stock-list {
+#pending-stock-root .pending-stock-list {
   margin-top: 20px;
 }
 
-.pending-stock-header, .pending-stock-item {
+#pending-stock-root .pending-stock-header,
+#pending-stock-root .pending-stock-item {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: repeat(4, 1fr);
   gap: 10px;
   padding: 10px;
   border-bottom: 1px solid #ddd;
 }
 
-.pending-stock-header {
+#pending-stock-root .pending-stock-header {
   font-weight: bold;
   background-color: #f1f1f1;
   border-top: 2px solid #ddd;
   text-align: center;
 }
 
-.pending-stock-item {
+#pending-stock-root .pending-stock-item {
   align-items: center;
   text-align: center;
 }
 
-.pending-stock-item div {
+#pending-stock-root .pending-stock-item div {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.pending-stock-item .actions {
+#pending-stock-root .pending-stock-item .actions {
   display: flex;
   gap: 10px;
   justify-content: center;
 }
 
-.pending-stock-item .actions button {
+#pending-stock-root .pending-stock-item .actions button {
   padding: 5px 10px;
+  background-color: #0c619b; 
+  color: #ffffff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -111,88 +120,82 @@
   gap: 8px;
 }
 
-.pending-stock-item .actions button.cancel {
-  background-color: #e74c3c;
-  color: white;
+#pending-stock-root .pending-stock-item .actions button:hover {
+  opacity: 0.75;
 }
 
-.pending-stock-item .actions button.cancel:hover {
-  background-color: #c0392b;
-}
-
-.pending-stock-item .actions button.save {
-  background-color: #3498db;
-  color: white;
-}
-
-.pending-stock-item .actions button.save:hover {
-  background-color: #2980b9;
-}
-
+/* Responsive adjustments */
 @media (max-width: 768px) {
-  .pending-stock-container {
+  #pending-stock-root {
     padding: 10px;
     max-width: 100%;
   }
 
-  .store-name {
+  #pending-stock-root .store-name {
     font-size: 20px;
   }
 
-  .pending-stock-form input {
+  #pending-stock-root .pending-stock-form .form-group {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  #pending-stock-root .pending-stock-form input {
     width: calc(100% - 18px);
     font-size: 12px;
   }
 
-  .pending-stock-form button {
+  #pending-stock-root .pending-stock-form button {
     padding: 6px 12px;
     font-size: 14px;
     margin-top: 8px;
   }
 
-  .pending-stock-header, .pending-stock-item {
+  #pending-stock-root .pending-stock-header,
+  #pending-stock-root .pending-stock-item {
     grid-template-columns: 1fr 1fr;
   }
 
-  .pending-stock-item .actions {
+  #pending-stock-root .pending-stock-item .actions {
     flex-direction: column;
     gap: 5px;
   }
 
-  .pending-stock-item .actions button {
+  #pending-stock-root .pending-stock-item .actions button {
     padding: 4px 8px;
     font-size: 12px;
   }
 }
 
 @media (max-width: 480px) {
-  .pending-stock-container {
+  #pending-stock-root {
     padding: 5px;
   }
 
-  .store-name {
+  #pending-stock-root .store-name {
     font-size: 18px;
   }
 
-  .pending-stock-form input {
+  #pending-stock-root .pending-stock-form input {
     font-size: 10px;
   }
 
-  .pending-stock-form button {
+  #pending-stock-root .pending-stock-form button {
     padding: 4px 8px;
     font-size: 12px;
   }
 
-  .pending-stock-header, .pending-stock-item {
+  #pending-stock-root .pending-stock-header,
+  #pending-stock-root .pending-stock-item {
     grid-template-columns: 1fr;
   }
 
-  .pending-stock-item .actions {
+  #pending-stock-root .pending-stock-item .actions {
     flex-direction: column;
     gap: 3px;
   }
 
-  .pending-stock-item .actions button {
+  #pending-stock-root .pending-stock-item .actions button {
     padding: 4px 6px;
     font-size: 10px;
   }

@@ -90,108 +90,112 @@ const PendingStockManagement = () => {
   };
 
   return (
-    <div className="pending-stock-container">
-      <div className="store-name" onClick={handleBack}>
-        G&F Auto Supply
-      </div>
-      <h2>Pending Stock Management</h2>
-      <div className="pending-stock-form">
-        <h3>Add Pending Stock</h3>
-        <input
-          type="text"
-          placeholder="Product ID"
-          value={newPendingStock.productId}
-          onChange={(e) =>
-            setNewPendingStock({
-              ...newPendingStock,
-              productId: e.target.value,
-            })
-          }
-        />
-        <input
-          type="number"
-          placeholder="Quantity"
-          value={newPendingStock.quantity}
-          onChange={(e) =>
-            setNewPendingStock({
-              ...newPendingStock,
-              quantity: parseInt(e.target.value),
-            })
-          }
-        />
-        <input
-          type="date"
-          value={newPendingStock.arrivalDate}
-          onChange={(e) =>
-            setNewPendingStock({
-              ...newPendingStock,
-              arrivalDate: e.target.value,
-            })
-          }
-        />
-        <button onClick={handleAddPendingStock}>
-          <FontAwesomeIcon icon={faSave} /> Add Pending Stock
-        </button>
-      </div>
-      <div className="pending-stock-list">
-        <h3>Pending Stock List</h3>
-        <div className="pending-stock-header">
-          <div>ProdID</div>
-          <div>Qty</div>
-          <div>ETA</div>
-          <div>Actions</div>
+    <div id="pending-stock-root">
+      <div className="pending-stock-container">
+        <div className="store-name" onClick={handleBack}>
+          G&F Auto Supply
         </div>
-        {pendingStocks.map((stock) => (
-          <div key={stock.id} className="pending-stock-item">
-            <div>{stock.productId}</div>
-            <div>{stock.quantity}</div>
-            <div>
-              {editingStockId === stock.id ? (
-                <input
-                  type="date"
-                  value={newDate}
-                  onChange={(e) => setNewDate(e.target.value)}
-                />
-              ) : (
-                new Date(stock.arrivalDate).toLocaleDateString()
-              )}
-            </div>
-            <div className="actions">
-              {editingStockId === stock.id ? (
-                <button
-                  className="save"
-                  onClick={() => handleUpdateArrivalDate(stock.id)}
-                >
-                  <FontAwesomeIcon icon={faSave} /> Save
-                </button>
-              ) : (
-                <button
-                  className="edit"
-                  onClick={() => {
-                    setEditingStockId(stock.id);
-                    setNewDate(
-                      new Date(stock.arrivalDate).toISOString().split("T")[0]
-                    );
-                  }}
-                >
-                  <FontAwesomeIcon icon={faEdit} />
-                </button>
-              )}
-              <button
-                className="confirm"
-                onClick={() => handleConfirmStock(stock.id)}
-              >
-                <FontAwesomeIcon icon={faCheck} />
-              </button>
-              <button
-                className="cancel"
-                onClick={() => handleCancelStock(stock.id)}
-              >
-                <FontAwesomeIcon icon={faTimes} />
-              </button>
-            </div>
+        <h2>Pending Stock Management</h2>
+        <div className="pending-stock-form">
+          <h3>Add Pending Stock</h3>
+          <div className="form-group">
+            <input
+              type="text"
+              placeholder="Product ID"
+              value={newPendingStock.productId}
+              onChange={(e) =>
+                setNewPendingStock({
+                  ...newPendingStock,
+                  productId: e.target.value,
+                })
+              }
+            />
+            <input
+              type="number"
+              placeholder="Quantity"
+              value={newPendingStock.quantity}
+              onChange={(e) =>
+                setNewPendingStock({
+                  ...newPendingStock,
+                  quantity: parseInt(e.target.value),
+                })
+              }
+            />
+            <input
+              type="date"
+              value={newPendingStock.arrivalDate}
+              onChange={(e) =>
+                setNewPendingStock({
+                  ...newPendingStock,
+                  arrivalDate: e.target.value,
+                })
+              }
+            />
           </div>
-        ))}
+          <button className="short" onClick={handleAddPendingStock}>
+            <FontAwesomeIcon icon={faSave} /> Add Pending Stock
+          </button>
+        </div>
+        <div className="pending-stock-list">
+          <h3>Pending Stock List</h3>
+          <div className="pending-stock-header">
+            <div>ProdID</div>
+            <div>Qty</div>
+            <div>ETA</div>
+            <div>Actions</div>
+          </div>
+          {pendingStocks.map((stock) => (
+            <div key={stock.id} className="pending-stock-item">
+              <div>{stock.productId}</div>
+              <div>{stock.quantity}</div>
+              <div>
+                {editingStockId === stock.id ? (
+                  <input
+                    type="date"
+                    value={newDate}
+                    onChange={(e) => setNewDate(e.target.value)}
+                  />
+                ) : (
+                  new Date(stock.arrivalDate).toLocaleDateString()
+                )}
+              </div>
+              <div className="actions">
+                {editingStockId === stock.id ? (
+                  <button
+                    className="save"
+                    onClick={() => handleUpdateArrivalDate(stock.id)}
+                  >
+                    <FontAwesomeIcon icon={faSave} /> Save
+                  </button>
+                ) : (
+                  <button
+                    className="edit"
+                    onClick={() => {
+                      setEditingStockId(stock.id);
+                      setNewDate(
+                        new Date(stock.arrivalDate).toISOString().split("T")[0]
+                      );
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faEdit} />
+                  </button>
+                )}
+                <button
+                  className="confirm"
+                  onClick={() => handleConfirmStock(stock.id)}
+                >
+                  <FontAwesomeIcon icon={faCheck} />
+                </button>
+                <button
+                  className="cancel"
+                  onClick={() => handleCancelStock(stock.id)}
+                >
+                  <FontAwesomeIcon icon={faTimes} />
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
