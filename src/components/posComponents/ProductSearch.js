@@ -35,16 +35,18 @@ const ProductSearch = ({ onSearch, onSearchTermChange }) => {
   };
 
   return (
-    <div className="product-search">
-      <input
-        type="text"
-        placeholder="Search by name or description"
-        value={searchTerm}
-        onChange={handleChange}
-        onKeyPress={handleKeyPress}
-      />
-      <div className="search-icon" onClick={handleSearch}>
-        <FontAwesomeIcon icon={faSearch} />
+    <div id="root-product-search">
+      <div className="product-search">
+        <input
+          type="text"
+          placeholder="Search by name or description"
+          value={searchTerm}
+          onChange={handleChange}
+          onKeyPress={handleKeyPress}
+        />
+        <div className="search-icon" onClick={handleSearch}>
+          <FontAwesomeIcon icon={faSearch} />
+        </div>
       </div>
     </div>
   );

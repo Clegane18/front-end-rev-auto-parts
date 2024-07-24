@@ -1,4 +1,5 @@
-.checkout-container {
+/* Responsive design */
+#root-checkout .checkout-container {
   width: 90%;
   max-width: 600px;
   margin: 20px auto;
@@ -10,20 +11,20 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.checkout-container h2 {
+#root-checkout .checkout-container h2 {
   text-align: center;
   margin-bottom: 20px;
   color: #333;
   font-weight: 300;
 }
 
-.checkout-container ul {
+#root-checkout .checkout-container ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
 }
 
-.checkout-container li {
+#root-checkout .checkout-container li {
   margin: 10px 0;
   padding: 10px;
   background-color: #fff;
@@ -35,19 +36,19 @@
   align-items: center;
 }
 
-.item-details {
+#root-checkout .item-details {
   display: flex;
   justify-content: space-between;
   width: 100%;
 }
 
-.item-details span {
+#root-checkout .item-details span {
   flex: 1;
   padding: 0 10px;
   text-align: center;
 }
 
-.total-amount {
+#root-checkout .total-amount {
   text-align: left;
   margin-top: 20px;
   font-size: 20px;
@@ -55,68 +56,72 @@
   color: #444;
 }
 
-.payment-section {
-  text-align: center;
+#root-checkout .payment-section {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
   margin-top: 30px;
 }
 
-.payment-section label {
+#root-checkout .payment-section label {
   font-size: 16px;
   margin-right: 10px;
 }
 
-.payment-section input {
+#root-checkout .payment-section input {
   font-size: 16px;
   padding: 10px;
   width: 150px;
   text-align: right;
   border: 1px solid #ccc;
   border-radius: 4px;
-  margin-left: 5px;
 }
 
-.payment-section button {
+#root-checkout .payment-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+#root-checkout .payment-section button {
   font-size: 16px;
   padding: 10px 20px;
-  background-color: #0c619b;
-  color: #ffffff;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  margin: 0 10px;
   transition: background-color 0.3s, opacity 0.3s;
 }
 
-.payment-section button:hover {
+#root-checkout .payment-section button.pay-button, 
+#root-checkout .payment-section button.cancel-button {
+  background-color: #0c619b;
+  color: #ffffff;
+}
+
+#root-checkout .payment-section button:hover {
   opacity: 0.75;
 }
 
-.payment-section input:focus,
-.payment-section button:focus {
+#root-checkout .payment-section button:focus {
   outline: none;
   box-shadow: 0 0 5px #0c619b;
 }
 
-@media (max-width: 768px) {
-  .checkout-container {
-    width: 95%;
+/* Responsive Design */
+@media (min-width: 1200px) {
+  #root-checkout .checkout-container {
+    width: 80%;
+    max-width: 800px;
   }
 
-  .checkout-container li {
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 480px) {
-  .checkout-container {
-    width: 100%;
+  #root-checkout .checkout-container li {
+    font-size: 18px;
   }
 
-  .checkout-container li {
-    font-size: 12px;
+  #root-checkout .payment-section {
+    justify-content: flex-start;
   }
 
-  .payment-section input {
-    width: 100px;
+  #root-checkout .payment-section input {
+    width: 200px;
   }
 }

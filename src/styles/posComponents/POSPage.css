@@ -1,11 +1,11 @@
-.pos-page {
+#root-pos-page .pos-page {
   font-family: Arial, sans-serif;
   display: flex;
   flex-direction: column;
   height: 100vh;
 }
 
-.pos-header {
+#root-pos-page .pos-header {
   background-color: #343a40;
   color: #ffffff;
   padding: 10px 20px;
@@ -15,33 +15,33 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.shop-info {
+#root-pos-page .shop-info {
   display: flex;
   align-items: center;
 }
 
-.shop-info h1 {
+#root-pos-page .shop-info h1 {
   font-size: 24px;
   margin: 0;
   padding-left: 10px;
   font-weight: 300;
 }
 
-.shop-info h1:hover {
+#root-pos-page .shop-info h1:hover {
   opacity: 0.85;
 }
 
-.cart-icon {
+#root-pos-page .cart-icon {
   cursor: pointer;
 }
 
-.pos-content {
+#root-pos-page .pos-content {
   display: flex;
   flex: 1;
   overflow-x: hidden;
 }
 
-.pos-main {
+#root-pos-page .pos-main {
   display: flex;
   flex: 1;
   background-color: #ffffff;
@@ -49,93 +49,93 @@
   overflow-x: hidden;
 }
 
-.products-section,
-.cart-section {
+#root-pos-page .products-section,
+#root-pos-page .cart-section {
   flex: 1;
   padding: 10px;
   overflow-y: auto;
 }
 
-.products-section {
+#root-pos-page .products-section {
   border-right: 1px solid #dee2e6;
 }
 
-.cart-section {
+#root-pos-page .cart-section {
   padding-left: 20px;
 }
 
 /* Responsive Design */
 @media (min-width: 1200px) {
-  .pos-header {
+  #root-pos-page .pos-header {
     padding: 15px 30px;
     justify-content: space-between;
   }
 
-  .shop-info h1 {
+  #root-pos-page .shop-info h1 {
     font-size: 28px;
   }
 
-  .cart-icon {
+  #root-pos-page .cart-icon {
     font-size: 26px;
   }
 
-  .pos-main {
+  #root-pos-page .pos-main {
     padding: 30px;
   }
 
-  .products-section,
-  .cart-section {
+  #root-pos-page .products-section,
+  #root-pos-page .cart-section {
     padding: 20px;
   }
 }
 
 @media (min-width: 1440px) {
-  .pos-header {
+  #root-pos-page .pos-header {  
     padding: 20px 40px;
   }
 
-  .shop-info h1 {
+  #root-pos-page .shop-info h1 {
     font-size: 32px;
   }
 
-  .cart-icon {
+  #root-pos-page .cart-icon {
     font-size: 30px;
   }
 
-  .pos-main {
+  #root-pos-page .pos-main {
     padding: 40px;
   }
 
-  .products-section,
-  .cart-section {
+  #root-pos-page .products-section,
+  #root-pos-page .cart-section {
     padding: 30px;
   }
 }
 
 @media (min-width: 1920px) {
-  .pos-header {
+  #root-pos-page .pos-header {
     padding: 25px 50px;
   }
 
-  .shop-info h1 {
+  #root-pos-page .shop-info h1 {
     font-size: 36px;
   }
 
-  .cart-icon {
+  #root-pos-page .cart-icon {
     font-size: 32px;
   }
 
-  .pos-main {
+  #root-pos-page .pos-main {
     padding: 50px;
   }
 
-  .products-section,
-  .cart-section {
+  #root-pos-page .products-section,
+  #root-pos-page .cart-section {
     padding: 40px;
   }
 }
 
-.shop-info {
+#root-pos-page .shop-info {
   font-size: 24px;
   font-weight: bold;
   cursor: pointer;

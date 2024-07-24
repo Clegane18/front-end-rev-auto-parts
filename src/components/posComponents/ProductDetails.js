@@ -32,49 +32,54 @@ const ProductDetails = ({ product, onAddToCart, onClose }) => {
   };
 
   return (
-    <div className="product-modal-overlay" onClick={onClose}>
-      <div className="product-modal" onClick={(e) => e.stopPropagation()}>
-        <button className="close-btn" onClick={onClose} aria-label="Close">
-          &times;
-        </button>
-        <div className="product-details-header">
-          <h2>{product.name}</h2>
-          <p className="product-price">₱{product.price}</p>
-          <p className="product-item-code">Item Code: {product.itemCode}</p>
-        </div>
-        <div className="product-description">
-          <p>• {product.description.split("\n").join("</p><p>• ")}</p>{" "}
-        </div>
-        <div className="product-actions">
-          <button onClick={handleBuyNowClick} className="buy-now-button">
-            Buy Now
+    <div id="root-product-details">
+      <div className="product-modal-overlay" onClick={onClose}>
+        <div className="product-modal" onClick={(e) => e.stopPropagation()}>
+          <button className="close-btn" onClick={onClose} aria-label="Close">
+            &times;
           </button>
-          <button onClick={handleAddToCartClick} className="add-to-cart-button">
-            Add to Cart
-          </button>
-        </div>
-        {showBuyNow && (
-          <div className="buy-now-section">
-            <p>Current Stock: {product.stock}</p>
-            <label className="quantity-label">
-              Quantity:
-              <input
-                type="number"
-                value={quantity}
-                onChange={(e) => setQuantity(Number(e.target.value))}
-                min="1"
-                max={product.stock}
-                className="quantity-input"
-              />
-            </label>
+          <div className="product-details-header">
+            <h2>{product.name}</h2>
+            <p className="product-price">₱{product.price}</p>
+            <p className="product-item-code">Item Code: {product.itemCode}</p>
+          </div>
+          <div className="product-description">
+            <p>• {product.description.split("\n").join("</p><p>• ")}</p>{" "}
+          </div>
+          <div className="product-actions">
+            <button onClick={handleBuyNowClick} className="buy-now-button">
+              Buy Now
+            </button>
             <button
-              onClick={handleConfirmPurchaseClick}
-              className="confirm-buy-now-button"
+              onClick={handleAddToCartClick}
+              className="add-to-cart-button"
             >
-              Confirm Purchase
+              Add to Cart
             </button>
           </div>
-        )}
+          {showBuyNow && (
+            <div className="buy-now-section">
+              <p>Current Stock: {product.stock}</p>
+              <label className="quantity-label">
+                Quantity:
+                <input
+                  type="number"
+                  value={quantity}
+                  onChange={(e) => setQuantity(Number(e.target.value))}
+                  min="1"
+                  max={product.stock}
+                  className="quantity-input"
+                />
+              </label>
+              <button
+                onClick={handleConfirmPurchaseClick}
+                className="confirm-buy-now-button"
+              >
+                Confirm Purchase
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

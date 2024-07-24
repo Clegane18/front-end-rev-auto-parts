@@ -9,9 +9,11 @@ const CartIcon = ({ onClick }) => {
   const itemCount = getItemCount();
 
   return (
-    <div className="cart-icon-container" onClick={onClick}>
-      <FontAwesomeIcon icon={faShoppingCart} className="cart-icon" />
-      {itemCount > 0 && <span className="item-count">{itemCount}</span>}
+    <div id="root-cart-icon">
+      <div className="cart-icon-container" onClick={onClick}>
+        <FontAwesomeIcon icon={faShoppingCart} className="cart-icon" />
+        {itemCount > 0 && <span className="item-count">{itemCount}</span>}
+      </div>
     </div>
   );
 };

@@ -45,43 +45,45 @@ const POSPage = () => {
   };
 
   return (
-    <div className="pos-page">
-      <header className="pos-header">
-        <div className="shop-info" onClick={handleBack}>
-          <h1>G&F Auto Supply POS</h1>
-        </div>
-        <div className="search-bar">
-          <ProductSearch
-            onSearch={handleSearch}
-            onSearchTermChange={handleSearchTermChange}
-          />
-        </div>
-        <div className="cart-icon">
-          <CartIcon
-            itemCount={cartItems.length}
-            onClick={handleCartIconClick}
-          />
-        </div>
-      </header>
-      <div className="pos-content">
-        <main className="pos-main">
-          <div className="products-section">
-            <ItemsByCategory onSelectProduct={handleSelectProduct} />
-            {searchTerm && products.length > 0 && (
-              <ProductList
-                products={products}
-                onSelectProduct={handleSelectProduct}
-              />
-            )}
+    <div id="root-pos-page">
+      <div className="pos-page">
+        <header className="pos-header">
+          <div className="shop-info" onClick={handleBack}>
+            <h1>G&F Auto Supply POS</h1>
           </div>
-        </main>
-        {selectedProduct && (
-          <ProductDetails
-            product={selectedProduct}
-            onAddToCart={handleAddToCart}
-            onClose={handleCloseModal}
-          />
-        )}
+          <div className="search-bar">
+            <ProductSearch
+              onSearch={handleSearch}
+              onSearchTermChange={handleSearchTermChange}
+            />
+          </div>
+          <div className="cart-icon">
+            <CartIcon
+              itemCount={cartItems.length}
+              onClick={handleCartIconClick}
+            />
+          </div>
+        </header>
+        <div className="pos-content">
+          <main className="pos-main">
+            <div className="products-section">
+              <ItemsByCategory onSelectProduct={handleSelectProduct} />
+              {searchTerm && products.length > 0 && (
+                <ProductList
+                  products={products}
+                  onSelectProduct={handleSelectProduct}
+                />
+              )}
+            </div>
+          </main>
+          {selectedProduct && (
+            <ProductDetails
+              product={selectedProduct}
+              onAddToCart={handleAddToCart}
+              onClose={handleCloseModal}
+            />
+          )}
+        </div>
       </div>
     </div>
   );

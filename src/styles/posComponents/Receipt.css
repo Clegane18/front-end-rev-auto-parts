@@ -1,4 +1,4 @@
-.page-container {
+#root-receipt .page-container {
   width: 100%;
   max-width: 600px;
   margin: 20px auto;
@@ -7,7 +7,7 @@
   position: relative;
 }
 
-.receipt-container {
+#root-receipt .receipt-container {
   width: 100%;
   max-width: 100%;
   margin: 40px auto 0 auto; 
@@ -18,45 +18,45 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.store-info {
+#root-receipt .store-info {
   text-align: center;
   margin-bottom: 20px;
 }
 
-.store-info h2 {
+#root-receipt .store-info h2 {
   margin: 0;
   font-size: 24px;
   font-weight: bold;
   color: #333333;
 }
 
-.store-info p {
+#root-receipt .store-info p {
   margin: 4px 0;
   font-size: 14px;
 }
 
-.receipt-header {
+#root-receipt .receipt-header {
   text-align: center;
   margin-bottom: 20px;
 }
 
-.receipt-header h3 {
+#root-receipt .receipt-header h3 {
   margin: 0;
   font-size: 20px;
 }
 
-.receipt-header p {
+#root-receipt .receipt-header p {
   margin: 4px 0;
   font-size: 14px;
 }
 
-.receipt-items {
+#root-receipt .receipt-items {
   list-style: none;
   padding: 0;
   margin-bottom: 20px;
 }
 
-.item-details {
+#root-receipt .item-details {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -67,34 +67,34 @@
   border-bottom: 1px solid #ddd;
 }
 
-.item-details .item-name {
+#root-receipt .item-details .item-name {
   align-self: center;
   flex: 2;
   text-align: center;
 }
 
-.quantity-container,
-.item-name,
-.item-price,
-.item-subtotal {
+#root-receipt .quantity-container,
+#root-receipt .item-name,
+#root-receipt .item-price,
+#root-receipt .item-subtotal {
   flex: 1;
 }
 
-.quantity-container span:first-child {
+#root-receipt .quantity-container span:first-child {
   display: block;
 }
 
-.quantity-container span:last-child {
+#root-receipt .quantity-container span:last-child {
   display: block;
   margin-top: 5px;
 }
 
-.item-price,
-.item-subtotal {
+#root-receipt .item-price,
+#root-receipt .item-subtotal {
   text-align: right;
 }
 
-.totals {
+#root-receipt .totals {
   text-align: left;
   margin-top: 20px;
   font-size: 16px;
@@ -102,12 +102,12 @@
   padding-top: 10px;
 }
 
-.totals p {
+#root-receipt .totals p {
   margin: 4px 0;
 }
 
-.print-button, 
-.new-transaction-button {
+#root-receipt .print-button, 
+#root-receipt .new-transaction-button {
   display: block;
   width: 100%;
   padding: 12px;
@@ -121,66 +121,66 @@
   margin-top: 20px;
 }
 
-.print-button:hover, 
-.new-transaction-button:hover {
+#root-receipt .print-button:hover, 
+#root-receipt .new-transaction-button:hover {
   opacity: 0.75;
 }
 
 @media (max-width: 600px) {
-  .store-info h2 {
+  #root-receipt .store-info h2 {
     font-size: 20px;
   }
 
-  .store-info p {
+  #root-receipt .store-info p {
     font-size: 12px;
   }
 
-  .receipt-header h3 {
+  #root-receipt .receipt-header h3 {
     font-size: 18px;
   }
 
-  .receipt-header p {
+  #root-receipt .receipt-header p {
     font-size: 12px;
   }
 
-  .item-details {
+  #root-receipt .item-details {
     flex-direction: column;
     text-align: center;
   }
 
-  .item-details .item-name {
+  #root-receipt .item-details .item-name {
     text-align: left;
     margin-bottom: 10px;
   }
 
-  .quantity-container,
-  .item-price,
-  .item-subtotal {
+  #root-receipt .quantity-container,
+  #root-receipt .item-price,
+  #root-receipt .item-subtotal {
     text-align: center;
   }
 
-  .totals {
+  #root-receipt .totals {
     font-size: 14px;
   }
 
-  .print-button, 
-  .new-transaction-button {
+  #root-receipt .print-button, 
+  #root-receipt .new-transaction-button {
     padding: 10px;
     font-size: 14px;
   }
 }
 
 @media print {
-  .print-button, 
-  .new-transaction-button {
+  #root-receipt .print-button, 
+  #root-receipt .new-transaction-button {
     display: none;
   }
 
-  .receipt-items {
+  #root-receipt .receipt-items {
     display: block;
   }
 
-  .item-details {
+  #root-receipt .item-details {
     display: flex;
     flex-direction: row;
   }

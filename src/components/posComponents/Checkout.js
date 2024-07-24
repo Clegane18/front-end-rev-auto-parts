@@ -62,48 +62,54 @@ const Checkout = () => {
   };
 
   return (
-    <div className="checkout-container">
-      <h2>Checkout</h2>
-      {items.length === 0 ? (
-        <p>No items in the cart.</p>
-      ) : (
-        <>
-          <ul>
-            {items.map((item, index) => (
-              <li key={index} className="item-details">
-                <div className="quantity-container">
-                  <span>Qty:</span>
-                  <span>{item.quantity}</span>
-                </div>
-                <span>{item.productName || item.name}</span>
-                <span>Amount: ₱{item.unitPrice}</span>
-                <span>Subtotal: ₱{item.subtotalAmount}</span>
-              </li>
-            ))}
-          </ul>
-          <div className="total-amount">Total Amount: ₱{totalAmount}</div>
-          <div className="payment-section">
-            <label>
-              Payment Amount: ₱
-              <input
-                type="number"
-                value={paymentAmount}
-                onChange={handlePaymentAmountChange}
-                min="0"
-              />
-            </label>
-            <button onClick={handlePay}>Pay</button>
-            <button onClick={handleCancel} className="cancel-button">
-              Cancel
-            </button>
-          </div>
-        </>
-      )}
-      <InsufficientModal
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        message={`Payment amount is less than the total amount of ₱${totalAmount}. Please enter the correct payment amount.`}
-      />
+    <div id="root-checkout">
+      <div className="checkout-container">
+        <h2>Checkout</h2>
+        {items.length === 0 ? (
+          <p>No items in the cart.</p>
+        ) : (
+          <>
+            <ul>
+              {items.map((item, index) => (
+                <li key={index} className="item-details">
+                  <div className="quantity-container">
+                    <span>Qty:</span>
+                    <span>{item.quantity}</span>
+                  </div>
+                  <span>{item.productName || item.name}</span>
+                  <span>Amount: ₱{item.unitPrice}</span>
+                  <span>Subtotal: ₱{item.subtotalAmount}</span>
+                </li>
+              ))}
+            </ul>
+            <div className="total-amount">Total Amount: ₱{totalAmount}</div>
+            <div className="payment-section">
+              <label>
+                Payment Amount: ₱
+                <input
+                  type="number"
+                  value={paymentAmount}
+                  onChange={handlePaymentAmountChange}
+                  min="0"
+                />
+              </label>
+              <div className="payment-buttons">
+                <button className="pay-button" onClick={handlePay}>
+                  Pay
+                </button>
+                <button className="cancel-button" onClick={handleCancel}>
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </>
+        )}
+        <InsufficientModal
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          message={`Payment amount is less than the total amount of ₱${totalAmount}. Please enter the correct payment amount.`}
+        />
+      </div>
     </div>
   );
 };

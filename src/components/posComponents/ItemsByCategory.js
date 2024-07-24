@@ -56,34 +56,36 @@ const ItemsByCategory = ({ onSelectProduct }) => {
   }
 
   return (
-    <div className="items-by-category">
-      {Object.keys(groupedProducts).map((category) => (
-        <div key={category} className="category-section">
-          <h2 className="category-title">{category}</h2>
-          <div className="products">
-            {visibleItems[category].map((item) => (
-              <div
-                key={item.id}
-                className="product-item"
-                onClick={() => onSelectProduct(item)}
-              >
-                <h3 className="item-name">{item.name}</h3>
-                <p className="item-code">Code: {item.itemCode}</p>
-              </div>
-            ))}
-          </div>
-          {showAll[category] && (
-            <div className="view-all-container">
-              <button
-                className="view-all"
-                onClick={() => handleViewAll(category)}
-              >
-                View All
-              </button>
+    <div id="root-items-by-category">
+      <div className="items-by-category">
+        {Object.keys(groupedProducts).map((category) => (
+          <div key={category} className="category-section">
+            <h2 className="category-title">{category}</h2>
+            <div className="products">
+              {visibleItems[category].map((item) => (
+                <div
+                  key={item.id}
+                  className="product-item"
+                  onClick={() => onSelectProduct(item)}
+                >
+                  <h3 className="item-name">{item.name}</h3>
+                  <p className="item-code">Code: {item.itemCode}</p>
+                </div>
+              ))}
             </div>
-          )}
-        </div>
-      ))}
+            {showAll[category] && (
+              <div className="view-all-container">
+                <button
+                  className="view-all"
+                  onClick={() => handleViewAll(category)}
+                >
+                  View All
+                </button>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
