@@ -1,3 +1,4 @@
+/* Responsive design */
 #root-confirm-delete-modal .modal-overlay {
   position: fixed;
   top: 0;
@@ -103,5 +104,12 @@
   }
   to {
     transform: translateY(0);
+  }
+}
+
+/* Add media query for larger screens */
+@media (min-width: 1024px) {
+  #root-confirm-delete-modal .modal-content {
+    width: 35%;
   }
 }

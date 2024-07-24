@@ -1,3 +1,4 @@
+/* Responsive design */
 #root-edit-product-modal .modal-overlay {
   position: fixed;
   top: 0;
@@ -15,7 +16,7 @@
   background: #ffffff;
   padding: 20px;
   border-radius: 8px;
-  width: 400px;
+  width: 40%;
   max-width: 90%;
   overflow-y: auto;
   max-height: 90%;
@@ -101,4 +102,11 @@
 #root-edit-product-modal .modal-content .button-group button[type="submit"]:hover, 
 #root-edit-product-modal .modal-content .button-group button[type="button"]:hover {
   opacity: 0.75;
+}
+
+/* Responsive design */
+@media (min-width: 1024px) {
+  #root-edit-product-modal .modal-content {
+    width: 30%;
+  }
 }
