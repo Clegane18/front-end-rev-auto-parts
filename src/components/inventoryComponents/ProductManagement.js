@@ -301,7 +301,7 @@ const ProductManagement = () => {
                 />
               </div>
             )}
-            <button onClick={handleSearch}>
+            <button onClick={handleDateRangeSearch}>
               <FaSearch />
             </button>
           </div>
