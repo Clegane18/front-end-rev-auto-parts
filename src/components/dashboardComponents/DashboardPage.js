@@ -245,7 +245,7 @@ const DashboardPage = () => {
         </section>
         <section className="bestsellers-section">
           <div className="section-container">
-            <h3>Bestsellers</h3>
+            <h3>Top Sellers This Month</h3>
             <table>
               <thead>
                 <tr>

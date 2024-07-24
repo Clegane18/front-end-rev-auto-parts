@@ -80,9 +80,12 @@
 }
 
 #root-confirm-delete-modal .modal-content .error-text {
-  color: #ff6347;
+  color: #eb2626;
+  padding: 10px;
+  border-radius: 5px;
   margin-bottom: 15px;
-  font-weight: bold; 
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
 }
 
 @keyframes fadeIn {

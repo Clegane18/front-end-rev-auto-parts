@@ -25,7 +25,6 @@ const EditProductModal = ({
       <div className="modal-overlay">
         <div className="modal-content">
           <h2>Edit Product</h2>
-          {errorMessage && <div className="error-message">{errorMessage}</div>}
           <form onSubmit={handleSubmit}>
             <label>
               Item Code:
@@ -110,6 +109,9 @@ const EditProductModal = ({
                 Cancel
               </button>
             </div>
+            {errorMessage && (
+              <div className="error-message">{errorMessage}</div>
+            )}
           </form>
         </div>
       </div>

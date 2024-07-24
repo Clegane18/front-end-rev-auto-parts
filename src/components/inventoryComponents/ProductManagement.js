@@ -391,7 +391,7 @@ const ProductManagement = () => {
           <ConfirmDeleteModal
             product={deletingProduct}
             onClose={() => setDeletingProduct(null)}
-            onDelete={() => handleDeleteProduct(deletingProduct.id)}
+            onConfirm={handleDeleteProduct}
             errorMessage={errorMessage}
             clearErrorMessage={clearErrorMessage}
           />
@@ -404,17 +404,13 @@ const ProductManagement = () => {
             clearErrorMessage={clearErrorMessage}
           />
         )}
+
         {addingStockProduct && (
           <AddStockModal
             product={addingStockProduct}
             onClose={() => setAddingStockProduct(null)}
             onSave={handleUpdateProduct}
           />
-        )}
-        {errorMessage && (
-          <div className="error-message">
-            <span>{errorMessage}</span>
-          </div>
         )}
       </div>
     </div>

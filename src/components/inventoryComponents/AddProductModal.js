@@ -34,7 +34,6 @@ const AddProductModal = ({
       <div className="modal-overlay">
         <div className="modal-content">
           <h2>Add Product</h2>
-          {errorMessage && <div className="error-message">{errorMessage}</div>}
           <form onSubmit={handleSubmit}>
             <label>
               Item Code:
@@ -116,6 +115,11 @@ const AddProductModal = ({
                 onChange={handleChange}
               />
             </label>
+            {errorMessage && (
+              <div className="error-message">
+                <span>{errorMessage}</span>
+              </div>
+            )}
             <div className="button-group">
               <button type="submit">Add</button>
               <button

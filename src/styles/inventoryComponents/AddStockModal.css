@@ -41,12 +41,12 @@
 }
 
 #root-add-stock-modal .error-message {
-  background-color: #f44336;
-  color: #ffffff;
+  color: #eb2626;
   padding: 10px;
   border-radius: 5px;
   margin-bottom: 15px;
   text-align: center;
+  font-family: 'Montserrat', sans-serif;
 }
 
 #root-add-stock-modal form {
