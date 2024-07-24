@@ -241,6 +241,11 @@ const ProductManagement = () => {
       setEndDate("");
       setProducts(allProducts);
     }
+    if (e.target.value !== "price") {
+      setMinPrice("");
+      setMaxPrice("");
+      setProducts(allProducts);
+    }
   };
 
   return (
@@ -294,17 +299,13 @@ const ProductManagement = () => {
                   onChange={(e) => setEndDate(e.target.value)}
                   style={{ width: "100%" }}
                 />
-                <button onClick={handleDateRangeSearch}>
-                  <FaSearch />
-                </button>
               </div>
             )}
-            {filterType === "default" && (
-              <button onClick={debouncedSearch}>
-                <FaSearch />
-              </button>
-            )}
+            <button onClick={handleSearch}>
+              <FaSearch />
+            </button>
           </div>
+
           <button className="low-stock-button" onClick={handleLowStock}>
             {isShowingLowStock ? "Show All Products" : "Show Low Stock"}
           </button>
