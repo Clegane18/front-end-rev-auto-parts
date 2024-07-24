@@ -93,8 +93,6 @@ export const getAllItemsByCategory = async () => {
 };
 
 // Filter APIs
-export const getProductByItemCode = (productItemCode) =>
-  api.get(`/products/filter/itemCode`, { params: { productItemCode } });
 export const getProductByBrand = (brand) =>
   api.get(`/products/filter/brand?brand=${brand}`);
 export const getProductByPriceRange = (minPrice, maxPrice) =>

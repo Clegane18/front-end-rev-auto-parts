@@ -41,7 +41,7 @@ const ProductDetails = ({ product, onAddToCart, onClose }) => {
           <div className="product-details-header">
             <h2>{product.name}</h2>
             <p className="product-price">₱{product.price}</p>
-            <p className="product-item-code">Item Code: {product.itemCode}</p>
+            <p className="product-item-code">ITEM CODE: {product.itemCode}</p>
           </div>
           <div className="product-description">
             <p>• {product.description.split("\n").join("</p><p>• ")}</p>{" "}

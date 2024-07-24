@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:3002/api/auth"; // Adjust the base URL as necessary
+const BASE_URL = "http://localhost:3002/api/auth";
 
 export const searchProducts = async (query) => {
   try {
@@ -13,6 +13,18 @@ export const searchProducts = async (query) => {
     return response.data;
   } catch (error) {
     console.error("Error searching products:", error);
+    throw error;
+  }
+};
+
+export const getProductByItemCode = async (productItemCode) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/products/filter/itemCode`, {
+      params: { productItemCode },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error searching product by item code:", error);
     throw error;
   }
 };

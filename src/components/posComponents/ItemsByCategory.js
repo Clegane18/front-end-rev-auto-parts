@@ -69,7 +69,7 @@ const ItemsByCategory = ({ onSelectProduct }) => {
                   onClick={() => onSelectProduct(item)}
                 >
                   <h3 className="item-name">{item.name}</h3>
-                  <p className="item-code">Code: {item.itemCode}</p>
+                  <p className="item-code">ITEM CODE: {item.itemCode}</p>
                 </div>
               ))}
             </div>

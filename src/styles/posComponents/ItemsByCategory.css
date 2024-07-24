@@ -1,7 +1,7 @@
 /* Responsive design */
 #root-items-by-category .items-by-category {
-  padding: 20px;
-  background-color: #f9f9f9;
+  background-color: #FFFFFF;
+  overflow-y: auto;
 }
 
 @media (max-width: 1200px) {
@@ -48,7 +48,6 @@
   }
 }
 
-/* Existing Styles */
 #root-items-by-category .category-section {
   margin-bottom: 40px;
 }
@@ -66,6 +65,7 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
   justify-items: center;
+  cursor: pointer;
 }
 
 #root-items-by-category .product-item {
@@ -99,6 +99,7 @@
   margin-top: 5px;
   font-size: 14px;
   color: #777;
+  text-transform: none;
 }
 
 #root-items-by-category .view-all-container {
