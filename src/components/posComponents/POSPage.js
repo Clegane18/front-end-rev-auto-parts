@@ -51,11 +51,17 @@ const POSPage = () => {
           <div className="shop-info" onClick={handleBack}>
             <h1>G&F Auto Supply POS</h1>
           </div>
-          <div className="search-bar">
+          <div className="search-results-wrapper">
             <ProductSearch
               onSearch={handleSearch}
               onSearchTermChange={handleSearchTermChange}
             />
+            {searchTerm && products.length > 0 && (
+              <ProductList
+                products={products}
+                onSelectProduct={handleSelectProduct}
+              />
+            )}
           </div>
           <div className="cart-icon">
             <CartIcon
@@ -68,12 +74,6 @@ const POSPage = () => {
           <main className="pos-main">
             <div className="products-section">
               <ItemsByCategory onSelectProduct={handleSelectProduct} />
-              {searchTerm && products.length > 0 && (
-                <ProductList
-                  products={products}
-                  onSelectProduct={handleSelectProduct}
-                />
-              )}
             </div>
           </main>
           {selectedProduct && (

@@ -1,11 +1,10 @@
 #root-product-list .product-list {
   position: absolute;
-  top: 57px; 
-  right: 330px; 
-  width: 600px; 
-  display: flex;
+  top: 60px !important; 
+  right: 290px !important; 
+  width: 598px !important; 
+  display: flex !important;
   flex-direction: column;
-  gap: 10px;
   background-color: #fff;
   padding: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -24,13 +23,12 @@
   background-color: #f9f9f9;
 }
 
-#root-product-list .product-item h3 {
+#root-product-list .product-item p {
   margin: 0 0 5px 0;
+  color: black;
+  text-transform: none;
 }
 
-#root-product-list .product-item p {
-  margin: 0;
-}
 
 /* Responsive design  */
 @media (min-width: 1024px) {

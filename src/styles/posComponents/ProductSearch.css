@@ -15,7 +15,7 @@
   
   #root-product-search .search-icon {
     position: absolute;
-    top: 50%;
+    top: 45%;
     right: 1px; 
     transform: translateY(-44%);
     cursor: pointer;
@@ -28,7 +28,11 @@
     justify-content: center;
     align-items: center;
   }
-  
+
+  #root-product-search .search-icon:hover {
+    opacity: 0.75;
+  }
+
   #root-product-search .search-icon svg {
     font-size: 18px;
     color: #fff;

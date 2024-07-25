@@ -11,7 +11,7 @@ const ProductList = ({ products, onSelectProduct }) => {
             className="product-item"
             onClick={() => onSelectProduct(product)}
           >
-            <h3>{product.name}</h3>
+            <p>{product.name}</p>
           </div>
         ))}
       </div>
