@@ -21,6 +21,7 @@ import {
 } from "react-icons/fa";
 import { debounce } from "../../utils/debounce";
 import { formatCurrency } from "../../utils/formatCurrency";
+import { useNavigate } from "react-router-dom";
 
 const ProductManagement = () => {
   const [products, setProducts] = useState([]);
@@ -41,6 +42,8 @@ const ProductManagement = () => {
   useEffect(() => {
     fetchProducts();
   }, []);
+
+  const navigate = useNavigate();
 
   const fetchProducts = async () => {
     try {
@@ -248,10 +251,17 @@ const ProductManagement = () => {
     }
   };
 
+  const handleBack = () => {
+    navigate("/dashboard");
+  };
+
   return (
     <div id="root-product-management">
       <div className="product-management-container">
         <div className="filter-bar">
+          <div className="store-name" onClick={handleBack}>
+            G&F Auto Supply
+          </div>
           <select value={filterType} onChange={handleFilterChange}>
             <option value="default">Default</option>
             <option value="price">Price Range</option>

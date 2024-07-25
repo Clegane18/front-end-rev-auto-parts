@@ -10,12 +10,14 @@
 
 #pending-stock-root .store-name {
   margin-bottom: 20px;
-  font-size: 24px;
+  font-size: 32px;
   font-weight: bold;
   cursor: pointer;
-  color: #000000;
+  color: #1A2129;
   font-family: 'Montserrat', sans-serif;
+  text-align: center;
 }
+
 
 #pending-stock-root h2 {
   color: #000000;

@@ -5,6 +5,9 @@
   padding: 1rem;
   overflow: hidden;
   max-height: calc(100vh - 8rem);
+  background-color: #f7f9fc; 
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
 }
 
 #root-product-management .filter-bar {
@@ -12,6 +15,19 @@
   gap: 1rem;
   align-items: center;
   flex-wrap: wrap;
+  background-color: #ffffff; 
+  padding: 1rem; 
+  border-radius: 8px; 
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+#root-product-management .filter-bar .store-name {
+  font-size: 25px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #1A2129;
+  font-family: 'Montserrat', sans-serif;
+  text-align: center;
 }
 
 #root-product-management .filter-bar select,
@@ -34,15 +50,18 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  transition: background-color 0.3s ease;
 }
 
 #root-product-management .low-stock-button {
   background-color: #0c619b !important;
   color: #ffffff !important;
+  transition: background-color 0.3s ease;
 }
 
 #root-product-management .filter-bar button:hover, 
-#root-product-management .low-stock-button button:hover {
+#root-product-management .low-stock-button button:hover, 
+#root-product-management .filter-bar .store-name:hover {
   opacity: 0.75; 
 }
 
@@ -66,6 +85,11 @@
 #root-product-management .table-container {
   overflow-y: auto;
   max-height: 537px;
+  background-color: #ffffff; 
+  padding: 0 1rem 1rem 1rem; 
+  border-radius: 8px; 
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); 
+
 }
 
 #root-product-management .product-table {
