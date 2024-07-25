@@ -34,36 +34,38 @@ const LoginPage = ({ setAuthToken }) => {
   };
 
   return (
-    <div className="login-page-wrapper">
-      <div className="login-content">
-        <h2>Admin Login</h2>
-        <form onSubmit={handleLogin} className="login-form">
-          <div className={`form-group ${emailError ? "has-error" : ""}`}>
-            <FontAwesomeIcon icon={faUser} className="input-icon" />
-            <input
-              type="text"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className={`login-input ${emailError ? "input-error" : ""}`}
-              placeholder={emailError ? emailError : "Email"}
-            />
-          </div>
-          <div className={`form-group ${passwordError ? "has-error" : ""}`}>
-            <FontAwesomeIcon icon={faLock} className="input-icon" />
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className={`login-input ${passwordError ? "input-error" : ""}`}
-              placeholder={passwordError ? passwordError : "Password"}
-            />
-          </div>
-          <button type="submit" className="login-button">
-            Log In
-          </button>
-        </form>
+    <div id="root-login-page">
+      <div className="login-page-wrapper">
+        <div className="login-content">
+          <h2>Admin Login</h2>
+          <form onSubmit={handleLogin} className="login-form">
+            <div className={`form-group ${emailError ? "has-error" : ""}`}>
+              <FontAwesomeIcon icon={faUser} className="input-icon" />
+              <input
+                type="text"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className={`login-input ${emailError ? "input-error" : ""}`}
+                placeholder={emailError ? emailError : "Email"}
+              />
+            </div>
+            <div className={`form-group ${passwordError ? "has-error" : ""}`}>
+              <FontAwesomeIcon icon={faLock} className="input-icon" />
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className={`login-input ${passwordError ? "input-error" : ""}`}
+                placeholder={passwordError ? passwordError : "Password"}
+              />
+            </div>
+            <button type="submit" className="login-button">
+              Log In
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );
