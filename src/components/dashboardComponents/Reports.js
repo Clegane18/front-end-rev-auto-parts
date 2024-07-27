@@ -1,98 +1,134 @@
-import React, { useRef, useState } from "react";
-import { useReactToPrint } from "react-to-print";
-import DashboardPage from "./DashboardPage";
+import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPrint } from "@fortawesome/free-solid-svg-icons";
 import "../../styles/dashboardComponents/Reports.css";
 
-const Reports = () => {
-  const dashboardRef = useRef();
-  const [printOptions, setPrintOptions] = useState({
-    includeSales: true,
-    includeTransactions: true,
-    includeBestsellers: true,
-    includeStock: true,
-    includeIncome: true,
+const ReportsSection = ({ data }) => {
+  const [selectedData, setSelectedData] = useState({
+    sales: true,
+    todaysTransactions: true,
+    bestSellers: true,
+    stockReminder: true,
+    transactionOverview: true,
+    monthlyIncome: true,
   });
 
-  const handlePrint = useReactToPrint({
-    content: () => dashboardRef.current,
-  });
+  const handleCheckboxChange = (event) => {
+    const { name, checked } = event.target;
+    setSelectedData((prevSelectedData) => ({
+      ...prevSelectedData,
+      [name]: checked,
+    }));
+  };
+
+  const handlePrint = () => {
+    window.print();
+  };
 
   return (
-    <div className="reports-container">
-      <h2>Reports</h2>
-      <div className="print-options">
-        <label>
-          <input
-            type="checkbox"
-            checked={printOptions.includeSales}
-            onChange={(e) =>
-              setPrintOptions({
-                ...printOptions,
-                includeSales: e.target.checked,
-              })
-            }
-          />
-          Include Sales
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={printOptions.includeTransactions}
-            onChange={(e) =>
-              setPrintOptions({
-                ...printOptions,
-                includeTransactions: e.target.checked,
-              })
-            }
-          />
-          Include Transactions
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={printOptions.includeBestsellers}
-            onChange={(e) =>
-              setPrintOptions({
-                ...printOptions,
-                includeBestsellers: e.target.checked,
-              })
-            }
-          />
-          Include Bestsellers
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={printOptions.includeStock}
-            onChange={(e) =>
-              setPrintOptions({
-                ...printOptions,
-                includeStock: e.target.checked,
-              })
-            }
-          />
-          Include Stock
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={printOptions.includeIncome}
-            onChange={(e) =>
-              setPrintOptions({
-                ...printOptions,
-                includeIncome: e.target.checked,
-              })
-            }
-          />
-          Include Income
-        </label>
+    <section className="reports-section">
+      <div className="section-container">
+        <h3>Reports</h3>
+        <div className="print-options">
+          <label>
+            <input
+              type="checkbox"
+              name="sales"
+              checked={selectedData.sales}
+              onChange={handleCheckboxChange}
+            />
+            Sales
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              name="todaysTransactions"
+              checked={selectedData.todaysTransactions}
+              onChange={handleCheckboxChange}
+            />
+            Today's Transactions
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              name="bestSellers"
+              checked={selectedData.bestSellers}
+              onChange={handleCheckboxChange}
+            />
+            Best Sellers
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              name="stockReminder"
+              checked={selectedData.stockReminder}
+              onChange={handleCheckboxChange}
+            />
+            Stock Reminder
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              name="transactionOverview"
+              checked={selectedData.transactionOverview}
+              onChange={handleCheckboxChange}
+            />
+            Transaction Overview
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              name="monthlyIncome"
+              checked={selectedData.monthlyIncome}
+              onChange={handleCheckboxChange}
+            />
+            Monthly Income
+          </label>
+        </div>
+        <button className="print-button" onClick={handlePrint}>
+          <FontAwesomeIcon icon={faPrint} /> Print
+        </button>
       </div>
-      <button onClick={handlePrint}>Print Report</button>
-      <div ref={dashboardRef}>
-        <DashboardPage printOptions={printOptions} />
+      <div className="printable-content">
+        {selectedData.sales && (
+          <section className="sales-section">
+            <h3>Sales</h3>
+            {/* Sales content */}
+          </section>
+        )}
+        {selectedData.todaysTransactions && (
+          <section className="todays-transactions-section">
+            <h3>Today's Transactions</h3>
+            {/* Today's transactions content */}
+          </section>
+        )}
+        {selectedData.bestSellers && (
+          <section className="bestsellers-section">
+            <h3>Top Sellers This Month</h3>
+            {/* Best sellers content */}
+          </section>
+        )}
+        {selectedData.stockReminder && (
+          <section className="stock-reminder-section">
+            <h3>Stock Reminder</h3>
+            {/* Stock reminder content */}
+          </section>
+        )}
+        {selectedData.transactionOverview && (
+          <section className="transaction-overview-section">
+            <h3>Transaction Overview</h3>
+            {/* Transaction overview content */}
+          </section>
+        )}
+        {selectedData.monthlyIncome && (
+          <section className="monthly-income-section">
+            <h3>Monthly Income</h3>
+            {/* Monthly income content */}
+          </section>
+        )}
       </div>
-    </div>
+    </section>
   );
 };
 
-export default Reports;
+export default ReportsSection;

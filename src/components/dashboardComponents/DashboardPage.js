@@ -24,7 +24,7 @@ import {
   faUsers,
   faClipboardList,
   faBox,
-  faChartLine,
+  faPrint,
   faCheckCircle,
   faArchive,
   faExclamationTriangle,
@@ -178,11 +178,6 @@ const DashboardPage = () => {
               </Link>
             </li>
             <li>
-              <Link to="/reports">
-                <FontAwesomeIcon icon={faChartLine} /> Reports
-              </Link>
-            </li>
-            <li>
               <button onClick={openLogoutModal} className="logout-button">
                 <FontAwesomeIcon icon={faSignOutAlt} /> Log Out
               </button>
@@ -298,6 +293,9 @@ const DashboardPage = () => {
                 ) : (
                   <span className="no-low-stock">No low stock products</span>
                 )}
+              </div>
+              <div className="print-reports">
+                <FontAwesomeIcon icon={faPrint} /> Print Reports
               </div>
             </div>
           </div>

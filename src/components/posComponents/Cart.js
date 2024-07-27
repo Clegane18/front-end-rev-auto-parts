@@ -9,9 +9,6 @@ const Cart = () => {
 
   const handlePay = () => {
     const validItems = cartItems.filter((item) => item.quantity > 0);
-    if (validItems.length === 0) {
-      return;
-    }
     navigate("/checkout", { state: { items: validItems } });
   };
 
@@ -24,6 +21,19 @@ const Cart = () => {
       .filter((item) => item.quantity > 0)
       .reduce((acc, item) => acc + item.subtotalAmount, 0)
       .toFixed(2);
+  };
+
+  const handleQuantityChange = (index, newQuantity) => {
+    const item = cartItems[index];
+    if (newQuantity > item.stock) {
+      alert(
+        `The quantity for "${
+          item.productName || item.name
+        }" exceeds the available stock of ${item.stock}.`
+      );
+      return;
+    }
+    updateQuantity(index, newQuantity);
   };
 
   return (
@@ -70,9 +80,10 @@ const Cart = () => {
                         type="number"
                         value={item.quantity}
                         onChange={(e) =>
-                          updateQuantity(index, Number(e.target.value))
+                          handleQuantityChange(index, Number(e.target.value))
                         }
                         min="1"
+                        max={item.stock}
                       />
                     </div>
                     <span className="item-total">

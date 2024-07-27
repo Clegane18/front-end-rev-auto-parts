@@ -12,6 +12,11 @@ const ProductDetails = ({ product, onAddToCart, onClose }) => {
   };
 
   const handleConfirmPurchaseClick = () => {
+    if (quantity > product.stock) {
+      alert(`The quantity exceeds the available stock of ${product.stock}.`);
+      return;
+    }
+
     const productWithQuantity = {
       ...product,
       quantity,
@@ -22,6 +27,11 @@ const ProductDetails = ({ product, onAddToCart, onClose }) => {
   };
 
   const handleAddToCartClick = () => {
+    if (quantity > product.stock) {
+      alert(`The quantity exceeds the available stock of ${product.stock}.`);
+      return;
+    }
+
     const productWithQuantity = {
       ...product,
       quantity,
@@ -29,6 +39,16 @@ const ProductDetails = ({ product, onAddToCart, onClose }) => {
       subtotalAmount: quantity * product.price,
     };
     onAddToCart(productWithQuantity);
+  };
+
+  const handleQuantityChange = (e) => {
+    const newQuantity = Number(e.target.value);
+    if (newQuantity > product.stock) {
+      alert(`The quantity exceeds the available stock of ${product.stock}.`);
+      setQuantity(product.stock);
+    } else {
+      setQuantity(newQuantity);
+    }
   };
 
   return (
@@ -65,7 +85,7 @@ const ProductDetails = ({ product, onAddToCart, onClose }) => {
                 <input
                   type="number"
                   value={quantity}
-                  onChange={(e) => setQuantity(Number(e.target.value))}
+                  onChange={handleQuantityChange}
                   min="1"
                   max={product.stock}
                   className="quantity-input"

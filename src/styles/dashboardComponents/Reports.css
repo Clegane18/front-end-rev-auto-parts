@@ -1,0 +1,61 @@
+.reports-section {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+  }
+  
+  .section-container {
+    margin-bottom: 20px;
+  }
+  
+  .print-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .print-options label {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .print-options input {
+    margin-right: 5px;
+  }
+  
+  .print-button {
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .print-button:hover {
+    background-color: #45a049;
+  }
+  
+  .printable-content {
+    display: none;
+  }
+  
+  @media print {
+    .print-options, .print-button {
+      display: none;
+    }
+  
+    .printable-content {
+      display: block;
+    }
+  }
+  
