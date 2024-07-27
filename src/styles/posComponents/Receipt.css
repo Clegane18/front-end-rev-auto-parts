@@ -58,7 +58,7 @@
 
 #root-receipt .item-details {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   width: 100%;
   gap: 10px;
@@ -67,17 +67,16 @@
   border-bottom: 1px solid #ddd;
 }
 
-#root-receipt .item-details .item-name {
-  align-self: center;
-  flex: 2;
-  text-align: center;
-}
-
 #root-receipt .quantity-container,
-#root-receipt .item-name,
-#root-receipt .item-price,
+#root-receipt .item-amount,
 #root-receipt .item-subtotal {
   flex: 1;
+}
+
+#root-receipt .item-name {
+  align-self: center;
+  flex: 2;
+  text-align: left;
 }
 
 #root-receipt .quantity-container span:first-child {

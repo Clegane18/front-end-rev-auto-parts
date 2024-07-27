@@ -50,11 +50,16 @@ const Receipt = () => {
                   <span>{item.quantity}</span>
                 </div>
                 <span className="item-name">{item.productName}</span>
-                <span>Amount: ₱{formatCurrency(item.unitPrice)}</span>
-                <span>Subtotal: ₱{formatCurrency(item.subtotalAmount)}</span>
+                <span className="item-amount">
+                  Amount: ₱{formatCurrency(item.unitPrice)}
+                </span>
+                <span className="item-subtotal">
+                  Subtotal: ₱{formatCurrency(item.subtotalAmount)}
+                </span>
               </li>
             ))}
           </ul>
+
           <div className="totals">
             <p>Total Amount: ₱{formatCurrency(receipt.totalAmount)}</p>
             <p>Payment Amount: ₱{formatCurrency(receipt.paymentAmount)}</p>
