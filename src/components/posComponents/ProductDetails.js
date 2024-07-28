@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import InsufficientStockModal from "./InsufficientStockModal";
 import "../../styles/posComponents/ProductDetails.css";
 
 const ProductDetails = ({ product, onAddToCart, onClose }) => {
   const [showBuyNow, setShowBuyNow] = useState(false);
   const [quantity, setQuantity] = useState(1);
+  const [modalInfo, setModalInfo] = useState({
+    isOpen: false,
+    productName: "",
+    stock: 0,
+  });
   const navigate = useNavigate();
 
   const handleBuyNowClick = () => {
@@ -13,7 +19,11 @@ const ProductDetails = ({ product, onAddToCart, onClose }) => {
 
   const handleConfirmPurchaseClick = () => {
     if (quantity > product.stock) {
-      alert(`The quantity exceeds the available stock of ${product.stock}.`);
+      setModalInfo({
+        isOpen: true,
+        productName: product.name,
+        stock: product.stock,
+      });
       return;
     }
 
@@ -28,7 +38,11 @@ const ProductDetails = ({ product, onAddToCart, onClose }) => {
 
   const handleAddToCartClick = () => {
     if (quantity > product.stock) {
-      alert(`The quantity exceeds the available stock of ${product.stock}.`);
+      setModalInfo({
+        isOpen: true,
+        productName: product.name,
+        stock: product.stock,
+      });
       return;
     }
 
@@ -44,11 +58,19 @@ const ProductDetails = ({ product, onAddToCart, onClose }) => {
   const handleQuantityChange = (e) => {
     const newQuantity = Number(e.target.value);
     if (newQuantity > product.stock) {
-      alert(`The quantity exceeds the available stock of ${product.stock}.`);
+      setModalInfo({
+        isOpen: true,
+        productName: product.name,
+        stock: product.stock,
+      });
       setQuantity(product.stock);
     } else {
       setQuantity(newQuantity);
     }
+  };
+
+  const closeModal = () => {
+    setModalInfo({ isOpen: false, productName: "", stock: 0 });
   };
 
   return (
@@ -101,6 +123,12 @@ const ProductDetails = ({ product, onAddToCart, onClose }) => {
           )}
         </div>
       </div>
+      <InsufficientStockModal
+        isOpen={modalInfo.isOpen}
+        productName={modalInfo.productName}
+        stock={modalInfo.stock}
+        onClose={closeModal}
+      />
     </div>
   );
 };

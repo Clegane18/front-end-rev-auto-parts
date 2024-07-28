@@ -1,11 +1,18 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CartContext } from "./CartContext";
+import InsufficientStockModal from "./InsufficientStockModal";
 import "../../styles/posComponents/Cart.css";
 
 const Cart = () => {
   const { cartItems, removeFromCart, updateQuantity } = useContext(CartContext);
   const navigate = useNavigate();
+
+  const [modalInfo, setModalInfo] = useState({
+    isOpen: false,
+    productName: "",
+    stock: 0,
+  });
 
   const handlePay = () => {
     const validItems = cartItems.filter((item) => item.quantity > 0);
@@ -26,14 +33,18 @@ const Cart = () => {
   const handleQuantityChange = (index, newQuantity) => {
     const item = cartItems[index];
     if (newQuantity > item.stock) {
-      alert(
-        `The quantity for "${
-          item.productName || item.name
-        }" exceeds the available stock of ${item.stock}.`
-      );
+      setModalInfo({
+        isOpen: true,
+        productName: item.productName || item.name,
+        stock: item.stock,
+      });
       return;
     }
     updateQuantity(index, newQuantity);
+  };
+
+  const closeModal = () => {
+    setModalInfo({ isOpen: false, productName: "", stock: 0 });
   };
 
   return (
@@ -101,12 +112,18 @@ const Cart = () => {
                 Continue Shopping
               </button>
               <button className="pay-button" onClick={handlePay}>
-                Check Out
+                Pay
               </button>
             </div>
           </div>
         )}
       </div>
+      <InsufficientStockModal
+        isOpen={modalInfo.isOpen}
+        productName={modalInfo.productName}
+        stock={modalInfo.stock}
+        onClose={closeModal}
+      />
     </div>
   );
 };
