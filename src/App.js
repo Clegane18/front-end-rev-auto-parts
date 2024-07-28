@@ -15,7 +15,6 @@ import OnlineStoreFrontPage from "./components/onlineStoreFrontComponents/Online
 import useAuthentication from "./components/LoginComponents/useAuthentication";
 import Checkout from "./components/posComponents/Checkout";
 import Receipt from "./components/posComponents/Receipt";
-import Reports from "./components/dashboardComponents/Reports";
 import CartPage from "./components/posComponents/CartPage";
 
 const App = () => {
@@ -63,10 +62,6 @@ const App = () => {
           <Route
             path="/receipt"
             element={authToken ? <Receipt /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="/reports"
-            element={authToken ? <Reports /> : <Navigate to="/login" />}
           />
           <Route
             path="/cart"
