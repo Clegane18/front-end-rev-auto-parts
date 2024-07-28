@@ -76,6 +76,10 @@
   width: 450px;
 }
 
+#root-product-management .filter-inputs-container .search-bar {
+  text-transform: none;
+}
+
 #root-product-management .price-filter,
 #root-product-management .date-filter {
   display: flex;

@@ -131,7 +131,7 @@ const ProductManagement = () => {
 
   const debouncedSearch = useCallback(
     debounce(() => handleSearch(), 300),
-    [searchQuery, minPrice, maxPrice, allProducts]
+    [searchQuery, minPrice, maxPrice, allProducts, handleSearch]
   );
 
   useEffect(() => {
@@ -270,6 +270,7 @@ const ProductManagement = () => {
           <div className="filter-inputs-container">
             {filterType === "default" && (
               <input
+                className="search-bar"
                 type="text"
                 placeholder="Search products..."
                 value={searchQuery}
