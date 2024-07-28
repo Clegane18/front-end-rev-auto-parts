@@ -105,10 +105,15 @@
   margin: 4px 0;
 }
 
-#root-receipt .print-button, 
-#root-receipt .new-transaction-button {
-  display: block;
-  width: 100%;
+#root-receipt .buttons-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* Space between the buttons */
+  margin-top: 20px;
+}
+
+#root-receipt .print-button {
+  width: 150px;
   padding: 12px;
   background-color: #0c619b;
   color: #ffffff;
@@ -117,7 +122,18 @@
   font-size: 16px;
   cursor: pointer;
   text-align: center;
-  margin-top: 20px;
+}
+
+#root-receipt .new-transaction-button {
+  width: 250px;
+  padding: 12px;
+  background-color: #0c619b;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
 }
 
 #root-receipt .print-button:hover, 
@@ -174,13 +190,12 @@
   #root-receipt .new-transaction-button {
     display: none;
   }
-
-  #root-receipt .receipt-items {
-    display: block;
+  @page {
+    margin: 0;
   }
 
-  #root-receipt .item-details {
-    display: flex;
-    flex-direction: row;
+  body {
+    margin: 1cm; 
   }
+
 }
