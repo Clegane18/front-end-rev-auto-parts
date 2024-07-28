@@ -28,6 +28,9 @@ import {
   faArchive,
   faExclamationTriangle,
   faSignOutAlt,
+  faPrint,
+  faTimes,
+  faFileAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import LogOutConfirmationModal from "./LogOutConfirmationModal";
 import { formatCurrency } from "../../utils/formatCurrency";
@@ -290,11 +293,21 @@ const DashboardPage = () => {
       </aside>
       <main className="main-content">
         <header className="main-header">
-          <button onClick={toggleReportMode}>
-            {isReportMode ? "Cancel Report Selection" : "Print Reports"}
+          <button onClick={toggleReportMode} className="report-button">
+            {isReportMode ? (
+              <>
+                <FontAwesomeIcon icon={faTimes} /> Cancel Report Selection
+              </>
+            ) : (
+              <>
+                <FontAwesomeIcon icon={faPrint} /> Print Reports
+              </>
+            )}
           </button>
           {isReportMode && (
-            <button onClick={printReports}>Generate Report</button>
+            <button onClick={printReports} className="report-button">
+              <FontAwesomeIcon icon={faFileAlt} /> Generate Report
+            </button>
           )}
         </header>
         <section

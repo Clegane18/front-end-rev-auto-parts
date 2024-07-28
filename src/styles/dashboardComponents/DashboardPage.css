@@ -400,19 +400,6 @@ table th {
   opacity: 0.95;
 }
 
-.wiggle {
-  animation: wiggle 1s infinite;
-}
-
-@keyframes wiggle {
-  0%, 100% {
-    transform: rotate(-1deg);
-  }
-  50% {
-    transform: rotate(1deg);
-  }
-}
-
 .report-checkbox {
   position: absolute;
   top: 10px;
@@ -432,10 +419,53 @@ table th {
   display: block;
 }
 
-
 .report-checkbox {
   margin-right: 10px;
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
   display: inline-block;
 }
+
+.wiggle {
+  animation: wiggle 1s infinite;
+}
+
+@keyframes wiggle {
+  0%, 100% {
+    transform: rotate(-1deg);
+  }
+  50% {
+    transform: rotate(1deg);
+  }
+}
+.report-button {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 20px;
+  margin: 10px;
+  background-color: #0c619b;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.report-button:hover {
+  opacity: 0.75;
+}
+
+.report-button svg {
+  margin-right: 8px;
+}
+
+.report-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(12, 97, 155, 0.5);
+}
+
+.report-button:active {
+  background-color: #0a4f80;
+}
+
