@@ -1,0 +1,71 @@
+#root-upload-products {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding: 20px;
+}
+
+.searchField {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.searchField input {
+    width: 100%;
+    padding: 10px 40px 10px 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-transform: none;
+}
+
+.searchField .search-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+    cursor: pointer;
+}
+
+.products-table {
+    flex: 1;
+    overflow-x: auto;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    max-height: 572px;
+}
+
+.products-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.products-table thead {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    background-color: #f9f9f9;
+    z-index: 1;
+}
+
+.products-table th {
+    padding: 12px;
+    text-align: center;
+    background-color: #f1f1f1;
+    border-bottom: 2px solid #ddd;
+}
+
+.products-table td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+.products-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.products-table tr:hover {
+    background-color: #e0e0e0;
+}

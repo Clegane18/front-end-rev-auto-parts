@@ -16,6 +16,7 @@ import useAuthentication from "./components/LoginComponents/useAuthentication";
 import Checkout from "./components/posComponents/Checkout";
 import Receipt from "./components/posComponents/Receipt";
 import CartPage from "./components/posComponents/CartPage";
+import UploadProducts from "./components/onlineStoreFrontComponents/UploadProducts";
 
 const App = () => {
   const { authToken, login } = useAuthentication();
@@ -54,6 +55,10 @@ const App = () => {
             element={
               authToken ? <OnlineStoreFrontPage /> : <Navigate to="/login" />
             }
+          />
+          <Route
+            path="/upload-products"
+            element={authToken ? <UploadProducts /> : <Navigate to="/login" />}
           />
           <Route
             path="/checkout"

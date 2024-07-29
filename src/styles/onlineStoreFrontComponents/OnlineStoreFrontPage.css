@@ -1,0 +1,133 @@
+#root-online-store-front-page .online-store-front-page {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+  
+  #root-online-store-front-page .store-header {
+    background-color: #343a40;
+    color: #ffffff;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  #root-online-store-front-page .shop-info {
+    display: flex;
+    align-items: center;
+  }
+  
+  #root-online-store-front-page .shop-info h1 {
+    font-size: 24px;
+    margin: 0;
+    padding-left: 10px;
+    font-weight: 300;
+  }
+  
+  #root-online-store-front-page .shop-info h1:hover {
+    opacity: 0.85;
+  }
+  
+  #root-online-store-front-page .cart-icon {
+    cursor: pointer;
+  }
+  
+  #root-online-store-front-page .store-content {
+    display: flex;
+    flex: 1;
+    overflow-x: hidden;
+  }
+  
+  #root-online-store-front-page .store-main {
+    display: flex;
+    flex: 1;
+    background-color: #ffffff;
+    padding: 20px;
+    overflow-x: hidden;
+  }
+  
+  #root-online-store-front-page .products-section {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    border-right: 1px solid #dee2e6;
+  }
+  #root-online-store-front-page .shop-info {
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #ff0000;
+  }
+  
+  
+  /* Responsive Design */
+  @media (min-width: 1200px) {
+    #root-online-store-front-page .store-header {
+      padding: 15px 30px;
+      justify-content: space-between;
+    }
+  
+    #root-online-store-front-page .shop-info h1 {
+      font-size: 28px;
+    }
+  
+    #root-online-store-front-page .cart-icon {
+      font-size: 26px;
+    }
+  
+    #root-online-store-front-page .store-main {
+      padding: 30px;
+    }
+  
+    #root-online-store-front-page .products-section {
+      padding: 20px;
+    }
+  }
+  
+  @media (min-width: 1440px) {
+    #root-online-store-front-page .store-header {  
+      padding: 20px 40px;
+    }
+  
+    #root-online-store-front-page .shop-info h1 {
+      font-size: 32px;
+    }
+  
+    #root-online-store-front-page .cart-icon {
+      font-size: 30px;
+    }
+  
+    #root-online-store-front-page .store-main {
+      padding: 40px;
+    }
+  
+    #root-online-store-front-page .products-section {
+      padding: 30px;
+    }
+  }
+  
+  @media (min-width: 1920px) {
+    #root-online-store-front-page .store-header {
+      padding: 25px 50px;
+    }
+  
+    #root-online-store-front-page .shop-info h1 {
+      font-size: 36px;
+    }
+  
+    #root-online-store-front-page .cart-icon {
+      font-size: 32px;
+    }
+  
+    #root-online-store-front-page .store-main {
+      padding: 50px;
+    }
+  
+    #root-online-store-front-page .products-section {
+      padding: 40px;
+    }
+  }
+  

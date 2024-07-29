@@ -17,7 +17,6 @@ import {
 import "../../styles/dashboardComponents/DashboardPage.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faHome,
   faListAlt,
   faCashRegister,
   faStoreAlt,
@@ -31,6 +30,7 @@ import {
   faPrint,
   faTimes,
   faFileAlt,
+  faList,
 } from "@fortawesome/free-solid-svg-icons";
 import LogOutConfirmationModal from "./LogOutConfirmationModal";
 import { formatCurrency } from "../../utils/formatCurrency";
@@ -268,11 +268,6 @@ const DashboardPage = () => {
         <nav className="sidebar-nav">
           <ul>
             <li>
-              <Link to="/">
-                <FontAwesomeIcon icon={faHome} /> Home
-              </Link>
-            </li>
-            <li>
               <Link to="/inventory-pending">
                 <FontAwesomeIcon icon={faListAlt} /> Pending Stocks
               </Link>
@@ -282,6 +277,12 @@ const DashboardPage = () => {
                 <FontAwesomeIcon icon={faCashRegister} /> POS System
               </Link>
             </li>
+            <li>
+              <Link to="/upload-products">
+                <FontAwesomeIcon icon={faList} /> Products for Upload
+              </Link>
+            </li>
+
             <li>
               <Link to="/online-store">
                 <FontAwesomeIcon icon={faStoreAlt} /> Online Store Front
