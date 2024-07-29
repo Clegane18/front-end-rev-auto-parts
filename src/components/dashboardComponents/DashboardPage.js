@@ -48,6 +48,7 @@ const DashboardPage = () => {
   const [todaysTransactions, setTodaysTransactions] = useState([]);
   const [isReportMode, setIsReportMode] = useState(false);
   const [selectedReports, setSelectedReports] = useState([]);
+  const [isAllSelected, setIsAllSelected] = useState(false);
   const stockReminderRef = useRef();
 
   const navigate = useNavigate();
@@ -145,12 +146,30 @@ const DashboardPage = () => {
     setSelectedReports([]);
   };
 
+  const toggleSelectAll = () => {
+    if (isAllSelected) {
+      setSelectedReports([]);
+    } else {
+      setSelectedReports([
+        "sales-section",
+        "todays-transactions-section",
+        "bestsellers-section",
+        "stock-reminder-low-stock-reminder",
+        "transaction-overview",
+        "monthly-income",
+      ]);
+    }
+    setIsAllSelected(!isAllSelected);
+  };
+
   const handleReportSelection = (report) => {
-    setSelectedReports((prev) =>
-      prev.includes(report)
-        ? prev.filter((r) => r !== report)
-        : [...prev, report]
-    );
+    setSelectedReports((prev) => {
+      const isSelected = prev.includes(report);
+      if (isSelected) {
+        setIsAllSelected(false);
+      }
+      return isSelected ? prev.filter((r) => r !== report) : [...prev, report];
+    });
   };
 
   const printReports = () => {
@@ -305,9 +324,14 @@ const DashboardPage = () => {
             )}
           </button>
           {isReportMode && (
-            <button onClick={printReports} className="report-button">
-              <FontAwesomeIcon icon={faFileAlt} /> Generate Report
-            </button>
+            <>
+              <button onClick={toggleSelectAll} className="report-button">
+                {isAllSelected ? "Deselect All" : "Select All"}
+              </button>
+              <button onClick={printReports} className="report-button">
+                <FontAwesomeIcon icon={faFileAlt} /> Generate Report
+              </button>
+            </>
           )}
         </header>
         <section
@@ -549,7 +573,6 @@ const DashboardPage = () => {
               </div>
             </div>
           </div>
-
           <div
             id="monthly-income"
             className={`monthly-income ${
