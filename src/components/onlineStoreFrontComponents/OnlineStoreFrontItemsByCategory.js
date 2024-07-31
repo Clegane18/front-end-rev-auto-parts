@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { getAllItemsByCategory } from "../../services/inventory-api";
+import { getPublishedItemsByCategory } from "../../services/online-store-front-api";
 import "../../styles/onlineStoreFrontComponents/OnlineStoreFrontItemsByCategory.css";
 
-const OnlineStoreFrontItemsByCategory = ({ onSelectProduct, uploadStatus }) => {
+const encodeURL = (url) =>
+  encodeURIComponent(url).replace(/%2F/g, "/").replace(/%3A/g, ":");
+
+const OnlineStoreFrontItemsByCategory = ({ onSelectProduct }) => {
   const [groupedProducts, setGroupedProducts] = useState({});
   const [visibleItems, setVisibleItems] = useState({});
   const [showAll, setShowAll] = useState({});
@@ -12,7 +15,7 @@ const OnlineStoreFrontItemsByCategory = ({ onSelectProduct, uploadStatus }) => {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const data = await getAllItemsByCategory();
+        const data = await getPublishedItemsByCategory();
         setGroupedProducts(data.groupedProducts);
         setVisibleItems(
           Object.keys(data.groupedProducts).reduce((acc, category) => {
@@ -28,6 +31,7 @@ const OnlineStoreFrontItemsByCategory = ({ onSelectProduct, uploadStatus }) => {
         );
         setLoading(false);
       } catch (error) {
+        console.error("Error fetching items:", error);
         setError(error.message);
         setLoading(false);
       }
@@ -58,7 +62,6 @@ const OnlineStoreFrontItemsByCategory = ({ onSelectProduct, uploadStatus }) => {
   return (
     <div id="root-online-store-front-items-by-category">
       <div className="items-by-category">
-        {uploadStatus && <p className="upload-status">{uploadStatus}</p>}
         {Object.keys(groupedProducts).map((category) => (
           <div key={category} className="category-section">
             <h2 className="category-title">{category}</h2>
@@ -69,8 +72,19 @@ const OnlineStoreFrontItemsByCategory = ({ onSelectProduct, uploadStatus }) => {
                   className="product-item"
                   onClick={() => onSelectProduct(item)}
                 >
-                  <h3 className="item-name">{item.name}</h3>
-                  <p className="item-code">ITEM CODE: {item.itemCode}</p>
+                  <div className="product-image-container">
+                    <img
+                      src={`http://localhost:3002/${encodeURL(
+                        item.imageUrl.replace(/\\/g, "/")
+                      )}`}
+                      alt={item.name}
+                      className="product-image"
+                    />
+                  </div>
+                  <div className="item-price-container">
+                    <h3 className="item-name">{item.name}</h3>
+                    <p className="item-price">₱{item.price}</p>
+                  </div>
                 </div>
               ))}
             </div>

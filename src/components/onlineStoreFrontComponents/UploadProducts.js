@@ -3,7 +3,12 @@ import { getAllProducts } from "../../services/inventory-api";
 import "../../styles/onlineStoreFrontComponents/UploadProducts.css";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import {
+  faSearch,
+  faTimes,
+  faUpload,
+  faUndo,
+} from "@fortawesome/free-solid-svg-icons";
 
 const UploadProductPhotos = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -95,6 +100,7 @@ const UploadProductPhotos = () => {
                 <th>Price</th>
                 <th>Stock</th>
                 <th>Description</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -108,11 +114,25 @@ const UploadProductPhotos = () => {
                     <td>{formatCurrency(product.price)}</td>
                     <td>{product.stock}</td>
                     <td>{product.description}</td>
+                    <td>
+                      <button>
+                        <FontAwesomeIcon icon={faTimes} />
+                        Unpublish
+                      </button>
+                      <button>
+                        <FontAwesomeIcon icon={faUpload} />
+                        Upload Photo
+                      </button>
+                      <button>
+                        <FontAwesomeIcon icon={faUndo} />
+                        Republish
+                      </button>
+                    </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan="7">No products found</td>
+                  <td colSpan="8">No products found</td>
                 </tr>
               )}
             </tbody>

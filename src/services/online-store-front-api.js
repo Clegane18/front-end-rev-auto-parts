@@ -27,3 +27,48 @@ export const uploadProductPhotos = async (productId, productPhotos) => {
     }
   }
 };
+
+export const getPublishedItemsByCategory = async () => {
+  try {
+    const response = await api.get("products/publishedItems");
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(
+        "Failed to fetch all ready items by category. Please try again later."
+      );
+    }
+  }
+};
+
+export const unpublishItemByProductId = async () => {
+  try {
+    const response = await api.post("products/unpublishedItem/:productId");
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(
+        "Failed to unpublish item by product id. Please try again later."
+      );
+    }
+  }
+};
+
+export const republishItemByProductId = async () => {
+  try {
+    const response = await api.post("products/republishItem/:productId");
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(
+        "Failed to republish item by product id. Please try again later."
+      );
+    }
+  }
+};
