@@ -1,0 +1,39 @@
+#root-product-search .product-search {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  #root-product-search .product-search input[type="text"] {
+    width: 600px; 
+    padding: 10px 40px 10px 10px; 
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    text-transform: none;
+  }
+  
+  #root-product-search .search-icon {
+    position: absolute;
+    top: 45%;
+    right: 1px; 
+    transform: translateY(-44%);
+    cursor: pointer;
+    background-color: #2f3b4c; 
+    padding: 8px; 
+    border-radius: 3px; 
+    width: 45px; 
+    height: 36px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #root-product-search .search-icon:hover {
+    opacity: 0.75;
+  }
+
+  #root-product-search .search-icon svg {
+    font-size: 18px;
+    color: #fff;
+  }

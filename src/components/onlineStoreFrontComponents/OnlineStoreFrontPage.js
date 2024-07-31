@@ -1,18 +1,18 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import ProductDetails from "../posComponents/ProductDetails";
-import ProductSearch from "../posComponents/ProductSearch";
-import ProductList from "../posComponents/ProductList";
-import CartIcon from "../posComponents/CartIcon";
+import OnlineProductDetails from "./OnlineProductDetails";
+import OnlineProductSearch from "./OnlineProductSearch";
+import OnlineProductList from "./OnlineProductList";
+import OnlineCartIcon from "./OnlineCartIcon";
 import OnlineStoreFrontItemsByCategory from "./OnlineStoreFrontItemsByCategory";
-import { CartContext } from "../posComponents/CartContext";
+import { OnlineCartContext } from "./OnlineCartContext";
 import "../../styles/onlineStoreFrontComponents/OnlineStoreFrontPage.css";
 
 const OnlineStoreFrontPage = () => {
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const { addToCart, cartItems } = useContext(CartContext);
+  const { addToCart, cartItems } = useContext(OnlineCartContext);
   const navigate = useNavigate();
 
   const handleSelectProduct = (product) => {
@@ -32,12 +32,8 @@ const OnlineStoreFrontPage = () => {
     setSearchTerm(term);
   };
 
-  const handleBack = () => {
-    navigate("/dashboard");
-  };
-
   const handleCartIconClick = () => {
-    navigate("/cart");
+    navigate("/online-cart");
   };
 
   const handleCloseModal = () => {
@@ -48,23 +44,23 @@ const OnlineStoreFrontPage = () => {
     <div id="root-online-store-front-page">
       <div className="online-store-front-page">
         <header className="online-header">
-          <div className="shop-info" onClick={handleBack}>
+          <div className="shop-info">
             <h1>G&F Auto Supply Online Store Front</h1>
           </div>
           <div className="search-results-wrapper">
-            <ProductSearch
+            <OnlineProductSearch
               onSearch={handleSearch}
               onSearchTermChange={handleSearchTermChange}
             />
             {searchTerm && products.length > 0 && (
-              <ProductList
+              <OnlineProductList
                 products={products}
                 onSelectProduct={handleSelectProduct}
               />
             )}
           </div>
           <div className="cart-icon">
-            <CartIcon
+            <OnlineCartIcon
               itemCount={cartItems.length}
               onClick={handleCartIconClick}
             />
@@ -79,10 +75,9 @@ const OnlineStoreFrontPage = () => {
             </div>
           </main>
           {selectedProduct && (
-            <ProductDetails
+            <OnlineProductDetails
               product={selectedProduct}
-              onAdd
-              ToCart={handleAddToCart}
+              onAddToCart={handleAddToCart}
               onClose={handleCloseModal}
             />
           )}

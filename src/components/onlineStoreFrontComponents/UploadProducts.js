@@ -10,7 +10,7 @@ import {
   faUndo,
 } from "@fortawesome/free-solid-svg-icons";
 
-const UploadProductPhotos = () => {
+const UploadProducts = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [allProducts, setAllProducts] = useState([]);
@@ -143,4 +143,4 @@ const UploadProductPhotos = () => {
   );
 };
 
-export default UploadProductPhotos;
+export default UploadProducts;
