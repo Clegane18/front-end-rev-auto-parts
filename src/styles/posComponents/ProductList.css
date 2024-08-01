@@ -1,13 +1,13 @@
 #root-product-list .product-list {
   position: absolute;
   top: 60px !important; 
-  right: 290px !important; 
+  right: 388px !important; 
   width: 598px !important; 
   display: flex !important;
   flex-direction: column;
   background-color: #fff;
   padding: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(26, 10, 10, 0.1);
   z-index: 1000; 
 }
 

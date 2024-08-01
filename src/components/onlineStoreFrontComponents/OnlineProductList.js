@@ -3,7 +3,7 @@ import "../../styles/onlineStoreFrontComponents/OnlineProductList.css";
 
 const OnlineProductList = ({ products, onSelectProduct }) => {
   return (
-    <div id="root-product-list">
+    <div id="root-online-product-list">
       <div className="product-list">
         {products.map((product) => (
           <div

@@ -90,13 +90,14 @@ const OnlineCart = () => {
                     <div className="item-info">
                       <span className="item-name">
                         {item.productName || item.name}
+                        <br></br>
+                        <button
+                          className="remove-button"
+                          onClick={() => removeFromCart(index)}
+                        >
+                          Remove
+                        </button>
                       </span>
-                      <button
-                        className="remove-button"
-                        onClick={() => removeFromCart(index)}
-                      >
-                        Remove
-                      </button>
                     </div>
                     <span className="item-price">
                       &#8369;{Number(item.unitPrice).toFixed(2)}
@@ -118,20 +119,24 @@ const OnlineCart = () => {
                   </div>
                 </div>
               ))}
-            <div className="cart-summary">
-              <div className="subtotal-label">Subtotal:</div>
-              <div className="subtotal-value">&#8369;{calculateSubtotal()}</div>
-            </div>
-            <div className="cart-summary-buttons">
-              <button
-                className="back-to-online-button"
-                onClick={handleGoToOnline}
-              >
-                Continue Shopping
-              </button>
-              <button className="pay-button" onClick={handlePay}>
-                Pay
-              </button>
+            <div className="online-cart-bottom-section">
+              <div className="cart-summary">
+                <div className="subtotal-label">Subtotal:</div>
+                <div className="subtotal-value">
+                  &#8369;{calculateSubtotal()}
+                </div>
+              </div>
+              <div className="cart-summary-buttons">
+                <button
+                  className="back-to-online-button"
+                  onClick={handleGoToOnline}
+                >
+                  Continue Shopping
+                </button>
+                <button className="pay-button" onClick={handlePay}>
+                  Pay
+                </button>
+              </div>
             </div>
           </div>
         )}

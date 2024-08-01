@@ -7,6 +7,7 @@ import CartIcon from "./CartIcon";
 import ItemsByCategory from "./ItemsByCategory";
 import { CartContext } from "./CartContext";
 import "../../styles/posComponents/POSPage.css";
+import logo from "../../assets/g&f-logo.png";
 
 const POSPage = () => {
   const [products, setProducts] = useState([]);
@@ -49,7 +50,8 @@ const POSPage = () => {
       <div className="pos-page">
         <header className="pos-header">
           <div className="shop-info" onClick={handleBack}>
-            <h1>G&F Auto Supply POS</h1>
+            {/* <h1>G&F Auto Supply POS</h1> */}
+            <img src={logo} alt="G&F Auto Supply" className="shop-logo" />
           </div>
           <div className="search-results-wrapper">
             <ProductSearch

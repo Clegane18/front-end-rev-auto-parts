@@ -7,6 +7,7 @@ import OnlineCartIcon from "./OnlineCartIcon";
 import OnlineStoreFrontItemsByCategory from "./OnlineStoreFrontItemsByCategory";
 import { OnlineCartContext } from "./OnlineCartContext";
 import "../../styles/onlineStoreFrontComponents/OnlineStoreFrontPage.css";
+import logo from "../../assets/g&f-logo.png";
 
 const OnlineStoreFrontPage = () => {
   const [products, setProducts] = useState([]);
@@ -45,7 +46,8 @@ const OnlineStoreFrontPage = () => {
       <div className="online-store-front-page">
         <header className="online-header">
           <div className="shop-info">
-            <h1>G&F Auto Supply Online Store Front</h1>
+            {/* <h1>G&F Auto Supply Online Store Front</h1> */}
+            <img src={logo} alt="G&F Auto Supply" className="shop-logo" />
           </div>
           <div className="search-results-wrapper">
             <OnlineProductSearch
