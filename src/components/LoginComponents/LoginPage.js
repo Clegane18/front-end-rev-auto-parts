@@ -4,12 +4,14 @@ import { adminLogIn } from "../../services/admin-api";
 import "../../styles/LoginComponents/LoginPage.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faLock } from "@fortawesome/free-solid-svg-icons";
+import { EyeIcon, EyeOffIcon } from "@heroicons/react/outline";
 
 const LoginPage = ({ setAuthToken }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (event) => {
@@ -33,6 +35,10 @@ const LoginPage = ({ setAuthToken }) => {
     }
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div id="root-login-page">
       <div className="login-page-wrapper">
@@ -53,13 +59,24 @@ const LoginPage = ({ setAuthToken }) => {
             <div className={`form-group ${passwordError ? "has-error" : ""}`}>
               <FontAwesomeIcon icon={faLock} className="input-icon" />
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 className={`login-input ${passwordError ? "input-error" : ""}`}
                 placeholder={passwordError ? passwordError : "Password"}
               />
+              {showPassword ? (
+                <EyeOffIcon
+                  className="password-toggle-icon"
+                  onClick={togglePasswordVisibility}
+                />
+              ) : (
+                <EyeIcon
+                  className="password-toggle-icon"
+                  onClick={togglePasswordVisibility}
+                />
+              )}
             </div>
             <button type="submit" className="login-button">
               Log In

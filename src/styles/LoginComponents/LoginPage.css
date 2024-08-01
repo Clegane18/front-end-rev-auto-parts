@@ -92,6 +92,18 @@
     transition: background-color 0.3s ease-in-out, opacity 0.3s ease-in-out !important;
   }
 
+  .password-toggle-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    color: #999;
+  }
+  
+  
   /* Responsive Design */
   @media (max-width: 600px) {
     #root-login-page .login-content {
