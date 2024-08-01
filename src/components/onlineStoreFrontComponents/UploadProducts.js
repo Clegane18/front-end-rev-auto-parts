@@ -1,5 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { getAllProducts } from "../../services/inventory-api";
+import {
+  uploadProductImage,
+  getProductByIdAndPublish,
+} from "../../services/online-store-front-api";
+import UploadPhotoModal from "./UploadPhotoModal";
 import "../../styles/onlineStoreFrontComponents/UploadProducts.css";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,6 +13,7 @@ import {
   faTimes,
   faUpload,
   faUndo,
+  faCheckCircle,
 } from "@fortawesome/free-solid-svg-icons";
 
 const UploadProducts = () => {
@@ -15,25 +21,27 @@ const UploadProducts = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [allProducts, setAllProducts] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [showUploadModal, setShowUploadModal] = useState(false);
+
+  const fetchProducts = async () => {
+    try {
+      const response = await getAllProducts();
+      if (response.data?.data) {
+        setAllProducts(response.data.data);
+        setFilteredProducts(response.data.data);
+      } else {
+        console.error("Unexpected data format:", response.data);
+        setFilteredProducts([]);
+      }
+    } catch (error) {
+      console.error("Failed to fetch products:", error);
+      setFilteredProducts([]);
+      setErrorMessage("Failed to fetch products. Please try again later.");
+    }
+  };
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await getAllProducts();
-        if (response.data?.data) {
-          setAllProducts(response.data.data);
-          setFilteredProducts(response.data.data);
-        } else {
-          console.error("Unexpected data format:", response.data);
-          setFilteredProducts([]);
-        }
-      } catch (error) {
-        console.error("Failed to fetch products:", error);
-        setFilteredProducts([]);
-        setErrorMessage("Failed to fetch products. Please try again later.");
-      }
-    };
-
     fetchProducts();
   }, []);
 
@@ -76,6 +84,38 @@ const UploadProducts = () => {
     handleSearch();
   }, [searchQuery, handleSearch]);
 
+  const handleUploadPhotoClick = (product) => {
+    setSelectedProduct(product);
+    setShowUploadModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowUploadModal(false);
+    setSelectedProduct(null);
+  };
+
+  const handleSavePhoto = async (product, file) => {
+    try {
+      await uploadProductImage(product.id, file);
+      await fetchProducts();
+      setShowUploadModal(false);
+      setSelectedProduct(null);
+    } catch (error) {
+      console.error("Error uploading product photo:", error);
+      setErrorMessage(error.message || "An unexpected error occurred.");
+    }
+  };
+
+  const handlePublishClick = async (productId) => {
+    try {
+      await getProductByIdAndPublish(productId);
+      await fetchProducts();
+    } catch (error) {
+      console.error("Error publishing product:", error);
+      setErrorMessage(error.message || "An unexpected error occurred.");
+    }
+  };
+
   return (
     <div id="root-upload-products">
       <div className="container">
@@ -100,6 +140,7 @@ const UploadProducts = () => {
                 <th>Price</th>
                 <th>Stock</th>
                 <th>Description</th>
+                <th>Status</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -114,14 +155,19 @@ const UploadProducts = () => {
                     <td>{formatCurrency(product.price)}</td>
                     <td>{product.stock}</td>
                     <td>{product.description}</td>
+                    <td>{product.status || "N/A"}</td>
                     <td>
                       <button>
                         <FontAwesomeIcon icon={faTimes} />
                         Unpublish
                       </button>
-                      <button>
+                      <button onClick={() => handleUploadPhotoClick(product)}>
                         <FontAwesomeIcon icon={faUpload} />
                         Upload Photo
+                      </button>
+                      <button onClick={() => handlePublishClick(product.id)}>
+                        <FontAwesomeIcon icon={faCheckCircle} />
+                        Publish
                       </button>
                       <button>
                         <FontAwesomeIcon icon={faUndo} />
@@ -132,12 +178,19 @@ const UploadProducts = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="8">No products found</td>
+                  <td colSpan="9">No products found</td>
                 </tr>
               )}
             </tbody>
           </table>
         </div>
+        {showUploadModal && selectedProduct && (
+          <UploadPhotoModal
+            product={selectedProduct}
+            onClose={handleCloseModal}
+            onSave={handleSavePhoto}
+          />
+        )}
       </div>
     </div>
   );

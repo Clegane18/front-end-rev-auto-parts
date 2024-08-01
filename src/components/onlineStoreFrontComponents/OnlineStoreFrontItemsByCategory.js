@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getPublishedItemsByCategory } from "../../services/online-store-front-api";
 import "../../styles/onlineStoreFrontComponents/OnlineStoreFrontItemsByCategory.css";
+import { formatCurrency } from "../../utils/formatCurrency";
 
 const encodeURL = (url) =>
   encodeURIComponent(url).replace(/%2F/g, "/").replace(/%3A/g, ":");
@@ -83,7 +84,7 @@ const OnlineStoreFrontItemsByCategory = ({ onSelectProduct }) => {
                   </div>
                   <div className="item-price-container">
                     <h3 className="item-name">{item.name}</h3>
-                    <p className="item-price">₱{item.price}</p>
+                    <p className="item-price">{formatCurrency(item.price)}</p>
                   </div>
                 </div>
               ))}

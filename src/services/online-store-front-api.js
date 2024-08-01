@@ -4,15 +4,12 @@ const api = axios.create({
   baseURL: "http://localhost:3002/api/auth/online-store-front",
 });
 
-export const uploadProductPhotos = async (productId, productPhotos) => {
+export const uploadProductImage = async (productId, file) => {
   try {
     const formData = new FormData();
+    formData.append("file", file);
 
-    Array.from(productPhotos).forEach((photo) => {
-      formData.append("productPhotos", photo);
-    });
-
-    const response = await api.post(`/uploadPhotos/${productId}`, formData, {
+    const response = await api.post(`/uploadPhoto/${productId}`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -21,9 +18,28 @@ export const uploadProductPhotos = async (productId, productPhotos) => {
     return response.data;
   } catch (error) {
     if (error.response && error.response.data) {
-      throw new Error(`Error uploading photos: ${error.response.data.message}`);
+      throw new Error(error.response.data.message);
     } else {
-      throw new Error("Failed to upload photos. Please try again later.");
+      throw new Error(
+        "Failed to upload product image. Please try again later."
+      );
+    }
+  }
+};
+
+export const getProductByIdAndPublish = async (productId) => {
+  try {
+    const response = await api.post(
+      `products/getProductByIdAndPublish/${productId}`
+    );
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(
+        "Failed to publish product by product id. Please try again later."
+      );
     }
   }
 };

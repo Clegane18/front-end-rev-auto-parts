@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { OnlineCartContext } from "./OnlineCartContext";
 import InsufficientStockModal from "./InsufficientStockModal";
 import "../../styles/onlineStoreFrontComponents/OnlineCart.css";
+import { formatCurrency } from "../../utils/formatCurrency";
 
 const OnlineCart = () => {
   const { cartItems, removeFromCart, updateQuantity } =
@@ -27,8 +28,7 @@ const OnlineCart = () => {
   const calculateSubtotal = () => {
     return cartItems
       .filter((item) => item.quantity > 0)
-      .reduce((acc, item) => acc + item.subtotalAmount, 0)
-      .toFixed(2);
+      .reduce((acc, item) => acc + item.subtotalAmount, 0);
   };
 
   const handleQuantityChange = (index, newQuantity) => {
@@ -47,6 +47,7 @@ const OnlineCart = () => {
   const closeModal = () => {
     setModalInfo({ isOpen: false, productName: "", stock: 0 });
   };
+
   const encodeURL = (url) =>
     encodeURIComponent(url).replace(/%2F/g, "/").replace(/%3A/g, ":");
 
@@ -100,7 +101,7 @@ const OnlineCart = () => {
                       </span>
                     </div>
                     <span className="item-price">
-                      &#8369;{Number(item.unitPrice).toFixed(2)}
+                      {formatCurrency(item.unitPrice)}
                     </span>
                     <div className="quantity-controls">
                       <input
@@ -114,7 +115,7 @@ const OnlineCart = () => {
                       />
                     </div>
                     <span className="item-total">
-                      &#8369;{Number(item.subtotalAmount).toFixed(2)}
+                      {formatCurrency(item.subtotalAmount)}
                     </span>
                   </div>
                 </div>
@@ -123,7 +124,7 @@ const OnlineCart = () => {
               <div className="cart-summary">
                 <div className="subtotal-label">Subtotal:</div>
                 <div className="subtotal-value">
-                  &#8369;{calculateSubtotal()}
+                  {formatCurrency(calculateSubtotal())}
                 </div>
               </div>
               <div className="cart-summary-buttons">
