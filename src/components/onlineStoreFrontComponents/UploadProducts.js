@@ -3,6 +3,7 @@ import { getAllProducts } from "../../services/inventory-api";
 import {
   uploadProductImage,
   getProductByIdAndPublish,
+  unpublishItemByProductId,
 } from "../../services/online-store-front-api";
 import UploadPhotoModal from "./UploadPhotoModal";
 import "../../styles/onlineStoreFrontComponents/UploadProducts.css";
@@ -10,11 +11,12 @@ import { formatCurrency } from "../../utils/formatCurrency";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSearch,
-  faTimes,
   faUpload,
-  faUndo,
+  faEyeSlash,
   faCheckCircle,
 } from "@fortawesome/free-solid-svg-icons";
+import logo from "../../assets/g&f-logo.png";
+import { useNavigate } from "react-router-dom";
 
 const UploadProducts = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -23,6 +25,7 @@ const UploadProducts = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showUploadModal, setShowUploadModal] = useState(false);
+  const navigate = useNavigate();
 
   const fetchProducts = async () => {
     try {
@@ -116,21 +119,53 @@ const UploadProducts = () => {
     }
   };
 
+  const handleUnpublishClick = async (productId) => {
+    try {
+      await unpublishItemByProductId(productId);
+      await fetchProducts();
+    } catch (error) {
+      console.error("Error unpublishing product:", error);
+      setErrorMessage(error.message || "An unexpected error occurred.");
+    }
+  };
+
+  const getStatusClassName = (status) => {
+    switch (status) {
+      case "draft":
+        return "status-draft";
+      case "ready":
+        return "status-ready";
+      case "published":
+        return "status-published";
+      default:
+        return "";
+    }
+  };
+
+  const handleBack = () => {
+    navigate("/dashboard");
+  };
+
   return (
     <div id="root-upload-products">
       <div className="container">
-        <div className="searchField">
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={handleSearchChange}
-            placeholder="Search Products"
-          />
-          <FontAwesomeIcon icon={faSearch} className="search-icon" />
+        <div className="search-container">
+          <div className="store-name" onClick={handleBack}>
+            <img src={logo} alt="Your Logo" className="shop-logo" />
+          </div>
+          <div className="search-field">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={handleSearchChange}
+              placeholder="Search products..."
+            />
+            <FontAwesomeIcon icon={faSearch} className="search-icon" />
+          </div>
         </div>
         {errorMessage && <p className="error-message">{errorMessage}</p>}
-        <div className="products-table">
-          <table>
+        <div className="table-container">
+          <table className="products-table">
             <thead>
               <tr>
                 <th>ID</th>
@@ -155,24 +190,24 @@ const UploadProducts = () => {
                     <td>{formatCurrency(product.price)}</td>
                     <td>{product.stock}</td>
                     <td>{product.description}</td>
-                    <td>{product.status || "N/A"}</td>
+                    <td className={getStatusClassName(product.status)}>
+                      {product.status}
+                    </td>
                     <td>
-                      <button>
-                        <FontAwesomeIcon icon={faTimes} />
-                        Unpublish
-                      </button>
                       <button onClick={() => handleUploadPhotoClick(product)}>
-                        <FontAwesomeIcon icon={faUpload} />
-                        Upload Photo
+                        <FontAwesomeIcon icon={faUpload} /> Upload Photo
                       </button>
-                      <button onClick={() => handlePublishClick(product.id)}>
-                        <FontAwesomeIcon icon={faCheckCircle} />
-                        Publish
-                      </button>
-                      <button>
-                        <FontAwesomeIcon icon={faUndo} />
-                        Republish
-                      </button>
+                      {product.status === "published" ? (
+                        <button
+                          onClick={() => handleUnpublishClick(product.id)}
+                        >
+                          <FontAwesomeIcon icon={faEyeSlash} /> Unpublish
+                        </button>
+                      ) : (
+                        <button onClick={() => handlePublishClick(product.id)}>
+                          <FontAwesomeIcon icon={faCheckCircle} /> Publish
+                        </button>
+                      )}
                     </td>
                   </tr>
                 ))
@@ -184,14 +219,14 @@ const UploadProducts = () => {
             </tbody>
           </table>
         </div>
-        {showUploadModal && selectedProduct && (
-          <UploadPhotoModal
-            product={selectedProduct}
-            onClose={handleCloseModal}
-            onSave={handleSavePhoto}
-          />
-        )}
       </div>
+      {showUploadModal && (
+        <UploadPhotoModal
+          product={selectedProduct}
+          onSave={handleSavePhoto}
+          onClose={handleCloseModal}
+        />
+      )}
     </div>
   );
 };

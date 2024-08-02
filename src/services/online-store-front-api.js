@@ -59,9 +59,9 @@ export const getPublishedItemsByCategory = async () => {
   }
 };
 
-export const unpublishItemByProductId = async () => {
+export const unpublishItemByProductId = async (productId) => {
   try {
-    const response = await api.post("products/unpublishedItem/:productId");
+    const response = await api.post(`products/unpublishedItem/${productId}`);
     return response.data;
   } catch (error) {
     if (error.response && error.response.data) {
