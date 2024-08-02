@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { CartContext } from "./CartContext";
 import InsufficientStockModal from "./InsufficientStockModal";
 import "../../styles/posComponents/Cart.css";
+import { formatCurrency } from "../../utils/formatCurrency";
 
 const Cart = () => {
   const { cartItems, removeFromCart, updateQuantity } = useContext(CartContext);
@@ -84,7 +85,7 @@ const Cart = () => {
                       </button>
                     </div>
                     <span className="item-price">
-                      &#8369;{Number(item.unitPrice).toFixed(2)}
+                      {formatCurrency(item.unitPrice)}
                     </span>
                     <div className="quantity-controls">
                       <input
@@ -98,14 +99,16 @@ const Cart = () => {
                       />
                     </div>
                     <span className="item-total">
-                      &#8369;{Number(item.subtotalAmount).toFixed(2)}
+                      {formatCurrency(item.subtotalAmount)}
                     </span>
                   </div>
                 </div>
               ))}
             <div className="cart-summary">
               <div className="subtotal-label">Subtotal:</div>
-              <div className="subtotal-value">&#8369;{calculateSubtotal()}</div>
+              <div className="subtotal-value">
+                {formatCurrency(calculateSubtotal())}
+              </div>
             </div>
             <div className="cart-summary-buttons">
               <button className="back-to-pos-button" onClick={handleGoToPOS}>
