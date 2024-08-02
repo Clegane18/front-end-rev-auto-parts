@@ -6,6 +6,7 @@ import {
   unpublishItemByProductId,
 } from "../../services/online-store-front-api";
 import UploadPhotoModal from "./UploadPhotoModal";
+import ConfirmationModal from "./ConfirmationModal";
 import "../../styles/onlineStoreFrontComponents/UploadProducts.css";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -25,6 +26,8 @@ const UploadProducts = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showUploadModal, setShowUploadModal] = useState(false);
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [action, setAction] = useState("");
   const navigate = useNavigate();
 
   const fetchProducts = async () => {
@@ -109,22 +112,30 @@ const UploadProducts = () => {
     }
   };
 
-  const handlePublishClick = async (productId) => {
-    try {
-      await getProductByIdAndPublish(productId);
-      await fetchProducts();
-    } catch (error) {
-      console.error("Error publishing product:", error);
-      setErrorMessage(error.message || "An unexpected error occurred.");
-    }
+  const handlePublishClick = (productId) => {
+    setAction("publish");
+    setSelectedProduct(allProducts.find((p) => p.id === productId));
+    setShowConfirmationModal(true);
   };
 
-  const handleUnpublishClick = async (productId) => {
+  const handleUnpublishClick = (productId) => {
+    setAction("unpublish");
+    setSelectedProduct(allProducts.find((p) => p.id === productId));
+    setShowConfirmationModal(true);
+  };
+
+  const handleConfirm = async () => {
     try {
-      await unpublishItemByProductId(productId);
+      if (action === "publish") {
+        await getProductByIdAndPublish(selectedProduct.id);
+      } else if (action === "unpublish") {
+        await unpublishItemByProductId(selectedProduct.id);
+      }
       await fetchProducts();
+      setShowConfirmationModal(false);
+      setSelectedProduct(null);
     } catch (error) {
-      console.error("Error unpublishing product:", error);
+      console.error("Error handling action:", error);
       setErrorMessage(error.message || "An unexpected error occurred.");
     }
   };
@@ -225,6 +236,15 @@ const UploadProducts = () => {
           product={selectedProduct}
           onSave={handleSavePhoto}
           onClose={handleCloseModal}
+        />
+      )}
+      {showConfirmationModal && (
+        <ConfirmationModal
+          isOpen={showConfirmationModal}
+          onClose={() => setShowConfirmationModal(false)}
+          onConfirm={handleConfirm}
+          action={action}
+          itemName={selectedProduct?.name}
         />
       )}
     </div>
