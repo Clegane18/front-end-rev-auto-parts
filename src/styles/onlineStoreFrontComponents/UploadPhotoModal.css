@@ -30,3 +30,52 @@
     margin-bottom: 10px;
   }
   
+  #root-upload-photo-modal .file-upload-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #6c757d;
+    padding: 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s, border-color 0.3s;
+  }
+  
+  #root-upload-photo-modal .file-upload-label.dragging {
+    background-color: #e6f7ff;
+    border-color: #007bff;
+  }
+  
+  #root-upload-photo-modal .file-upload-label .upload-icon {
+    margin-right: 10px;
+  }
+  
+  #root-upload-photo-modal #file-upload {
+    display: none;
+  }
+  
+  #root-upload-photo-modal button {
+    display: flex;
+    align-items: center;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  #root-upload-photo-modal button .cancel-icon {
+    margin-right: 5px;
+  }
+  
+  #root-upload-photo-modal button[type="button"] {
+    background-color: #0c619b;
+  }
+  
+  #root-upload-photo-modal button:hover {
+    opacity: 0.9;
+  }
+  
