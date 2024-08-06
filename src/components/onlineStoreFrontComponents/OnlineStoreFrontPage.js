@@ -8,6 +8,8 @@ import OnlineStoreFrontItemsByCategory from "./OnlineStoreFrontItemsByCategory";
 import { OnlineCartContext } from "./OnlineCartContext";
 import "../../styles/onlineStoreFrontComponents/OnlineStoreFrontPage.css";
 import logo from "../../assets/g&f-logo.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 const OnlineStoreFrontPage = () => {
   const [products, setProducts] = useState([]);
@@ -37,6 +39,10 @@ const OnlineStoreFrontPage = () => {
     navigate("/online-cart");
   };
 
+  const handleProfileClick = () => {
+    navigate("/customer-login");
+  };
+
   const handleCloseModal = () => {
     setSelectedProduct(null);
   };
@@ -46,26 +52,30 @@ const OnlineStoreFrontPage = () => {
       <div className="online-store-front-page">
         <header className="online-header">
           <div className="shop-info">
-            {/* <h1>G&F Auto Supply Online Store Front</h1> */}
             <img src={logo} alt="G&F Auto Supply" className="shop-logo" />
           </div>
-          <div className="search-results-wrapper">
-            <OnlineProductSearch
-              onSearch={handleSearch}
-              onSearchTermChange={handleSearchTermChange}
-            />
-            {searchTerm && products.length > 0 && (
-              <OnlineProductList
-                products={products}
-                onSelectProduct={handleSelectProduct}
+          <div className="header-right">
+            <div className="search-results-wrapper">
+              <OnlineProductSearch
+                onSearch={handleSearch}
+                onSearchTermChange={handleSearchTermChange}
               />
-            )}
-          </div>
-          <div className="cart-icon">
-            <OnlineCartIcon
-              itemCount={cartItems.length}
-              onClick={handleCartIconClick}
-            />
+              {searchTerm && products.length > 0 && (
+                <OnlineProductList
+                  products={products}
+                  onSelectProduct={handleSelectProduct}
+                />
+              )}
+            </div>
+            <div className="profile-icon" onClick={handleProfileClick}>
+              <FontAwesomeIcon icon={faUser} />
+            </div>
+            <div className="cart-icon">
+              <OnlineCartIcon
+                itemCount={cartItems.length}
+                onClick={handleCartIconClick}
+              />
+            </div>
           </div>
         </header>
         <div className="online-content">

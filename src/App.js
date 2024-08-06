@@ -19,6 +19,10 @@ import Receipt from "./components/posComponents/Receipt";
 import CartPage from "./components/posComponents/CartPage";
 import UploadProducts from "./components/onlineStoreFrontComponents/UploadProducts";
 import OnlineCartPage from "./components/onlineStoreFrontComponents/OnlineCartPage";
+import CustomerLoginPage from "./components/onlineStoreFrontCustomersComponent/CustomerLoginPage";
+import CreateAccountPage from "./components/onlineStoreFrontCustomersComponent/CreateAccountPage";
+import RequestResetPasswordPage from "./components/onlineStoreFrontCustomersComponent/RequestResetPasswordPage";
+import ResetPasswordPage from "./components/onlineStoreFrontCustomersComponent/ResetPasswordPage";
 
 const App = () => {
   const { authToken, login } = useAuthentication();
@@ -87,6 +91,17 @@ const App = () => {
                 authToken ? <OnlineCartPage /> : <Navigate to="/login" />
               }
             />
+            <Route path="/customer-login" element={<CustomerLoginPage />} />
+            <Route path="/create-account" element={<CreateAccountPage />} />
+            <Route
+              path="/reset-password"
+              element={<RequestResetPasswordPage />}
+            />
+            <Route
+              path="/reset-password/:token"
+              element={<ResetPasswordPage />}
+            />
+
             <Route
               path="*"
               element={<Navigate to={authToken ? "/dashboard" : "/login"} />}
