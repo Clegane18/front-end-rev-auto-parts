@@ -6,18 +6,18 @@ import OnlineProductList from "./OnlineProductList";
 import OnlineCartIcon from "./OnlineCartIcon";
 import OnlineStoreFrontItemsByCategory from "./OnlineStoreFrontItemsByCategory";
 import { OnlineCartContext } from "./OnlineCartContext";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext"; // Import useAuth
 import "../../styles/onlineStoreFrontComponents/OnlineStoreFrontPage.css";
 import logo from "../../assets/g&f-logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 
 const OnlineStoreFrontPage = () => {
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const { addToCart, cartItems } = useContext(OnlineCartContext);
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuth(); // Use isAuthenticated from AuthContext
   const navigate = useNavigate();
 
   const handleSelectProduct = (product) => {
@@ -46,15 +46,15 @@ const OnlineStoreFrontPage = () => {
   };
 
   const handleCartIconClick = () => {
-    if (!isAuthenticated) {
-      navigate("/customer-login");
-      return;
-    }
     navigate("/online-cart");
   };
 
-  const handleProfileClick = () => {
-    navigate("/customer-login");
+  const handleProfileOrLoginClick = () => {
+    if (isAuthenticated) {
+      navigate("/customer-profile");
+    } else {
+      navigate("/customer-login");
+    }
   };
 
   const handleCloseModal = () => {
@@ -81,8 +81,8 @@ const OnlineStoreFrontPage = () => {
                 />
               )}
             </div>
-            <div className="profile-icon" onClick={handleProfileClick}>
-              <FontAwesomeIcon icon={faUser} />
+            <div className="profile-icon" onClick={handleProfileOrLoginClick}>
+              <FontAwesomeIcon icon={isAuthenticated ? faUser : faSignInAlt} />
             </div>
             <div className="cart-icon">
               <OnlineCartIcon

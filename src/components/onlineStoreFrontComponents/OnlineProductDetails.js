@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import InsufficientStockModal from "./InsufficientStockModal";
@@ -16,19 +16,21 @@ const OnlineProductDetails = ({ product, onAddToCart, onClose }) => {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
 
-  const handleBuyNowClick = () => {
+  const checkAuthentication = useCallback(() => {
     if (!isAuthenticated) {
       navigate("/customer-login");
-      return;
+      return false;
     }
-    setShowBuyNow(true);
-  };
+    return true;
+  }, [isAuthenticated, navigate]);
 
-  const handleConfirmPurchaseClick = () => {
-    if (!isAuthenticated) {
-      navigate("/customer-login");
-      return;
-    }
+  const handleBuyNowClick = useCallback(() => {
+    if (!checkAuthentication()) return;
+    setShowBuyNow(true);
+  }, [checkAuthentication]);
+
+  const handleConfirmPurchaseClick = useCallback(() => {
+    if (!checkAuthentication()) return;
     if (quantity > product.stock) {
       setModalInfo({
         isOpen: true,
@@ -45,13 +47,10 @@ const OnlineProductDetails = ({ product, onAddToCart, onClose }) => {
       subtotalAmount: quantity * product.price,
     };
     navigate("/checkout", { state: { items: [productWithQuantity] } });
-  };
+  }, [checkAuthentication, quantity, product, navigate]);
 
-  const handleAddToCartClick = () => {
-    if (!isAuthenticated) {
-      navigate("/customer-login");
-      return;
-    }
+  const handleAddToCartClick = useCallback(() => {
+    if (!checkAuthentication()) return;
     if (quantity > product.stock) {
       setModalInfo({
         isOpen: true,
@@ -68,7 +67,7 @@ const OnlineProductDetails = ({ product, onAddToCart, onClose }) => {
       subtotalAmount: quantity * product.price,
     };
     onAddToCart(productWithQuantity);
-  };
+  }, [checkAuthentication, quantity, product, onAddToCart]);
 
   const handleQuantityChange = (e) => {
     const newQuantity = Number(e.target.value);

@@ -24,6 +24,7 @@ import CustomerLoginPage from "./components/onlineStoreFrontCustomersComponent/C
 import CreateAccountPage from "./components/onlineStoreFrontCustomersComponent/CreateAccountPage";
 import RequestResetPasswordPage from "./components/onlineStoreFrontCustomersComponent/RequestResetPasswordPage";
 import ResetPasswordPage from "./components/onlineStoreFrontCustomersComponent/ResetPasswordPage";
+import CustomerProfilePage from "./components/onlineStoreFrontCustomersComponent/CustomerProfilePage";
 
 const App = () => {
   const { authToken, login } = useAuthentication();
@@ -109,6 +110,16 @@ const App = () => {
               <Route
                 path="/reset-password/:token"
                 element={<ResetPasswordPage />}
+              />
+              <Route
+                path="/customer-profile"
+                element={
+                  authToken ? (
+                    <CustomerProfilePage />
+                  ) : (
+                    <Navigate to="/customer-login" />
+                  )
+                }
               />
               <Route
                 path="*"

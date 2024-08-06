@@ -13,7 +13,6 @@ const ProductSearch = ({ onSearch, onSearchTermChange }) => {
 
   const handleSearch = async () => {
     if (!isAuthenticated) {
-      // Redirect to login page only if search is attempted without authentication
       navigate("/customer-login");
       return;
     }
