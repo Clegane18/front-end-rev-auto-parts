@@ -6,7 +6,7 @@ import OnlineProductList from "./OnlineProductList";
 import OnlineCartIcon from "./OnlineCartIcon";
 import OnlineStoreFrontItemsByCategory from "./OnlineStoreFrontItemsByCategory";
 import { OnlineCartContext } from "./OnlineCartContext";
-import { useAuth } from "../../contexts/AuthContext"; // Import useAuth
+import { useAuth } from "../../contexts/AuthContext";
 import "../../styles/onlineStoreFrontComponents/OnlineStoreFrontPage.css";
 import logo from "../../assets/g&f-logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -17,7 +17,7 @@ const OnlineStoreFrontPage = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const { addToCart, cartItems } = useContext(OnlineCartContext);
-  const { isAuthenticated } = useAuth(); // Use isAuthenticated from AuthContext
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   const handleSelectProduct = (product) => {

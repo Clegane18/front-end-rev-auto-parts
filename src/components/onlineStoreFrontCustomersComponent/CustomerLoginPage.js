@@ -6,6 +6,7 @@ import googleLogo from "../../assets/google-logo.png";
 import { login } from "../../services/online-store-front-customer-api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { jwtDecode } from "jwt-decode";
 
 const CustomerLoginPage = () => {
   const [email, setEmail] = useState("");
@@ -20,9 +21,15 @@ const CustomerLoginPage = () => {
     event.preventDefault();
     try {
       const result = await login({ email, password });
-      console.log(result.message);
-      loginUser(); // Set authentication state
-      setIsAuthenticated(true); // Update local state to trigger navigation
+      const decodedToken = jwtDecode(result.token);
+      const user = {
+        id: decodedToken.id,
+        token: result.token,
+        username: decodedToken.username,
+        email: decodedToken.email,
+      };
+      loginUser(user);
+      setIsAuthenticated(true);
     } catch (error) {
       setError(error.message);
     }

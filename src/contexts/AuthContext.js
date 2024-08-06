@@ -9,15 +9,16 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
 
   const login = (user) => {
+    console.log("Logging in user:", user);
     setIsAuthenticated(true);
-    setCurrentUser(user); // Set the current user upon login
-    navigate("/online-store"); // Redirect to store after login
+    setCurrentUser(user);
+    navigate("/online-store");
   };
 
   const logout = () => {
     setIsAuthenticated(false);
-    setCurrentUser(null); // Clear the current user upon logout
-    navigate("/customer-login"); // Redirect to login page
+    setCurrentUser(null);
+    navigate("/customer-login");
   };
 
   return (

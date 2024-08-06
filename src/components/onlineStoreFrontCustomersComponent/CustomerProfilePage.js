@@ -1,21 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../../contexts/AuthContext"; // Adjust path as needed
-import { getCustomerProfile } from "../../services/online-store-front-customer-api"; // Adjust path as needed
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useAuth } from "../../contexts/AuthContext";
+import { getCustomerProfile } from "../../services/online-store-front-customer-api";
 
 const CustomerProfilePage = () => {
-  const [customer, setCustomer] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { currentUser } = useAuth();
+  const [profile, setProfile] = useState(null);
   const [error, setError] = useState(null);
-  const { isAuthenticated, currentUser, token } = useAuth(); // Ensure user is authenticated
-  const navigate = useNavigate(); // Use useNavigate hook
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (isAuthenticated && currentUser) {
-      const fetchCustomerProfile = async () => {
+    if (currentUser) {
+      const fetchProfile = async () => {
         try {
-          const response = await getCustomerProfile(currentUser.id, token); // Fetch profile data
-          setCustomer(response.data);
+          const result = await getCustomerProfile(
+            currentUser.id,
+            currentUser.token
+          );
+          if (result.data) {
+            setProfile(result.data);
+          } else {
+            throw new Error("Profile data is missing");
+          }
         } catch (err) {
           setError(err.message);
         } finally {
@@ -23,36 +28,35 @@ const CustomerProfilePage = () => {
         }
       };
 
-      fetchCustomerProfile();
+      fetchProfile();
     } else {
-      // Redirect to login or show an appropriate message
-      navigate("/customer-login");
+      setLoading(false);
     }
-  }, [isAuthenticated, navigate, currentUser, token]);
+  }, [currentUser]);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <div>Loading...</div>;
   }
 
   if (error) {
-    return <p>Error: {error}</p>;
-  }
-
-  if (!customer) {
-    return <p>No customer data available.</p>;
+    return <div>Error: {error}</div>;
   }
 
   return (
-    <div className="customer-profile-page">
+    <div>
       <h1>Customer Profile</h1>
-      <div className="profile-details">
-        <p>
-          <strong>Username:</strong> {customer.username}
-        </p>
-        <p>
-          <strong>Email:</strong> {customer.email}
-        </p>
-      </div>
+      {profile ? (
+        <div>
+          <p>
+            <strong>Username:</strong> {profile.username}
+          </p>
+          <p>
+            <strong>Email:</strong> {profile.email}
+          </p>
+        </div>
+      ) : (
+        <p>No profile data available.</p>
+      )}
     </div>
   );
 };
