@@ -6,6 +6,7 @@ import OnlineProductList from "./OnlineProductList";
 import OnlineCartIcon from "./OnlineCartIcon";
 import OnlineStoreFrontItemsByCategory from "./OnlineStoreFrontItemsByCategory";
 import { OnlineCartContext } from "./OnlineCartContext";
+import { useAuth } from "../../contexts/AuthContext";
 import "../../styles/onlineStoreFrontComponents/OnlineStoreFrontPage.css";
 import logo from "../../assets/g&f-logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,13 +17,22 @@ const OnlineStoreFrontPage = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const { addToCart, cartItems } = useContext(OnlineCartContext);
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   const handleSelectProduct = (product) => {
+    if (!isAuthenticated) {
+      navigate("/customer-login");
+      return;
+    }
     setSelectedProduct(product);
   };
 
   const handleAddToCart = (product) => {
+    if (!isAuthenticated) {
+      navigate("/customer-login");
+      return;
+    }
     addToCart(product);
     setSelectedProduct(null);
   };
@@ -36,6 +46,10 @@ const OnlineStoreFrontPage = () => {
   };
 
   const handleCartIconClick = () => {
+    if (!isAuthenticated) {
+      navigate("/customer-login");
+      return;
+    }
     navigate("/online-cart");
   };
 

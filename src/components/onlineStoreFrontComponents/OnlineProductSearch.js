@@ -3,11 +3,21 @@ import { searchProducts } from "../../services/pos-api";
 import "../../styles/onlineStoreFrontComponents/OnlineProductSearch.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { useAuth } from "../../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const ProductSearch = ({ onSearch, onSearchTermChange }) => {
   const [searchTerm, setSearchTerm] = useState("");
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
   const handleSearch = async () => {
+    if (!isAuthenticated) {
+      // Redirect to login page only if search is attempted without authentication
+      navigate("/customer-login");
+      return;
+    }
+
     if (!searchTerm) {
       onSearch([]);
       return;

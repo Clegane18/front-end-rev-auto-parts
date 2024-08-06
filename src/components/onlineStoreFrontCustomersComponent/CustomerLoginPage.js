@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 import "../../styles/onlineStoreFrontCustomersComponent/CustomerLoginPage.css";
 import googleLogo from "../../assets/google-logo.png";
 import { login } from "../../services/online-store-front-customer-api";
@@ -11,14 +12,17 @@ const CustomerLoginPage = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
+  const { login: loginUser } = useAuth();
 
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
       const result = await login({ email, password });
       console.log(result.message);
-      navigate("/online-store");
+      loginUser(); // Set authentication state
+      setIsAuthenticated(true); // Update local state to trigger navigation
     } catch (error) {
       setError(error.message);
     }
@@ -32,11 +36,19 @@ const CustomerLoginPage = () => {
     navigate("/reset-password");
   };
 
-  const handleGoogleLogin = () => {};
+  const handleGoogleLogin = () => {
+    // Implement Google login logic here
+  };
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/online-store");
+    }
+  }, [isAuthenticated, navigate]);
 
   return (
     <div className="login-container">

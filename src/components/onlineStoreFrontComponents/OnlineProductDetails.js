@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 import InsufficientStockModal from "./InsufficientStockModal";
 import "../../styles/onlineStoreFrontComponents/OnlineProductDetails.css";
 import { formatCurrency } from "../../utils/formatCurrency";
@@ -13,12 +14,21 @@ const OnlineProductDetails = ({ product, onAddToCart, onClose }) => {
     stock: 0,
   });
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
 
   const handleBuyNowClick = () => {
+    if (!isAuthenticated) {
+      navigate("/customer-login");
+      return;
+    }
     setShowBuyNow(true);
   };
 
   const handleConfirmPurchaseClick = () => {
+    if (!isAuthenticated) {
+      navigate("/customer-login");
+      return;
+    }
     if (quantity > product.stock) {
       setModalInfo({
         isOpen: true,
@@ -38,6 +48,10 @@ const OnlineProductDetails = ({ product, onAddToCart, onClose }) => {
   };
 
   const handleAddToCartClick = () => {
+    if (!isAuthenticated) {
+      navigate("/customer-login");
+      return;
+    }
     if (quantity > product.stock) {
       setModalInfo({
         isOpen: true,
@@ -87,7 +101,7 @@ const OnlineProductDetails = ({ product, onAddToCart, onClose }) => {
             <p className="product-item-code">ITEM CODE: {product.itemCode}</p>
           </div>
           <div className="product-description">
-            <p>• {product.description.split("\n").join("</p><p>• ")}</p>{" "}
+            <p>• {product.description.split("\n").join("</p><p>• ")}</p>
           </div>
           <div className="product-actions">
             <button onClick={handleBuyNowClick} className="buy-now-button">
