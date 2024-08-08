@@ -1,11 +1,11 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:3002/api/auth";
+const BASE_URL = "http://localhost:3002/api";
 
 export const searchProducts = async (query) => {
   try {
     const response = await axios.get(
-      `${BASE_URL}/products/filter/nameOrDescription`,
+      `${BASE_URL}/inventory/products/filter/nameOrDescription`,
       {
         params: query,
       }
@@ -19,9 +19,12 @@ export const searchProducts = async (query) => {
 
 export const getProductByItemCode = async (productItemCode) => {
   try {
-    const response = await axios.get(`${BASE_URL}/products/filter/itemCode`, {
-      params: { productItemCode },
-    });
+    const response = await axios.get(
+      `${BASE_URL}/inventory/products/filter/itemCode`,
+      {
+        params: { productItemCode },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error("Error searching product by item code:", error);

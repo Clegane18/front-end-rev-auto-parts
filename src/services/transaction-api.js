@@ -1,10 +1,10 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:3002/api/auth";
+const BASE_URL = "http://localhost:3002/api/transactions";
 
 export const getTotalNumberTransactions = async () => {
   try {
-    const response = await axios.get(`${BASE_URL}/transactions/today/total`);
+    const response = await axios.get(`${BASE_URL}/today/total`);
     return response.data;
   } catch (error) {
     console.error(
@@ -17,9 +17,7 @@ export const getTotalNumberTransactions = async () => {
 
 export const getTotalCountOfTransactionsFromPOS = async () => {
   try {
-    const response = await axios.get(
-      `${BASE_URL}/transactions/today/total/pos`
-    );
+    const response = await axios.get(`${BASE_URL}/today/total/pos`);
     return response.data;
   } catch (error) {
     console.error(
@@ -32,9 +30,7 @@ export const getTotalCountOfTransactionsFromPOS = async () => {
 
 export const getTotalCountOfTransactionsFromOnline = async () => {
   try {
-    const response = await axios.get(
-      `${BASE_URL}/transactions/today/total/online`
-    );
+    const response = await axios.get(`${BASE_URL}/today/total/online`);
     return response.data;
   } catch (error) {
     console.error(
@@ -47,7 +43,7 @@ export const getTotalCountOfTransactionsFromOnline = async () => {
 
 export const getTodaysTransactions = async () => {
   try {
-    const response = await axios.get(`${BASE_URL}/transactions/today`);
+    const response = await axios.get(`${BASE_URL}/today`);
     return response.data;
   } catch (error) {
     console.error(

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import "../../styles/onlineStoreFrontCustomersComponent/CustomerLoginPage.css";
 import googleLogo from "../../assets/google-logo.png";
@@ -15,6 +15,7 @@ const CustomerLoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const { login: loginUser } = useAuth();
 
   const handleLogin = async (event) => {
@@ -44,12 +45,28 @@ const CustomerLoginPage = () => {
   };
 
   const handleGoogleLogin = () => {
-    // Implement Google login logic here
+    window.location.href = "http://localhost:3002/api/auth/google";
   };
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
+  useEffect(() => {
+    const query = new URLSearchParams(location.search);
+    const token = query.get("token");
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      const user = {
+        id: decodedToken.id,
+        token: token,
+        username: decodedToken.username,
+        email: decodedToken.email,
+      };
+      loginUser(user);
+      setIsAuthenticated(true);
+    }
+  }, [location.search, loginUser]);
 
   useEffect(() => {
     if (isAuthenticated) {
