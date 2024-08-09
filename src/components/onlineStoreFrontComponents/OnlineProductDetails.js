@@ -1,11 +1,12 @@
 import React, { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthContext";
 import InsufficientStockModal from "./InsufficientStockModal";
 import "../../styles/onlineStoreFrontComponents/OnlineProductDetails.css";
 import { formatCurrency } from "../../utils/formatCurrency";
+import useRequireAuth from "../../utils/useRequireAuth";
 
 const OnlineProductDetails = ({ product, onAddToCart, onClose }) => {
+  const checkAuth = useRequireAuth();
   const [showBuyNow, setShowBuyNow] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [modalInfo, setModalInfo] = useState({
@@ -14,23 +15,15 @@ const OnlineProductDetails = ({ product, onAddToCart, onClose }) => {
     stock: 0,
   });
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuth();
 
-  const checkAuthentication = useCallback(() => {
-    if (!isAuthenticated) {
-      navigate("/customer-login");
-      return false;
+  const handleBuyNowClick = () => {
+    if (checkAuth("/online-store")) {
+      setShowBuyNow(true);
     }
-    return true;
-  }, [isAuthenticated, navigate]);
-
-  const handleBuyNowClick = useCallback(() => {
-    if (!checkAuthentication()) return;
-    setShowBuyNow(true);
-  }, [checkAuthentication]);
+  };
 
   const handleConfirmPurchaseClick = useCallback(() => {
-    if (!checkAuthentication()) return;
+    if (!checkAuth("/online-store")) return;
     if (quantity > product.stock) {
       setModalInfo({
         isOpen: true,
@@ -47,10 +40,10 @@ const OnlineProductDetails = ({ product, onAddToCart, onClose }) => {
       subtotalAmount: quantity * product.price,
     };
     navigate("/checkout", { state: { items: [productWithQuantity] } });
-  }, [checkAuthentication, quantity, product, navigate]);
+  }, [checkAuth, quantity, product, navigate]);
 
   const handleAddToCartClick = useCallback(() => {
-    if (!checkAuthentication()) return;
+    if (!checkAuth("/online-store")) return;
     if (quantity > product.stock) {
       setModalInfo({
         isOpen: true,
@@ -67,7 +60,7 @@ const OnlineProductDetails = ({ product, onAddToCart, onClose }) => {
       subtotalAmount: quantity * product.price,
     };
     onAddToCart(productWithQuantity);
-  }, [checkAuthentication, quantity, product, onAddToCart]);
+  }, [checkAuth, quantity, product, onAddToCart]);
 
   const handleQuantityChange = (e) => {
     const newQuantity = Number(e.target.value);

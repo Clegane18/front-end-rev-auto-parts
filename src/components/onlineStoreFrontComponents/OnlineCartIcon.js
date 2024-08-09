@@ -2,20 +2,18 @@ import React, { useContext } from "react";
 import { OnlineCartContext } from "./OnlineCartContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
-import { useAuth } from "../../contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
 import "../../styles/onlineStoreFrontComponents/OnlineCartIcon.css";
+import useRequireAuth from "../../utils/useRequireAuth";
+import { useNavigate } from "react-router-dom";
 
 const CartIcon = () => {
   const { getItemCount } = useContext(OnlineCartContext);
-  const { isAuthenticated } = useAuth();
-  const navigate = useNavigate();
+  const checkAuth = useRequireAuth();
   const itemCount = getItemCount();
+  const navigate = useNavigate();
 
   const handleClick = () => {
-    if (!isAuthenticated) {
-      navigate("/customer-login");
-    } else {
+    if (checkAuth("/online-cart")) {
       navigate("/online-cart");
     }
   };

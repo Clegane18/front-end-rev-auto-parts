@@ -8,8 +8,12 @@ const OnlineProductList = ({ products, onSelectProduct }) => {
         {products.map((product) => (
           <div
             key={product.id}
-            className="product-item"
-            onClick={() => onSelectProduct(product)}
+            className={`product-item ${
+              product.id === "no-results" ? "no-results" : ""
+            }`}
+            onClick={() =>
+              product.id !== "no-results" && onSelectProduct(product)
+            }
           >
             <p>{product.name}</p>
           </div>

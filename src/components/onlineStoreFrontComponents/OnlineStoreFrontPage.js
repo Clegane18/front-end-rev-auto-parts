@@ -6,35 +6,31 @@ import OnlineProductList from "./OnlineProductList";
 import OnlineCartIcon from "./OnlineCartIcon";
 import OnlineStoreFrontItemsByCategory from "./OnlineStoreFrontItemsByCategory";
 import { OnlineCartContext } from "./OnlineCartContext";
-import { useAuth } from "../../contexts/AuthContext";
 import "../../styles/onlineStoreFrontComponents/OnlineStoreFrontPage.css";
 import logo from "../../assets/g&f-logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faSignInAlt } from "@fortawesome/free-solid-svg-icons";
+import useRequireAuth from "../../utils/useRequireAuth";
 
 const OnlineStoreFrontPage = () => {
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const { addToCart, cartItems } = useContext(OnlineCartContext);
-  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const checkAuth = useRequireAuth();
 
   const handleSelectProduct = (product) => {
-    if (!isAuthenticated) {
-      navigate("/customer-login");
-      return;
+    if (checkAuth("/online-store")) {
+      setSelectedProduct(product);
     }
-    setSelectedProduct(product);
   };
 
   const handleAddToCart = (product) => {
-    if (!isAuthenticated) {
-      navigate("/customer-login");
-      return;
+    if (checkAuth("/online-store")) {
+      addToCart(product);
+      setSelectedProduct(null);
     }
-    addToCart(product);
-    setSelectedProduct(null);
   };
 
   const handleSearch = (products) => {
@@ -46,14 +42,14 @@ const OnlineStoreFrontPage = () => {
   };
 
   const handleCartIconClick = () => {
-    navigate("/online-cart");
+    if (checkAuth("/online-cart")) {
+      navigate("/online-cart");
+    }
   };
 
   const handleProfileOrLoginClick = () => {
-    if (isAuthenticated) {
+    if (checkAuth("/customer-profile")) {
       navigate("/customer-profile");
-    } else {
-      navigate("/customer-login");
     }
   };
 
@@ -82,7 +78,9 @@ const OnlineStoreFrontPage = () => {
               )}
             </div>
             <div className="profile-icon" onClick={handleProfileOrLoginClick}>
-              <FontAwesomeIcon icon={isAuthenticated ? faUser : faSignInAlt} />
+              <FontAwesomeIcon
+                icon={checkAuth("/customer-profile") ? faUser : faSignInAlt}
+              />
             </div>
             <div className="cart-icon">
               <OnlineCartIcon

@@ -3,32 +3,31 @@ import { searchProducts } from "../../services/pos-api";
 import "../../styles/onlineStoreFrontComponents/OnlineProductSearch.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { useAuth } from "../../contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
+import useRequireAuth from "../../utils/useRequireAuth";
 
 const ProductSearch = ({ onSearch, onSearchTermChange }) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const { isAuthenticated } = useAuth();
-  const navigate = useNavigate();
+  const checkAuth = useRequireAuth();
 
   const handleSearch = async () => {
-    if (!isAuthenticated) {
-      navigate("/customer-login");
-      return;
-    }
+    if (checkAuth("/customer-login")) {
+      if (!searchTerm) {
+        onSearch([]);
+        return;
+      }
 
-    if (!searchTerm) {
-      onSearch([]);
-      return;
-    }
-
-    try {
-      const query = { name: searchTerm, description: searchTerm };
-      const products = await searchProducts(query);
-      onSearch(products);
-    } catch (error) {
-      console.error("Error during product search:", error);
-      alert(`Search failed: ${error.response?.data?.message || error.message}`);
+      try {
+        const query = { name: searchTerm, description: searchTerm };
+        const products = await searchProducts(query);
+        if (products.length === 0) {
+          onSearch([{ id: "no-results", name: "No products found" }]);
+        } else {
+          onSearch(products);
+        }
+      } catch (error) {
+        console.error("Error during product search:", error);
+        onSearch([{ id: "no-results", name: "No products found" }]);
+      }
     }
   };
 
