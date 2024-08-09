@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+import useRequireAuth from "../../utils/useRequireAuth";
 import "../../styles/onlineStoreFrontCustomersComponent/CustomerLoginPage.css";
 import googleLogo from "../../assets/google-logo.png";
 import { login } from "../../services/online-store-front-customer-api";
@@ -13,10 +14,16 @@ const CustomerLoginPage = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const { login: loginUser } = useAuth();
+  const { login: loginUser, isAuthenticated } = useAuth();
+  const checkAuth = useRequireAuth();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/online-store");
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -30,7 +37,7 @@ const CustomerLoginPage = () => {
         email: decodedToken.email,
       };
       loginUser(user);
-      setIsAuthenticated(true);
+      checkAuth("/online-store");
     } catch (error) {
       setError(error.message);
     }
@@ -64,15 +71,9 @@ const CustomerLoginPage = () => {
         email: decodedToken.email,
       };
       loginUser(user);
-      setIsAuthenticated(true);
+      checkAuth("/online-store");
     }
-  }, [location.search, loginUser]);
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/online-store");
-    }
-  }, [isAuthenticated, navigate]);
+  }, [location.search, loginUser, checkAuth]);
 
   return (
     <div className="login-container">
