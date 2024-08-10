@@ -164,7 +164,7 @@ const DashboardPage = () => {
         "bestsellers-section",
         "stock-reminder-low-stock-reminder",
         "transaction-overview",
-        "monthly-income",
+        "total-income",
       ]);
     }
     setIsAllSelected(!isAllSelected);
