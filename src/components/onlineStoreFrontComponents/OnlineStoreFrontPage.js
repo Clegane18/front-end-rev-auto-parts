@@ -1,23 +1,16 @@
 import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import OnlineStoreFrontHeader from "./OnlineStoreFrontHeader";
 import OnlineProductDetails from "./OnlineProductDetails";
-import OnlineProductSearch from "./OnlineProductSearch";
-import OnlineProductList from "./OnlineProductList";
-import OnlineCartIcon from "./OnlineCartIcon";
 import OnlineStoreFrontItemsByCategory from "./OnlineStoreFrontItemsByCategory";
-import { OnlineCartContext } from "./OnlineCartContext";
+import { OnlineCartContext } from "./OnlineCartContext"; // Import the context
 import "../../styles/onlineStoreFrontComponents/OnlineStoreFrontPage.css";
-import logo from "../../assets/g&f-logo.png";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 import useRequireAuth from "../../utils/useRequireAuth";
 
 const OnlineStoreFrontPage = () => {
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const { addToCart, cartItems } = useContext(OnlineCartContext);
-  const navigate = useNavigate();
+  const { addToCart } = useContext(OnlineCartContext); // Extract addToCart from context
   const checkAuth = useRequireAuth();
 
   const handleSelectProduct = (product) => {
@@ -28,7 +21,7 @@ const OnlineStoreFrontPage = () => {
 
   const handleAddToCart = (product) => {
     if (checkAuth("/online-store")) {
-      addToCart(product);
+      addToCart(product); // Call addToCart from context
       setSelectedProduct(null);
     }
   };
@@ -41,18 +34,6 @@ const OnlineStoreFrontPage = () => {
     setSearchTerm(term);
   };
 
-  const handleCartIconClick = () => {
-    if (checkAuth("/online-cart")) {
-      navigate("/online-cart");
-    }
-  };
-
-  const handleProfileOrLoginClick = () => {
-    if (checkAuth("/customer-profile")) {
-      navigate("/customer-profile");
-    }
-  };
-
   const handleCloseModal = () => {
     setSelectedProduct(null);
   };
@@ -60,36 +41,13 @@ const OnlineStoreFrontPage = () => {
   return (
     <div id="root-online-store-front-page">
       <div className="online-store-front-page">
-        <header className="online-header">
-          <div className="shop-info">
-            <img src={logo} alt="G&F Auto Supply" className="shop-logo" />
-          </div>
-          <div className="header-right">
-            <div className="search-results-wrapper">
-              <OnlineProductSearch
-                onSearch={handleSearch}
-                onSearchTermChange={handleSearchTermChange}
-              />
-              {searchTerm && products.length > 0 && (
-                <OnlineProductList
-                  products={products}
-                  onSelectProduct={handleSelectProduct}
-                />
-              )}
-            </div>
-            <div className="profile-icon" onClick={handleProfileOrLoginClick}>
-              <FontAwesomeIcon
-                icon={checkAuth("/customer-profile") ? faUser : faSignInAlt}
-              />
-            </div>
-            <div className="cart-icon">
-              <OnlineCartIcon
-                itemCount={cartItems.length}
-                onClick={handleCartIconClick}
-              />
-            </div>
-          </div>
-        </header>
+        <OnlineStoreFrontHeader
+          products={products}
+          searchTerm={searchTerm}
+          handleSearch={handleSearch}
+          handleSearchTermChange={handleSearchTermChange}
+          handleSelectProduct={handleSelectProduct}
+        />
         <div className="online-content">
           <main className="online-main">
             <div className="products-section">

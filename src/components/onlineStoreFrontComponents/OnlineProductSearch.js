@@ -3,16 +3,24 @@ import { searchProducts } from "../../services/pos-api";
 import "../../styles/onlineStoreFrontComponents/OnlineProductSearch.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { useLocation, useNavigate } from "react-router-dom";
 import useRequireAuth from "../../utils/useRequireAuth";
 
 const ProductSearch = ({ onSearch, onSearchTermChange }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const checkAuth = useRequireAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSearch = async () => {
     if (checkAuth("/customer-login")) {
       if (!searchTerm) {
         onSearch([]);
+        return;
+      }
+
+      if (location.pathname === "/customer-profile") {
+        navigate(`/online-store?search=${encodeURIComponent(searchTerm)}`);
         return;
       }
 

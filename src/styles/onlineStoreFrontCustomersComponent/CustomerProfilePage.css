@@ -1,0 +1,50 @@
+#customer-profile-page {
+    display: flex;
+    font-family: Arial, sans-serif;
+  }
+  
+  #customer-profile-page .sidebar {
+    width: 250px;
+    background-color: #f5f5f5;
+    padding: 20px;
+  }
+  
+  #customer-profile-page .sidebar p.username {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  #customer-profile-page .sidebar a {
+    display: block;
+    margin: 10px 0;
+    color: #ff5722;
+    text-decoration: none;
+  }
+  
+  #customer-profile-page .sidebar ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  #customer-profile-page .sidebar ul li {
+    margin: 10px 0;
+  }
+  
+  #customer-profile-page .profile-content {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  #customer-profile-page .profile-details p {
+    margin: 10px 0;
+  }
+  
+  #customer-profile-page .order-list h2 {
+    margin-top: 30px;
+  }
+  
+  #customer-profile-page .order-list p {
+    text-align: center;
+    color: #888;
+  }
+  

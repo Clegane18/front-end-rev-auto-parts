@@ -1,0 +1,95 @@
+#online-store-header {
+  background-color: #343a40;
+  color: #ffffff;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: sticky; 
+  top: 0; 
+  z-index: 1000;
+}
+
+#shop-info {
+  display: flex;
+  align-items: center;
+}
+
+#header-right {
+  display: flex;
+  align-items: center;
+}
+
+#search-results-wrapper {
+  flex: 1;
+}
+
+#profile-icon {
+  margin-left: 40px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+#cart-icon {
+  cursor: pointer;
+  margin-left: 10px;
+  font-size: 24px;
+}
+
+#profile-icon:hover,
+#cart-icon:hover {
+  opacity: 0.75;
+}
+
+#shop-logo {
+  max-height: 40px;
+  max-width: 100%;
+  padding-left: 40px;
+}
+
+#shop-logo:hover {
+  opacity: 0.75;
+}
+
+/* Responsive Design */
+@media (min-width: 1200px) {
+  #online-store-header {
+    padding: 15px 30px;
+    justify-content: space-between;
+  }
+
+  #profile-icon,
+  #cart-icon {
+    font-size: 26px;
+  }
+}
+
+@media (min-width: 1440px) {
+  #online-store-header {
+    padding: 20px 40px;
+  }
+
+  #profile-icon,
+  #cart-icon {
+    font-size: 30px;
+  }
+}
+
+@media (min-width: 1920px) {
+  #online-store-header {
+    padding: 25px 50px;
+  }
+
+  #profile-icon,
+  #cart-icon {
+    font-size: 32px;
+  }
+}
+
+#shop-info {
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #ffffff;
+}
