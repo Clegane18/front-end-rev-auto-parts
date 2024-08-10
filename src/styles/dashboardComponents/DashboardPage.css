@@ -207,7 +207,7 @@ table th {
 
 .transaction-overview,
 .stock-reminder-low-stock-reminder,
-.monthly-income {
+.total-income {
   padding: 20px;
   border-radius: 8px;
   flex: 1;
@@ -226,7 +226,7 @@ table th {
 }
 
 .transaction-overview h3, 
-.monthly-income h3, 
+.total-income h3, 
 .stock-reminder-low-stock-reminder h3 {
   font-size: 1.6em;
   color: #000;
@@ -234,6 +234,7 @@ table th {
   font-weight: 300;
   text-transform: uppercase;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+  text-align: center;
 }
 
 .transactions-boxes {
@@ -268,7 +269,7 @@ table th {
   background-color: #e9ecef;
 }
 
-.monthly-income-details,
+.income-details,
 .transactions-details {
   margin-top: 15px;
   display: flex;
@@ -277,13 +278,13 @@ table th {
   width: 100%;
 }
 
-.monthly-income-item,
+.income-item,
 .transactions-item {
   text-align: center;
   margin: 10px 0;
 }
 
-.monthly-income-item p,
+.income-item p,
 .transaction-details-total p, 
 .transaction-details-pos p,
 .transaction-details-online p {
@@ -300,7 +301,7 @@ table th {
   transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
-.monthly-income-item p:hover,
+.total-income-item p:hover,
 .transaction-details-total p:hover,
 .transaction-details-pos p:hover,
 .transaction-details-online p:hover {
@@ -312,8 +313,10 @@ table th {
   font-weight: 500; 
   font-size: 25px;
 }
-
-.monthly-income-details-item,
+.income-item{
+  margin-top: 40px;
+}
+.income-details-item,
 .transaction-details-total,
 .transaction-details-pos,
 .transaction-details-online {

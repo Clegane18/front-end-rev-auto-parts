@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import SalesChart from "./SalesChart";
-import { calculateIncomeByMonthInPhysicalStore } from "../../services/pos-api";
 import {
   getTotalStock,
   getTotalItems,
@@ -13,6 +12,8 @@ import {
   getTotalCountOfTransactionsFromPOS,
   getTotalCountOfTransactionsFromOnline,
   getTodaysTransactions,
+  calculateTotalIncomeByMonth,
+  calculateTotalIncome,
 } from "../../services/transaction-api";
 import "../../styles/dashboardComponents/DashboardPage.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -38,6 +39,7 @@ import useAuthentication from "../LoginComponents/useAuthentication";
 
 const DashboardPage = () => {
   const [monthlyIncome, setMonthlyIncome] = useState([]);
+  const [totalIncome, setTotalIncome] = useState(0);
   const [bestSellers, setBestSellers] = useState([]);
   const [totalStock, setTotalStock] = useState(0);
   const [totalItems, setTotalItems] = useState(0);
@@ -58,7 +60,7 @@ const DashboardPage = () => {
   useEffect(() => {
     const fetchIncomeData = async () => {
       try {
-        const monthlyIncomeData = await calculateIncomeByMonthInPhysicalStore();
+        const monthlyIncomeData = await calculateTotalIncomeByMonth();
         setMonthlyIncome(
           Object.entries(monthlyIncomeData.data).map(([key, value]) => ({
             month: key,
@@ -70,7 +72,17 @@ const DashboardPage = () => {
         console.error("Error fetching income data:", error);
       }
     };
-
+    const fetchTotalIncome = async () => {
+      try {
+        const { data } = await calculateTotalIncome();
+        setTotalIncome({
+          grossIncome: data.totalGrossIncome,
+          netIncome: data.totalNetIncome,
+        });
+      } catch (error) {
+        console.error("Error calculating total income:", error);
+      }
+    };
     const fetchBestSellers = async () => {
       try {
         const bestSellersData = await getTopBestSellerItems();
@@ -117,18 +129,11 @@ const DashboardPage = () => {
     };
 
     fetchIncomeData();
+    fetchTotalIncome();
     fetchBestSellers();
     fetchStockData();
     fetchTransactionData();
   }, []);
-
-  const currentMonthIncome = monthlyIncome.find((entry) => {
-    const currentDate = new Date();
-    const currentMonthYear = `${currentDate.getFullYear()}-${
-      currentDate.getMonth() + 1
-    }`;
-    return entry.month === currentMonthYear;
-  });
 
   const openLogoutModal = () => {
     setIsLogoutModalOpen(true);
@@ -578,45 +583,38 @@ const DashboardPage = () => {
             </div>
           </div>
           <div
-            id="monthly-income"
-            className={`monthly-income ${
+            id="total-income"
+            className={`total-income ${
               isReportMode ? "wiggle hoverable" : ""
-            } ${selectedReports.includes("monthly-income") ? "selected" : ""}`}
+            } ${selectedReports.includes("total-income") ? "selected" : ""}`}
             onClick={() =>
-              isReportMode && handleReportSelection("monthly-income")
+              isReportMode && handleReportSelection("total-income")
             }
           >
-            <h3>Monthly Income</h3>
+            <h3>Total Income</h3>
             {isReportMode && (
               <input
                 type="checkbox"
                 className="report-checkbox"
-                checked={selectedReports.includes("monthly-income")}
+                checked={selectedReports.includes("total-income")}
                 readOnly
               />
             )}
-            {currentMonthIncome ? (
-              <div className="monthly-income-details">
-                <div className="monthly-income-item">
-                  <div className="monthly-income-details-item">
-                    <p>Month: {currentMonthIncome.month}</p>
-                  </div>
-                  <div className="monthly-income-details-item">
+            {totalIncome ? (
+              <div className="income-details">
+                <div className="income-item">
+                  <div className="income-details-item">
                     <p>
-                      Net Income: ₱
-                      {currentMonthIncome.netIncome.toLocaleString()}
+                      Gross Income: ₱{totalIncome.grossIncome.toLocaleString()}
                     </p>
                   </div>
-                  <div className="monthly-income-details-item">
-                    <p>
-                      Gross Income: ₱
-                      {currentMonthIncome.grossIncome.toLocaleString()}
-                    </p>
+                  <div className="income-details-item">
+                    <p>Net Income: ₱{totalIncome.netIncome.toLocaleString()}</p>
                   </div>
                 </div>
               </div>
             ) : (
-              <p>No income data available for the current month</p>
+              <p>No income data available</p>
             )}
           </div>
         </section>

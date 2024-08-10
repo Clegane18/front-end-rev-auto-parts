@@ -53,3 +53,31 @@ export const getTodaysTransactions = async () => {
     throw error;
   }
 };
+
+export const calculateTotalIncomeByMonth = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}/income/totalMonthlyIncome`);
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Error calculating total income by month:",
+      error.response || error.message
+    );
+    throw error;
+  }
+};
+
+export const calculateTotalIncome = async () => {
+  try {
+    const response = await axios.get(
+      `${BASE_URL}/income/totalIncome`
+    );
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Error calculating total income:",
+      error.response || error.message
+    );
+    throw error;
+  }
+};
