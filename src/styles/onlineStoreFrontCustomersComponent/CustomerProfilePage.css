@@ -1,50 +1,49 @@
-#customer-profile-page {
+    #root-customer-profile-page {
     display: flex;
-    font-family: Arial, sans-serif;
+    flex-direction: column;
+    min-height: 100vh;
   }
   
-  #customer-profile-page .sidebar {
-    width: 250px;
-    background-color: #f5f5f5;
-    padding: 20px;
+  .customer-profile-container {
+    display: flex;
+    flex: 1;
   }
   
-  #customer-profile-page .sidebar p.username {
-    font-size: 16px;
-    font-weight: bold;
-  }
-  
-  #customer-profile-page .sidebar a {
-    display: block;
-    margin: 10px 0;
-    color: #ff5722;
-    text-decoration: none;
-  }
-  
-  #customer-profile-page .sidebar ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  #customer-profile-page .sidebar ul li {
-    margin: 10px 0;
-  }
-  
-  #customer-profile-page .profile-content {
+  .customer-profile-content {
     flex: 1;
     padding: 20px;
+    background-color: #ffffff;
   }
   
-  #customer-profile-page .profile-details p {
-    margin: 10px 0;
+  .purchase-tabs {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
   }
   
-  #customer-profile-page .order-list h2 {
-    margin-top: 30px;
+  .purchase-tabs button {
+    background-color: #f5f5f5;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
   }
   
-  #customer-profile-page .order-list p {
-    text-align: center;
-    color: #888;
+  .purchase-tabs .active {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .order-list {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 5px;
+  }
+  
+  .order-item {
+    margin-bottom: 15px;
+    padding: 15px;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
   }
   
