@@ -13,9 +13,9 @@ export const months = [
   { value: "12", label: "December" },
 ];
 
-export const days = Array.from({ length: 31 }, (_, i) => ({
-  value: i + 1,
-  label: String(i + 1).padStart(2, "0"),
+export const days = Array.from({ length: 31 }, (v, k) => ({
+  value: (k + 1).toString().padStart(2, "0"),
+  label: (k + 1).toString().padStart(2, "0"),
 }));
 
 export const years = Array.from({ length: 100 }, (_, i) => ({

@@ -9,23 +9,26 @@ import OnlineStoreFrontHeader from "../onlineStoreFrontComponents/OnlineStoreFro
 import Sidebar from "./Sidebar";
 import "../../styles/onlineStoreFrontCustomersComponent/CustomerProfilePage.css";
 import { months, days, years } from "../../utils/dates";
+import SuccessModal from "./SuccessModal";
 
 const CustomerProfilePage = () => {
   const { currentUser } = useAuth();
-  const [profile, setProfile] = useState(null);
-  const [username, setUsername] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [gender, setGender] = useState("");
-  const [dateOfBirth, setDateOfBirth] = useState({
-    day: "",
-    month: "",
-    year: "",
+  const [profile, setProfile] = useState({
+    username: "",
+    phoneNumber: "",
+    gender: "",
+    dateOfBirth: {
+      day: "",
+      month: "",
+      year: "",
+    },
   });
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedMenu, setSelectedMenu] = useState("Profile");
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   useEffect(() => {
     if (currentUser) {
@@ -35,23 +38,22 @@ const CustomerProfilePage = () => {
             currentUser.id,
             currentUser.token
           );
-
-          if (result) {
-            setProfile(result);
-            setUsername(result.username || "");
-            setPhoneNumber(result.phoneNumber || "");
-            setGender(result.gender || "");
-
-            if (result.dateOfBirth) {
-              const [year, month, day] = result.dateOfBirth.split("-");
-              setDateOfBirth({
-                day: day.padStart(2, "0"),
-                month: month.padStart(2, "0"),
-                year: year,
-              });
-            } else {
-              setDateOfBirth({ day: "", month: "", year: "" });
-            }
+          if (result && result.data) {
+            const { username, phoneNumber, gender, dateOfBirth } = result.data;
+            setProfile({
+              username: username || "",
+              phoneNumber: phoneNumber || "",
+              gender: gender || "",
+              dateOfBirth: {
+                day: dateOfBirth
+                  ? dateOfBirth.split("-")[2].padStart(2, "0")
+                  : "",
+                month: dateOfBirth
+                  ? dateOfBirth.split("-")[1].padStart(2, "0")
+                  : "",
+                year: dateOfBirth ? dateOfBirth.split("-")[0] : "",
+              },
+            });
           } else {
             throw new Error("Profile data is missing");
           }
@@ -70,27 +72,29 @@ const CustomerProfilePage = () => {
 
   const handleSave = async () => {
     try {
-      await updateCustomer({
+      const payload = {
         customerId: currentUser.id,
-        username,
-        phoneNumber,
-        gender,
-        dateOfBirth: `${dateOfBirth.year}-${dateOfBirth.month}-${dateOfBirth.day}`,
+        username: profile.username,
+        phoneNumber: profile.phoneNumber,
+        gender: profile.gender,
         token: currentUser.token,
-      });
-      alert("Profile updated successfully!");
+        dateOfBirth:
+          profile.dateOfBirth.year &&
+          profile.dateOfBirth.month &&
+          profile.dateOfBirth.day
+            ? `${profile.dateOfBirth.year}-${profile.dateOfBirth.month}-${profile.dateOfBirth.day}`
+            : undefined,
+      };
+
+      await updateCustomer(payload);
+      setShowSuccessModal(true);
     } catch (err) {
       setError(err.message);
     }
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <div id="root-customer-profile-page">
@@ -109,124 +113,153 @@ const CustomerProfilePage = () => {
           {selectedMenu === "Profile" && (
             <>
               <h1>My Profile</h1>
-              {profile ? (
-                <div className="profile-form">
+              <div className="profile-form">
+                <div>
+                  <label>Username</label>
+                  <input
+                    type="text"
+                    value={profile.username}
+                    onChange={(e) =>
+                      setProfile({ ...profile, username: e.target.value })
+                    }
+                    disabled
+                  />
+                  <p>Username can only be changed once.</p>
+                </div>
+                <div>
+                  <label>Email</label>
+                  <input type="email" value={profile.email || ""} disabled />
+                  <p>Email can only be changed in account settings.</p>
+                </div>
+                <div>
+                  <label>Phone Number</label>
+                  <input
+                    type="text"
+                    value={profile.phoneNumber ? profile.phoneNumber : "+63"}
+                    onChange={(e) =>
+                      setProfile({ ...profile, phoneNumber: e.target.value })
+                    }
+                    placeholder="+63"
+                  />
+                </div>
+                <div>
+                  <label>Gender</label>
                   <div>
-                    <label>Username</label>
-                    <input
-                      type="text"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
-                      disabled
-                    />
-                    <p>Username can only be changed once.</p>
+                    <label className="switch">
+                      <input
+                        type="checkbox"
+                        checked={profile.gender === "Male"}
+                        onChange={() =>
+                          setProfile({
+                            ...profile,
+                            gender: profile.gender === "Male" ? "" : "Male",
+                          })
+                        }
+                      />
+                      <span className="slider"></span>
+                    </label>
+                    <span className="toggle-label">Male</span>
+
+                    <label className="switch">
+                      <input
+                        type="checkbox"
+                        checked={profile.gender === "Female"}
+                        onChange={() =>
+                          setProfile({
+                            ...profile,
+                            gender: profile.gender === "Female" ? "" : "Female",
+                          })
+                        }
+                      />
+                      <span className="slider"></span>
+                    </label>
+                    <span className="toggle-label">Female</span>
+
+                    <label className="switch">
+                      <input
+                        type="checkbox"
+                        checked={profile.gender === "Other"}
+                        onChange={() =>
+                          setProfile({
+                            ...profile,
+                            gender: profile.gender === "Other" ? "" : "Other",
+                          })
+                        }
+                      />
+                      <span className="slider"></span>
+                    </label>
+                    <span className="toggle-label">Other</span>
                   </div>
-                  <div>
-                    <label>Name</label>
-                    <input
-                      type="text"
-                      value={profile.name || ""}
-                      onChange={(e) =>
-                        setProfile({ ...profile, name: e.target.value })
+                </div>
+
+                <div>
+                  <label>Date of Birth</label>
+                  <div className="dob">
+                    <Select
+                      placeholder="Day"
+                      options={days}
+                      value={days.find(
+                        (day) => day.value === profile.dateOfBirth.day
+                      )}
+                      onChange={(selectedOption) =>
+                        setProfile({
+                          ...profile,
+                          dateOfBirth: {
+                            ...profile.dateOfBirth,
+                            day: selectedOption.value,
+                          },
+                        })
+                      }
+                    />
+                    <Select
+                      placeholder="Month"
+                      options={months}
+                      value={months.find(
+                        (month) => month.value === profile.dateOfBirth.month
+                      )}
+                      onChange={(selectedOption) =>
+                        setProfile({
+                          ...profile,
+                          dateOfBirth: {
+                            ...profile.dateOfBirth,
+                            month: selectedOption.value,
+                          },
+                        })
+                      }
+                    />
+                    <Select
+                      placeholder="Year"
+                      options={years}
+                      value={years.find(
+                        (year) => year.value === profile.dateOfBirth.year
+                      )}
+                      onChange={(selectedOption) =>
+                        setProfile({
+                          ...profile,
+                          dateOfBirth: {
+                            ...profile.dateOfBirth,
+                            year: selectedOption.value,
+                          },
+                        })
                       }
                     />
                   </div>
-                  <div>
-                    <label>Email</label>
-                    <a href="/">Add</a>
-                  </div>
-                  <div>
-                    <label>Phone Number</label>
-                    <input
-                      type="text"
-                      value={phoneNumber}
-                      onChange={(e) => setPhoneNumber(e.target.value)}
-                    />
-                  </div>
-                  <div>
-                    <label>Gender</label>
-                    <div>
-                      <input
-                        type="radio"
-                        id="male"
-                        value="Male"
-                        checked={gender === "Male"}
-                        onChange={(e) => setGender(e.target.value)}
-                      />
-                      <label htmlFor="male">Male</label>
-                      <input
-                        type="radio"
-                        id="female"
-                        value="Female"
-                        checked={gender === "Female"}
-                        onChange={(e) => setGender(e.target.value)}
-                      />
-                      <label htmlFor="female">Female</label>
-                      <input
-                        type="radio"
-                        id="other"
-                        value="Other"
-                        checked={gender === "Other"}
-                        onChange={(e) => setGender(e.target.value)}
-                      />
-                      <label htmlFor="other">Other</label>
-                    </div>
-                  </div>
-                  <div>
-                    <label>Date of Birth</label>
-                    <div className="dob">
-                      <Select
-                        placeholder="Day"
-                        options={days}
-                        value={days.find(
-                          (day) => day.value === dateOfBirth.day
-                        )}
-                        onChange={(selectedOption) =>
-                          setDateOfBirth({
-                            ...dateOfBirth,
-                            day: selectedOption.value,
-                          })
-                        }
-                      />
-                      <Select
-                        placeholder="Month"
-                        options={months}
-                        value={months.find(
-                          (month) => month.value === dateOfBirth.month
-                        )}
-                        onChange={(selectedOption) =>
-                          setDateOfBirth({
-                            ...dateOfBirth,
-                            month: selectedOption.value,
-                          })
-                        }
-                      />
-                      <Select
-                        placeholder="Year"
-                        options={years}
-                        value={years.find(
-                          (year) => year.value === dateOfBirth.year
-                        )}
-                        onChange={(selectedOption) =>
-                          setDateOfBirth({
-                            ...dateOfBirth,
-                            year: selectedOption.value,
-                          })
-                        }
-                      />
-                    </div>
-                  </div>
-                  <button className="save-button" onClick={handleSave}>
-                    Save
-                  </button>
                 </div>
-              ) : (
-                <p>No profile data available.</p>
-              )}
+                <button className="save-button" onClick={handleSave}>
+                  Save
+                </button>
+              </div>
             </>
           )}
         </div>
       </div>
+
+      {showSuccessModal && (
+        <SuccessModal
+          message="Profile updated successfully!"
+          onClose={() => setShowSuccessModal(false)}
+        />
+      )}
     </div>
   );
 };
