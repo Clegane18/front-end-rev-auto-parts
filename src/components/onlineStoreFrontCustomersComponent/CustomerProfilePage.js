@@ -1,21 +1,31 @@
 import React, { useState, useEffect } from "react";
+import Select from "react-select";
 import { useAuth } from "../../contexts/AuthContext";
-import { getCustomerProfile } from "../../services/online-store-front-customer-api";
+import {
+  getCustomerProfile,
+  updateCustomer,
+} from "../../services/online-store-front-customer-api";
 import OnlineStoreFrontHeader from "../onlineStoreFrontComponents/OnlineStoreFrontHeader";
 import Sidebar from "./Sidebar";
 import "../../styles/onlineStoreFrontCustomersComponent/CustomerProfilePage.css";
+import { months, days, years } from "../../utils/dates";
 
 const CustomerProfilePage = () => {
   const { currentUser } = useAuth();
   const [profile, setProfile] = useState(null);
-  // Comment out the orders-related states
-  // const [orders, setOrders] = useState([]);
+  const [username, setUsername] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [gender, setGender] = useState("");
+  const [dateOfBirth, setDateOfBirth] = useState({
+    day: "",
+    month: "",
+    year: "",
+  });
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedMenu, setSelectedMenu] = useState("Profile");
-  // const [selectedOrderTab, setSelectedOrderTab] = useState("All");
 
   useEffect(() => {
     if (currentUser) {
@@ -25,8 +35,23 @@ const CustomerProfilePage = () => {
             currentUser.id,
             currentUser.token
           );
-          if (result.data) {
-            setProfile(result.data);
+
+          if (result) {
+            setProfile(result);
+            setUsername(result.username || "");
+            setPhoneNumber(result.phoneNumber || "");
+            setGender(result.gender || "");
+
+            if (result.dateOfBirth) {
+              const [year, month, day] = result.dateOfBirth.split("-");
+              setDateOfBirth({
+                day: day.padStart(2, "0"),
+                month: month.padStart(2, "0"),
+                year: year,
+              });
+            } else {
+              setDateOfBirth({ day: "", month: "", year: "" });
+            }
           } else {
             throw new Error("Profile data is missing");
           }
@@ -38,39 +63,26 @@ const CustomerProfilePage = () => {
       };
 
       fetchProfile();
-
-      // Comment out the logic related to fetching orders
-      // const fetchOrders = async () => {
-      //   try {
-      //     const result = await getCustomerOrders(
-      //       currentUser.id,
-      //       currentUser.token
-      //     );
-      //     setOrders(result.data || []);
-      //   } catch (err) {
-      //     setError(err.message);
-      //   }
-      // };
-
-      // fetchOrders();
     } else {
       setLoading(false);
     }
   }, [currentUser]);
 
-  const handleSearch = (products) => {
-    setProducts(products);
+  const handleSave = async () => {
+    try {
+      await updateCustomer({
+        customerId: currentUser.id,
+        username,
+        phoneNumber,
+        gender,
+        dateOfBirth: `${dateOfBirth.year}-${dateOfBirth.month}-${dateOfBirth.day}`,
+        token: currentUser.token,
+      });
+      alert("Profile updated successfully!");
+    } catch (err) {
+      setError(err.message);
+    }
   };
-
-  const handleSearchTermChange = (term) => {
-    setSearchTerm(term);
-  };
-
-  // Comment out the order filtering logic
-  // const filteredOrders = orders.filter((order) => {
-  //   if (selectedOrderTab === "All") return true;
-  //   return order.status === selectedOrderTab;
-  // });
 
   if (loading) {
     return <div>Loading...</div>;
@@ -85,8 +97,8 @@ const CustomerProfilePage = () => {
       <OnlineStoreFrontHeader
         products={products}
         searchTerm={searchTerm}
-        handleSearch={handleSearch}
-        handleSearchTermChange={handleSearchTermChange}
+        handleSearch={setProducts}
+        handleSearchTermChange={setSearchTerm}
       />
       <div className="customer-profile-container">
         <Sidebar
@@ -98,56 +110,119 @@ const CustomerProfilePage = () => {
             <>
               <h1>My Profile</h1>
               {profile ? (
-                <div>
-                  <p>
-                    <strong>Username:</strong> {profile.username}
-                  </p>
-                  <p>
-                    <strong>Email:</strong> {profile.email}
-                  </p>
+                <div className="profile-form">
+                  <div>
+                    <label>Username</label>
+                    <input
+                      type="text"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                      disabled
+                    />
+                    <p>Username can only be changed once.</p>
+                  </div>
+                  <div>
+                    <label>Name</label>
+                    <input
+                      type="text"
+                      value={profile.name || ""}
+                      onChange={(e) =>
+                        setProfile({ ...profile, name: e.target.value })
+                      }
+                    />
+                  </div>
+                  <div>
+                    <label>Email</label>
+                    <a href="/">Add</a>
+                  </div>
+                  <div>
+                    <label>Phone Number</label>
+                    <input
+                      type="text"
+                      value={phoneNumber}
+                      onChange={(e) => setPhoneNumber(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <label>Gender</label>
+                    <div>
+                      <input
+                        type="radio"
+                        id="male"
+                        value="Male"
+                        checked={gender === "Male"}
+                        onChange={(e) => setGender(e.target.value)}
+                      />
+                      <label htmlFor="male">Male</label>
+                      <input
+                        type="radio"
+                        id="female"
+                        value="Female"
+                        checked={gender === "Female"}
+                        onChange={(e) => setGender(e.target.value)}
+                      />
+                      <label htmlFor="female">Female</label>
+                      <input
+                        type="radio"
+                        id="other"
+                        value="Other"
+                        checked={gender === "Other"}
+                        onChange={(e) => setGender(e.target.value)}
+                      />
+                      <label htmlFor="other">Other</label>
+                    </div>
+                  </div>
+                  <div>
+                    <label>Date of Birth</label>
+                    <div className="dob">
+                      <Select
+                        placeholder="Day"
+                        options={days}
+                        value={days.find(
+                          (day) => day.value === dateOfBirth.day
+                        )}
+                        onChange={(selectedOption) =>
+                          setDateOfBirth({
+                            ...dateOfBirth,
+                            day: selectedOption.value,
+                          })
+                        }
+                      />
+                      <Select
+                        placeholder="Month"
+                        options={months}
+                        value={months.find(
+                          (month) => month.value === dateOfBirth.month
+                        )}
+                        onChange={(selectedOption) =>
+                          setDateOfBirth({
+                            ...dateOfBirth,
+                            month: selectedOption.value,
+                          })
+                        }
+                      />
+                      <Select
+                        placeholder="Year"
+                        options={years}
+                        value={years.find(
+                          (year) => year.value === dateOfBirth.year
+                        )}
+                        onChange={(selectedOption) =>
+                          setDateOfBirth({
+                            ...dateOfBirth,
+                            year: selectedOption.value,
+                          })
+                        }
+                      />
+                    </div>
+                  </div>
+                  <button className="save-button" onClick={handleSave}>
+                    Save
+                  </button>
                 </div>
               ) : (
                 <p>No profile data available.</p>
               )}
-            </>
-          )}
-          {selectedMenu === "MyPurchase" && (
-            <>
-              <h2>My Purchases</h2>
-              {/* Comment out the order tabs and list */}
-              {/* <div className="purchase-tabs">
-                {["All", "To Pay", "To Ship", "To Receive", "Completed"].map(
-                  (tab) => (
-                    <button
-                      key={tab}
-                      className={selectedOrderTab === tab ? "active" : ""}
-                      onClick={() => setSelectedOrderTab(tab)}
-                    >
-                      {tab}
-                    </button>
-                  )
-                )}
-              </div>
-              <div className="order-list">
-                {filteredOrders.length > 0 ? (
-                  filteredOrders.map((order) => (
-                    <div key={order.id} className="order-item">
-                      <p>
-                        <strong>Order ID:</strong> {order.id}
-                      </p>
-                      <p>
-                        <strong>Status:</strong> {order.status}
-                      </p>
-                      <p>
-                        <strong>Amount:</strong> ${order.amount}
-                      </p>
-                    </div>
-                  ))
-                ) : (
-                  <p>No Orders yet</p>
-                )}
-              </div> */}
-              <p>No Orders yet</p>
             </>
           )}
         </div>

@@ -47,3 +47,26 @@
     border-radius: 5px;
   }
   
+  .dob {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .dob .react-select__control {
+    width: 100px;
+  }
+  
+  .save-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .save-button:hover {
+    background-color: #0056b3;
+  }
+  

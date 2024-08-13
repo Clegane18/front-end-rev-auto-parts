@@ -98,3 +98,41 @@ export const getCustomerProfile = async (userId, token) => {
     }
   }
 };
+
+export const updateCustomer = async ({
+  customerId,
+  username,
+  phoneNumber,
+  gender,
+  dateOfBirth,
+  token,
+}) => {
+  try {
+    const response = await api.put(
+      `/profile/update/${customerId}`,
+      {
+        username,
+        phoneNumber,
+        gender,
+        dateOfBirth,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Error in updateCustomer:",
+      error.response ? error.response.data : error.message
+    );
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error("Failed to update customer. Please try again later.");
+    }
+  }
+};

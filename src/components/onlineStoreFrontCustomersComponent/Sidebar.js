@@ -26,7 +26,7 @@ const Sidebar = ({ selectedMenu, setSelectedMenu }) => {
                 className={selectedMenu === "Profile" ? "active" : ""}
                 onClick={() => setSelectedMenu("Profile")}
               >
-                <FaUser className="icon" />
+                <FaUser className="icon" /> Profile
               </li>
               <li
                 className={selectedMenu === "Addresses" ? "active" : ""}
