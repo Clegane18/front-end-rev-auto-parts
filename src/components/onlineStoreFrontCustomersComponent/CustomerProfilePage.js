@@ -10,6 +10,7 @@ import Sidebar from "./Sidebar";
 import "../../styles/onlineStoreFrontCustomersComponent/CustomerProfilePage.css";
 import { months, days, years } from "../../utils/dates";
 import SuccessModal from "./SuccessModal";
+import AddressCard from "./AddressCard";
 
 const CustomerProfilePage = () => {
   const { currentUser } = useAuth();
@@ -114,6 +115,7 @@ const CustomerProfilePage = () => {
             <>
               <h1>My Profile</h1>
               <div className="profile-form">
+                {/* Profile fields */}
                 <div>
                   <label>Username</label>
                   <input
@@ -245,6 +247,9 @@ const CustomerProfilePage = () => {
                 </button>
               </div>
             </>
+          )}
+          {selectedMenu === "Addresses" && (
+            <AddressCard /> // Render AddressCard when "Addresses" is selected
           )}
         </div>
       </div>

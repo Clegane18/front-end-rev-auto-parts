@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import "../../styles/onlineStoreFrontCustomersComponent/Sidebar.css";
-import { FaUser, FaAddressBook, FaLock, FaShoppingCart } from "react-icons/fa";
+import { FaUser, FaAddressBook, FaShoppingCart } from "react-icons/fa";
 
 const Sidebar = ({ selectedMenu, setSelectedMenu }) => {
   const [isAccountMenuOpen, setAccountMenuOpen] = useState(false);
@@ -33,12 +33,6 @@ const Sidebar = ({ selectedMenu, setSelectedMenu }) => {
                 onClick={() => setSelectedMenu("Addresses")}
               >
                 <FaAddressBook className="icon" /> Addresses
-              </li>
-              <li
-                className={selectedMenu === "ChangePassword" ? "active" : ""}
-                onClick={() => setSelectedMenu("ChangePassword")}
-              >
-                <FaLock className="icon" /> Change Password
               </li>
             </ul>
           )}

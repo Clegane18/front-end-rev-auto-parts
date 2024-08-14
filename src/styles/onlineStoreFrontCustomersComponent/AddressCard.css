@@ -1,0 +1,86 @@
+.address-card-container {
+    padding: 20px;
+  }
+  
+  .address-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .address-card {
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .address-details {
+    flex-grow: 1;
+  }
+  
+  .address-actions {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .add-address-button {
+    display: flex;
+    align-items: center;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .add-address-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .set-default-button {
+    display: flex;
+    align-items: center;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .edit-button {
+    display: flex;
+    align-items: center;
+    background-color: #ffc107;
+    color: black;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .delete-button {
+    display: flex;
+    align-items: center;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .action-icon {
+    margin-right: 5px;
+  }
+  
