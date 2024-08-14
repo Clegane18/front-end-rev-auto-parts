@@ -5,13 +5,13 @@
   background-color: #f0f2f5; 
 }
 
-.customer-profile-container {
+#root-customer-profile-page .customer-profile-container {
   display: flex;
   flex: 1;
   padding: 20px;
 }
 
-.customer-profile-content {
+#root-customer-profile-page .customer-profile-content {
   flex: 1;
   background-color: #ffffff;
   padding: 20px;
@@ -19,25 +19,25 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-h1 {
+#root-customer-profile-page h1 {
   font-size: 24px;
   margin-bottom: 20px;
   color: #333;
 }
 
-.profile-form > div {
+#root-customer-profile-page .profile-form > div {
   margin-bottom: 20px;
 }
 
-label {
+#root-customer-profile-page label {
   display: block;
   font-weight: bold;
   margin-bottom: 8px;
   color: #555; 
 }
 
-input[type="text"],
-input[type="email"] {
+#root-customer-profile-page input[type="text"],
+#root-customer-profile-page input[type="email"] {
   width: 20%;
   padding: 10px;
   border: 1px solid #ddd;
@@ -45,24 +45,19 @@ input[type="email"] {
   font-size: 16px;
 }
 
-input[type="text"]:disabled,
-input[type="email"]:disabled {
-  background-color: #f5f5f5;
-  color: #888;
-}
 
-input[type="radio"] {
+#root-customer-profile-page input[type="radio"] {
   margin-right: 5px;
 }
 
-.dob {
+#root-customer-profile-page .dob {
   display: flex;
   gap: 10px;
 }
 
-.save-button {
+#root-customer-profile-page .save-button {
   padding: 10px 20px;
-  background-color: #007bff;
+  background-color: #0c619b;
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -71,17 +66,17 @@ input[type="radio"] {
   transition: background-color 0.3s ease;
 }
 
-.save-button:hover {
-  background-color: #0056b3;
+#root-customer-profile-page .save-button:hover {
+  opacity: 0.75;
 }
 
-.purchase-tabs {
+#root-customer-profile-page .purchase-tabs {
   display: flex;
   justify-content: space-around;
   margin-bottom: 20px;
 }
 
-.purchase-tabs button {
+#root-customer-profile-page .purchase-tabs button {
   background-color: #f5f5f5;
   border: none;
   padding: 10px 20px;
@@ -91,23 +86,23 @@ input[type="radio"] {
   transition: background-color 0.3s ease;
 }
 
-.purchase-tabs button:hover {
+#root-customer-profile-page .purchase-tabs button:hover {
   background-color: #e0e0e0;
 }
 
-.purchase-tabs .active {
-  background-color: #007bff;
+#root-customer-profile-page .purchase-tabs .active {
+  background-color: #0c619b;
   color: #fff;
 }
 
-.order-list {
+#root-customer-profile-page .order-list {
   background-color: #ffffff;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.order-item {
+#root-customer-profile-page .order-item {
   margin-bottom: 15px;
   padding: 15px;
   background-color: #ffffff;
@@ -117,20 +112,20 @@ input[type="radio"] {
 }
 
 /* Toggle Switch Style */
-.switch {
+#root-customer-profile-page .switch {
   position: relative;
   display: inline-block;
   width: 40px;
   height: 20px;
 }
 
-.switch input {
+#root-customer-profile-page .switch input {
   opacity: 0;
   width: 0;
   height: 0;
 }
 
-.slider {
+#root-customer-profile-page .slider {
   position: absolute;
   cursor: pointer;
   top: 0;
@@ -142,7 +137,7 @@ input[type="radio"] {
   border-radius: 20px;
 }
 
-.slider:before {
+#root-customer-profile-page .slider:before {
   position: absolute;
   content: "";
   height: 14px;
@@ -154,15 +149,19 @@ input[type="radio"] {
   border-radius: 50%;
 }
 
-input:checked + .slider {
-  background-color: #007bff;
+#root-customer-profile-page input:checked + .slider {
+  background-color: #0c619b;
 }
 
-input:checked + .slider:before {
+#root-customer-profile-page input:checked + .slider:before {
   transform: translateX(20px);
 }
 
-.toggle-label {
+#root-customer-profile-page .toggle-label {
   margin-left: 10px;
   vertical-align: middle;
+}
+
+#root-customer-profile-page .customer-profile-content p {
+  color: #b9b8b8;
 }

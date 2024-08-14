@@ -127,11 +127,6 @@ const CustomerProfilePage = () => {
                   <p>Username can only be changed once.</p>
                 </div>
                 <div>
-                  <label>Email</label>
-                  <input type="email" value={profile.email || ""} disabled />
-                  <p>Email can only be changed in account settings.</p>
-                </div>
-                <div>
                   <label>Phone Number</label>
                   <input
                     type="text"
