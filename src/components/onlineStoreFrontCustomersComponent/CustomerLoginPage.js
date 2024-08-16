@@ -36,7 +36,7 @@ const CustomerLoginPage = () => {
         username: decodedToken.username,
         email: decodedToken.email,
       };
-      loginUser(user);
+      loginUser(user, result.token);
       checkAuth("/online-store");
     } catch (error) {
       setError(error.message);
@@ -70,7 +70,7 @@ const CustomerLoginPage = () => {
         username: decodedToken.username,
         email: decodedToken.email,
       };
-      loginUser(user);
+      loginUser(user, token);
       checkAuth("/online-store");
     }
   }, [location.search, loginUser, checkAuth]);
