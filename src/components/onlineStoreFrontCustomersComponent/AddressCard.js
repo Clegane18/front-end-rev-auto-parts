@@ -8,6 +8,7 @@ import { useAuth } from "../../contexts/AuthContext";
 const AddressCard = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [addresses, setAddresses] = useState([]);
+  const [error, setError] = useState(null);
   const { currentUser, token } = useAuth();
   const userId = currentUser ? currentUser.id : null;
 
@@ -17,8 +18,11 @@ const AddressCard = () => {
         if (token) {
           const response = await getAddresses(token);
           setAddresses(response.data);
+          setError(null);
         }
       } catch (error) {
+        setError(error.message);
+        setAddresses([]);
         console.error("Failed to fetch addresses:", error.message);
       }
     };
@@ -44,6 +48,7 @@ const AddressCard = () => {
       });
       setAddresses([...addresses, newAddress.address]);
       setModalOpen(false);
+      setError(null);
     } catch (error) {
       console.error("Failed to add address:", error.message);
     }
@@ -73,46 +78,46 @@ const AddressCard = () => {
           Add New Address
         </button>
       </div>
+      {error && <p className="error-message">{error}</p>}{" "}
+      {Array.isArray(addresses) && addresses.length > 0
+        ? addresses.map((address) => (
+            <div key={address.id} className="address-card">
+              <div className="address-details">
+                <p>
+                  {address.fullName} {address.phoneNumber}
+                </p>
+                {address.addressLine && <p>{address.addressLine}</p>}
+                <p>
+                  {address.barangay}, {address.city}, {address.province},{" "}
+                  {address.region}, {address.postalCode}
+                </p>
+              </div>
 
-      {Array.isArray(addresses) &&
-        addresses.map((address) => (
-          <div key={address.id} className="address-card">
-            <div className="address-details">
-              <p>
-                {address.fullName} {address.phoneNumber}
-              </p>
-              {address.addressLine && <p>{address.addressLine}</p>}{" "}
-              <p>
-                {address.barangay}, {address.city}, {address.province},{" "}
-                {address.region}, {address.postalCode}
-              </p>
-            </div>
-
-            <div className="address-actions">
-              {!address.isSetDefaultAddress && (
+              <div className="address-actions">
+                {!address.isSetDefaultAddress && (
+                  <button
+                    className="set-default-button"
+                    onClick={() => handleSetAsDefault(address.id)}
+                  >
+                    <FaCheck className="action-icon" /> Set as Default
+                  </button>
+                )}
                 <button
-                  className="set-default-button"
-                  onClick={() => handleSetAsDefault(address.id)}
+                  className="edit-button"
+                  onClick={() => handleEditAddress(address.id)}
                 >
-                  <FaCheck className="action-icon" /> Set as Default
+                  <FaEdit className="action-icon" /> Edit
                 </button>
-              )}
-              <button
-                className="edit-button"
-                onClick={() => handleEditAddress(address.id)}
-              >
-                <FaEdit className="action-icon" /> Edit
-              </button>
-              <button
-                className="delete-button"
-                onClick={() => handleDeleteAddress(address.id)}
-              >
-                <FaTrash className="action-icon" /> Delete
-              </button>
+                <button
+                  className="delete-button"
+                  onClick={() => handleDeleteAddress(address.id)}
+                >
+                  <FaTrash className="action-icon" /> Delete
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
-
+          ))
+        : !error && <p>No addresses available.</p>}
       <AddAddressModal
         isOpen={isModalOpen}
         onClose={() => setModalOpen(false)}

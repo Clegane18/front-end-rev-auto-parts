@@ -137,8 +137,10 @@ export const getAddresses = async (token) => {
       "Error in getAddresses:",
       error.response ? error.response.data : error.message
     );
-    if (error.response && error.response.data) {
-      throw new Error(error.response.data.message);
+    if (error.response && error.response.status === 404) {
+      throw new Error(
+        error.response.data.message || "You don't have addresses yet."
+      );
     } else {
       throw new Error("Failed to fetch addresses. Please try again later.");
     }
