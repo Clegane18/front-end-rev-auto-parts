@@ -25,11 +25,13 @@
   }
   
   
-  #root-add-address-modal .modal-title {
+  #root-add-address-modal .modal-overlay .modal-content .modal-title {
     font-size: 1.75rem;
     margin-bottom: 1.5rem;
     text-align: center;
-    font-weight: 600;
+    font-weight: 300;
+    text-transform: none;
+    text-align: left;
   }
   
   #root-add-address-modal .input-group {
