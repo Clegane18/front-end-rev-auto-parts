@@ -432,7 +432,7 @@ const AddAddressModal = ({ isOpen, onClose, onSave }) => {
                     checked={formData.isDefault}
                     onChange={handleCheckboxChange}
                   />
-                  <label htmlFor="default">Set as Default</label>
+                  <label htmlFor="default">Set as Default Address</label>
                 </div>
               </div>
             </div>
