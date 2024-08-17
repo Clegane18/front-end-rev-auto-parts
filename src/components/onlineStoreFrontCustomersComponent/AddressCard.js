@@ -81,7 +81,7 @@ const AddressCard = () => {
               <p>
                 {address.fullName} {address.phoneNumber}
               </p>
-              {address.building && <p>{address.building}</p>}
+              {address.addressLine && <p>{address.addressLine}</p>}{" "}
               <p>
                 {address.barangay}, {address.city}, {address.province},{" "}
                 {address.region}, {address.postalCode}
