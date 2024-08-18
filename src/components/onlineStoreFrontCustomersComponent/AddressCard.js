@@ -55,17 +55,14 @@ const AddressCard = () => {
   };
 
   const handleSetAsDefault = (id) => {
-    // Logic for setting the address as default
     console.log(`Set Address ${id} as Default`);
   };
 
   const handleEditAddress = (id) => {
-    // Logic for editing an address
     console.log(`Edit Address ${id}`);
   };
 
   const handleDeleteAddress = (id) => {
-    // Logic for deleting an address
     console.log(`Delete Address ${id}`);
   };
 
@@ -78,13 +75,13 @@ const AddressCard = () => {
           Add New Address
         </button>
       </div>
-      {error && <p className="error-message">{error}</p>}{" "}
+      {error && <p className="error-message">{error}</p>}
       {Array.isArray(addresses) && addresses.length > 0
         ? addresses.map((address) => (
             <div key={address.id} className="address-card">
               <div className="address-details">
                 <p>
-                  {address.fullName} {address.phoneNumber}
+                  {address.fullName} {address.Customer?.phoneNumber}
                 </p>
                 {address.addressLine && <p>{address.addressLine}</p>}
                 <p>
