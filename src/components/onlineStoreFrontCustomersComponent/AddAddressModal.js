@@ -19,7 +19,6 @@ const AddAddressModal = ({ isOpen, onClose, onSave }) => {
     label: "",
     isDefault: false,
     postalCode: "",
-    streetName: "",
   });
 
   const [selectedNames, setSelectedNames] = useState({
@@ -174,7 +173,6 @@ const AddAddressModal = ({ isOpen, onClose, onSave }) => {
       province: selectedNames.provinceName,
       city: selectedNames.cityName,
       barangay: selectedNames.barangayName,
-      streetName: formData.streetName,
     };
 
     onSave(formDataWithNames);

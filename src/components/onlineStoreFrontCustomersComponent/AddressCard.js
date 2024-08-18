@@ -81,7 +81,7 @@ const AddressCard = () => {
               <div key={address.id} className="address-card">
                 <div className="address-details">
                   <p>
-                    {address.fullName} | {address.Customer?.phoneNumber}
+                    {address.fullName} | {address.phoneNumber}
                   </p>
                   {address.addressLine && <p>{address.addressLine}</p>}
                   <p>

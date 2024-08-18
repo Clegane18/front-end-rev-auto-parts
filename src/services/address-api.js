@@ -6,6 +6,7 @@ const api = axios.create({
 
 export const addAddress = async ({
   id,
+  phoneNumber,
   fullName,
   region,
   province,
@@ -21,6 +22,7 @@ export const addAddress = async ({
     const response = await api.post(
       `/addAddress/${id}`,
       {
+        phoneNumber,
         fullName,
         region,
         province,
@@ -54,6 +56,7 @@ export const addAddress = async ({
 export const updateAddress = async ({
   addressId,
   customerId,
+  phoneNumber,
   fullName,
   region,
   province,
@@ -70,6 +73,7 @@ export const updateAddress = async ({
       `/updateAddress/${addressId}`,
       {
         customerId,
+        phoneNumber,
         fullName,
         region,
         province,
