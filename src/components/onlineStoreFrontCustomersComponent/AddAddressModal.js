@@ -174,6 +174,7 @@ const AddAddressModal = ({ isOpen, onClose, onSave }) => {
       province: selectedNames.provinceName,
       city: selectedNames.cityName,
       barangay: selectedNames.barangayName,
+      streetName: formData.streetName,
     };
 
     onSave(formDataWithNames);
@@ -397,10 +398,10 @@ const AddAddressModal = ({ isOpen, onClose, onSave }) => {
 
               <input
                 type="text"
-                name="streetName"
+                name="addressLine"
                 placeholder="Street Name, Building, House No."
                 className="streetname-building-house-no"
-                value={formData.streetName || ""}
+                value={formData.addressLine || ""}
                 onChange={handleChange}
               />
               <div className="label-buttons">

@@ -35,8 +35,6 @@ const AddressCard = () => {
   };
 
   const handleSaveAddress = async (formData) => {
-    console.log("User ID:", userId);
-    console.log("Token:", token);
     try {
       if (!userId || !token) {
         throw new Error("User ID or token is not available");
@@ -51,6 +49,7 @@ const AddressCard = () => {
       setError(null);
     } catch (error) {
       console.error("Failed to add address:", error.message);
+      setError(error.message);
     }
   };
 
@@ -77,44 +76,47 @@ const AddressCard = () => {
       </div>
       {error && <p className="error-message">{error}</p>}
       {Array.isArray(addresses) && addresses.length > 0
-        ? addresses.map((address) => (
-            <div key={address.id} className="address-card">
-              <div className="address-details">
-                <p>
-                  {address.fullName} {address.Customer?.phoneNumber}
-                </p>
-                {address.addressLine && <p>{address.addressLine}</p>}
-                <p>
-                  {address.barangay}, {address.city}, {address.province},{" "}
-                  {address.region}, {address.postalCode}
-                </p>
-              </div>
+        ? addresses.map((address) => {
+            return (
+              <div key={address.id} className="address-card">
+                <div className="address-details">
+                  <p>
+                    {address.fullName} | {address.Customer?.phoneNumber}
+                  </p>
+                  {address.addressLine && <p>{address.addressLine}</p>}
+                  <p>
+                    {address.barangay}, {address.city}, {address.province},{" "}
+                    {address.region}, {address.postalCode}
+                  </p>
+                </div>
 
-              <div className="address-actions">
-                {!address.isSetDefaultAddress && (
+                <div className="address-actions">
+                  {!address.isSetDefaultAddress && (
+                    <button
+                      className="set-default-button"
+                      onClick={() => handleSetAsDefault(address.id)}
+                    >
+                      <FaCheck className="action-icon" /> Set as Default
+                    </button>
+                  )}
                   <button
-                    className="set-default-button"
-                    onClick={() => handleSetAsDefault(address.id)}
+                    className="edit-button"
+                    onClick={() => handleEditAddress(address.id)}
                   >
-                    <FaCheck className="action-icon" /> Set as Default
+                    <FaEdit className="action-icon" /> Edit
                   </button>
-                )}
-                <button
-                  className="edit-button"
-                  onClick={() => handleEditAddress(address.id)}
-                >
-                  <FaEdit className="action-icon" /> Edit
-                </button>
-                <button
-                  className="delete-button"
-                  onClick={() => handleDeleteAddress(address.id)}
-                >
-                  <FaTrash className="action-icon" /> Delete
-                </button>
+                  <button
+                    className="delete-button"
+                    onClick={() => handleDeleteAddress(address.id)}
+                  >
+                    <FaTrash className="action-icon" /> Delete
+                  </button>
+                </div>
               </div>
-            </div>
-          ))
+            );
+          })
         : !error && <p>No addresses available.</p>}
+
       <AddAddressModal
         isOpen={isModalOpen}
         onClose={() => setModalOpen(false)}
