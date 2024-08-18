@@ -21,7 +21,6 @@
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
     z-index: 1001;
     box-sizing: border-box;
-    overflow-y: auto; 
   }
   
   
@@ -161,13 +160,14 @@
     color: #fff;
   }
   
-  #root-add-address-modal .clear-icon {
+  #root-add-address-modal .address-selector .address-display-wrapper .clear-icon {
     position: absolute;
     right: 35px;
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
-    color: #7e7b7a;
+    color: #333333;
+    z-index: 101;
   }
   
   .other-information {
