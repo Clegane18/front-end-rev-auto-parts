@@ -2,12 +2,19 @@ import React, { useState, useEffect } from "react";
 import "../../styles/onlineStoreFrontCustomersComponent/AddressCard.css";
 import { FaPlus, FaTrash, FaEdit, FaCheck } from "react-icons/fa";
 import AddAddressModal from "./AddAddressModal";
-import { addAddress, getAddresses } from "../../services/address-api";
+import DeleteConfirmationModal from "./DeleteConfirmationModal";
+import {
+  addAddress,
+  getAddresses,
+  deleteAddress,
+} from "../../services/address-api";
 import { useAuth } from "../../contexts/AuthContext";
 
 const AddressCard = () => {
   const [isModalOpen, setModalOpen] = useState(false);
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [addresses, setAddresses] = useState([]);
+  const [selectedAddressId, setSelectedAddressId] = useState(null);
   const [error, setError] = useState(null);
   const { currentUser, token } = useAuth();
   const userId = currentUser ? currentUser.id : null;
@@ -61,8 +68,33 @@ const AddressCard = () => {
     console.log(`Edit Address ${id}`);
   };
 
-  const handleDeleteAddress = (id) => {
-    console.log(`Delete Address ${id}`);
+  const handleDeleteAddressClick = (id) => {
+    setSelectedAddressId(id);
+    setDeleteModalOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    try {
+      if (!userId || !token || !selectedAddressId) {
+        throw new Error("User ID, token, or address ID is not available");
+      }
+
+      await deleteAddress({
+        addressId: selectedAddressId,
+        customerId: userId,
+        token,
+      });
+
+      setAddresses(
+        addresses.filter((address) => address.id !== selectedAddressId)
+      );
+      setDeleteModalOpen(false);
+      setSelectedAddressId(null);
+      setError(null);
+    } catch (error) {
+      console.error("Failed to delete address:", error.message);
+      setError(error.message);
+    }
   };
 
   return (
@@ -107,7 +139,7 @@ const AddressCard = () => {
                   </button>
                   <button
                     className="delete-button"
-                    onClick={() => handleDeleteAddress(address.id)}
+                    onClick={() => handleDeleteAddressClick(address.id)}
                   >
                     <FaTrash className="action-icon" /> Delete
                   </button>
@@ -121,6 +153,12 @@ const AddressCard = () => {
         isOpen={isModalOpen}
         onClose={() => setModalOpen(false)}
         onSave={handleSaveAddress}
+      />
+
+      <DeleteConfirmationModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setDeleteModalOpen(false)}
+        onConfirm={handleConfirmDelete}
       />
     </div>
   );
