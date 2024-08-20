@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import OnlineStoreFrontHeader from "./OnlineStoreFrontHeader";
 import OnlineProductDetails from "./OnlineProductDetails";
 import OnlineStoreFrontItemsByCategory from "./OnlineStoreFrontItemsByCategory";
-import { OnlineCartContext } from "./OnlineCartContext"; // Import the context
+import { OnlineCartContext } from "./OnlineCartContext";
 import "../../styles/onlineStoreFrontComponents/OnlineStoreFrontPage.css";
 import useRequireAuth from "../../utils/useRequireAuth";
 
@@ -10,7 +10,7 @@ const OnlineStoreFrontPage = () => {
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const { addToCart } = useContext(OnlineCartContext); // Extract addToCart from context
+  const { addToCart } = useContext(OnlineCartContext);
   const checkAuth = useRequireAuth();
 
   const handleSelectProduct = (product) => {
@@ -21,7 +21,7 @@ const OnlineStoreFrontPage = () => {
 
   const handleAddToCart = (product) => {
     if (checkAuth("/online-store")) {
-      addToCart(product); // Call addToCart from context
+      addToCart(product);
       setSelectedProduct(null);
     }
   };

@@ -26,6 +26,7 @@ import { useNavigate } from "react-router-dom";
 const ProductManagement = () => {
   const [products, setProducts] = useState([]);
   const [allProducts, setAllProducts] = useState([]);
+  const [isShowingLowStock, setIsShowingLowStock] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
   const [deletingProduct, setDeletingProduct] = useState(null);
   const [addingProduct, setAddingProduct] = useState(false);
@@ -36,7 +37,6 @@ const ProductManagement = () => {
   const [maxPrice, setMaxPrice] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [isShowingLowStock, setIsShowingLowStock] = useState(false);
   const [filterType, setFilterType] = useState("default");
 
   useEffect(() => {
@@ -131,7 +131,7 @@ const ProductManagement = () => {
 
   const debouncedSearch = useCallback(
     debounce(() => handleSearch(), 300),
-    [searchQuery, minPrice, maxPrice, allProducts, handleSearch]
+    [searchQuery, minPrice, maxPrice, allProducts]
   );
 
   useEffect(() => {
