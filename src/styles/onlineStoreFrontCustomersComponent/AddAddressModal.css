@@ -249,12 +249,16 @@
   }
   
   #root-add-address-modal .modal-content .default-checkbox input[type="checkbox"] {
+    width: 17px; 
+    height: 17px; 
     cursor: pointer;
+    accent-color: #0c619b;
   }
+  
   
   #root-add-address-modal .modal-content .default-checkbox label {
     margin: 0;
-    font-size: 14px;
+    font-size: 17px;
     font-weight: 300;
     text-transform: none;
     color: black;

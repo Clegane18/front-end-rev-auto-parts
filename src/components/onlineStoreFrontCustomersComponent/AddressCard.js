@@ -153,6 +153,7 @@ const AddressCard = () => {
         isOpen={isModalOpen}
         onClose={() => setModalOpen(false)}
         onSave={handleSaveAddress}
+        isFirstAddress={addresses.length === 0}
       />
 
       <DeleteConfirmationModal

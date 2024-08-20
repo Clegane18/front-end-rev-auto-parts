@@ -8,7 +8,7 @@ import {
 import "../../styles/onlineStoreFrontCustomersComponent/AddAddressModal.css";
 import { FaChevronDown, FaChevronRight, FaTimes } from "react-icons/fa";
 
-const AddAddressModal = ({ isOpen, onClose, onSave }) => {
+const AddAddressModal = ({ isOpen, onClose, onSave, isFirstAddress }) => {
   const [formData, setFormData] = useState({
     fullName: "",
     phoneNumber: "",
@@ -17,7 +17,7 @@ const AddAddressModal = ({ isOpen, onClose, onSave }) => {
     city: "",
     barangay: "",
     label: "",
-    isDefault: false,
+    isDefault: isFirstAddress,
     postalCode: "",
   });
 
@@ -162,9 +162,10 @@ const AddAddressModal = ({ isOpen, onClose, onSave }) => {
   };
 
   const handleCheckboxChange = (e) => {
-    setFormData((prevData) => ({ ...prevData, isDefault: e.target.checked }));
+    if (!isFirstAddress) {
+      setFormData((prevData) => ({ ...prevData, isDefault: e.target.checked }));
+    }
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     const formDataWithNames = {
@@ -430,6 +431,7 @@ const AddAddressModal = ({ isOpen, onClose, onSave }) => {
                     id="default"
                     checked={formData.isDefault}
                     onChange={handleCheckboxChange}
+                    disabled={isFirstAddress}
                   />
                   <label htmlFor="default">Set as Default Address</label>
                 </div>
