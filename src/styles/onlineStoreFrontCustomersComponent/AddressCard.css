@@ -1,86 +1,132 @@
-.address-card-container {
-    padding: 20px;
-  }
-  
-  .address-card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .address-card {
-    border: 1px solid #ccc;
-    padding: 15px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .address-details {
-    flex-grow: 1;
-  }
-  
-  .address-actions {
-    display: flex;
-    gap: 10px;
-  }
-  
-  .add-address-button {
-    display: flex;
-    align-items: center;
-    background-color: #0c619b;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;    
-  }
-  
-  .add-address-button:hover {
-    opacity: 0.75;
-  }
-  
-  .set-default-button {
-    display: flex;
-    align-items: center;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-  }
-  
-  .edit-button {
-    display: flex;
-    align-items: center;
-    background-color: #ffc107;
-    color: black;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-  }
-  
-  .delete-button {
-    display: flex;
-    align-items: center;
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-  }
-  
-  .action-icon {
-    margin-right: 5px;
-  }
-  
+#root-address-card .address-card-container {
+  padding: 20px;
+}
+
+#root-address-card .address-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+#root-address-card .address-card {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+#root-address-card .address-details {
+  flex-grow: 1;
+  position: relative;
+  margin-bottom: 10px;
+}
+
+#root-address-card .address-actions {
+  display: flex;
+  gap: 10px;
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+}
+
+#root-address-card .default-label-container {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 10px;
+}
+
+.address-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  position: relative;
+}
+
+.edit-delete-row {
+  display: flex;
+  gap: 10px;
+}
+
+.set-default-button {
+  margin-top: 10px;
+}
+
+#root-address-card .default-label-container .default-label {
+  background-color: #FFFFFF; 
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: #0c619b;
+  border: 1px solid #0c619b;
+}
+
+
+
+
+#root-address-card .add-address-button {
+  display: flex;
+  align-items: center;
+  background-color: #0c619b;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#root-address-card .add-address-button:hover {
+  opacity: 0.75;
+}
+
+#root-address-card .set-default-button {
+  display: flex;
+  align-items: center;
+  background-color: #009688;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+#root-address-card .edit-button {
+  display: flex;
+  align-items: center;
+  background-color: #0c619b;
+  color: #ffffff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+#root-address-card .delete-button {
+  display: flex;
+  align-items: center;
+  background-color: #0c619b;  
+  color: #ffffff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+#root-address-card .edit-button:hover, #root-address-card .delete-button:hover {
+  opacity: 0.75;
+}
+
+#root-address-card .action-icon {
+  margin-right: 5px;
+}
+
+#root-address-card .address-details .full-name {
+  color: black;
+}

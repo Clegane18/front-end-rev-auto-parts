@@ -150,3 +150,28 @@ export const getAddresses = async (token) => {
     }
   }
 };
+
+export const setDefaultAddress = async ({ addressId, customerId, token }) => {
+  try {
+    const response = await api.post(
+      `/set-default-address/${addressId}`,
+      { customerId },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Error in setDefaultAddress:",
+      error.response ? error.response.data : error.message
+    );
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error("Failed to set default address. Please try again later.");
+    }
+  }
+};

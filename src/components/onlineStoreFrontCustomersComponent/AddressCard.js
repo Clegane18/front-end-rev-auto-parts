@@ -7,6 +7,7 @@ import {
   addAddress,
   getAddresses,
   deleteAddress,
+  setDefaultAddress,
 } from "../../services/address-api";
 import { useAuth } from "../../contexts/AuthContext";
 
@@ -60,8 +61,21 @@ const AddressCard = () => {
     }
   };
 
-  const handleSetAsDefault = (id) => {
-    console.log(`Set Address ${id} as Default`);
+  const handleSetAsDefault = async (id) => {
+    try {
+      // Use currentUser and token instead of the undefined user variable
+      await setDefaultAddress({ addressId: id, customerId: userId, token });
+
+      // Update the state only after a successful API call
+      const updatedAddresses = addresses.map((address) => ({
+        ...address,
+        isSetDefaultAddress: address.id === id,
+      }));
+      setAddresses(updatedAddresses);
+    } catch (error) {
+      console.error("Failed to set default address:", error.message);
+      // Optionally, handle the error (e.g., show a notification to the user)
+    }
   };
 
   const handleEditAddress = (id) => {
@@ -98,69 +112,83 @@ const AddressCard = () => {
   };
 
   return (
-    <div className="address-card-container">
-      <div className="address-card-header">
-        <h2>My Addresses</h2>
-        <button className="add-address-button" onClick={handleAddNewAddress}>
-          <FaPlus className="add-address-icon" />
-          Add New Address
-        </button>
+    <div id="root-address-card">
+      <div className="address-card-container">
+        <div className="address-card-header">
+          <h2>My Addresses</h2>
+          <button className="add-address-button" onClick={handleAddNewAddress}>
+            <FaPlus className="add-address-icon" />
+            Add New Address
+          </button>
+        </div>
+        {error && <p className="error-message">{error}</p>}
+        {Array.isArray(addresses) && addresses.length > 0
+          ? addresses.map((address) => {
+              console.log("Address information:", address);
+
+              return (
+                <div
+                  key={address.id}
+                  className={`address-card ${
+                    address.isSetDefaultAddress ? "default-address" : ""
+                  }`}
+                >
+                  <div className="address-details">
+                    <p>
+                      <strong className="full-name">{address.fullName}</strong>{" "}
+                      |{address.phoneNumber}
+                    </p>
+                    {address.addressLine && <p>{address.addressLine}</p>}
+                    <p>
+                      {address.barangay}, {address.city}, {address.province},{" "}
+                      {address.region}, {address.postalCode}
+                    </p>
+                    {address.isSetDefaultAddress && (
+                      <div className="default-label-container">
+                        <p className="default-label">Default</p>
+                      </div>
+                    )}
+                  </div>
+                  <div className="address-actions">
+                    {!address.isSetDefaultAddress && (
+                      <button
+                        className="set-default-button"
+                        onClick={() => handleSetAsDefault(address.id)}
+                      >
+                        <FaCheck className="action-icon" /> Set as Default
+                      </button>
+                    )}
+                    <div className="edit-delete-row">
+                      <button
+                        className="edit-button"
+                        onClick={() => handleEditAddress(address.id)}
+                      >
+                        <FaEdit className="action-icon" /> Edit
+                      </button>
+                      <button
+                        className="delete-button"
+                        onClick={() => handleDeleteAddressClick(address.id)}
+                      >
+                        <FaTrash className="action-icon" /> Delete
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          : !error && <p>No addresses available.</p>}
+        <AddAddressModal
+          isOpen={isModalOpen}
+          onClose={() => setModalOpen(false)}
+          onSave={handleSaveAddress}
+          isFirstAddress={addresses.length === 0}
+        />
+        <DeleteConfirmationModal
+          isOpen={isDeleteModalOpen}
+          onClose={() => setDeleteModalOpen(false)}
+          onConfirm={handleConfirmDelete}
+        />
       </div>
-      {error && <p className="error-message">{error}</p>}
-      {Array.isArray(addresses) && addresses.length > 0
-        ? addresses.map((address) => {
-            return (
-              <div key={address.id} className="address-card">
-                <div className="address-details">
-                  <p>
-                    {address.fullName} | {address.phoneNumber}
-                  </p>
-                  {address.addressLine && <p>{address.addressLine}</p>}
-                  <p>
-                    {address.barangay}, {address.city}, {address.province},{" "}
-                    {address.region}, {address.postalCode}
-                  </p>
-                </div>
-
-                <div className="address-actions">
-                  {!address.isSetDefaultAddress && (
-                    <button
-                      className="set-default-button"
-                      onClick={() => handleSetAsDefault(address.id)}
-                    >
-                      <FaCheck className="action-icon" /> Set as Default
-                    </button>
-                  )}
-                  <button
-                    className="edit-button"
-                    onClick={() => handleEditAddress(address.id)}
-                  >
-                    <FaEdit className="action-icon" /> Edit
-                  </button>
-                  <button
-                    className="delete-button"
-                    onClick={() => handleDeleteAddressClick(address.id)}
-                  >
-                    <FaTrash className="action-icon" /> Delete
-                  </button>
-                </div>
-              </div>
-            );
-          })
-        : !error && <p>No addresses available.</p>}
-
-      <AddAddressModal
-        isOpen={isModalOpen}
-        onClose={() => setModalOpen(false)}
-        onSave={handleSaveAddress}
-        isFirstAddress={addresses.length === 0}
-      />
-
-      <DeleteConfirmationModal
-        isOpen={isDeleteModalOpen}
-        onClose={() => setDeleteModalOpen(false)}
-        onConfirm={handleConfirmDelete}
-      />
     </div>
   );
 };
