@@ -42,7 +42,7 @@ const Sidebar = ({ selectedMenu, setSelectedMenu }) => {
             onClick={() => setSelectedMenu("MyPurchase")}
             className={selectedMenu === "MyPurchase" ? "active" : ""}
           >
-            <FaShoppingCart className="icon" /> My Purchase
+            <FaShoppingCart className="icon" /> My Purchases
           </button>
         </li>
       </ul>

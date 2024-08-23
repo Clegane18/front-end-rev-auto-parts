@@ -2,20 +2,24 @@ import React, { useState, useEffect } from "react";
 import "../../styles/onlineStoreFrontCustomersComponent/AddressCard.css";
 import { FaPlus, FaTrash, FaEdit, FaCheck } from "react-icons/fa";
 import AddAddressModal from "./AddAddressModal";
+import UpdateAddressModal from "./UpdateAddressModal";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
 import {
   addAddress,
   getAddresses,
   deleteAddress,
   setDefaultAddress,
+  updateAddress,
 } from "../../services/address-api";
 import { useAuth } from "../../contexts/AuthContext";
 
 const AddressCard = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [isUpdateModalOpen, setUpdateModalOpen] = useState(false);
   const [addresses, setAddresses] = useState([]);
   const [selectedAddressId, setSelectedAddressId] = useState(null);
+  const [selectedAddress, setSelectedAddress] = useState(null);
   const [error, setError] = useState(null);
   const { currentUser, token } = useAuth();
   const userId = currentUser ? currentUser.id : null;
@@ -61,12 +65,38 @@ const AddressCard = () => {
     }
   };
 
+  const handleUpdateAddress = async (formData) => {
+    try {
+      if (!userId || !token || !selectedAddressId) {
+        throw new Error("User ID, token, or address ID is not available");
+      }
+      const updatedAddress = await updateAddress({
+        addressId: selectedAddressId,
+        customerId: userId,
+        token,
+        ...formData,
+      });
+      setAddresses(
+        addresses.map((address) =>
+          address.id === selectedAddressId
+            ? updatedAddress.updatedAddress
+            : address
+        )
+      );
+      setUpdateModalOpen(false);
+      setSelectedAddressId(null);
+      setSelectedAddress(null);
+      setError(null);
+    } catch (error) {
+      console.error("Failed to update address:", error.message);
+      setError(error.message);
+    }
+  };
+
   const handleSetAsDefault = async (id) => {
     try {
-      // Use currentUser and token instead of the undefined user variable
       await setDefaultAddress({ addressId: id, customerId: userId, token });
 
-      // Update the state only after a successful API call
       const updatedAddresses = addresses.map((address) => ({
         ...address,
         isSetDefaultAddress: address.id === id,
@@ -74,12 +104,15 @@ const AddressCard = () => {
       setAddresses(updatedAddresses);
     } catch (error) {
       console.error("Failed to set default address:", error.message);
-      // Optionally, handle the error (e.g., show a notification to the user)
+      // Optionally, handle the error (show a notification to the user)
     }
   };
 
   const handleEditAddress = (id) => {
-    console.log(`Edit Address ${id}`);
+    const addressToEdit = addresses.find((address) => address.id === id);
+    setSelectedAddress(addressToEdit);
+    setSelectedAddressId(id);
+    setUpdateModalOpen(true);
   };
 
   const handleDeleteAddressClick = (id) => {
@@ -134,12 +167,15 @@ const AddressCard = () => {
                   }`}
                 >
                   <div className="address-details">
-                    <p>
-                      <strong className="full-name">{address.fullName}</strong>{" "}
-                      |{address.phoneNumber}
+                    <p className="address-details-text">
+                      <strong>{address.fullName}</strong> |{address.phoneNumber}
                     </p>
-                    {address.addressLine && <p>{address.addressLine}</p>}
-                    <p>
+                    {address.addressLine && (
+                      <p className="address-details-text">
+                        {address.addressLine}
+                      </p>
+                    )}
+                    <p className="address-details-text">
                       {address.barangay}, {address.city}, {address.province},{" "}
                       {address.region}, {address.postalCode}
                     </p>
@@ -182,6 +218,12 @@ const AddressCard = () => {
           onClose={() => setModalOpen(false)}
           onSave={handleSaveAddress}
           isFirstAddress={addresses.length === 0}
+        />
+        <UpdateAddressModal
+          isOpen={isUpdateModalOpen}
+          onClose={() => setUpdateModalOpen(false)}
+          onSave={handleUpdateAddress}
+          address={selectedAddress}
         />
         <DeleteConfirmationModal
           isOpen={isDeleteModalOpen}
