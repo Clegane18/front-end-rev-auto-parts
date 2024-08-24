@@ -24,6 +24,7 @@ import { formatCurrency } from "../../utils/formatCurrency";
 import { useNavigate } from "react-router-dom";
 import { faPrint } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import logo from "../../assets/g&f-logo.png";
 
 const ProductManagement = () => {
   const [products, setProducts] = useState([]);
@@ -337,10 +338,14 @@ const ProductManagement = () => {
     <div id="root-product-management">
       <div className="product-management-container">
         <div className="filter-bar">
-          <div className="store-name" onClick={handleBack}>
-            G&F Auto Supply
+          <div className="shop-info" onClick={handleBack}>
+            <img src={logo} alt="G&F Auto Supply" className="shop-logo" />
           </div>
-          <select value={filterType} onChange={handleFilterChange}>
+          <select
+            className="filter-selector"
+            value={filterType}
+            onChange={handleFilterChange}
+          >
             <option value="default">Default</option>
             <option value="price">Price Range</option>
             <option value="date">Date Range</option>

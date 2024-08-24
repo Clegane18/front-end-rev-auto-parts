@@ -50,7 +50,6 @@ const POSPage = () => {
       <div className="pos-page">
         <header className="pos-header">
           <div className="shop-info" onClick={handleBack}>
-            {/* <h1>G&F Auto Supply POS</h1> */}
             <img src={logo} alt="G&F Auto Supply" className="shop-logo" />
           </div>
           <div className="search-results-wrapper">
