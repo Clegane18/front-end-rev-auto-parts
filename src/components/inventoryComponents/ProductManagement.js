@@ -22,6 +22,8 @@ import {
 import { debounce } from "../../utils/debounce";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { useNavigate } from "react-router-dom";
+import { faPrint } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const ProductManagement = () => {
   const [products, setProducts] = useState([]);
@@ -255,6 +257,82 @@ const ProductManagement = () => {
     navigate("/dashboard");
   };
 
+  const handlePrint = () => {
+    const contentElement = document.getElementById("printable-content");
+    if (!contentElement) {
+      console.error("Element with id 'printable-content' not found");
+      return;
+    }
+
+    const printWindow = window.open("", "", "width=800,height=600");
+    const content = contentElement.innerHTML;
+    const issuanceDate = new Date().toLocaleDateString();
+
+    printWindow.document.open();
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>Print</title>
+          <style>
+            body {
+              font-family: Arial, sans-serif;
+              margin: 20px;
+            }
+            .header {
+              text-align: center;
+              margin-bottom: 20px;
+            }
+            .header h1 {
+              margin: 0;
+              font-size: 36px; 
+              font-weight: bold;
+            }
+            .report-title {
+              text-align: center;
+              font-size: 24px; 
+              font-weight: bold;
+              margin-bottom: 10px;
+            }
+            .date {
+              text-align: center;
+              margin-bottom: 20px;
+              font-size: 14px;
+              color: #555;
+            }
+            table {
+              width: 100%;
+              border-collapse: collapse;
+            }
+            th, td {
+              border: 1px solid #ddd;
+              padding: 8px;
+              text-align: left;
+            }
+            th {
+              background-color: #f4f4f4;
+            }
+            .print-hide {
+              display: none;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <h1>G&F Auto Supply</h1>
+          </div>
+          <div class="report-title">Inventory Report</div>
+          <div class="date">Issuance Date: ${issuanceDate}</div>
+          <div>
+            ${content}
+          </div>
+        </body>
+      </html>
+    `);
+    printWindow.document.close();
+    printWindow.focus();
+    printWindow.print();
+  };
+
   return (
     <div id="root-product-management">
       <div className="product-management-container">
@@ -318,76 +396,84 @@ const ProductManagement = () => {
           </div>
 
           <button className="low-stock-button" onClick={handleLowStock}>
-            {isShowingLowStock ? "Show All Products" : "Show Low Stock"}
+            {isShowingLowStock ? "All Products" : "Low Stock"}
           </button>
           <button onClick={() => setAddingProduct(true)}>
             <FaPlusCircle /> Add Product
           </button>
+          <button onClick={handlePrint}>
+            <FontAwesomeIcon icon={faPrint} />
+          </button>
         </div>
-        <div className="table-container">
-          <table className="product-table">
-            <thead>
-              <tr>
-                <th>Product ID</th>
-                <th>Item Code</th>
-                <th>Brand</th>
-                <th>Name</th>
-                <th>Category</th>
-                <th>Description</th>
-                <th>Supplier Name</th>
-                <th>Price</th>
-                <th>Stock</th>
-                <th>Added Date</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {products.length > 0 ? (
-                products.map((product) => (
-                  <tr key={product.id}>
-                    <td>{product.id}</td>
-                    <td>{product.itemCode}</td>
-                    <td>{product.brand}</td>
-                    <td>{product.name}</td>
-                    <td>{product.category}</td>
-                    <td>{product.description}</td>
-                    <td>{product.supplierName}</td>
-                    <td>{formatCurrency(product.price)}</td>
-                    <td>{product.stock}</td>
-                    <td>{new Date(product.dateAdded).toLocaleDateString()}</td>
-                    <td>
-                      <div className="action-buttons">
-                        <button
-                          className="edit-button"
-                          onClick={() => setEditingProduct(product)}
-                        >
-                          <FaEdit />
-                        </button>
-                        <button
-                          className="delete-button"
-                          onClick={() => setDeletingProduct(product)}
-                        >
-                          <FaTrash />
-                        </button>
-                        <button
-                          className="add-stock-button"
-                          onClick={() => setAddingStockProduct(product)}
-                        >
-                          <FaPlus />
-                        </button>
-                      </div>
+
+        <div id="printable-content">
+          <div className="table-container">
+            <table className="product-table">
+              <thead>
+                <tr>
+                  <th>Product ID</th>
+                  <th>Item Code</th>
+                  <th>Brand</th>
+                  <th>Name</th>
+                  <th>Category</th>
+                  <th>Description</th>
+                  <th>Supplier Name</th>
+                  <th>Price</th>
+                  <th>Stock</th>
+                  <th>Added Date</th>
+                  <th className="print-hide">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {products.length > 0 ? (
+                  products.map((product) => (
+                    <tr key={product.id}>
+                      <td>{product.id}</td>
+                      <td>{product.itemCode}</td>
+                      <td>{product.brand}</td>
+                      <td>{product.name}</td>
+                      <td>{product.category}</td>
+                      <td>{product.description}</td>
+                      <td>{product.supplierName}</td>
+                      <td>{formatCurrency(product.price)}</td>
+                      <td>{product.stock}</td>
+                      <td>
+                        {new Date(product.dateAdded).toLocaleDateString()}
+                      </td>
+                      <td className="print-hide">
+                        <div className="action-buttons">
+                          <button
+                            className="edit-button"
+                            onClick={() => setEditingProduct(product)}
+                          >
+                            <FaEdit />
+                          </button>
+                          <button
+                            className="delete-button"
+                            onClick={() => setDeletingProduct(product)}
+                          >
+                            <FaTrash />
+                          </button>
+                          <button
+                            className="add-stock-button"
+                            onClick={() => setAddingStockProduct(product)}
+                          >
+                            <FaPlus />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="11" style={{ textAlign: "center" }}>
+                      No products found.
                     </td>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="11" style={{ textAlign: "center" }}>
-                    No products found.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
         {editingProduct && (
           <EditProductModal
