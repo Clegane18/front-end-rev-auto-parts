@@ -75,6 +75,7 @@
 
 #pending-stock-root .pending-stock-list {
   margin-top: 20px;
+  overflow-y: auto;
 }
 
 #pending-stock-root .pending-stock-header,

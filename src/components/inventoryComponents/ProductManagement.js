@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import {
   getAllProducts,
   updateProductById,
-  deleteProductById,
+  archiveProductById,
   addProduct,
   getLowStockProducts,
   getProductsByDateRange,
@@ -217,9 +217,9 @@ const ProductManagement = () => {
     }
   };
 
-  const handleDeleteProduct = async (productId) => {
+  const handleArchiveProduct = async (productId) => {
     try {
-      await deleteProductById(productId);
+      await archiveProductById(productId);
       const updatedProducts = products.filter(
         (product) => product.id !== productId
       );
@@ -228,9 +228,9 @@ const ProductManagement = () => {
       setDeletingProduct(null);
       clearErrorMessage();
     } catch (error) {
-      console.error("Failed to delete product:", error);
+      console.error("Failed to archive product:", error);
       setErrorMessage(
-        error.message || "Failed to delete product. Please try again later."
+        error.message || "Failed to archive product. Please try again later."
       );
     }
   };
@@ -488,7 +488,7 @@ const ProductManagement = () => {
           <ConfirmDeleteModal
             product={deletingProduct}
             onClose={() => setDeletingProduct(null)}
-            onConfirm={handleDeleteProduct}
+            onConfirm={() => handleArchiveProduct(deletingProduct.id)}
             errorMessage={errorMessage}
             clearErrorMessage={clearErrorMessage}
           />

@@ -92,6 +92,19 @@ export const getAllItemsByCategory = async () => {
   }
 };
 
+export const archiveProductById = async (productId) => {
+  try {
+    const response = await api.post(`/products/archive/${productId}`);
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error("Failed to archive product. Please try again later.");
+    }
+  }
+};
+
 // Filter APIs
 export const getProductByBrand = (brand) =>
   api.get(`/products/filter/brand?brand=${brand}`);
