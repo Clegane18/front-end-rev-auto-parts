@@ -6,6 +6,7 @@ import {
   confirmStock,
   cancelPendingStock,
   updateArrivalDate,
+  getAllProducts,
 } from "../../services/inventory-api";
 import "../../styles/inventoryComponents/PendingStockManagement.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -19,18 +20,38 @@ import {
 const PendingStockManagement = () => {
   const [pendingStocks, setPendingStocks] = useState([]);
   const [newPendingStock, setNewPendingStock] = useState({
-    productId: "",
+    productName: "",
     quantity: 0,
     arrivalDate: "",
   });
+  const [productSuggestions, setProductSuggestions] = useState([]);
+  const [products, setProducts] = useState([]);
   const [editingStockId, setEditingStockId] = useState(null);
   const [newDate, setNewDate] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedTerm, setDebouncedTerm] = useState("");
 
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchPendingStocks();
+    fetchProducts();
   }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const response = await getAllProducts();
+      if (response.data && Array.isArray(response.data.data)) {
+        setProducts(response.data.data);
+      } else {
+        console.error("API response data is not an array:", response.data);
+        setProducts([]);
+      }
+    } catch (error) {
+      console.error("Failed to fetch products", error);
+      setProducts([]);
+    }
+  };
 
   const fetchPendingStocks = async () => {
     try {
@@ -41,13 +62,45 @@ const PendingStockManagement = () => {
     }
   };
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedTerm(searchTerm);
+    }, 500);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [searchTerm]);
+
+  useEffect(() => {
+    if (debouncedTerm) {
+      const filteredSuggestions = products.filter((product) =>
+        product.name.toLowerCase().includes(debouncedTerm.toLowerCase())
+      );
+      setProductSuggestions(filteredSuggestions);
+    } else {
+      setProductSuggestions([]);
+    }
+  }, [debouncedTerm, products]);
+
   const handleAddPendingStock = async () => {
+    const { productName, quantity, arrivalDate } = newPendingStock;
+
+    const updatedPendingStock = {
+      productName,
+      quantity,
+      arrivalDate,
+    };
+
     try {
-      await addPendingStock(newPendingStock);
+      await addPendingStock(updatedPendingStock);
       fetchPendingStocks();
-      setNewPendingStock({ productId: "", quantity: 0, arrivalDate: "" });
+      setNewPendingStock({ productName: "", quantity: 0, arrivalDate: "" });
     } catch (error) {
-      console.error("Failed to add pending stock", error);
+      console.error(
+        "Failed to add pending stock",
+        error.response?.data || error.message || error
+      );
     }
   };
 
@@ -85,6 +138,18 @@ const PendingStockManagement = () => {
     }
   };
 
+  const handleProductNameChange = (e) => {
+    const name = e.target.value;
+    setNewPendingStock({ ...newPendingStock, productName: name });
+    setSearchTerm(name);
+  };
+
+  const handleSuggestionClick = (suggestion) => {
+    setNewPendingStock({ ...newPendingStock, productName: suggestion.name });
+    setProductSuggestions([]);
+    setSearchTerm("");
+  };
+
   const handleBack = () => {
     navigate("/dashboard");
   };
@@ -101,15 +166,23 @@ const PendingStockManagement = () => {
           <div className="form-group">
             <input
               type="text"
-              placeholder="Product ID"
-              value={newPendingStock.productId}
-              onChange={(e) =>
-                setNewPendingStock({
-                  ...newPendingStock,
-                  productId: e.target.value,
-                })
-              }
+              placeholder="Product Name"
+              value={newPendingStock.productName}
+              onChange={handleProductNameChange}
             />
+            {productSuggestions.length > 0 && (
+              <div className="suggestions">
+                {productSuggestions.map((suggestion) => (
+                  <div
+                    key={suggestion.id}
+                    className="suggestion-item"
+                    onClick={() => handleSuggestionClick(suggestion)}
+                  >
+                    {suggestion.name}
+                  </div>
+                ))}
+              </div>
+            )}
             <input
               type="number"
               placeholder="Quantity"
@@ -139,14 +212,14 @@ const PendingStockManagement = () => {
         <div className="pending-stock-list">
           <h3>Pending Stock List</h3>
           <div className="pending-stock-header">
-            <div>ProdID</div>
+            <div>Prod Name</div>
             <div>Qty</div>
             <div>ETA</div>
             <div>Actions</div>
           </div>
           {pendingStocks.map((stock) => (
             <div key={stock.id} className="pending-stock-item">
-              <div>{stock.productId}</div>
+              <div>{stock.productName}</div>
               <div>{stock.quantity}</div>
               <div>
                 {editingStockId === stock.id ? (

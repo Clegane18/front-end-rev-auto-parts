@@ -126,6 +126,28 @@
   opacity: 0.75;
 }
 
+#pending-stock-root .suggestions {
+  border: 1px solid #ddd;
+  background-color: white;
+  position: absolute;
+  z-index: 1000;
+  max-height: 150px;
+  overflow-y: auto;
+  width: 17%;
+  margin-top: 33px;
+}
+
+#pending-stock-root .suggestion-item {
+  padding: 8px;
+  cursor: pointer;
+}
+
+#pending-stock-root .suggestion-item:hover {
+  background-color: #f0f0f0;
+}
+
+
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   #pending-stock-root {
