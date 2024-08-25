@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   fetchAllArchivedProducts,
   restoreArchivedProductById,
@@ -11,6 +11,7 @@ import ProductDetailsInArchivedPage from "./ProductDetailsInArchivedPage";
 import SuccessModal from "../SuccessModal";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
 import ConfirmDeleteAllModal from "./ConfirmDeleteAllModal";
+import ConfirmRestoreAllModal from "./ConfirmRestoreAllModal";
 import WarningMessage from "./WarningMessage";
 import "../../styles/inventoryComponents/ArchivedProductsPage.css";
 
@@ -25,18 +26,17 @@ const ArchivedProductsPage = () => {
   const [deleteProduct, setDeleteProduct] = useState(null);
   const [showDeleteAllConfirmModal, setShowDeleteAllConfirmModal] =
     useState(false);
+  const [showRestoreAllConfirmModal, setShowRestoreAllConfirmModal] =
+    useState(false);
   const [confirmInput, setConfirmInput] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [warningMessage, setWarningMessage] = useState("");
+  const [sortOrder, setSortOrder] = useState("ASC");
 
-  useEffect(() => {
-    loadArchivedProducts();
-  }, []);
-
-  const loadArchivedProducts = async () => {
+  const loadArchivedProducts = useCallback(async () => {
     try {
       setLoading(true);
-      const response = await fetchAllArchivedProducts();
+      const response = await fetchAllArchivedProducts(sortOrder);
       if (response && response.data && Array.isArray(response.data)) {
         setArchivedProducts(response.data);
       } else {
@@ -48,7 +48,11 @@ const ArchivedProductsPage = () => {
       setError(err.message);
       setLoading(false);
     }
-  };
+  }, [sortOrder]);
+
+  useEffect(() => {
+    loadArchivedProducts();
+  }, [loadArchivedProducts]);
 
   const handleRestoreProduct = async (productId) => {
     try {
@@ -73,17 +77,27 @@ const ArchivedProductsPage = () => {
     }
   };
 
-  const handleRestoreAll = async () => {
-    try {
-      setLoading(true);
-      const result = await restoreAllArchivedProducts();
-      setSuccessMessage(result.message);
-      setShowSuccessModal(true);
-      loadArchivedProducts();
-      setLoading(false);
-    } catch (err) {
-      setError(err.message);
-      setLoading(false);
+  const handleRestoreAll = () => {
+    setShowRestoreAllConfirmModal(true);
+  };
+
+  const confirmRestoreAll = async () => {
+    if (confirmInput === "CONFIRM RESTORE ALL") {
+      try {
+        setLoading(true);
+        const result = await restoreAllArchivedProducts();
+        setSuccessMessage(result.message);
+        setShowSuccessModal(true);
+        loadArchivedProducts();
+        setLoading(false);
+        setShowRestoreAllConfirmModal(false);
+        setConfirmInput("");
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+      }
+    } else {
+      setErrorMessage("Please type 'CONFIRM RESTORE ALL' to confirm.");
     }
   };
 
@@ -147,6 +161,17 @@ const ArchivedProductsPage = () => {
         <p>Error: {error}</p>
       ) : (
         <>
+          <div className="sort-order-container">
+            <label htmlFor="sortOrder">Sort By: </label>
+            <select
+              id="sortOrder"
+              value={sortOrder}
+              onChange={(e) => setSortOrder(e.target.value)}
+            >
+              <option value="ASC">Ascending</option>
+              <option value="DESC">Descending</option>
+            </select>
+          </div>
           <button onClick={handleRestoreAll} disabled={loading}>
             Restore All Archived Products
           </button>
@@ -247,6 +272,15 @@ const ArchivedProductsPage = () => {
             setShowDeleteAllConfirmModal(false);
             setConfirmInput("");
           }}
+          confirmInput={confirmInput}
+          setConfirmInput={setConfirmInput}
+          errorMessage={errorMessage}
+        />
+      )}
+      {showRestoreAllConfirmModal && (
+        <ConfirmRestoreAllModal
+          onClose={() => setShowRestoreAllConfirmModal(false)}
+          onConfirm={confirmRestoreAll}
           confirmInput={confirmInput}
           setConfirmInput={setConfirmInput}
           errorMessage={errorMessage}

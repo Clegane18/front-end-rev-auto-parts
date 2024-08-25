@@ -17,9 +17,11 @@ export const archiveProductById = async (productId) => {
   }
 };
 
-export const fetchAllArchivedProducts = async () => {
+export const fetchAllArchivedProducts = async (sortOrder = "ASC") => {
   try {
-    const response = await api.get("/archive/products");
+    const response = await api.get("archived/products", {
+      params: { sortOrder },
+    });
     return response.data;
   } catch (error) {
     if (error.response && error.response.data) {
@@ -31,6 +33,7 @@ export const fetchAllArchivedProducts = async () => {
     }
   }
 };
+
 export const restoreArchivedProductById = async (productId) => {
   try {
     const response = await api.post(`/archive/restore/${productId}`);
