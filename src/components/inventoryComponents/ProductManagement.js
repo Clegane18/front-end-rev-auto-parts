@@ -18,6 +18,7 @@ import {
   FaPlus,
   FaSearch,
   FaPlusCircle,
+  FaRecycle,
 } from "react-icons/fa";
 import { debounce } from "../../utils/debounce";
 import { formatCurrency } from "../../utils/formatCurrency";
@@ -258,6 +259,10 @@ const ProductManagement = () => {
     navigate("/dashboard");
   };
 
+  const goToArchivedProducts = () => {
+    navigate("/archived-products");
+  };
+
   const handlePrint = () => {
     const contentElement = document.getElementById("printable-content");
     if (!contentElement) {
@@ -406,8 +411,15 @@ const ProductManagement = () => {
           <button onClick={() => setAddingProduct(true)}>
             <FaPlusCircle /> Add Product
           </button>
-          <button onClick={handlePrint}>
+          <button onClick={handlePrint} title="Print Inventory Report">
             <FontAwesomeIcon icon={faPrint} />
+          </button>
+          <button
+            className="archive-button"
+            onClick={goToArchivedProducts}
+            title="View Archived Products"
+          >
+            <FaRecycle />
           </button>
         </div>
 

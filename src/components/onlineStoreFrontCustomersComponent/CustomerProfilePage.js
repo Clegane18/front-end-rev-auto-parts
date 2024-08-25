@@ -9,7 +9,7 @@ import OnlineStoreFrontHeader from "../onlineStoreFrontComponents/OnlineStoreFro
 import Sidebar from "./Sidebar";
 import "../../styles/onlineStoreFrontCustomersComponent/CustomerProfilePage.css";
 import { months, days, years } from "../../utils/dates";
-import SuccessModal from "./SuccessModal";
+import SuccessModal from "../SuccessModal";
 import AddressCard from "./AddressCard";
 
 const CustomerProfilePage = () => {
@@ -115,7 +115,6 @@ const CustomerProfilePage = () => {
             <>
               <h1>My Profile</h1>
               <div className="profile-form">
-                {/* Profile fields */}
                 <div>
                   <label>Username</label>
                   <input

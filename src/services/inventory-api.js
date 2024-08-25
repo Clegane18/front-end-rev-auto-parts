@@ -13,7 +13,7 @@ export const getProductById = (productId) =>
 export const updateProductById = (productId, productData) =>
   api.put(`/updateProductById/${productId}`, productData);
 
-export const deleteProductById = async (productId) => {
+export const permanentlyDeleteArchivedProduct = async (productId) => {
   try {
     const response = await api.delete(`/products/${productId}`);
     return response.data;
@@ -101,6 +101,35 @@ export const archiveProductById = async (productId) => {
       throw new Error(error.response.data.message);
     } else {
       throw new Error("Failed to archive product. Please try again later.");
+    }
+  }
+};
+
+export const fetchAllArchivedProducts = async () => {
+  try {
+    const response = await api.get("/archive/products");
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(
+        "Failed to fetch archived products. Please try again later."
+      );
+    }
+  }
+};
+export const restoreArchivedProductById = async (productId) => {
+  try {
+    const response = await api.post(`/archive/restore/${productId}`);
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(
+        "Failed to restore archived products. Please try again later."
+      );
     }
   }
 };

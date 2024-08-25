@@ -25,6 +25,7 @@ import CreateAccountPage from "./components/onlineStoreFrontCustomersComponent/C
 import RequestResetPasswordPage from "./components/onlineStoreFrontCustomersComponent/RequestResetPasswordPage";
 import ResetPasswordPage from "./components/onlineStoreFrontCustomersComponent/ResetPasswordPage";
 import CustomerProfilePage from "./components/onlineStoreFrontCustomersComponent/CustomerProfilePage";
+import ArchivedProductsPage from "./components/inventoryComponents/ArchivedProductsPage";
 
 const App = () => {
   const { authToken, login } = useAuthentication();
@@ -121,6 +122,17 @@ const App = () => {
                   )
                 }
               />
+              <Route
+                path="/archived-products"
+                element={
+                  authToken ? (
+                    <ArchivedProductsPage />
+                  ) : (
+                    <Navigate to="/login" />
+                  )
+                }
+              />
+
               <Route
                 path="*"
                 element={<Navigate to={authToken ? "/dashboard" : "/login"} />}
