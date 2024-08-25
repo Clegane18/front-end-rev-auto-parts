@@ -13,19 +13,6 @@ export const getProductById = (productId) =>
 export const updateProductById = (productId, productData) =>
   api.put(`/updateProductById/${productId}`, productData);
 
-export const permanentlyDeleteArchivedProduct = async (productId) => {
-  try {
-    const response = await api.delete(`/products/${productId}`);
-    return response.data;
-  } catch (error) {
-    if (error.response && error.response.data) {
-      throw new Error(`Error deleting product: ${error.response.data.message}`);
-    } else {
-      throw new Error("Failed to delete product. Please try again later.");
-    }
-  }
-};
-
 export const getTopBestSellerItems = async () => {
   try {
     const response = await api.get("/products/best-seller-items");
@@ -87,65 +74,6 @@ export const getAllItemsByCategory = async () => {
     } else {
       throw new Error(
         "Failed to fetch all items by category. Please try again later."
-      );
-    }
-  }
-};
-
-export const archiveProductById = async (productId) => {
-  try {
-    const response = await api.post(`/products/archive/${productId}`);
-    return response.data;
-  } catch (error) {
-    if (error.response && error.response.data) {
-      throw new Error(error.response.data.message);
-    } else {
-      throw new Error("Failed to archive product. Please try again later.");
-    }
-  }
-};
-
-export const fetchAllArchivedProducts = async () => {
-  try {
-    const response = await api.get("/archive/products");
-    return response.data;
-  } catch (error) {
-    if (error.response && error.response.data) {
-      throw new Error(error.response.data.message);
-    } else {
-      throw new Error(
-        "Failed to fetch archived products. Please try again later."
-      );
-    }
-  }
-};
-export const restoreArchivedProductById = async (productId) => {
-  try {
-    const response = await api.post(`/archive/restore/${productId}`);
-    return response.data;
-  } catch (error) {
-    if (error.response && error.response.data) {
-      throw new Error(error.response.data.message);
-    } else {
-      throw new Error(
-        "Failed to restore archived products. Please try again later."
-      );
-    }
-  }
-};
-
-export const restoreMultipleArchivedProducts = async (productIds) => {
-  try {
-    const response = await api.post("/archive/restore-multiple", {
-      productIds,
-    });
-    return response.data;
-  } catch (error) {
-    if (error.response && error.response.data) {
-      throw new Error(error.response.data.message);
-    } else {
-      throw new Error(
-        "Failed to restore multiple archived products. Please try again later."
       );
     }
   }

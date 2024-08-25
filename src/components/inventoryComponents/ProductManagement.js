@@ -2,11 +2,11 @@ import React, { useEffect, useState, useCallback } from "react";
 import {
   getAllProducts,
   updateProductById,
-  archiveProductById,
   addProduct,
   getLowStockProducts,
   getProductsByDateRange,
 } from "../../services/inventory-api";
+import { archiveProductById } from "../../services/archive-api";
 import "../../styles/inventoryComponents/ProductManagement.css";
 import EditProductModal from "./EditProductModal";
 import ConfirmArchiveModal from "./ConfirmArchiveModal";

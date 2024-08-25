@@ -3,11 +3,15 @@ import {
   fetchAllArchivedProducts,
   restoreArchivedProductById,
   restoreMultipleArchivedProducts,
+  restoreAllArchivedProducts,
+  deleteAllArchivedProducts,
   permanentlyDeleteArchivedProduct,
-} from "../../services/inventory-api";
+} from "../../services/archive-api";
 import ProductDetailsInArchivedPage from "./ProductDetailsInArchivedPage";
 import SuccessModal from "../SuccessModal";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
+import ConfirmDeleteAllModal from "./ConfirmDeleteAllModal";
+import WarningMessage from "./WarningMessage";
 import "../../styles/inventoryComponents/ArchivedProductsPage.css";
 
 const ArchivedProductsPage = () => {
@@ -19,7 +23,11 @@ const ArchivedProductsPage = () => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [deleteProduct, setDeleteProduct] = useState(null);
+  const [showDeleteAllConfirmModal, setShowDeleteAllConfirmModal] =
+    useState(false);
+  const [confirmInput, setConfirmInput] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [warningMessage, setWarningMessage] = useState("");
 
   useEffect(() => {
     loadArchivedProducts();
@@ -65,6 +73,20 @@ const ArchivedProductsPage = () => {
     }
   };
 
+  const handleRestoreAll = async () => {
+    try {
+      setLoading(true);
+      const result = await restoreAllArchivedProducts();
+      setSuccessMessage(result.message);
+      setShowSuccessModal(true);
+      loadArchivedProducts();
+      setLoading(false);
+    } catch (err) {
+      setError(err.message);
+      setLoading(false);
+    }
+  };
+
   const handleDeleteProduct = (product) => {
     setDeleteProduct(product);
   };
@@ -107,6 +129,15 @@ const ArchivedProductsPage = () => {
     setErrorMessage("");
   };
 
+  const handleDeleteAllArchivedProducts = () => {
+    if (archivedProducts.length === 0) {
+      setWarningMessage("There are no archived products to delete.");
+      return;
+    }
+
+    setShowDeleteAllConfirmModal(true);
+  };
+
   return (
     <div>
       <h1>Archived Products</h1>
@@ -116,11 +147,17 @@ const ArchivedProductsPage = () => {
         <p>Error: {error}</p>
       ) : (
         <>
+          <button onClick={handleRestoreAll} disabled={loading}>
+            Restore All Archived Products
+          </button>
           <button
             onClick={handleRestoreMultiple}
-            disabled={!selectedProducts.length}
+            disabled={!selectedProducts.length || loading}
           >
             Restore Selected Products
+          </button>
+          <button onClick={handleDeleteAllArchivedProducts} disabled={loading}>
+            Empty Archives
           </button>
           <table>
             <thead>
@@ -170,6 +207,12 @@ const ArchivedProductsPage = () => {
           </table>
         </>
       )}
+      {warningMessage && (
+        <WarningMessage
+          message={warningMessage}
+          onClose={() => setWarningMessage("")}
+        />
+      )}
       {selectedProduct && (
         <ProductDetailsInArchivedPage
           product={selectedProduct}
@@ -191,6 +234,25 @@ const ArchivedProductsPage = () => {
           onClose={handleCloseSuccessModal}
         />
       )}
+      {showDeleteAllConfirmModal && (
+        <ConfirmDeleteAllModal
+          onClose={() => setShowDeleteAllConfirmModal(false)}
+          onConfirm={async () => {
+            await deleteAllArchivedProducts();
+            setSuccessMessage(
+              "All archived products have been successfully deleted."
+            );
+            setShowSuccessModal(true);
+            loadArchivedProducts();
+            setShowDeleteAllConfirmModal(false);
+            setConfirmInput("");
+          }}
+          confirmInput={confirmInput}
+          setConfirmInput={setConfirmInput}
+          errorMessage={errorMessage}
+        />
+      )}
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
     </div>
   );
 };
