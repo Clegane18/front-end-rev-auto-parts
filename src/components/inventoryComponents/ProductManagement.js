@@ -9,7 +9,8 @@ import {
 } from "../../services/inventory-api";
 import "../../styles/inventoryComponents/ProductManagement.css";
 import EditProductModal from "./EditProductModal";
-import ConfirmDeleteModal from "./ConfirmDeleteModal";
+import ConfirmArchiveModal from "./ConfirmArchiveModal";
+
 import AddProductModal from "./AddProductModal";
 import AddStockModal from "./AddStockModal";
 import {
@@ -502,7 +503,7 @@ const ProductManagement = () => {
           />
         )}
         {deletingProduct && (
-          <ConfirmDeleteModal
+          <ConfirmArchiveModal
             product={deletingProduct}
             onClose={() => setDeletingProduct(null)}
             onConfirm={() => handleArchiveProduct(deletingProduct.id)}

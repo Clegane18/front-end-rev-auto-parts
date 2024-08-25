@@ -2,9 +2,12 @@ import React, { useState, useEffect } from "react";
 import {
   fetchAllArchivedProducts,
   restoreArchivedProductById,
+  restoreMultipleArchivedProducts,
+  permanentlyDeleteArchivedProduct,
 } from "../../services/inventory-api";
 import ProductDetailsInArchivedPage from "./ProductDetailsInArchivedPage";
 import SuccessModal from "../SuccessModal";
+import ConfirmDeleteModal from "./ConfirmDeleteModal";
 import "../../styles/inventoryComponents/ArchivedProductsPage.css";
 
 const ArchivedProductsPage = () => {
@@ -15,6 +18,8 @@ const ArchivedProductsPage = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
+  const [deleteProduct, setDeleteProduct] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     loadArchivedProducts();
@@ -50,15 +55,29 @@ const ArchivedProductsPage = () => {
 
   const handleRestoreMultiple = async () => {
     try {
-      for (const productId of selectedProducts) {
-        await restoreArchivedProductById(productId);
-      }
+      await restoreMultipleArchivedProducts(selectedProducts);
       setSuccessMessage(`Selected products successfully restored.`);
       setShowSuccessModal(true);
       loadArchivedProducts();
       setSelectedProducts([]);
     } catch (err) {
       setError(err.message);
+    }
+  };
+
+  const handleDeleteProduct = (product) => {
+    setDeleteProduct(product);
+  };
+
+  const handleConfirmDelete = async (productId) => {
+    try {
+      await permanentlyDeleteArchivedProduct(productId);
+      setSuccessMessage(`Product with ID ${productId} successfully deleted.`);
+      setShowSuccessModal(true);
+      loadArchivedProducts();
+      setDeleteProduct(null);
+    } catch (err) {
+      setErrorMessage(err.message);
     }
   };
 
@@ -82,6 +101,10 @@ const ArchivedProductsPage = () => {
 
   const handleCloseSuccessModal = () => {
     setShowSuccessModal(false);
+  };
+
+  const clearErrorMessage = () => {
+    setErrorMessage("");
   };
 
   return (
@@ -136,6 +159,9 @@ const ArchivedProductsPage = () => {
                       <button onClick={() => handleRestoreProduct(product.id)}>
                         Restore
                       </button>
+                      <button onClick={() => handleDeleteProduct(product)}>
+                        Delete
+                      </button>
                     </td>
                   </tr>
                 ))
@@ -148,6 +174,15 @@ const ArchivedProductsPage = () => {
         <ProductDetailsInArchivedPage
           product={selectedProduct}
           onClose={handleCloseModal}
+        />
+      )}
+      {deleteProduct && (
+        <ConfirmDeleteModal
+          product={deleteProduct}
+          onClose={() => setDeleteProduct(null)}
+          onConfirm={handleConfirmDelete}
+          errorMessage={errorMessage}
+          clearErrorMessage={clearErrorMessage}
         />
       )}
       {showSuccessModal && (

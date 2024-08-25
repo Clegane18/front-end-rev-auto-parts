@@ -1,7 +1,7 @@
 import React from "react";
-import "../../styles/inventoryComponents/ConfirmDeleteModal.css";
+import "../../styles/inventoryComponents/ConfirmArchiveModal.css";
 
-const ConfirmDeleteModal = ({
+const ConfirmArchiveModal = ({
   product,
   onClose,
   onConfirm,
@@ -14,9 +14,7 @@ const ConfirmDeleteModal = ({
         <div className="modal-content">
           <div className="warning-icon">&#9888;</div>
           <h2>Are you sure?</h2>
-          <p>
-            All values associated with this field will be deleted Permanently.
-          </p>
+          <p>All values associated with this field will be deleted.</p>
           {errorMessage && <p className="error-text">{errorMessage}</p>}
           <div className="button-group">
             <button
@@ -41,4 +39,4 @@ const ConfirmDeleteModal = ({
   );
 };
 
-export default ConfirmDeleteModal;
+export default ConfirmArchiveModal;

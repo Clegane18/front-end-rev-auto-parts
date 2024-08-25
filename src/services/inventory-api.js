@@ -134,6 +134,23 @@ export const restoreArchivedProductById = async (productId) => {
   }
 };
 
+export const restoreMultipleArchivedProducts = async (productIds) => {
+  try {
+    const response = await api.post("/archive/restore-multiple", {
+      productIds,
+    });
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(
+        "Failed to restore multiple archived products. Please try again later."
+      );
+    }
+  }
+};
+
 // Filter APIs
 export const getProductByBrand = (brand) =>
   api.get(`/products/filter/brand?brand=${brand}`);
