@@ -8,11 +8,17 @@ const ConfirmRestoreAllModal = ({
   setConfirmInput,
   errorMessage,
 }) => {
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      onConfirm();
+    }
+  };
+
   return (
     <div id="root-confirm-restore-all-modal">
       <div className="confirm-restore-all-modal">
         <div className="modal-content">
-          <h2>Confirm Restore</h2>
+          <h2>Confirm Restore All</h2>
           <p>
             Type "CONFIRM RESTORE ALL" to proceed with restoring all archived
             products:
@@ -22,15 +28,15 @@ const ConfirmRestoreAllModal = ({
             value={confirmInput}
             onChange={(e) => setConfirmInput(e.target.value)}
             placeholder="Type CONFIRM RESTORE ALL"
+            onKeyDown={handleKeyDown}
           />
           {errorMessage && <p className="error-message">{errorMessage}</p>}
-          <button
-            onClick={onConfirm}
-            disabled={confirmInput !== "CONFIRM RESTORE ALL"}
-          >
+          <button className="btn-confirm" onClick={onConfirm}>
             Confirm Restore
           </button>
-          <button onClick={onClose}>Cancel</button>
+          <button className="btn-cancel" onClick={onClose}>
+            Cancel
+          </button>
         </div>
       </div>
     </div>

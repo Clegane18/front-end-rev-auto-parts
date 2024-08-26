@@ -1,51 +1,77 @@
-#root-product-details-in-archived-page .modal {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-  }
-  
-  #root-product-details-in-archived-page .modal-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 5px;
-    width: 500px;
-    max-width: 90%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    position: relative;
-  }
-  
-  #root-product-details-in-archived-page .close-button {
-    float: right;
-    font-size: 24px;
-    cursor: pointer;
-    background: none;
-    border: none;
-  }
-  
-  #root-product-details-in-archived-page .close-button:hover {
-    color: red;
-  }
-  
-  #root-product-details-in-archived-page .modal img {
-    max-width: 100%;
-    height: auto;
-    margin-top: 10px;
-  }
-  
-  #root-product-details-in-archived-page .modal-content h2 {
-    margin-top: 0;
-  }
-  
-  #root-product-details-in-archived-page .modal-content p {
-    margin: 10px 0;
-    font-size: 16px;
-  }
+#root-product-details-in-archived-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
 
-  
+#root-product-details-in-archived-page .modal {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 500px;
+  width: 90%;
+  padding: 20px;
+  position: relative;
+  animation: fadeIn 0.3s ease-out;
+}
+
+#root-product-details-in-archived-page .modal-content {
+  padding: 20px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+#root-product-details-in-archived-page .close-button {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+#root-product-details-in-archived-page .close-button:hover {
+  opacity: 0.75;
+}
+
+#root-product-details-in-archived-page .modal-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #333;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 10px;
+}
+
+#root-product-details-in-archived-page .product-info p {
+  margin: 10px 0;
+  font-size: 16px;
+  color: #555;
+}
+
+#root-product-details-in-archived-page .product-info strong {
+  color: #333;
+}
+
+#root-product-details-in-archived-page span {
+  text-transform: none;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

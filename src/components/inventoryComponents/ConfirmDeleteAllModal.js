@@ -8,6 +8,12 @@ const ConfirmDeleteAllModal = ({
   setConfirmInput,
   errorMessage,
 }) => {
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      onConfirm();
+    }
+  };
+
   return (
     <div id="root-confirm-delete-all-modal">
       <div className="confirm-delete-all-modal">
@@ -22,10 +28,15 @@ const ConfirmDeleteAllModal = ({
             value={confirmInput}
             onChange={(e) => setConfirmInput(e.target.value)}
             placeholder="Type CONFIRM DELETE ALL"
+            onKeyDown={handleKeyDown}
           />
           {errorMessage && <p className="error-message">{errorMessage}</p>}
-          <button onClick={onConfirm}>Confirm Delete</button>
-          <button onClick={onClose}>Cancel</button>
+          <button className="btn-confirm" onClick={onConfirm}>
+            Confirm Delete
+          </button>
+          <button className="btn-cancel" onClick={onClose}>
+            Cancel
+          </button>
         </div>
       </div>
     </div>

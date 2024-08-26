@@ -1,26 +1,68 @@
-#root-confirm-delete-modal .confirm-restore-all-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  
-  #root-confirm-delete-modal .modal-content {
-    background: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    width: 400px;
-    text-align: center;
-  }
-  
-  #root-confirm-delete-modal .error-message {
-    color: red;
-    margin-top: 10px;
-  }
-  
+#root-confirm-restore-all-modal .confirm-restore-all-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+#root-confirm-restore-all-modal .modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  width: 400px;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+#root-confirm-restore-all-modal p {
+  text-transform: none;
+}
+
+#root-confirm-restore-all-modal .error-message {
+  color: red;
+  margin-top: 10px;
+}
+
+#root-confirm-restore-all-modal input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#root-confirm-restore-all-modal button {
+  padding: 10px 20px;
+  margin-top: 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+#root-confirm-restore-all-modal .btn-confirm {
+  background-color: #0c619b;
+  color: white;
+}
+
+#root-confirm-restore-all-modal .btn-confirm:hover {
+  opacity: 0.75;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#root-confirm-restore-all-modal .btn-cancel {
+  background-color: #0c619b;
+  color: white;
+  margin-left: 10px;
+}
+
+#root-confirm-restore-all-modal .btn-cancel:hover {
+  opacity: 0.75;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
