@@ -312,6 +312,11 @@ const DashboardPage = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/archived-products">
+                  <FontAwesomeIcon icon={faArchive} /> Product Archives
+                </Link>
+              </li>
+              <li>
                 <button onClick={openLogoutModal} className="logout-button">
                   <FontAwesomeIcon icon={faSignOutAlt} /> Log Out
                 </button>
