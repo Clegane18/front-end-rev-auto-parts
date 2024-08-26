@@ -9,22 +9,24 @@ const ConfirmDeleteAllModal = ({
   errorMessage,
 }) => {
   return (
-    <div className="confirm-delete-all-modal">
-      <div className="modal-content">
-        <h2>Confirm Deletion</h2>
-        <p>
-          Type "CONFIRM DELETE ALL" to proceed with deleting all archived
-          products:
-        </p>
-        <input
-          type="text"
-          value={confirmInput}
-          onChange={(e) => setConfirmInput(e.target.value)}
-          placeholder="Type CONFIRM DELETE ALL"
-        />
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
-        <button onClick={onConfirm}>Confirm Delete</button>
-        <button onClick={onClose}>Cancel</button>
+    <div id="root-confirm-delete-all-modal">
+      <div className="confirm-delete-all-modal">
+        <div className="modal-content">
+          <h2>Confirm Deletion</h2>
+          <p>
+            Type "CONFIRM DELETE ALL" to proceed with deleting all archived
+            products:
+          </p>
+          <input
+            type="text"
+            value={confirmInput}
+            onChange={(e) => setConfirmInput(e.target.value)}
+            placeholder="Type CONFIRM DELETE ALL"
+          />
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
+          <button onClick={onConfirm}>Confirm Delete</button>
+          <button onClick={onClose}>Cancel</button>
+        </div>
       </div>
     </div>
   );

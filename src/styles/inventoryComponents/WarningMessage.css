@@ -1,4 +1,4 @@
-.warning-modal-overlay {
+#root-warning-message .warning-modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -11,7 +11,7 @@
     z-index: 1000; 
   }
   
-  .warning-modal {
+  #root-warning-message .warning-modal {
     background-color: #fff;
     color: #721c24;
     border: 1px solid #f5c6cb;
@@ -22,7 +22,7 @@
     text-align: center;
   }
   
-  .warning-modal button {
+  #root-warning-message .warning-modal button {
     background-color: #f5c6cb;
     border: none;
     cursor: pointer;

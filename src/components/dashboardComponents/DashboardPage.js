@@ -268,364 +268,371 @@ const DashboardPage = () => {
   };
 
   return (
-    <div className="dashboard-container">
-      <aside className="sidebar">
-        <div className="sidebar-header">
-          <h2>G&F Auto Supply</h2>
-        </div>
-        <nav className="sidebar-nav">
-          <ul>
-            <li>
-              <Link to="/inventory-pending">
-                <FontAwesomeIcon icon={faListAlt} /> Pending Stocks
-              </Link>
-            </li>
-            <li>
-              <Link to="/pos">
-                <FontAwesomeIcon icon={faCashRegister} /> POS System
-              </Link>
-            </li>
-            <li>
-              <Link to="/upload-products">
-                <FontAwesomeIcon icon={faList} /> Products for Upload
-              </Link>
-            </li>
-
-            <li>
-              <Link to="/online-store">
-                <FontAwesomeIcon icon={faStoreAlt} /> Online Store Front
-              </Link>
-            </li>
-            <li>
-              <Link to="/customers">
-                <FontAwesomeIcon icon={faUsers} /> Customers
-              </Link>
-            </li>
-            <li>
-              <Link to="/orders">
-                <FontAwesomeIcon icon={faClipboardList} /> Orders
-              </Link>
-            </li>
-            <li>
-              <Link to="/inventory">
-                <FontAwesomeIcon icon={faBox} /> Inventory
-              </Link>
-            </li>
-            <li>
-              <button onClick={openLogoutModal} className="logout-button">
-                <FontAwesomeIcon icon={faSignOutAlt} /> Log Out
-              </button>
-            </li>
-          </ul>
-        </nav>
-      </aside>
-      <main className="main-content">
-        <header className="main-header">
-          <button onClick={toggleReportMode} className="report-button">
-            {isReportMode ? (
+    <div id="root-dashboard-page">
+      <div className="dashboard-container">
+        <aside className="sidebar">
+          <div className="sidebar-header">
+            <h2>G&F Auto Supply</h2>
+          </div>
+          <nav className="sidebar-nav">
+            <ul>
+              <li>
+                <Link to="/inventory-pending">
+                  <FontAwesomeIcon icon={faListAlt} /> Pending Stocks
+                </Link>
+              </li>
+              <li>
+                <Link to="/pos">
+                  <FontAwesomeIcon icon={faCashRegister} /> POS System
+                </Link>
+              </li>
+              <li>
+                <Link to="/upload-products">
+                  <FontAwesomeIcon icon={faList} /> Products for Upload
+                </Link>
+              </li>
+              <li>
+                <Link to="/online-store">
+                  <FontAwesomeIcon icon={faStoreAlt} /> Online Store Front
+                </Link>
+              </li>
+              <li>
+                <Link to="/customers">
+                  <FontAwesomeIcon icon={faUsers} /> Customers
+                </Link>
+              </li>
+              <li>
+                <Link to="/orders">
+                  <FontAwesomeIcon icon={faClipboardList} /> Orders
+                </Link>
+              </li>
+              <li>
+                <Link to="/inventory">
+                  <FontAwesomeIcon icon={faBox} /> Inventory
+                </Link>
+              </li>
+              <li>
+                <button onClick={openLogoutModal} className="logout-button">
+                  <FontAwesomeIcon icon={faSignOutAlt} /> Log Out
+                </button>
+              </li>
+            </ul>
+          </nav>
+        </aside>
+        <main className="main-content">
+          <header className="main-header">
+            <button onClick={toggleReportMode} className="report-button">
+              {isReportMode ? (
+                <>
+                  <FontAwesomeIcon icon={faTimes} /> Cancel Report Selection
+                </>
+              ) : (
+                <>
+                  <FontAwesomeIcon icon={faPrint} /> Print Reports
+                </>
+              )}
+            </button>
+            {isReportMode && (
               <>
-                <FontAwesomeIcon icon={faTimes} /> Cancel Report Selection
+                <button onClick={toggleSelectAll} className="report-button">
+                  {isAllSelected ? "Deselect All" : "Select All"}
+                </button>
+                <button onClick={printReports} className="report-button">
+                  <FontAwesomeIcon icon={faFileAlt} /> Generate Report
+                </button>
               </>
-            ) : (
-              <>
-                <FontAwesomeIcon icon={faPrint} /> Print Reports
-              </>
             )}
-          </button>
-          {isReportMode && (
-            <>
-              <button onClick={toggleSelectAll} className="report-button">
-                {isAllSelected ? "Deselect All" : "Select All"}
-              </button>
-              <button onClick={printReports} className="report-button">
-                <FontAwesomeIcon icon={faFileAlt} /> Generate Report
-              </button>
-            </>
-          )}
-        </header>
-        <section
-          id="sales-section"
-          className={`sales-section ${isReportMode ? "wiggle hoverable" : ""} ${
-            selectedReports.includes("sales-section") ? "selected" : ""
-          }`}
-          onClick={() => isReportMode && handleReportSelection("sales-section")}
-        >
-          <div className="section-container">
-            <h3>Sales</h3>
-            {isReportMode && (
-              <input
-                type="checkbox"
-                className="report-checkbox"
-                checked={selectedReports.includes("sales-section")}
-                readOnly
-              />
-            )}
-            <div className="sales-chart">
-              <SalesChart data={monthlyIncome} />
+          </header>
+          <section
+            id="sales-section"
+            className={`sales-section ${
+              isReportMode ? "wiggle hoverable" : ""
+            } ${selectedReports.includes("sales-section") ? "selected" : ""}`}
+            onClick={() =>
+              isReportMode && handleReportSelection("sales-section")
+            }
+          >
+            <div className="section-container">
+              <h3>Sales</h3>
+              {isReportMode && (
+                <input
+                  type="checkbox"
+                  className="report-checkbox"
+                  checked={selectedReports.includes("sales-section")}
+                  readOnly
+                />
+              )}
+              <div className="sales-chart">
+                <SalesChart data={monthlyIncome} />
+              </div>
             </div>
-          </div>
-        </section>
-        <section
-          id="todays-transactions-section"
-          className={`todays-transactions-section ${
-            isReportMode ? "wiggle hoverable" : ""
-          } ${
-            selectedReports.includes("todays-transactions-section")
-              ? "selected"
-              : ""
-          }`}
-          onClick={() =>
-            isReportMode && handleReportSelection("todays-transactions-section")
-          }
-        >
-          <div className="section-container">
-            <h3>Today's Transactions</h3>
-            {isReportMode && (
-              <input
-                type="checkbox"
-                className="report-checkbox"
-                checked={selectedReports.includes(
-                  "todays-transactions-section"
-                )}
-                readOnly
-              />
-            )}
-            <div className="table-container">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Transaction No</th>
-                    <th>Type</th>
-                    <th>Status</th>
-                    <th>Date</th>
-                    <th>Total Amount</th>
-                    <th>Total Items</th>
-                    <th>Sales Location</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {todaysTransactions.length > 0 ? (
-                    todaysTransactions.map((transaction, index) => (
-                      <tr key={index}>
-                        <td>{transaction.transactionNo}</td>
-                        <td>{transaction.transactionType}</td>
-                        <td>{transaction.transactionStatus}</td>
-                        <td>
-                          {new Date(
-                            transaction.transactionDate
-                          ).toLocaleString()}
-                        </td>
-                        <td>{formatCurrency(transaction.totalAmount)}</td>
-                        <td>{transaction.totalItemsBought}</td>
-                        <td>{transaction.salesLocation}</td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan="7">No transactions today</td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-
-        <section
-          id="bestsellers-section"
-          className={`bestsellers-section ${
-            isReportMode ? "wiggle hoverable" : ""
-          } ${
-            selectedReports.includes("bestsellers-section") ? "selected" : ""
-          }`}
-          onClick={() =>
-            isReportMode && handleReportSelection("bestsellers-section")
-          }
-        >
-          <div className="section-container">
-            <h3>Top Sellers This Month</h3>
-            {isReportMode && (
-              <input
-                type="checkbox"
-                className="report-checkbox"
-                checked={selectedReports.includes("bestsellers-section")}
-                readOnly
-              />
-            )}
-            <table>
-              <thead>
-                <tr>
-                  <th>Product</th>
-                  <th>Price</th>
-                  <th>Sold</th>
-                  <th>Profit</th>
-                  <th>Sales Location</th>
-                </tr>
-              </thead>
-              <tbody>
-                {bestSellers.length > 0 ? (
-                  bestSellers.map((item, index) => (
-                    <tr key={index}>
-                      <td>{item.productName}</td>
-                      <td>{formatCurrency(item.price)}</td>
-                      <td>{item.totalSold}</td>
-                      <td>{formatCurrency(item.totalProfit)}</td>
-                      <td>{item.salesLocation}</td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan="5">No best sellers found</td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-        <section className="bottom-section">
-          <div
-            id="stock-reminder-low-stock-reminder"
-            className={`stock-reminder-low-stock-reminder ${
+          </section>
+          <section
+            id="todays-transactions-section"
+            className={`todays-transactions-section ${
               isReportMode ? "wiggle hoverable" : ""
             } ${
-              selectedReports.includes("stock-reminder-low-stock-reminder")
+              selectedReports.includes("todays-transactions-section")
                 ? "selected"
                 : ""
             }`}
             onClick={() =>
               isReportMode &&
-              handleReportSelection("stock-reminder-low-stock-reminder")
+              handleReportSelection("todays-transactions-section")
             }
-            ref={stockReminderRef}
           >
-            <h3>Stock Reminder</h3>
-            {isReportMode && (
-              <input
-                type="checkbox"
-                className="report-checkbox"
-                checked={selectedReports.includes(
-                  "stock-reminder-low-stock-reminder"
-                )}
-                readOnly
-              />
-            )}
-            <div className="low-stock-list">
-              <div className="low-stock-list-item in-stock">
-                <span className="no-print">
-                  <FontAwesomeIcon icon={faCheckCircle} />
-                </span>
-                In Stock: {totalStock}
-              </div>
-              <div className="low-stock-list-item total-items">
-                <span className="no-print">
-                  <FontAwesomeIcon icon={faArchive} />
-                </span>
-                Total Items: {totalItems}
-              </div>
-              <div className="low-stock-list-item low-stock">
-                <span className="no-print">
-                  <FontAwesomeIcon icon={faExclamationTriangle} />
-                </span>
-                Low Stock:{" "}
-                {lowStockProducts.length > 0 ? (
-                  lowStockProducts.map((product, index) => (
-                    <span className="product-name" key={index}>
-                      {product.name} ({product.stock})
-                      {index < lowStockProducts.length - 1 ? ", " : ""}
-                    </span>
-                  ))
-                ) : (
-                  <span className="no-low-stock">No low stock products</span>
-                )}
+            <div className="section-container">
+              <h3>Today's Transactions</h3>
+              {isReportMode && (
+                <input
+                  type="checkbox"
+                  className="report-checkbox"
+                  checked={selectedReports.includes(
+                    "todays-transactions-section"
+                  )}
+                  readOnly
+                />
+              )}
+              <div className="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Transaction No</th>
+                      <th>Type</th>
+                      <th>Status</th>
+                      <th>Date</th>
+                      <th>Total Amount</th>
+                      <th>Total Items</th>
+                      <th>Sales Location</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {todaysTransactions.length > 0 ? (
+                      todaysTransactions.map((transaction, index) => (
+                        <tr key={index}>
+                          <td>{transaction.transactionNo}</td>
+                          <td>{transaction.transactionType}</td>
+                          <td>{transaction.transactionStatus}</td>
+                          <td>
+                            {new Date(
+                              transaction.transactionDate
+                            ).toLocaleString()}
+                          </td>
+                          <td>{formatCurrency(transaction.totalAmount)}</td>
+                          <td>{transaction.totalItemsBought}</td>
+                          <td>{transaction.salesLocation}</td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="7">No transactions today</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
               </div>
             </div>
-          </div>
-
-          <div
-            id="transaction-overview"
-            className={`transaction-overview ${
+          </section>
+          <section
+            id="bestsellers-section"
+            className={`bestsellers-section ${
               isReportMode ? "wiggle hoverable" : ""
             } ${
-              selectedReports.includes("transaction-overview") ? "selected" : ""
+              selectedReports.includes("bestsellers-section") ? "selected" : ""
             }`}
             onClick={() =>
-              isReportMode && handleReportSelection("transaction-overview")
+              isReportMode && handleReportSelection("bestsellers-section")
             }
           >
-            <h3>Today's Transactions Overview</h3>
-            {isReportMode && (
-              <input
-                type="checkbox"
-                className="report-checkbox"
-                checked={selectedReports.includes("transaction-overview")}
-                readOnly
-              />
-            )}
-            <div className="transactions-details">
-              <div className="transaction-details-total">
-                <p>
-                  Total: {totalTransactions !== null ? totalTransactions : "0"}
-                </p>
-              </div>
-              <div className="transaction-details-pos">
-                <p>
-                  Point of Sale:{" "}
-                  {posTransactions !== null ? posTransactions : "0"}
-                </p>
-              </div>
-              <div className="transaction-details-online">
-                <p>
-                  Online Store Front:{" "}
-                  {onlineTransactions !== null ? onlineTransactions : "0"}
-                </p>
-              </div>
+            <div className="section-container">
+              <h3>Top Sellers This Month</h3>
+              {isReportMode && (
+                <input
+                  type="checkbox"
+                  className="report-checkbox"
+                  checked={selectedReports.includes("bestsellers-section")}
+                  readOnly
+                />
+              )}
+              <table>
+                <thead>
+                  <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Sold</th>
+                    <th>Profit</th>
+                    <th>Sales Location</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {bestSellers.length > 0 ? (
+                    bestSellers.map((item, index) => (
+                      <tr key={index}>
+                        <td>{item.productName}</td>
+                        <td>{formatCurrency(item.price)}</td>
+                        <td>{item.totalSold}</td>
+                        <td>{formatCurrency(item.totalProfit)}</td>
+                        <td>{item.salesLocation}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="5">No best sellers found</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
             </div>
-          </div>
-          <div
-            id="total-income"
-            className={`total-income ${
-              isReportMode ? "wiggle hoverable" : ""
-            } ${selectedReports.includes("total-income") ? "selected" : ""}`}
-            onClick={() =>
-              isReportMode && handleReportSelection("total-income")
-            }
-          >
-            <h3>Total Income</h3>
-            {isReportMode && (
-              <input
-                type="checkbox"
-                className="report-checkbox"
-                checked={selectedReports.includes("total-income")}
-                readOnly
-              />
-            )}
-            {totalIncome ? (
-              <div className="income-details">
-                <div className="income-item">
-                  <div className="income-details-item">
-                    <p>
-                      Gross Income: ₱{totalIncome.grossIncome.toLocaleString()}
-                    </p>
-                  </div>
-                  <div className="income-details-item">
-                    <p>Net Income: ₱{totalIncome.netIncome.toLocaleString()}</p>
-                  </div>
+          </section>
+          <section className="bottom-section">
+            <div
+              id="stock-reminder-low-stock-reminder"
+              className={`stock-reminder-low-stock-reminder ${
+                isReportMode ? "wiggle hoverable" : ""
+              } ${
+                selectedReports.includes("stock-reminder-low-stock-reminder")
+                  ? "selected"
+                  : ""
+              }`}
+              onClick={() =>
+                isReportMode &&
+                handleReportSelection("stock-reminder-low-stock-reminder")
+              }
+              ref={stockReminderRef}
+            >
+              <h3>Stock Reminder</h3>
+              {isReportMode && (
+                <input
+                  type="checkbox"
+                  className="report-checkbox"
+                  checked={selectedReports.includes(
+                    "stock-reminder-low-stock-reminder"
+                  )}
+                  readOnly
+                />
+              )}
+              <div className="low-stock-list">
+                <div className="low-stock-list-item in-stock">
+                  <span className="no-print">
+                    <FontAwesomeIcon icon={faCheckCircle} />
+                  </span>
+                  In Stock: {totalStock}
+                </div>
+                <div className="low-stock-list-item total-items">
+                  <span className="no-print">
+                    <FontAwesomeIcon icon={faArchive} />
+                  </span>
+                  Total Items: {totalItems}
+                </div>
+                <div className="low-stock-list-item low-stock">
+                  <span className="no-print">
+                    <FontAwesomeIcon icon={faExclamationTriangle} />
+                  </span>
+                  Low Stock:{" "}
+                  {lowStockProducts.length > 0 ? (
+                    lowStockProducts.map((product, index) => (
+                      <span className="product-name" key={index}>
+                        {product.name} ({product.stock})
+                        {index < lowStockProducts.length - 1 ? ", " : ""}
+                      </span>
+                    ))
+                  ) : (
+                    <span className="no-low-stock">No low stock products</span>
+                  )}
                 </div>
               </div>
-            ) : (
-              <p>No income data available</p>
-            )}
-          </div>
-        </section>
-      </main>
-      {isLogoutModalOpen && (
-        <LogOutConfirmationModal
-          isOpen={isLogoutModalOpen}
-          onClose={closeLogoutModal}
-          onConfirm={handleLogout}
-        />
-      )}
+            </div>
+            <div
+              id="transaction-overview"
+              className={`transaction-overview ${
+                isReportMode ? "wiggle hoverable" : ""
+              } ${
+                selectedReports.includes("transaction-overview")
+                  ? "selected"
+                  : ""
+              }`}
+              onClick={() =>
+                isReportMode && handleReportSelection("transaction-overview")
+              }
+            >
+              <h3>Today's Transactions Overview</h3>
+              {isReportMode && (
+                <input
+                  type="checkbox"
+                  className="report-checkbox"
+                  checked={selectedReports.includes("transaction-overview")}
+                  readOnly
+                />
+              )}
+              <div className="transactions-details">
+                <div className="transaction-details-total">
+                  <p>
+                    Total:{" "}
+                    {totalTransactions !== null ? totalTransactions : "0"}
+                  </p>
+                </div>
+                <div className="transaction-details-pos">
+                  <p>
+                    Point of Sale:{" "}
+                    {posTransactions !== null ? posTransactions : "0"}
+                  </p>
+                </div>
+                <div className="transaction-details-online">
+                  <p>
+                    Online Store Front:{" "}
+                    {onlineTransactions !== null ? onlineTransactions : "0"}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div
+              id="total-income"
+              className={`total-income ${
+                isReportMode ? "wiggle hoverable" : ""
+              } ${selectedReports.includes("total-income") ? "selected" : ""}`}
+              onClick={() =>
+                isReportMode && handleReportSelection("total-income")
+              }
+            >
+              <h3>Total Income</h3>
+              {isReportMode && (
+                <input
+                  type="checkbox"
+                  className="report-checkbox"
+                  checked={selectedReports.includes("total-income")}
+                  readOnly
+                />
+              )}
+              {totalIncome ? (
+                <div className="income-details">
+                  <div className="income-item">
+                    <div className="income-details-item">
+                      <p>
+                        Gross Income: ₱
+                        {totalIncome.grossIncome.toLocaleString()}
+                      </p>
+                    </div>
+                    <div className="income-details-item">
+                      <p>
+                        Net Income: ₱{totalIncome.netIncome.toLocaleString()}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <p>No income data available</p>
+              )}
+            </div>
+          </section>
+        </main>
+        {isLogoutModalOpen && (
+          <LogOutConfirmationModal
+            isOpen={isLogoutModalOpen}
+            onClose={closeLogoutModal}
+            onConfirm={handleLogout}
+          />
+        )}
+      </div>
     </div>
   );
 };

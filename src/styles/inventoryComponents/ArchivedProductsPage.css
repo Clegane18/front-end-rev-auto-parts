@@ -1,14 +1,14 @@
-.archived-products-page {
+#root-archived-products-page .archived-products-page {
     padding: 20px;
     font-family: Arial, sans-serif;
   }
   
-  h1 {
+  #root-archived-products-page h1 {
     font-size: 24px;
     margin-bottom: 20px;
   }
   
-  button {
+  #root-archived-products-page button {
     padding: 8px 12px;
     margin-right: 10px;
     border: none;
@@ -19,33 +19,33 @@
     transition: background-color 0.3s ease;
   }
   
-  button:disabled {
+  #root-archived-products-page button:disabled {
     background-color: #ccc;
     cursor: not-allowed;
   }
   
-  button:hover:not(:disabled) {
+  #root-archived-products-page button:hover:not(:disabled) {
     background-color: #0056b3;
   }
   
-  table {
+  #root-archived-products-page table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
   }
   
-  table th,
-  table td {
+  #root-archived-products-page table th,
+  #root-archived-products-page table td {
     padding: 12px;
     text-align: left;
     border-bottom: 1px solid #ddd;
   }
   
-  table th {
+  #root-archived-products-page table th {
     background-color: #f4f4f4;
   }
   
-  table tr:hover {
+  #root-archived-products-page table tr:hover {
     background-color: #f9f9f9;
   }
   

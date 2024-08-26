@@ -14,14 +14,14 @@ body {
   color: #333;
 }
 
-.dashboard-container {
+#root-dashboard-page .dashboard-container {
   display: flex;
   height: 100vh;
   width: 100vw;
   overflow: hidden;
 }
 
-.dashboard-container .sidebar {
+#root-dashboard-page .dashboard-container .sidebar {
   width: 250px;
   background-color: #2f3b4c;
   color: #fff;
@@ -31,42 +31,42 @@ body {
   transition: width 0.3s ease;
 }
 
-.dashboard-container .sidebar-header {
+#root-dashboard-page .dashboard-container .sidebar-header {
   padding: 20px;
   text-align: center;
   background-color: #2f3b4c;
   border-bottom: 3px solid #404b5e;
 }
 
-.dashboard-container .sidebar .sidebar-header h2 {
+#root-dashboard-page .dashboard-container .sidebar .sidebar-header h2 {
   margin: 0;
   color: #ffffff;
   font-weight: 300;
   font-size: 19px;
 }
 
-.sidebar-nav ul {
+#root-dashboard-page .sidebar-nav ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.sidebar-nav ul li {
+#root-dashboard-page .sidebar-nav ul li {
   padding: 15px 20px;
   font-family: 'Montserrat', sans-serif;
 }
 
-.sidebar-nav ul li a {
+#root-dashboard-page .sidebar-nav ul li a {
   color: #bbb;
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
-.sidebar-nav ul li a:hover {
+#root-dashboard-page .sidebar-nav ul li a:hover {
   color: #fff;
 }
 
-.main-content {
+#root-dashboard-page .main-content {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -77,14 +77,14 @@ body {
   box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.main-header {
+#root-dashboard-page .main-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
 }
 
-.search-input {
+#root-dashboard-page .search-input {
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #ccc;
@@ -92,21 +92,21 @@ body {
   max-width: 300px;
 }
 
-.account-info {
+#root-dashboard-page .account-info {
   display: flex;
   align-items: center;
 }
 
-.account-info span {
+#root-dashboard-page .account-info span {
   margin-left: 10px;
   color: #666;
 }
 
-h2 {
+#root-dashboard-page h2 {
   color: #000;
 }
 
-.section-container {
+#root-dashboard-page .section-container {
   padding: 20px;
   background-color: #fff;
   border-radius: 8px;
@@ -116,19 +116,19 @@ h2 {
   overflow: hidden;
 }
 
-.table-container {
+#root-dashboard-page .table-container {
   max-height: 400px;
   overflow-x: auto;
   overflow-y: auto;
 }
 
-table {
+#root-dashboard-page table {
   width: 100%;
   border-collapse: collapse;
 }
 
-table th,
-table td {
+#root-dashboard-page table th,
+#root-dashboard-page table td {
   padding: 10px;
   text-align: center;
   border: 1px solid #ddd;
@@ -136,7 +136,7 @@ table td {
   font-family: 'Montserrat', sans-serif;
 }
 
-table th {
+#root-dashboard-page table th {
   background-color: #f7f7f7;
   font-weight: 500;
   position: -webkit-sticky; 
@@ -145,13 +145,13 @@ table th {
   z-index: 1;
 }
 
-.low-stock-list {
+#root-dashboard-page .low-stock-list {
   list-style: none;
   padding: 0;
   margin-top: 10px;
 }
 
-.low-stock-list-item {
+#root-dashboard-page .low-stock-list-item {
   margin-bottom: 8px;
   padding: 10px;
   border-left: 5px solid #343a40;
@@ -160,54 +160,54 @@ table th {
   font-family: 'Montserrat', sans-serif;
 }
 
-.low-stock-list-item.in-stock {
+#root-dashboard-page .low-stock-list-item.in-stock {
   background-color: #f0f0f0;
   color: #333;
 }
 
-.low-stock-list-item.total-items {
+#root-dashboard-page .low-stock-list-item.total-items {
   background-color: #f0f0f0;
   color: #333;
 }
 
-.low-stock-list-item.low-stock {
+#root-dashboard-page .low-stock-list-item.low-stock {
   background-color: #f8d7da;
   border-left-color: #dc3545;
   color: #721c24;
 }
 
-.low-stock-list-item:hover {
+#root-dashboard-page .low-stock-list-item:hover {
   transform: scale(1.05);
 }
 
-.low-stock-list-item:hover.in-stock,
-.low-stock-list-item:hover.total-items {
+#root-dashboard-page .low-stock-list-item:hover.in-stock,
+#root-dashboard-page .low-stock-list-item:hover.total-items {
   background-color: #e9ecef;
 }
 
-.low-stock-list-item:hover.low-stock {
+#root-dashboard-page .low-stock-list-item:hover.low-stock {
   background-color: #f5c6cb;
 }
 
-.low-stock-list-item span {
+#root-dashboard-page .low-stock-list-item span {
   font-weight: 300;
   display: block;
 }
 
-.no-low-stock {
+#root-dashboard-page .no-low-stock {
   margin-top: 10px;
   color: #721c24;
 }
 
-.bottom-section {
+#root-dashboard-page .bottom-section {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
 }
 
-.transaction-overview,
-.stock-reminder-low-stock-reminder,
-.total-income {
+#root-dashboard-page .transaction-overview,
+#root-dashboard-page .stock-reminder-low-stock-reminder,
+#root-dashboard-page .total-income {
   padding: 20px;
   border-radius: 8px;
   flex: 1;
@@ -217,7 +217,7 @@ table th {
   margin: 10px;
 }
 
-.transaction-overview {
+#root-dashboard-page .transaction-overview {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -225,9 +225,9 @@ table th {
   position: relative;
 }
 
-.transaction-overview h3, 
-.total-income h3, 
-.stock-reminder-low-stock-reminder h3 {
+#root-dashboard-page .transaction-overview h3, 
+#root-dashboard-page .total-income h3, 
+#root-dashboard-page .stock-reminder-low-stock-reminder h3 {
   font-size: 1.6em;
   color: #000;
   margin-bottom: 20px;
@@ -237,7 +237,7 @@ table th {
   text-align: center;
 }
 
-.transactions-boxes {
+#root-dashboard-page .transactions-boxes {
   margin-top: 15px;
   display: flex;
   flex-direction: column;
@@ -245,12 +245,12 @@ table th {
   width: 100%;
 }
 
-.transaction-box {
+#root-dashboard-page .transaction-box {
   text-align: center;
   margin: 10px 0;
 }
 
-.transaction-box p {
+#root-dashboard-page .transaction-box p {
   margin: 0;
   padding: 15px;
   background-color: #f0f0f0;
@@ -264,13 +264,13 @@ table th {
   transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
-.transaction-box p:hover {
+#root-dashboard-page .transaction-box p:hover {
   transform: scale(1.05);
   background-color: #e9ecef;
 }
 
-.income-details,
-.transactions-details {
+#root-dashboard-page .income-details,
+#root-dashboard-page .transactions-details {
   margin-top: 15px;
   display: flex;
   flex-direction: column;
@@ -278,16 +278,16 @@ table th {
   width: 100%;
 }
 
-.income-item,
-.transactions-item {
+#root-dashboard-page .income-item,
+#root-dashboard-page .transactions-item {
   text-align: center;
   margin: 10px 0;
 }
 
-.income-item p,
-.transaction-details-total p, 
-.transaction-details-pos p,
-.transaction-details-online p {
+#root-dashboard-page .income-item p,
+#root-dashboard-page .transaction-details-total p, 
+#root-dashboard-page .transaction-details-pos p,
+#root-dashboard-page .transaction-details-online p {
   margin: 0;
   padding: 15px;
   background-color: #f0f0f0;
@@ -301,93 +301,95 @@ table th {
   transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
-.total-income-item p:hover,
-.transaction-details-total p:hover,
-.transaction-details-pos p:hover,
-.transaction-details-online p:hover {
+#root-dashboard-page .total-income-item p:hover,
+#root-dashboard-page .transaction-details-total p:hover,
+#root-dashboard-page .transaction-details-pos p:hover,
+#root-dashboard-page .transaction-details-online p:hover {
   transform: scale(1.05);
   background-color: #e9ecef;
 }
 
-.dashboard-container .main-content .section-container h3 {
+#root-dashboard-page .dashboard-container .main-content .section-container h3 {
   font-weight: 500; 
   font-size: 25px;
 }
-.income-item{
+
+#root-dashboard-page .income-item{
   margin-top: 40px;
 }
-.income-details-item,
-.transaction-details-total,
-.transaction-details-pos,
-.transaction-details-online {
+
+#root-dashboard-page .income-details-item,
+#root-dashboard-page .transaction-details-total,
+#root-dashboard-page .transaction-details-pos,
+#root-dashboard-page .transaction-details-online {
   margin-bottom: 10px;
 }
 
 @media (max-width: 1024px) {
-  .sidebar {
+  #root-dashboard-page .sidebar {
     width: 200px;
   }
 
-  .main-header {
+  #root-dashboard-page .main-header {
     flex-direction: column;
     align-items: flex-start;
   }
 
-  .bottom-section {
+  #root-dashboard-page .bottom-section {
     flex-direction: column;
     margin-top: 20px;
   }
 
-  .transaction-overview,
-  .stock-reminder-low-stock-reminder,
-  .monthly-income {
+  #root-dashboard-page .transaction-overview,
+  #root-dashboard-page .stock-reminder-low-stock-reminder,
+  #root-dashboard-page .monthly-income {
     margin: 10px 0;
   }
 }
 
 @media (max-width: 768px) {
-  .dashboard-container {
+  #root-dashboard-page .dashboard-container {
     flex-direction: column;
   }
 
-  .sidebar {
+  #root-dashboard-page .sidebar {
     width: 100%;
     height: auto;
     position: relative;
   }
 
-  .main-content {
+  #root-dashboard-page .main-content {
     margin-left: 0;
   }
 
-  .main-header {
+  #root-dashboard-page .main-header {
     flex-direction: column;
     align-items: flex-start;
   }
 
-  .search-input {
+  #root-dashboard-page .search-input {
     width: 100%;
     margin-bottom: 10px;
   }
 
-  .bottom-section {
+  #root-dashboard-page .bottom-section {
     flex-direction: column;
     margin-top: 20px;
   }
 
-  .transaction-overview,
-  .stock-reminder-low-stock-reminder,
-  .monthly-income {
+  #root-dashboard-page .transaction-overview,
+  #root-dashboard-page .stock-reminder-low-stock-reminder,
+  #root-dashboard-page .monthly-income {
     margin: 10px 0;
   }
 
-  .transaction-overview p,
-  .stock-reminder-low-stock-reminder ul {
+  #root-dashboard-page .transaction-overview p,
+  #root-dashboard-page .stock-reminder-low-stock-reminder ul {
     margin: 0;
   }
 }
 
-.logout-button {
+#root-dashboard-page .logout-button {
   background: none;
   border: none;
   color: #d30a0a;
@@ -399,37 +401,37 @@ table th {
   transition: color 0.3s ease;
 }
 
-.logout-button:hover {
+#root-dashboard-page .logout-button:hover {
   opacity: 0.95;
 }
 
-.report-checkbox {
+#root-dashboard-page .report-checkbox {
   position: absolute;
   top: 10px;
   right: 10px;
   display: none;
 }
 
-.report-item {
+#root-dashboard-page .report-item {
   position: relative;
 }
 
-.report-item.hoverable:hover {
+#root-dashboard-page .report-item.hoverable:hover {
   transform: scale(1.05);
 }
 
-.report-item.selected .report-checkbox {
+#root-dashboard-page .report-item.selected .report-checkbox {
   display: block;
 }
 
-.report-checkbox {
+#root-dashboard-page .report-checkbox {
   margin-right: 10px;
   width: 15px;
   height: 15px;
   display: inline-block;
 }
 
-.wiggle {
+#root-dashboard-page .wiggle {
   animation: wiggle 1s infinite;
 }
 
@@ -441,7 +443,8 @@ table th {
     transform: rotate(1deg);
   }
 }
-.report-button {
+
+#root-dashboard-page .report-button {
   display: inline-flex;
   align-items: center;
   padding: 10px 20px;
@@ -455,19 +458,19 @@ table th {
   transition: opacity 0.3s ease;
 }
 
-.report-button:hover {
+#root-dashboard-page .report-button:hover {
   opacity: 0.75;
 }
 
-.report-button svg {
+#root-dashboard-page .report-button svg {
   margin-right: 8px;
 }
 
-.report-button:focus {
+#root-dashboard-page .report-button:focus {
   outline: none;
   box-shadow: 0 0 0 3px rgba(12, 97, 155, 0.5);
 }
 
-.report-button:active {
+#root-dashboard-page .report-button:active {
   background-color: #0a4f80;
 }

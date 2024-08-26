@@ -9,7 +9,7 @@ const ConfirmArchiveModal = ({
   clearErrorMessage,
 }) => {
   return (
-    <div id="root-confirm-delete-modal">
+    <div id="root-archive-delete-modal">
       <div className="modal-overlay">
         <div className="modal-content">
           <div className="warning-icon">&#9888;</div>

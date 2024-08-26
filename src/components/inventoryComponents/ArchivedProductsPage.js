@@ -153,7 +153,7 @@ const ArchivedProductsPage = () => {
   };
 
   return (
-    <div>
+    <div id="root-archived-products-page">
       <h1>Archived Products</h1>
       {loading ? (
         <p>Loading...</p>

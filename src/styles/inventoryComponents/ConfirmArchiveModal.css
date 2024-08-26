@@ -1,5 +1,4 @@
-/* Responsive design */
-#root-confirm-delete-modal .modal-overlay {
+#root-archive-delete-modal .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -13,7 +12,7 @@
   z-index: 1001
 }
 
-#root-confirm-delete-modal .modal-content {
+#root-archive-delete-modal .modal-content {
   background: #fff; 
   padding: 30px; 
   border-radius: 12px; 
@@ -25,32 +24,32 @@
   animation: slideIn 0.4s ease-out; 
 }
 
-#root-confirm-delete-modal .warning-icon {
+#root-archive-delete-modal .warning-icon {
   font-size: 48px; 
   color: #ff6347; 
   margin-bottom: 20px;
 }
 
-#root-confirm-delete-modal .modal-content h2 {
+#root-archive-delete-modal .modal-content h2 {
   margin-top: 0;
   color: #333; 
   font-weight: bold; 
   margin-bottom: 10px; 
 }
 
-#root-confirm-delete-modal .modal-content p {
+#root-archive-delete-modal .modal-content p {
   color: #555; 
   line-height: 1.6; 
   margin-bottom: 20px; 
 }
 
-#root-confirm-delete-modal .modal-content .button-group {
+#root-archive-delete-modal .modal-content .button-group {
   display: flex;
   justify-content: center;
   margin-top: 20px;
 }
 
-#root-confirm-delete-modal .modal-content .button-group button {
+#root-archive-delete-modal .modal-content .button-group button {
   margin: 0 10px;
   padding: 12px 25px; 
   border: none;
@@ -60,28 +59,28 @@
   transition: background-color 0.3s, transform 0.2s; 
 }
 
-#root-confirm-delete-modal .modal-content .button-group .delete-button {
+#root-archive-delete-modal .modal-content .button-group .delete-button {
   background-color: #ff6347; 
   color: white;
 }
 
-#root-confirm-delete-modal .modal-content .button-group .delete-button:hover {
+#root-archive-delete-modal .modal-content .button-group .delete-button:hover {
   background-color: #cc3d2b; 
   transform: scale(1.05); 
 }
 
-#root-confirm-delete-modal .modal-content .button-group .cancel-button {
+#root-archive-delete-modal .modal-content .button-group .cancel-button {
   background-color: #e0e0e0; 
   color: #333;
   border: 1px solid #ccc; 
 }
 
-#root-confirm-delete-modal .modal-content .button-group .cancel-button:hover {
+#root-archive-delete-modal .modal-content .button-group .cancel-button:hover {
   background-color: #a8a8a8;
   transform: scale(1.05);
 }
 
-#root-confirm-delete-modal .modal-content .error-text {
+#root-archive-delete-modal .modal-content .error-text {
   color: #eb2626;
   padding: 10px;
   border-radius: 5px;
@@ -110,7 +109,7 @@
 
 /* Add media query for larger screens */
 @media (min-width: 1024px) {
-  #root-confirm-delete-modal .modal-content {
+  #root-archive-delete-modal .modal-content {
     width: 35%;
   }
 }

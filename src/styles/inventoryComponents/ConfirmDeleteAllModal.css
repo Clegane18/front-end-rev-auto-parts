@@ -1,4 +1,4 @@
-.confirm-delete-all-modal {
+#root-confirm-delete-all-modal .confirm-delete-all-modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -11,7 +11,7 @@
     z-index: 1000;
   }
   
-  .modal-content {
+  #root-confirm-delete-all-modal .modal-content {
     background: #fff;
     padding: 20px;
     border-radius: 5px;
@@ -19,7 +19,7 @@
     text-align: center;
   }
   
-  .error-message {
+  #root-confirm-delete-all-modal .error-message {
     color: red;
     margin-top: 10px;
   }

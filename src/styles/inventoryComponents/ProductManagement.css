@@ -94,11 +94,26 @@
   margin-top: 1rem;
 }
 
-#root-product-management .product-table th,
+#root-product-management .product-table th {
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  font-size: medium; 
+  font-weight: normal; 
+  text-transform: none; 
+  color: inherit;
+}
+
 #root-product-management .product-table td {
   padding: 0.75rem;
   border: 1px solid #ccc;
   text-align: left;
+  font-family: 'Montserrat', sans-serif;
+  font-size: medium; 
+  font-weight: normal; 
+  text-transform: none; 
+  color: inherit;
 }
 
 #root-product-management .product-table th {

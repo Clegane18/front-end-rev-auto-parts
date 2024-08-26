@@ -1,4 +1,4 @@
-.login-container {
+#root-customer-login-page .login-container {
   width: 100%;
   max-width: 400px;
   margin: 0 auto;
@@ -11,29 +11,29 @@
   align-items: center;
 }
 
-.login-container h2 {
+#root-customer-login-page .login-container h2 {
   text-align: center;
   margin-bottom: 20px;
   font-weight: 300;
 }
 
-.form-container {
+#root-customer-login-page .form-container {
   width: 100%;
 }
 
-.input-group {
+#root-customer-login-page .input-group {
   margin-bottom: 15px;
   width: 100%;
   text-align: center; 
 }
 
-.input-group label {
+#root-customer-login-page .input-group label {
   display: block;
   margin-bottom: 5px;
   text-align: center; 
 }
 
-.input-group input {
+#root-customer-login-page .input-group input {
   width: 100%;
   padding: 8px;
   box-sizing: border-box;
@@ -41,24 +41,24 @@
   border-radius: 4px;
 }
 
-.forgot-password {
+#root-customer-login-page .forgot-password {
   width: 100%;
   text-align: center;
   margin-bottom: 20px;
 }
 
-.forgot-password button {
+#root-customer-login-page .forgot-password button {
   color: #0056b3;
   background: none;
   border: none;
   cursor: pointer;
 }
 
-.forgot-password button:hover {
+#root-customer-login-page .forgot-password button:hover {
   text-decoration: underline;
 }
 
-.sign-in-button {
+#root-customer-login-page .sign-in-button {
   width: 25%;
   padding: 10px;
   background-color: #0c619b;
@@ -70,16 +70,16 @@
   display: block; 
 }
 
-.sign-in-button:hover {
+#root-customer-login-page .sign-in-button:hover {
   opacity: 0.75;
 }
 
-.google-login {
+#root-customer-login-page .google-login {
   width: 100%;
   margin-top: 20px;
 }
 
-.google-button {
+#root-customer-login-page .google-button {
   width: 100%;
   padding: 10px;
   background-color: #fff;
@@ -92,41 +92,41 @@
   cursor: pointer;
 }
 
-.google-button img.google-logo {
+#root-customer-login-page .google-button img.google-logo {
   width: 20px;
   height: 20px;
   margin-right: 10px;
 }
 
-.google-button:hover {
+#root-customer-login-page .google-button:hover {
   background-color: #f8f8f8;
 }
 
-.additional-options {
+#root-customer-login-page .additional-options {
   width: 100%;
   text-align: center;
   margin-top: 20px;
 }
 
-.additional-options button {
+#root-customer-login-page .additional-options button {
   color: #0056b3;
   background: none;
   border: none;
   cursor: pointer;
 }
 
-.additional-options button:hover {
+#root-customer-login-page .additional-options button:hover {
   text-decoration: underline;
 }
 
-.password-group {
+#root-customer-login-page .password-group {
   position: relative;
 }
 
-.password-toggle-button {
+#root-customer-login-page .password-toggle-button {
   position: absolute;
-  right: 10px;
-  top: 64%;
+  right: -5px;
+  top: 53%;
   transform: translateY(-10%);
   border: none;
   background: none;
@@ -134,7 +134,7 @@
   color: #007bff; 
 }
 
-.password-toggle-button:focus {
+#root-customer-login-page .password-toggle-button:focus {
   outline: none;
 }
 
