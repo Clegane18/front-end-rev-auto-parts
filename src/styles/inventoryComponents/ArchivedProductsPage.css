@@ -1,51 +1,145 @@
-#root-archived-products-page .archived-products-page {
-    padding: 20px;
-    font-family: Arial, sans-serif;
-  }
-  
-  #root-archived-products-page h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
-  }
-  
-  #root-archived-products-page button {
-    padding: 8px 12px;
-    margin-right: 10px;
-    border: none;
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-  }
-  
-  #root-archived-products-page button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-  
-  #root-archived-products-page button:hover:not(:disabled) {
-    background-color: #0056b3;
-  }
-  
-  #root-archived-products-page table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
-  
-  #root-archived-products-page table th,
-  #root-archived-products-page table td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  #root-archived-products-page table th {
-    background-color: #f4f4f4;
-  }
-  
-  #root-archived-products-page table tr:hover {
-    background-color: #f9f9f9;
-  }
-  
+#root-archived-products-page {
+  padding: 20px;
+  font-family: 'Montserrat', serif;
+  background-color: #f9f9fb;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-height: 80vh;
+  overflow-y: auto; 
+}
+
+#root-archived-products-page button {
+  padding: 10px 15px;
+  margin-right: 12px;
+  border: none;
+  background-color: #0c619b;
+  color: white;
+  cursor: pointer;
+  border-radius: 6px;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#root-archived-products-page button:last-child {
+  margin-right: 0;
+}
+
+#root-archived-products-page button:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
+#root-archived-products-page button:hover:not(:disabled) {
+  opacity: 0.75;
+  transform: translateY(-2px);
+}
+
+#root-archived-products-page table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+#root-archived-products-page table th,
+#root-archived-products-page table td {
+  padding: 14px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+#root-archived-products-page table th {
+  background-color: #eaecef;
+  font-size: 16px;
+  text-transform: uppercase;
+}
+
+#root-archived-products-page table tr:hover {
+  background-color: #f4f6f8;
+}
+
+.sort-order-container {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+  margin-left: 20px;
+}
+
+#root-archived-products-page .sort-order-container label {
+  margin-right: 10px;
+  font-size: 16px;
+  color: #333;
+}
+
+#sortOrder {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: white;
+  cursor: pointer;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  appearance: none;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2212%22%20height%3D%2212%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22%230c619b%22%3E%3Cpath%20d%3D%22M6%2011L0%205h12z%22%2F%3E%3C%2Fsvg%3E');
+  background-repeat: no-repeat;
+  background-position: calc(100% - 5px) center;
+  background-size: 12px 12px;
+  padding-right: 25px;
+}
+
+#sortOrder:hover {
+  border-color: #0c619b;
+}
+
+#sortOrder:focus {
+  outline: none;
+  border-color: #0c619b;
+}
+
+#root-archived-products-page .control-panel {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  margin-bottom: 20px;
+}
+
+#root-archived-products-page .shop-logo {
+  max-height: 40px;
+  max-width: 100%;
+  padding-left: 20px;
+  cursor: pointer;
+}
+
+#root-archived-products-page .shop-logo:hover {
+  opacity: 0.75;
+}
+
+#root-archived-products-page .control-panel {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+  background-color: #ffffff; 
+  padding: 1rem; 
+  border-radius: 8px; 
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+#root-archived-products-page .table-container {
+  overflow-y: auto;
+  background-color: #ffffff; 
+  padding: 0 1rem 1rem 1rem; 
+  border-radius: 8px; 
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); 
+}
+
+#root-archived-products-page h1 {
+  font-size: 2rem;
+  color: #1A2129;
+  text-align: left;
+  padding: 20px 0;
+  margin: 0;
+  border-bottom: 2px solid #ccc;
+  padding-left: 20px;
+}

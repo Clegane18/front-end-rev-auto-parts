@@ -14,6 +14,16 @@ import ConfirmDeleteAllModal from "./ConfirmDeleteAllModal";
 import ConfirmRestoreAllModal from "./ConfirmRestoreAllModal";
 import WarningMessage from "./WarningMessage";
 import "../../styles/inventoryComponents/ArchivedProductsPage.css";
+import {
+  faRecycle,
+  faTrashAlt,
+  faEye,
+  faUndo,
+  faTrashRestore,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import logo from "../../assets/g&f-logo.png";
+import { useNavigate } from "react-router-dom";
 
 const ArchivedProductsPage = () => {
   const [archivedProducts, setArchivedProducts] = useState([]);
@@ -32,6 +42,8 @@ const ArchivedProductsPage = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [warningMessage, setWarningMessage] = useState("");
   const [sortOrder, setSortOrder] = useState("ASC");
+
+  const navigate = useNavigate();
 
   const loadArchivedProducts = useCallback(async () => {
     try {
@@ -152,84 +164,102 @@ const ArchivedProductsPage = () => {
     setShowDeleteAllConfirmModal(true);
   };
 
+  const handleBack = () => {
+    navigate("/dashboard");
+  };
+
   return (
     <div id="root-archived-products-page">
-      <h1>Archived Products</h1>
+      <h1>Archives</h1>
       {loading ? (
         <p>Loading...</p>
       ) : error ? (
         <p>Error: {error}</p>
       ) : (
         <>
-          <div className="sort-order-container">
-            <label htmlFor="sortOrder">Sort By: </label>
-            <select
-              id="sortOrder"
-              value={sortOrder}
-              onChange={(e) => setSortOrder(e.target.value)}
+          <div className="control-panel">
+            <div className="shop-info" onClick={handleBack}>
+              <img src={logo} alt="G&F Auto Supply" className="shop-logo" />
+            </div>
+            <div className="sort-order-container">
+              <label htmlFor="sortOrder">Sort By: </label>
+              <select
+                id="sortOrder"
+                value={sortOrder}
+                onChange={(e) => setSortOrder(e.target.value)}
+              >
+                <option value="ASC">Ascending</option>
+                <option value="DESC">Descending</option>
+              </select>
+            </div>
+            <button onClick={handleRestoreAll} disabled={loading}>
+              <FontAwesomeIcon icon={faRecycle} /> Restore All
+            </button>
+            <button
+              onClick={handleRestoreMultiple}
+              disabled={!selectedProducts.length || loading}
             >
-              <option value="ASC">Ascending</option>
-              <option value="DESC">Descending</option>
-            </select>
+              <FontAwesomeIcon icon={faUndo} /> Restore Selected Products
+            </button>
+            <button
+              onClick={handleDeleteAllArchivedProducts}
+              disabled={loading}
+            >
+              <FontAwesomeIcon icon={faTrashAlt} /> Empty Archives
+            </button>
           </div>
-          <button onClick={handleRestoreAll} disabled={loading}>
-            Restore All Archived Products
-          </button>
-          <button
-            onClick={handleRestoreMultiple}
-            disabled={!selectedProducts.length || loading}
-          >
-            Restore Selected Products
-          </button>
-          <button onClick={handleDeleteAllArchivedProducts} disabled={loading}>
-            Empty Archives
-          </button>
-          <table>
-            <thead>
-              <tr>
-                <th>Select</th>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Date Archived</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {archivedProducts.length === 0 ? (
+          <div className="table-container">
+            <table>
+              <thead>
                 <tr>
-                  <td colSpan="5" style={{ textAlign: "center" }}>
-                    No archived products available.
-                  </td>
+                  <th>Select</th>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Date Archived</th>
+                  <th>Actions</th>
                 </tr>
-              ) : (
-                archivedProducts.map((product) => (
-                  <tr key={product.id}>
-                    <td>
-                      <input
-                        type="checkbox"
-                        checked={selectedProducts.includes(product.id)}
-                        onChange={() => handleSelectProduct(product.id)}
-                      />
-                    </td>
-                    <td>{product.id}</td>
-                    <td>{product.name}</td>
-                    <td>{new Date(product.archivedAt).toLocaleDateString()}</td>
-                    <td>
-                      <button onClick={() => handleViewDetails(product)}>
-                        View
-                      </button>
-                      <button onClick={() => handleRestoreProduct(product.id)}>
-                        Restore
-                      </button>
-                      <button onClick={() => handleDeleteProduct(product)}>
-                        Delete
-                      </button>
+              </thead>
+              <tbody>
+                {archivedProducts.length === 0 ? (
+                  <tr>
+                    <td colSpan="5" style={{ textAlign: "center" }}>
+                      No archived products available.
                     </td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+                ) : (
+                  archivedProducts.map((product) => (
+                    <tr key={product.id}>
+                      <td>
+                        <input
+                          type="checkbox"
+                          checked={selectedProducts.includes(product.id)}
+                          onChange={() => handleSelectProduct(product.id)}
+                        />
+                      </td>
+                      <td>{product.id}</td>
+                      <td>{product.name}</td>
+                      <td>
+                        {new Date(product.archivedAt).toLocaleDateString()}
+                      </td>
+                      <td>
+                        <button onClick={() => handleViewDetails(product)}>
+                          <FontAwesomeIcon icon={faEye} /> View
+                        </button>
+                        <button
+                          onClick={() => handleRestoreProduct(product.id)}
+                        >
+                          <FontAwesomeIcon icon={faTrashRestore} /> Restore
+                        </button>
+                        <button onClick={() => handleDeleteProduct(product)}>
+                          <FontAwesomeIcon icon={faTrashAlt} /> Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
         </>
       )}
       {warningMessage && (

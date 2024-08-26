@@ -85,13 +85,15 @@
   gap: 10px;
   padding: 10px;
   border-bottom: 1px solid #ddd;
+  font-family: 'Montserrat', serif;
 }
 
 #pending-stock-root .pending-stock-header {
-  font-weight: bold;
+  font-weight: 600;
   background-color: #f1f1f1;
   border-top: 2px solid #ddd;
   text-align: center;
+  text-transform: uppercase;
 }
 
 #pending-stock-root .pending-stock-item {
