@@ -23,7 +23,7 @@ body {
 
 #root-dashboard-page .dashboard-container .sidebar {
   width: 250px;
-  background-color: #2f3b4c;
+  background-color: #1D2B3A;
   color: #fff;
   display: flex;
   flex-direction: column;
@@ -34,7 +34,7 @@ body {
 #root-dashboard-page .dashboard-container .sidebar-header {
   padding: 20px;
   text-align: center;
-  background-color: #2f3b4c;
+  background-color: #1D2B3A;
   border-bottom: 3px solid #404b5e;
 }
 
