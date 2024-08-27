@@ -7,6 +7,7 @@ import {
 } from "../../services/online-store-front-customer-api";
 import OnlineStoreFrontHeader from "../onlineStoreFrontComponents/OnlineStoreFrontHeader";
 import Sidebar from "./Sidebar";
+import OrderTabs from "./OrderTabs"; // Importing OrderTabs component
 import "../../styles/onlineStoreFrontCustomersComponent/CustomerProfilePage.css";
 import { months, days, years } from "../../utils/dates";
 import SuccessModal from "../SuccessModal";
@@ -114,7 +115,9 @@ const CustomerProfilePage = () => {
           {selectedMenu === "Profile" && (
             <>
               <h1>My Profile</h1>
+              {/* Profile form */}
               <div className="profile-form">
+                {/* Form content */}
                 <div>
                   <label>Username</label>
                   <input
@@ -247,8 +250,13 @@ const CustomerProfilePage = () => {
               </div>
             </>
           )}
-          {selectedMenu === "Addresses" && (
-            <AddressCard /> // Render AddressCard when "Addresses" is selected
+          {selectedMenu === "Addresses" && <AddressCard />}
+          {selectedMenu === "MyPurchase" && (
+            <>
+              <h1>My Purchases</h1>
+              <OrderTabs />{" "}
+              {/* Render OrderTabs when "MyPurchase" is selected */}
+            </>
           )}
         </div>
       </div>

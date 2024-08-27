@@ -52,6 +52,8 @@
   }
   
   #root-online-cart .cart-header {
+    font-family: 'Montserrat', serif;
+    text-transform: none;
     display: grid;
     grid-template-columns: 1.5fr 1fr 1fr 1fr;
     justify-content: space-between;
@@ -65,8 +67,7 @@
   
   
   #root-online-cart .cart-header span {
-    font-size: 16px;
-    font-weight: bold;
+    font-size: 20px;
     color: #333;
     text-align: center;
   }
@@ -108,7 +109,9 @@
   }
   
   #root-online-cart .item-name {
-    font-size: 16px;
+    font-family: 'Montserrat', serif;
+    text-transform: none;
+    font-size: 15px;
     color: #333;
     padding-right: 90px;
   }
