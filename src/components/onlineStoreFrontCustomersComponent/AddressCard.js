@@ -157,8 +157,6 @@ const AddressCard = () => {
         {error && <p className="error-message">{error}</p>}
         {Array.isArray(addresses) && addresses.length > 0
           ? addresses.map((address) => {
-              console.log("Address information:", address);
-
               return (
                 <div
                   key={address.id}
@@ -224,11 +222,13 @@ const AddressCard = () => {
           onClose={() => setUpdateModalOpen(false)}
           onSave={handleUpdateAddress}
           address={selectedAddress}
+          totalAddresses={addresses.length}
         />
         <DeleteConfirmationModal
           isOpen={isDeleteModalOpen}
           onClose={() => setDeleteModalOpen(false)}
           onConfirm={handleConfirmDelete}
+          isFirstAddress={addresses.length === 1}
         />
       </div>
     </div>

@@ -5,10 +5,16 @@ import {
   getCitiesAndMunicipalities,
   getBarangays,
 } from "../../services/location-api";
-import "../../styles/onlineStoreFrontCustomersComponent/UpdateAddressModal.css"; // Using the same CSS file as AddAddressModal
+import "../../styles/onlineStoreFrontCustomersComponent/UpdateAddressModal.css";
 import { FaChevronDown, FaChevronRight, FaTimes } from "react-icons/fa";
 
-const UpdateAddressModal = ({ isOpen, onClose, onSave, address }) => {
+const UpdateAddressModal = ({
+  isOpen,
+  onClose,
+  onSave,
+  address,
+  totalAddresses,
+}) => {
   const [formData, setFormData] = useState({
     fullName: "",
     phoneNumber: "",
@@ -16,6 +22,7 @@ const UpdateAddressModal = ({ isOpen, onClose, onSave, address }) => {
     province: "",
     city: "",
     barangay: "",
+    addressLine: "",
     label: "",
     isDefault: false,
     postalCode: "",
@@ -38,28 +45,8 @@ const UpdateAddressModal = ({ isOpen, onClose, onSave, address }) => {
   useEffect(() => {
     if (isOpen) {
       getRegions().then(setRegions).catch(console.error);
-      if (address) {
-        setFormData({
-          fullName: address.fullName || "",
-          phoneNumber: address.phoneNumber || "",
-          region: address.region || "",
-          province: address.province || "",
-          city: address.city || "",
-          barangay: address.barangay || "",
-          label: address.label || "",
-          isDefault: address.isDefault || false,
-          postalCode: address.postalCode || "",
-        });
-
-        setSelectedNames({
-          regionName: address.regionName || "",
-          provinceName: address.provinceName || "",
-          cityName: address.cityName || "",
-          barangayName: address.barangayName || "",
-        });
-      }
     }
-  }, [isOpen, address]);
+  }, [isOpen]);
 
   useEffect(() => {
     if (formData.region) {
@@ -80,6 +67,30 @@ const UpdateAddressModal = ({ isOpen, onClose, onSave, address }) => {
       getBarangays(formData.city).then(setBarangays).catch(console.error);
     }
   }, [formData.city]);
+
+  useEffect(() => {
+    if (isOpen && address) {
+      setFormData({
+        fullName: address.fullName || "",
+        phoneNumber: address.phoneNumber || "",
+        region: "",
+        province: "",
+        city: "",
+        barangay: "",
+        addressLine: address.addressLine || "",
+        label: address.label || "",
+        isDefault: address.isSetDefaultAddress || false,
+        postalCode: address.postalCode || "",
+      });
+
+      setSelectedNames({
+        regionName: address.region || "",
+        provinceName: address.province || "",
+        cityName: address.city || "",
+        barangayName: address.barangay || "",
+      });
+    }
+  }, [isOpen, address]);
 
   const handleRegionChange = (e) => {
     const selectedRegionCode = e.target.value;
@@ -230,7 +241,7 @@ const UpdateAddressModal = ({ isOpen, onClose, onSave, address }) => {
   if (!isOpen) return null;
 
   return (
-    <div id="root-add-address-modal">
+    <div id="root-update-address-modal">
       <div className="modal-overlay">
         <div className="modal-content">
           <h2 className="modal-title">Update Address</h2>
@@ -332,102 +343,136 @@ const UpdateAddressModal = ({ isOpen, onClose, onSave, address }) => {
                 </div>
               )}
 
-              {activeTab === "Region" && (
-                <select
-                  value={formData.region}
-                  onChange={handleRegionChange}
-                  className="modal-select"
-                >
-                  <option value="">Select Region</option>
-                  {regions.map((region) => (
-                    <option key={region.code} value={region.code}>
-                      {region.name}
-                    </option>
-                  ))}
-                </select>
-              )}
-
-              {activeTab === "Province" && (
-                <select
-                  value={formData.province}
-                  onChange={handleProvinceChange}
-                  className="modal-select"
-                >
-                  <option value="">Select Province</option>
-                  {provinces.map((province) => (
-                    <option key={province.code} value={province.code}>
-                      {province.name}
-                    </option>
-                  ))}
-                </select>
-              )}
-
-              {activeTab === "City" && (
-                <select
-                  value={formData.city}
-                  onChange={handleCityChange}
-                  className="modal-select"
-                >
-                  <option value="">Select City</option>
-                  {cities.map((city) => (
-                    <option key={city.code} value={city.code}>
-                      {city.name}
-                    </option>
-                  ))}
-                </select>
-              )}
-
-              {activeTab === "Barangay" && (
-                <select
-                  value={formData.barangay}
-                  onChange={handleBarangayChange}
-                  className="modal-select"
-                >
-                  <option value="">Select Barangay</option>
-                  {barangays.map((barangay) => (
-                    <option key={barangay.code} value={barangay.code}>
-                      {barangay.name}
-                    </option>
-                  ))}
-                </select>
+              {isTabVisible && (
+                <div className="tab-content">
+                  {activeTab === "Region" && (
+                    <select
+                      name="region"
+                      value={formData.region || ""}
+                      onChange={handleRegionChange}
+                      className="modal-select"
+                      required
+                      size="5"
+                    >
+                      <option value="">Select Region</option>
+                      {regions.map((region) => (
+                        <option key={region.code} value={region.code}>
+                          {region.name}
+                        </option>
+                      ))}
+                    </select>
+                  )}
+                  {activeTab === "Province" && (
+                    <select
+                      name="province"
+                      value={formData.province || ""}
+                      onChange={handleProvinceChange}
+                      className="modal-select"
+                      required
+                      size="5"
+                    >
+                      <option value="">Select Province</option>
+                      {provinces.map((province) => (
+                        <option key={province.code} value={province.code}>
+                          {province.name}
+                        </option>
+                      ))}
+                    </select>
+                  )}
+                  {activeTab === "City" && (
+                    <select
+                      name="city"
+                      value={formData.city || ""}
+                      onChange={handleCityChange}
+                      className="modal-select"
+                      required
+                      size="5"
+                    >
+                      <option value="">Select City</option>
+                      {cities.map((city) => (
+                        <option key={city.code} value={city.code}>
+                          {city.name}
+                        </option>
+                      ))}
+                    </select>
+                  )}
+                  {activeTab === "Barangay" && (
+                    <select
+                      name="barangay"
+                      value={formData.barangay || ""}
+                      onChange={handleBarangayChange}
+                      className="modal-select"
+                      required
+                      size="5"
+                    >
+                      <option value="">Select Barangay</option>
+                      {barangays.map((barangay) => (
+                        <option key={barangay.code} value={barangay.code}>
+                          {barangay.name}
+                        </option>
+                      ))}
+                    </select>
+                  )}
+                </div>
               )}
             </div>
-            <input
-              type="text"
-              name="postalCode"
-              placeholder="Postal Code"
-              value={formData.postalCode}
-              onChange={handleChange}
-              className="modal-input"
-            />
-            <div className="label-checkbox-group">
+            <div className="other-information">
               <input
                 type="text"
-                name="label"
-                placeholder="Address Label"
-                value={formData.label}
-                onChange={(e) => handleLabelChange(e.target.value)}
-                className="modal-input"
+                name="postalCode"
+                placeholder="Postal Code"
+                className="postal-code"
+                value={formData.postalCode || ""}
+                onChange={handleChange}
               />
-              <label className="modal-checkbox-label">
-                <input
-                  type="checkbox"
-                  checked={formData.isDefault}
-                  onChange={handleCheckboxChange}
-                  className="modal-checkbox"
-                />
-                Default Address
-              </label>
+
+              <input
+                type="text"
+                name="addressLine"
+                placeholder="Street Name, Building, House No."
+                className="streetname-building-house-no"
+                value={formData.addressLine || ""}
+                onChange={handleChange}
+              />
+              <div className="label-buttons">
+                <p>Label As:</p>
+                <div className="home-work-buttons">
+                  <button
+                    type="button"
+                    className={`label-button ${
+                      formData.label === "Home" ? "active" : ""
+                    }`}
+                    onClick={() => handleLabelChange("Home")}
+                  >
+                    Home
+                  </button>
+                  <button
+                    type="button"
+                    className={`label-button ${
+                      formData.label === "Work" ? "active" : ""
+                    }`}
+                    onClick={() => handleLabelChange("Work")}
+                  >
+                    Work
+                  </button>
+                </div>
+                <div className="default-checkbox">
+                  <input
+                    type="checkbox"
+                    id="default"
+                    checked={formData.isDefault}
+                    onChange={handleCheckboxChange}
+                    disabled={totalAddresses === 1}
+                  />
+                  <label htmlFor="default">Set as Default Address</label>
+                </div>
+              </div>
             </div>
             <div className="modal-buttons">
-              <button
-                type="button"
-                className="modal-cancel-button"
-                onClick={onClose}
-              >
+              <button type="button" onClick={onClose} className="cancel-button">
                 Cancel
               </button>
-              <button type="submit" className="modal-save-button">
+              <button type="submit" className="save-button">
                 Save
               </button>
             </div>

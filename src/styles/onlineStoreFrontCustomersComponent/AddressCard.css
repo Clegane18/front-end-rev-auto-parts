@@ -129,4 +129,5 @@
 
 #root-address-card .address-details .address-details-text {
   color: black;
+  text-transform: none;
 }

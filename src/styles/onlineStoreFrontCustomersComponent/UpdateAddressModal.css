@@ -134,6 +134,7 @@
   padding: 5px;
   height: 24px;
 }
+
 #root-update-address-modal .action-buttons {
   display: flex;
   justify-content: space-between;
@@ -254,6 +255,10 @@
   accent-color: #0c619b;
 }
 
+
+#root-update-address-modal .modal-content .default-checkbox input[type="checkbox"]:disabled {
+  cursor: not-allowed; /* Change cursor to not-allowed when disabled */
+}
 
 #root-update-address-modal .modal-content .default-checkbox label {
   margin: 0;
