@@ -67,7 +67,7 @@
   
   
   #root-online-cart .cart-header span {
-    font-size: 20px;
+    font-size: 18px;
     color: #333;
     text-align: center;
   }
@@ -184,6 +184,8 @@
   }
   
   #root-online-cart .cart-summary .subtotal-label {
+    font-family: 'Montserrat', serif;
+    text-transform: none;
     flex: 3;
     text-align: right;
     padding-left: 430px;

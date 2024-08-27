@@ -90,8 +90,11 @@
 }
 
 #root-items-by-category .item-name {
+  font-family: 'Montserrat', serif;
+  text-transform: none;
+  font-weight: 300;
+  font-size: 20px;
   margin: 0;
-  font-size: 18px;
   color: #333;
 }
 

@@ -109,7 +109,14 @@
   #root-online-store-front-items-by-category .item-price-container {
     width: 100%;
   }
-  
+
+  #root-online-store-front-items-by-category .item-price-container h3 {
+    font-family: 'Montserrat', serif;
+    text-transform: none;
+    font-weight: 300;
+    font-size: 20px;
+  }
+
   #root-online-store-front-items-by-category .item-name {
     margin: 0;
     font-size: 16px;

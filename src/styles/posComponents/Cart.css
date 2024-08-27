@@ -45,6 +45,8 @@
 }
 
 #root-cart .cart-header {
+  font-family: 'Montserrat', serif;
+  text-transform: none;
   display: flex;
   justify-content: space-between;
   padding: 15px;
@@ -52,8 +54,7 @@
 }
 
 #root-cart .cart-header span {
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 18px;
   color: #333;
   flex: 1;
   text-align: center;
@@ -80,6 +81,8 @@
 }
 
 #root-cart .item-name {
+  font-family: 'Montserrat', serif;
+  text-transform: none;
   font-size: 16px;
   color: #333;
 }
@@ -135,6 +138,8 @@
 }
 
 #root-cart .cart-summary .subtotal-label {
+  font-family: 'Montserrat', serif;
+  text-transform: none;
   flex: 3;
   text-align: right;
   padding-left: 340px;
