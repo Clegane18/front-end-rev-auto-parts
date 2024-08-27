@@ -46,6 +46,67 @@
   font-size: 14px;
   flex: 1;
   min-width: 0;
+  text-transform: none;
+}
+
+#pending-stock-root {
+  padding: 20px;
+  max-width: 800px;
+  margin: auto;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+#pending-stock-root .store-name {
+  margin-bottom: 20px;
+  font-size: 32px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #1A2129;
+  font-family: 'Montserrat', sans-serif;
+  text-align: center;
+}
+
+#pending-stock-root .pending-stock-form {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+#pending-stock-root .pending-stock-form .form-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+#pending-stock-root .pending-stock-form input {
+  padding: 5px;
+  font-size: 14px;
+  flex: 1;
+  min-width: 0;
+  text-transform: none;
+}
+
+#pending-stock-root .pending-stock-form .form-group .quantity-textbox {
+  width: 90px; 
+  padding: 5px;
+  font-size: 14px;
+  flex: none;
+}
+
+#pending-stock-root .pending-stock-form button {
+  padding: 8px 15px;
+  background-color: #0c619b;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
 }
 
 #pending-stock-root .pending-stock-form button {
@@ -136,20 +197,20 @@
   z-index: 1000;
   max-height: 150px;
   overflow-y: auto;
-  width: 17%;
+  width: 21.4%;
   margin-top: 33px;
 }
 
 #pending-stock-root .suggestion-item {
   padding: 8px;
   cursor: pointer;
+  font-family: 'Montserrat', serif;
+  text-transform: none;
 }
 
 #pending-stock-root .suggestion-item:hover {
   background-color: #f0f0f0;
 }
-
-
 
 /* Responsive adjustments */
 @media (max-width: 768px) {

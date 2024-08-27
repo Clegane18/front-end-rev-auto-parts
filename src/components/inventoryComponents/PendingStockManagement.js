@@ -187,6 +187,7 @@ const PendingStockManagement = () => {
               type="number"
               placeholder="Quantity"
               value={newPendingStock.quantity}
+              className="quantity-textbox"
               onChange={(e) =>
                 setNewPendingStock({
                   ...newPendingStock,
