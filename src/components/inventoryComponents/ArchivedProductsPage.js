@@ -24,6 +24,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import logo from "../../assets/g&f-logo.png";
 import { useNavigate } from "react-router-dom";
+import ConfirmRestoreModal from "./ConfirmRestoreModal";
 
 const ArchivedProductsPage = () => {
   const [archivedProducts, setArchivedProducts] = useState([]);
@@ -31,6 +32,7 @@ const ArchivedProductsPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [showProductDetailsModal, setShowProductDetailsModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [deleteProduct, setDeleteProduct] = useState(null);
@@ -42,6 +44,7 @@ const ArchivedProductsPage = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [warningMessage, setWarningMessage] = useState("");
   const [sortOrder, setSortOrder] = useState("ASC");
+  const [showConfirmRestoreModal, setShowConfirmRestoreModal] = useState(false);
 
   const navigate = useNavigate();
 
@@ -66,15 +69,25 @@ const ArchivedProductsPage = () => {
     loadArchivedProducts();
   }, [loadArchivedProducts]);
 
-  const handleRestoreProduct = async (productId) => {
+  const handleRestoreProduct = async () => {
     try {
-      await restoreArchivedProductById(productId);
-      setSuccessMessage(`Product with ID ${productId} successfully restored.`);
+      await restoreArchivedProductById(selectedProduct.id);
+      setSuccessMessage(
+        `Product ${selectedProduct.name} successfully restored.`
+      );
       setShowSuccessModal(true);
+      setShowConfirmRestoreModal(false);
       loadArchivedProducts();
     } catch (err) {
       setError(err.message);
+      setShowConfirmRestoreModal(false);
     }
+  };
+
+  const handleRestoreClick = (product) => {
+    setSelectedProduct(product);
+    setShowConfirmRestoreModal(true);
+    setShowProductDetailsModal(false);
   };
 
   const handleRestoreMultiple = async () => {
@@ -90,6 +103,10 @@ const ArchivedProductsPage = () => {
   };
 
   const handleRestoreAll = () => {
+    if (archivedProducts.length === 0) {
+      setWarningMessage("There are no archived products to restore.");
+      return;
+    }
     setShowRestoreAllConfirmModal(true);
   };
 
@@ -141,9 +158,12 @@ const ArchivedProductsPage = () => {
 
   const handleViewDetails = (product) => {
     setSelectedProduct(product);
+    setShowProductDetailsModal(true);
+    setShowConfirmRestoreModal(false);
   };
 
   const handleCloseModal = () => {
+    setShowProductDetailsModal(false);
     setSelectedProduct(null);
   };
 
@@ -245,9 +265,7 @@ const ArchivedProductsPage = () => {
                         <button onClick={() => handleViewDetails(product)}>
                           <FontAwesomeIcon icon={faEye} /> View
                         </button>
-                        <button
-                          onClick={() => handleRestoreProduct(product.id)}
-                        >
+                        <button onClick={() => handleRestoreClick(product)}>
                           <FontAwesomeIcon icon={faTrashRestore} /> Restore
                         </button>
                         <button onClick={() => handleDeleteProduct(product)}>
@@ -268,7 +286,7 @@ const ArchivedProductsPage = () => {
           onClose={() => setWarningMessage("")}
         />
       )}
-      {selectedProduct && (
+      {showProductDetailsModal && selectedProduct && (
         <ProductDetailsInArchivedPage
           product={selectedProduct}
           onClose={handleCloseModal}
@@ -305,6 +323,15 @@ const ArchivedProductsPage = () => {
           confirmInput={confirmInput}
           setConfirmInput={setConfirmInput}
           errorMessage={errorMessage}
+        />
+      )}
+      {showConfirmRestoreModal && selectedProduct && (
+        <ConfirmRestoreModal
+          product={selectedProduct}
+          onClose={() => setShowConfirmRestoreModal(false)}
+          onConfirm={handleRestoreProduct}
+          errorMessage={errorMessage}
+          clearErrorMessage={clearErrorMessage}
         />
       )}
       {showRestoreAllConfirmModal && (

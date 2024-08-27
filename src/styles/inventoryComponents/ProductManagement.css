@@ -85,12 +85,12 @@
   padding: 0 1rem 1rem 1rem; 
   border-radius: 8px; 
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); 
-
 }
 
 #root-product-management .product-table {
   width: 100%;
   border-collapse: collapse;
+  /* table-layout: fixed; This will make columns of fixed width */
   margin-top: 1rem;
 }
 
