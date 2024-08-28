@@ -26,6 +26,7 @@ import RequestResetPasswordPage from "./components/onlineStoreFrontCustomersComp
 import ResetPasswordPage from "./components/onlineStoreFrontCustomersComponent/ResetPasswordPage";
 import CustomerProfilePage from "./components/onlineStoreFrontCustomersComponent/CustomerProfilePage";
 import ArchivedProductsPage from "./components/inventoryComponents/ArchivedProductsPage";
+import OnlineCheckout from "./components/onlineStoreFrontComponents/OnlineCheckout";
 
 const App = () => {
   const { authToken, login } = useAuthentication();
@@ -132,7 +133,12 @@ const App = () => {
                   )
                 }
               />
-
+              <Route
+                path="/online-checkout"
+                element={
+                  authToken ? <OnlineCheckout /> : <Navigate to="/login" />
+                }
+              />
               <Route
                 path="*"
                 element={<Navigate to={authToken ? "/dashboard" : "/login"} />}

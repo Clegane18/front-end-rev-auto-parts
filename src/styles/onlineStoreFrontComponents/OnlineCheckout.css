@@ -1,0 +1,66 @@
+.checkout-page {
+    width: 80%;
+    margin: 0 auto;
+  }
+  
+  .delivery-address,
+  .products-ordered,
+  .order-summary {
+    margin-bottom: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  h2 {
+    margin-bottom: 10px;
+  }
+  
+  .product-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .product-details {
+    display: flex;
+    align-items: center;
+  }
+  
+  .product-image {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+  }
+  
+  .product-info {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .product-quantity,
+  .product-subtotal {
+    width: 50px;
+    text-align: center;
+  }
+  
+  .order-summary-details p,
+  .order-summary-details h3 {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .change-address-button,
+  .change-payment-button,
+  .place-order-button {
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #ff6600;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  

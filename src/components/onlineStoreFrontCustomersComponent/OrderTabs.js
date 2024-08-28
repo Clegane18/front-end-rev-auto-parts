@@ -4,14 +4,7 @@ import "../../styles/onlineStoreFrontCustomersComponent/OrderTabs.css";
 const OrderTabs = () => {
   const [activeTab, setActiveTab] = useState("All");
 
-  const tabs = [
-    "All",
-    "To Pay",
-    "To Ship",
-    "To Receive",
-    "Completed",
-    "Cancelled",
-  ];
+  const tabs = ["All", "To Pay", "To Ship", "To Receive", "Completed"];
 
   return (
     <div id="root-order-tabs">
@@ -36,9 +29,6 @@ const OrderTabs = () => {
           )}
           {activeTab === "Completed" && (
             <div>Completed orders content here</div>
-          )}
-          {activeTab === "Cancelled" && (
-            <div>Cancelled orders content here</div>
           )}
         </div>
       </div>

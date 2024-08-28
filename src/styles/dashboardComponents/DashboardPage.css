@@ -449,7 +449,7 @@ body {
   align-items: center;
   padding: 10px 20px;
   margin: 10px;
-  background-color: #0c619b;
+  background-color: #B22222;
   color: white;
   border: none;
   border-radius: 5px;
@@ -472,5 +472,5 @@ body {
 }
 
 #root-dashboard-page .report-button:active {
-  background-color: #0a4f80;
+  background-color: #3f0808;
 }

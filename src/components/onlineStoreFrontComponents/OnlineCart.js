@@ -18,7 +18,7 @@ const OnlineCart = () => {
 
   const handlePay = () => {
     const validItems = cartItems.filter((item) => item.quantity > 0);
-    navigate("/checkout", { state: { items: validItems } });
+    navigate("/online-checkout", { state: { items: validItems } });
   };
 
   const handleGoToOnline = () => {

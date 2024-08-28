@@ -108,12 +108,16 @@
     text-align: center;
     background-color: #f1f1f1;
     border-bottom: 2px solid #ddd;
+    font-family: 'Montserrat', serif;
+    text-transform: none;
 }
 
 #root-upload-products .products-table td {
     padding: 12px;
     text-align: center;
     border-bottom: 1px solid #ddd;
+    font-family: 'Montserrat', serif;
+    text-transform: none;
 }
 
 #root-upload-products .error-message {
