@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 const AuthContext = createContext();
 
@@ -10,12 +11,17 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
 
   const login = (user, authToken) => {
+    const decodedToken = jwtDecode(authToken);
     setIsAuthenticated(true);
-    setCurrentUser(user);
+    setCurrentUser({
+      id: decodedToken.id,
+      username: decodedToken.username,
+      email: decodedToken.email,
+      defaultAddressId: decodedToken.defaultAddressId,
+    });
     setToken(authToken);
     navigate("/online-store");
   };
-
   const logout = () => {
     setIsAuthenticated(false);
     setCurrentUser(null);
