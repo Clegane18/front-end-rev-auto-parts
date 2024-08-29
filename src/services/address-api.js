@@ -135,7 +135,13 @@ export const getAddresses = async (token) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    return response.data;
+
+    if (response.data && Array.isArray(response.data.data)) {
+      return response.data.data;
+    } else {
+      console.error("Unexpected response format:", response.data);
+      return [];
+    }
   } catch (error) {
     console.error(
       "Error in getAddresses:",
@@ -172,6 +178,33 @@ export const setDefaultAddress = async ({ addressId, customerId, token }) => {
       throw new Error(error.response.data.message);
     } else {
       throw new Error("Failed to set default address. Please try again later.");
+    }
+  }
+};
+
+export const getAddressById = async ({ addressId, token }) => {
+  try {
+    const response = await api.post(
+      `/address-details/${addressId}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Error in getAddressById:",
+      error.response ? error.response.data : error.message
+    );
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(
+        "Failed to retrieve address details. Please try again later."
+      );
     }
   }
 };

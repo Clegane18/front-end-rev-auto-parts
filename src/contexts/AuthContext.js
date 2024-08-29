@@ -22,6 +22,7 @@ export const AuthProvider = ({ children }) => {
     setToken(authToken);
     navigate("/online-store");
   };
+
   const logout = () => {
     setIsAuthenticated(false);
     setCurrentUser(null);
@@ -29,9 +30,23 @@ export const AuthProvider = ({ children }) => {
     navigate("/customer-login");
   };
 
+  const updateUserContext = (newData) => {
+    setCurrentUser((prevUser) => ({
+      ...prevUser,
+      ...newData,
+    }));
+  };
+
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, currentUser, token, login, logout }}
+      value={{
+        isAuthenticated,
+        currentUser,
+        token,
+        login,
+        logout,
+        updateUserContext,
+      }}
     >
       {children}
     </AuthContext.Provider>

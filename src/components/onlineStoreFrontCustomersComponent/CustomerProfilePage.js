@@ -7,14 +7,14 @@ import {
 } from "../../services/online-store-front-customer-api";
 import OnlineStoreFrontHeader from "../onlineStoreFrontComponents/OnlineStoreFrontHeader";
 import Sidebar from "./Sidebar";
-import OrderTabs from "./OrderTabs"; // Importing OrderTabs component
+import OrderTabs from "./OrderTabs";
 import "../../styles/onlineStoreFrontCustomersComponent/CustomerProfilePage.css";
 import { months, days, years } from "../../utils/dates";
 import SuccessModal from "../SuccessModal";
 import AddressCard from "./AddressCard";
 
 const CustomerProfilePage = () => {
-  const { currentUser } = useAuth();
+  const { currentUser, token } = useAuth();
   const [profile, setProfile] = useState({
     username: "",
     phoneNumber: "",
@@ -33,13 +33,10 @@ const CustomerProfilePage = () => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   useEffect(() => {
-    if (currentUser) {
+    if (currentUser && token) {
       const fetchProfile = async () => {
         try {
-          const result = await getCustomerProfile(
-            currentUser.id,
-            currentUser.token
-          );
+          const result = await getCustomerProfile(currentUser.id, token);
           if (result && result.data) {
             const { username, phoneNumber, gender, dateOfBirth } = result.data;
             setProfile({
@@ -70,7 +67,7 @@ const CustomerProfilePage = () => {
     } else {
       setLoading(false);
     }
-  }, [currentUser]);
+  }, [currentUser, token]);
 
   const handleSave = async () => {
     try {
@@ -79,7 +76,7 @@ const CustomerProfilePage = () => {
         username: profile.username,
         phoneNumber: profile.phoneNumber,
         gender: profile.gender,
-        token: currentUser.token,
+        token: token,
         dateOfBirth:
           profile.dateOfBirth.year &&
           profile.dateOfBirth.month &&

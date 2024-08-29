@@ -28,8 +28,8 @@ const AddressCard = () => {
     const fetchAddresses = async () => {
       try {
         if (token) {
-          const response = await getAddresses(token);
-          setAddresses(response.data);
+          const addressesData = await getAddresses(token);
+          setAddresses(addressesData);
           setError(null);
         }
       } catch (error) {
