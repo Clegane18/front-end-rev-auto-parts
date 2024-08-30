@@ -6,7 +6,12 @@ import {
   getBarangays,
 } from "../../services/location-api";
 import "../../styles/onlineStoreFrontCustomersComponent/AddAddressModal.css";
-import { FaChevronDown, FaChevronRight, FaTimes } from "react-icons/fa";
+import {
+  FaChevronDown,
+  FaChevronRight,
+  FaTimes,
+  FaSpinner,
+} from "react-icons/fa";
 
 const AddAddressModal = ({ isOpen, onClose, onSave, isFirstAddress }) => {
   const [formData, setFormData] = useState({
@@ -34,32 +39,45 @@ const AddAddressModal = ({ isOpen, onClose, onSave, isFirstAddress }) => {
   const [barangays, setBarangays] = useState([]);
   const [activeTab, setActiveTab] = useState("Region");
   const [isTabVisible, setIsTabVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
-      getRegions().then(setRegions).catch(console.error);
+      setIsLoading(true);
+      getRegions()
+        .then(setRegions)
+        .catch(console.error)
+        .finally(() => setIsLoading(false));
     }
   }, [isOpen]);
 
   useEffect(() => {
     if (formData.region) {
+      setIsLoading(true);
       getProvincesOrCities(formData.region)
         .then(setProvinces)
-        .catch(console.error);
+        .catch(console.error)
+        .finally(() => setIsLoading(false));
     }
   }, [formData.region]);
 
   useEffect(() => {
     if (formData.province) {
+      setIsLoading(true);
       getCitiesAndMunicipalities(formData.province)
         .then(setCities)
-        .catch(console.error);
+        .catch(console.error)
+        .finally(() => setIsLoading(false));
     }
   }, [formData.province]);
 
   useEffect(() => {
     if (formData.city) {
-      getBarangays(formData.city).then(setBarangays).catch(console.error);
+      setIsLoading(true);
+      getBarangays(formData.city)
+        .then(setBarangays)
+        .catch(console.error)
+        .finally(() => setIsLoading(false));
     }
   }, [formData.city]);
 
@@ -168,6 +186,7 @@ const AddAddressModal = ({ isOpen, onClose, onSave, isFirstAddress }) => {
       setFormData((prevData) => ({ ...prevData, isDefault: e.target.checked }));
     }
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const formDataWithNames = {
@@ -184,6 +203,7 @@ const AddAddressModal = ({ isOpen, onClose, onSave, isFirstAddress }) => {
   const toggleTabVisibility = () => {
     setIsTabVisible(!isTabVisible);
   };
+
   const clearLocation = () => {
     setFormData({
       ...formData,
@@ -317,72 +337,108 @@ const AddAddressModal = ({ isOpen, onClose, onSave, isFirstAddress }) => {
               {isTabVisible && (
                 <div className="tab-content">
                   {activeTab === "Region" && (
-                    <select
-                      name="region"
-                      value={formData.region || ""}
-                      onChange={handleRegionChange}
-                      className="modal-select"
-                      required
-                      size="5"
-                    >
-                      <option value="">Select Region</option>
-                      {regions.map((region) => (
-                        <option key={region.code} value={region.code}>
-                          {region.name}
-                        </option>
-                      ))}
-                    </select>
+                    <div className="select-wrapper">
+                      {isLoading ? (
+                        <div className="loading-wrapper">
+                          Loading regions...{" "}
+                          <FaSpinner className="loading-icon" />
+                        </div>
+                      ) : (
+                        <select
+                          name="region"
+                          value={formData.region || ""}
+                          onChange={handleRegionChange}
+                          className="modal-select"
+                          required
+                          size="5"
+                        >
+                          <option value="">Select Region</option>
+                          {regions.map((region) => (
+                            <option key={region.code} value={region.code}>
+                              {region.name}
+                            </option>
+                          ))}
+                        </select>
+                      )}
+                    </div>
                   )}
                   {activeTab === "Province" && (
-                    <select
-                      name="province"
-                      value={formData.province || ""}
-                      onChange={handleProvinceChange}
-                      className="modal-select"
-                      required
-                      size="5"
-                    >
-                      <option value="">Select Province</option>
-                      {provinces.map((province) => (
-                        <option key={province.code} value={province.code}>
-                          {province.name}
-                        </option>
-                      ))}
-                    </select>
+                    <div className="select-wrapper">
+                      {isLoading ? (
+                        <div className="loading-wrapper">
+                          Loading provinces...{" "}
+                          <FaSpinner className="loading-icon" />
+                        </div>
+                      ) : (
+                        <select
+                          name="province"
+                          value={formData.province || ""}
+                          onChange={handleProvinceChange}
+                          className="modal-select"
+                          required
+                          size="5"
+                        >
+                          <option value="">Select Province</option>
+                          {provinces.map((province) => (
+                            <option key={province.code} value={province.code}>
+                              {province.name}
+                            </option>
+                          ))}
+                        </select>
+                      )}
+                    </div>
                   )}
                   {activeTab === "City" && (
-                    <select
-                      name="city"
-                      value={formData.city || ""}
-                      onChange={handleCityChange}
-                      className="modal-select"
-                      required
-                      size="5"
-                    >
-                      <option value="">Select City</option>
-                      {cities.map((city) => (
-                        <option key={city.code} value={city.code}>
-                          {city.name}
-                        </option>
-                      ))}
-                    </select>
+                    <div className="select-wrapper">
+                      {isLoading ? (
+                        <div className="loading-wrapper">
+                          Loading cities...{" "}
+                          <FaSpinner className="loading-icon" />
+                        </div>
+                      ) : (
+                        <select
+                          name="city"
+                          value={formData.city || ""}
+                          onChange={handleCityChange}
+                          className="modal-select"
+                          required
+                          size="5"
+                        >
+                          <option value="">Select City</option>
+                          {cities.map((city) => (
+                            <option key={city.code} value={city.code}>
+                              {city.name}
+                            </option>
+                          ))}
+                        </select>
+                      )}
+                    </div>
                   )}
                   {activeTab === "Barangay" && (
-                    <select
-                      name="barangay"
-                      value={formData.barangay || ""}
-                      onChange={handleBarangayChange}
-                      className="modal-select"
-                      required
-                      size="5"
-                    >
-                      <option value="">Select Barangay</option>
-                      {barangays.map((barangay) => (
-                        <option key={barangay.code} value={barangay.code}>
-                          {barangay.name}
-                        </option>
-                      ))}
-                    </select>
+                    <div className="select-wrapper">
+                      {isLoading ? (
+                        <div className="loading-wrapper">
+                          Loading barangays...{" "}
+                          <FaSpinner className="loading-icon" />
+                        </div>
+                      ) : (
+                        <select
+                          name="barangay"
+                          value={formData.barangay || ""}
+                          onChange={handleBarangayChange}
+                          className="modal-select"
+                          required
+                          size="5"
+                        >
+                          <option value="">Select Barangay</option>
+                          {barangays.map((barangay) => (
+                            <option key={barangay.code} value={barangay.code}>
+                              {barangay.name}
+                            </option>
+                          ))}
+                        </select>
+                      )}
+                    </div>
                   )}
                 </div>
               )}

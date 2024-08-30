@@ -16,7 +16,7 @@
     background: #fff;
     padding: 30px;
     width: 517px;
-    height: 600px;
+    height: 88vh;
     border-radius: 12px;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
     z-index: 1001;
@@ -277,5 +277,34 @@
     background-color: #FFFFFF;
     border: 1px solid black;
     border-radius: 4px; 
+  }
+  
+  #root-add-address-modal .loading-icon {
+    animation: spin 1s linear infinite;
+    margin-left: 5px;
+  }
+  
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  #root-add-address-modal .select-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  #root-add-address-modal .loading-wrapper {
+    font-family: 'Montserrat', serif;
+    text-transform: none;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    margin: 10px 0;
   }
   
