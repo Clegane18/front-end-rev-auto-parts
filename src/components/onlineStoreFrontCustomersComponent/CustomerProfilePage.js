@@ -112,9 +112,7 @@ const CustomerProfilePage = () => {
           {selectedMenu === "Profile" && (
             <>
               <h1>My Profile</h1>
-              {/* Profile form */}
               <div className="profile-form">
-                {/* Form content */}
                 <div>
                   <label>Username</label>
                   <input
@@ -252,7 +250,6 @@ const CustomerProfilePage = () => {
             <>
               <h1>My Purchases</h1>
               <OrderTabs />{" "}
-              {/* Render OrderTabs when "MyPurchase" is selected */}
             </>
           )}
         </div>

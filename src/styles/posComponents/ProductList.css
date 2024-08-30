@@ -1,7 +1,7 @@
 #root-product-list .product-list {
   position: absolute;
   top: 60px !important; 
-  right: 388px !important; 
+  right: 400px !important; 
   width: 598px !important; 
   display: flex !important;
   flex-direction: column;

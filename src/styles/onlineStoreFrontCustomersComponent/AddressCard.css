@@ -64,8 +64,9 @@
   border: 1px solid #0c619b;
 }
 
-
-
+#root-address-card .add-address-icon {
+  margin-right: 5px;
+}
 
 #root-address-card .add-address-button {
   display: flex;

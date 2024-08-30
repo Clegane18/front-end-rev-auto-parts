@@ -20,28 +20,28 @@ export const getRegions = async () => {
   }
 };
 
-export const getProvinces = async (regionCode) => {
+export const getProvincesOrCities = async (regionCode) => {
   try {
     const response = await api.get(
-      `/locations/provinces?regionCode=${regionCode}`
+      `/locations/provinces-or-cities?regionCode=${regionCode}`
     );
     return response.data.data;
   } catch (error) {
     console.error(
-      "Error in getProvinces:",
+      "Error in getProvincesOrCities:",
       error.response ? error.response.data : error.message
     );
     throw new Error(
       error.response?.data?.message ||
-        "Failed to get provinces. Please try again later."
+        "Failed to get provinces or cities. Please try again later."
     );
   }
 };
 
-export const getCitiesAndMunicipalities = async (provinceCode) => {
+export const getCitiesAndMunicipalities = async (provinceOrCityCode) => {
   try {
     const response = await api.get(
-      `/locations/cities-municipalities?provinceCode=${provinceCode}`
+      `/locations/cities-municipalities?provinceOrCityCode=${provinceOrCityCode}`
     );
     return response.data.data;
   } catch (error) {
@@ -56,11 +56,17 @@ export const getCitiesAndMunicipalities = async (provinceCode) => {
   }
 };
 
-export const getBarangays = async (municipalityCode) => {
+export const getBarangays = async (
+  municipalityOrCityCode,
+  regionCode = null
+) => {
   try {
-    const response = await api.get(
-      `/locations/barangays?municipalityCode=${municipalityCode}`
-    );
+    const queryParams = regionCode
+      ? `municipalityOrCityCode=${municipalityOrCityCode}&regionCode=${regionCode}`
+      : `municipalityOrCityCode=${municipalityOrCityCode}`;
+
+    const response = await api.get(`/locations/barangays?${queryParams}`);
+
     return response.data.data;
   } catch (error) {
     console.error(

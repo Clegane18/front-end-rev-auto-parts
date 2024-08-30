@@ -75,11 +75,13 @@
   
   #root-add-address-modal .arrow-icon {
     position: absolute;
-    right: 10px;
+    right: 8px;
     top: 50%;
     transform: translateY(-50%);
     pointer-events: none;
     transition: transform 0.3s ease;
+    color: #999999;
+    height: 16px;
   }
   
   #root-add-address-modal .arrow-icon.closed {
@@ -162,15 +164,15 @@
   
   #root-add-address-modal .address-selector .address-display-wrapper .clear-icon {
     position: absolute;
-    right: 35px;
+    right: 25px;
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
-    color: #333333;
+    color: #999999;
     z-index: 101;
   }
   
-  .other-information {
+  #root-add-address-modal .other-information {
     display: flex;
     flex-direction: column;
     position: relative; 

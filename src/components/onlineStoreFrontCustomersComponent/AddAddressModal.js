@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
   getRegions,
-  getProvinces,
+  getProvincesOrCities,
   getCitiesAndMunicipalities,
   getBarangays,
 } from "../../services/location-api";
@@ -43,7 +43,9 @@ const AddAddressModal = ({ isOpen, onClose, onSave, isFirstAddress }) => {
 
   useEffect(() => {
     if (formData.region) {
-      getProvinces(formData.region).then(setProvinces).catch(console.error);
+      getProvincesOrCities(formData.region)
+        .then(setProvinces)
+        .catch(console.error);
     }
   }, [formData.region]);
 
