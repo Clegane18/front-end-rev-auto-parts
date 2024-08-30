@@ -10,6 +10,7 @@ import {
   deleteAddress,
   setDefaultAddress,
   updateAddress,
+  getAddressById,
 } from "../../services/address-api";
 import { useAuth } from "../../contexts/AuthContext";
 
@@ -21,7 +22,7 @@ const AddressCard = () => {
   const [selectedAddressId, setSelectedAddressId] = useState(null);
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [error, setError] = useState(null);
-  const { currentUser, token } = useAuth();
+  const { currentUser, token, updateUserContext } = useAuth();
   const userId = currentUser ? currentUser.id : null;
 
   const fetchAddresses = useCallback(async () => {
@@ -51,13 +52,19 @@ const AddressCard = () => {
       if (!userId || !token) {
         throw new Error("User ID or token is not available");
       }
-      await addAddress({
+      const response = await addAddress({
         id: userId,
         token,
         ...formData,
       });
+
       setModalOpen(false);
       setError(null);
+
+      if (response.address && response.address.isSetDefaultAddress) {
+        updateUserContext({ defaultAddressId: response.address.id });
+      }
+
       fetchAddresses();
     } catch (error) {
       console.error("Failed to add address:", error.message);
@@ -70,16 +77,25 @@ const AddressCard = () => {
       if (!userId || !token || !selectedAddressId) {
         throw new Error("User ID, token, or address ID is not available");
       }
-      await updateAddress({
+      const response = await updateAddress({
         addressId: selectedAddressId,
         customerId: userId,
         token,
         ...formData,
       });
+
       setUpdateModalOpen(false);
       setSelectedAddressId(null);
       setSelectedAddress(null);
       setError(null);
+
+      if (
+        response.updatedAddress &&
+        response.updatedAddress.isSetDefaultAddress
+      ) {
+        updateUserContext({ defaultAddressId: response.updatedAddress.id });
+      }
+
       fetchAddresses();
     } catch (error) {
       console.error("Failed to update address:", error.message);
@@ -90,6 +106,12 @@ const AddressCard = () => {
   const handleSetAsDefault = async (id) => {
     try {
       await setDefaultAddress({ addressId: id, customerId: userId, token });
+      const updatedDefaultAddress = await getAddressById({
+        addressId: id,
+        token,
+      });
+      updateUserContext({ defaultAddressId: updatedDefaultAddress.data.id });
+
       fetchAddresses();
     } catch (error) {
       console.error("Failed to set default address:", error.message);
@@ -189,6 +211,7 @@ const AddressCard = () => {
                       <button
                         className="delete-button"
                         onClick={() => handleDeleteAddressClick(address.id)}
+                        disabled={address.isSetDefaultAddress}
                       >
                         <FaTrash className="action-icon" /> Delete
                       </button>
@@ -209,7 +232,6 @@ const AddressCard = () => {
           onClose={() => setUpdateModalOpen(false)}
           onSave={handleUpdateAddress}
           address={selectedAddress}
-          totalAddresses={addresses.length}
         />
         <DeleteConfirmationModal
           isOpen={isDeleteModalOpen}

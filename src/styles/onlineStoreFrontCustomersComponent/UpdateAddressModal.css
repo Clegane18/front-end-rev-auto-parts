@@ -80,6 +80,7 @@
   transform: translateY(-50%);
   pointer-events: none;
   transition: transform 0.3s ease;
+  color: #999999
 }
 
 #root-update-address-modal .arrow-icon.closed {
@@ -166,7 +167,7 @@
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
-  color: #333333;
+  color: #999999;
   z-index: 101;
 }
 
@@ -255,9 +256,9 @@
   accent-color: #0c619b;
 }
 
-
 #root-update-address-modal .modal-content .default-checkbox input[type="checkbox"]:disabled {
-  cursor: not-allowed; /* Change cursor to not-allowed when disabled */
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 #root-update-address-modal .modal-content .default-checkbox label {
@@ -309,3 +310,7 @@
   font-size: 14px;
   margin: 10px 0;
 }
+
+
+
+

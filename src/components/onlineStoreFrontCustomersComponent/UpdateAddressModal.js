@@ -13,13 +13,7 @@ import {
   FaSpinner,
 } from "react-icons/fa";
 
-const UpdateAddressModal = ({
-  isOpen,
-  onClose,
-  onSave,
-  address,
-  totalAddresses,
-}) => {
+const UpdateAddressModal = ({ isOpen, onClose, onSave, address }) => {
   const [formData, setFormData] = useState({
     fullName: "",
     phoneNumber: "",
@@ -519,7 +513,8 @@ const UpdateAddressModal = ({
                     id="default"
                     checked={formData.isDefault}
                     onChange={handleCheckboxChange}
-                    disabled={totalAddresses === 1}
+                    disabled
+                    title="The default address cannot be un-selected. You can set another address as default address instead"
                   />
                   <label htmlFor="default">Set as Default Address</label>
                 </div>
