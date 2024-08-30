@@ -79,3 +79,22 @@ export const getBarangays = async (
     );
   }
 };
+
+export const checkMetroManilaStatus = async (region, city) => {
+  try {
+    const response = await api.post("/locations/check-metro-manila", {
+      region,
+      city,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Error in checkMetroManilaStatus:",
+      error.response ? error.response.data : error.message
+    );
+    throw new Error(
+      error.response?.data?.message ||
+        "Failed to check Metro Manila status. Please try again later."
+    );
+  }
+};

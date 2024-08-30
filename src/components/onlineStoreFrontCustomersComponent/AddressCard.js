@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "../../styles/onlineStoreFrontCustomersComponent/AddressCard.css";
 import { FaPlus, FaTrash, FaEdit, FaCheck } from "react-icons/fa";
 import AddAddressModal from "./AddAddressModal";
@@ -24,23 +24,23 @@ const AddressCard = () => {
   const { currentUser, token } = useAuth();
   const userId = currentUser ? currentUser.id : null;
 
-  useEffect(() => {
-    const fetchAddresses = async () => {
-      try {
-        if (token) {
-          const addressesData = await getAddresses(token);
-          setAddresses(addressesData);
-          setError(null);
-        }
-      } catch (error) {
-        setError(error.message);
-        setAddresses([]);
-        console.error("Failed to fetch addresses:", error.message);
+  const fetchAddresses = useCallback(async () => {
+    try {
+      if (token) {
+        const addressesData = await getAddresses(token);
+        setAddresses(addressesData);
+        setError(null);
       }
-    };
-
-    fetchAddresses();
+    } catch (error) {
+      setError(error.message);
+      setAddresses([]);
+      console.error("Failed to fetch addresses:", error.message);
+    }
   }, [token]);
+
+  useEffect(() => {
+    fetchAddresses();
+  }, [fetchAddresses]);
 
   const handleAddNewAddress = () => {
     setModalOpen(true);
@@ -51,14 +51,14 @@ const AddressCard = () => {
       if (!userId || !token) {
         throw new Error("User ID or token is not available");
       }
-      const newAddress = await addAddress({
+      await addAddress({
         id: userId,
         token,
         ...formData,
       });
-      setAddresses([...addresses, newAddress.address]);
       setModalOpen(false);
       setError(null);
+      fetchAddresses();
     } catch (error) {
       console.error("Failed to add address:", error.message);
       setError(error.message);
@@ -70,23 +70,17 @@ const AddressCard = () => {
       if (!userId || !token || !selectedAddressId) {
         throw new Error("User ID, token, or address ID is not available");
       }
-      const updatedAddress = await updateAddress({
+      await updateAddress({
         addressId: selectedAddressId,
         customerId: userId,
         token,
         ...formData,
       });
-      setAddresses(
-        addresses.map((address) =>
-          address.id === selectedAddressId
-            ? updatedAddress.updatedAddress
-            : address
-        )
-      );
       setUpdateModalOpen(false);
       setSelectedAddressId(null);
       setSelectedAddress(null);
       setError(null);
+      fetchAddresses();
     } catch (error) {
       console.error("Failed to update address:", error.message);
       setError(error.message);
@@ -96,15 +90,9 @@ const AddressCard = () => {
   const handleSetAsDefault = async (id) => {
     try {
       await setDefaultAddress({ addressId: id, customerId: userId, token });
-
-      const updatedAddresses = addresses.map((address) => ({
-        ...address,
-        isSetDefaultAddress: address.id === id,
-      }));
-      setAddresses(updatedAddresses);
+      fetchAddresses();
     } catch (error) {
       console.error("Failed to set default address:", error.message);
-      // Optionally, handle the error (show a notification to the user)
     }
   };
 
@@ -132,12 +120,10 @@ const AddressCard = () => {
         token,
       });
 
-      setAddresses(
-        addresses.filter((address) => address.id !== selectedAddressId)
-      );
       setDeleteModalOpen(false);
       setSelectedAddressId(null);
       setError(null);
+      fetchAddresses();
     } catch (error) {
       console.error("Failed to delete address:", error.message);
       setError(error.message);
@@ -166,7 +152,8 @@ const AddressCard = () => {
                 >
                   <div className="address-details">
                     <p className="address-details-text">
-                      <strong>{address.fullName}</strong> |{address.phoneNumber}
+                      <strong>{address.fullName}</strong> |{" "}
+                      {address.phoneNumber}
                     </p>
                     {address.addressLine && (
                       <p className="address-details-text">
