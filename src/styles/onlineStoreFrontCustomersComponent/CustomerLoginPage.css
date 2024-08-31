@@ -1,4 +1,3 @@
-
 #root-customer-login-page .login-container {
   width: 100%;
   max-width: 400px;
@@ -138,4 +137,3 @@
 #root-customer-login-page .password-toggle-button:focus {
   outline: none;
 }
-

@@ -1,12 +1,19 @@
-#root-address-card .address-card-container {
-  padding: 20px;
-}
 
 #root-address-card .address-card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  position: sticky; 
+  top: 0; 
+  background-color: #ffffff;  
+  z-index: 100;  
+  padding: 10px 20px;  
+}
+
+#root-address-card .address-card-container {
+  overflow-y: auto; 
+  max-height: 550px; 
 }
 
 #root-address-card .address-card {
