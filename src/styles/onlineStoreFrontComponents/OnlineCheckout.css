@@ -1,120 +1,232 @@
-.checkout-container {
-  max-width: 800px;
+#root-online-checkout .checkout-container {
+  max-width: 1000px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #fff;
+  background-color: #FFFFFF; 
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.checkout-header {
+#root-online-checkout .checkout-header {
   display: flex;
   align-items: center;
   border-bottom: 1px solid #ddd;
   padding: 10px 0;
   margin-bottom: 20px;
+  background-color: #1D2B3A;
 }
 
-.shop-logo {
-  width: 165px;
-  height: auto;
+#shop-logo {
+  width: 180px;
   margin-right: 10px;
 }
+#root-online-checkout .space-between-phoneNo-and-addr {
+  padding-right: 5px;
+}
 
-.divider {
-  width: 1px;
+#root-online-checkout .divider {
+  width: 2px;
   height: 30px;
-  background-color: #ff5722;
+  background-color: #B22222;
   margin-right: 10px;
 }
 
-.checkout-title {
+#root-online-checkout .checkout-title {
   font-size: 24px;
-  font-weight: bold;
-  color: #ff5722; 
+  font-weight: 300;
+  color: #ffffff;
+  font-family: 'Montserrat', serif;
 }
 
-.error-message {
+#root-online-checkout .error-message {
   color: red;
   font-size: 14px;
 }
 
-.success-message {
+#root-online-checkout .success-message {
   color: green;
   font-size: 14px;
 }
 
-.delivery-address-section {
-  margin-bottom: 20px;
+#root-online-checkout .delivery-address-section p {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
-.delivery-address-title {
+#root-online-checkout .delivery-address-title {
   font-size: 18px;
   font-weight: bold;
-  color: #ff5722;
+  color: #c82333;
   display: flex;
   align-items: center;
 }
 
-.delivery-icon {
+#root-online-checkout .delivery-icon {
   margin-right: 8px;
   font-size: 20px;
-  color: #ff5722; 
+  color: #c82333;
 }
 
-.default-tag {
-  background-color: #ff5722;
+#root-online-checkout .default-tag {
+  background-color: #c82333;
   color: white;
   padding: 2px 6px;
-  margin-left: 10px;
   border-radius: 4px;
   font-size: 12px;
-}
-
-.change-address-link {
-  color: #007bff;
-  text-decoration: none;
+  display: inline-block;
+  vertical-align: middle;
   margin-left: 10px;
 }
 
-.products-list {
-  list-style: none;
-  padding: 0;
+#root-online-checkout .change-address-link {
+  color: #1a2129;
+  text-decoration: none;
+  display: inline-block;
+  margin-left: 10px;
+  vertical-align: middle;
+  padding: 2px 6px;
 }
 
-.product-item {
+#root-online-checkout .products-ordered-section {
+  margin-top: 20px;
+}
+
+#root-online-checkout .products-list-header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  font-weight: bold;
+  border-bottom: 2px solid #ddd;
+  color: #555;
+  font-family: 'Montserrat', serif;
+}
+
+#root-online-checkout .header-product-name {
+  flex: 2;
+}
+
+#root-online-checkout .header-product-price,
+#root-online-checkout .header-product-quantity,
+#root-online-checkout .header-product-subtotal {
+  flex: 1;
+  text-align: center;
+}
+
+#root-online-checkout .products-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 200px; 
+  overflow-y: auto;  
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #ffffff;
+
+}
+
+#root-online-checkout .product-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   border-bottom: 1px solid #ddd;
   padding: 10px 0;
 }
 
-.product-details {
+#root-online-checkout .product-details {
   display: flex;
   align-items: center;
+  flex: 2;
 }
 
-.product-image {
+#root-online-checkout .product-image {
   width: 60px;
   height: 60px;
   margin-right: 20px;
 }
 
-.product-info {
-  flex-grow: 1;
+#root-online-checkout .product-info {
+  display: flex;
+  flex-direction: column;
 }
 
-.product-name, .product-price, .product-quantity, .product-subtotal {
-  margin: 4px 0;
+#root-online-checkout .product-info p {
+  margin: 0;
 }
 
-.checkout-actions {
+#root-online-checkout .product-info .product-name {
+  font-family: 'Montserrat', serif;
+  text-transform: none;
+  margin-bottom: 5px;
+}
+
+#root-online-checkout .product-info .product-price,
+#root-online-checkout .product-info .product-quantity,
+#root-online-checkout .product-info .product-subtotal {
+  color: #777;
+}
+
+#root-online-checkout .product-price,
+#root-online-checkout .product-quantity,
+#root-online-checkout .product-subtotal {
+  flex: 1;
+  text-align: center;
+}
+
+#root-online-checkout .payment-method-section {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+#root-online-checkout .payment-method-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-family: 'Montserrat', serif;
+}
+
+#root-online-checkout .change-payment-method-link {
+  color: #1a2129;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#root-online-checkout .payment-summary {
+  margin-top: 10px;
+  font-family: 'Montserrat', serif;
+  line-height: 1.5; 
+}
+
+#root-online-checkout .payment-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+  font-size: 14px;
+  color: #555;
+}
+
+#root-online-checkout .total-payment {
+  font-weight: bold;
+  color: #1a2129;
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+  margin-top: 10px;
+}
+
+#root-online-checkout .checkout-actions {
   text-align: right;
+  margin-top: 20px;
 }
 
-.checkout-button {
-  background-color: #ff5722;
+#root-online-checkout .checkout-button {
+  background-color: #B22222;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -123,7 +235,32 @@
   font-size: 16px;
 }
 
-.checkout-button:disabled {
+#root-online-checkout .checkout-button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
+}
+
+#root-online-checkout .address-details-text {
+  text-transform: none;
+}
+
+#root-online-checkout .product-image {
+  width: 60px; 
+  height: 60px;
+  object-fit: cover;
+  margin-right: 20px;
+  border-radius: 4px;
+}
+
+#root-online-checkout .item-image-container {
+  grid-area: image;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#root-online-checkout .item-image {
+  width: 75px;
+  height: 75px;
+  object-fit: contain;
 }

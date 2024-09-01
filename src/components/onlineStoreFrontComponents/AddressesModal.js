@@ -31,6 +31,7 @@ const AddressesModal = ({ isOpen, onClose, onAddressChange }) => {
       updateUserContext({ defaultAddressId: addressId });
 
       onAddressChange();
+
       onClose();
     } catch (err) {
       setError("Failed to set default address. Please try again later.");
@@ -41,41 +42,43 @@ const AddressesModal = ({ isOpen, onClose, onAddressChange }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="address-modal">
-      <div className="address-modal-content">
-        <h3>My Addresses</h3>
-        {error && <p className="error-message">{error}</p>}
-        <ul className="address-list">
-          {Array.isArray(addresses) && addresses.length > 0 ? (
-            addresses.map((address) => (
-              <li key={address.id} className="address-item">
-                <p>
-                  <strong>{address.fullName}</strong> (+63){" "}
-                  {address.phoneNumber}
-                  <br />
-                  {address.addressLine}, {address.barangay}, {address.city},{" "}
-                  {address.province}, {address.region} {address.postalCode}
-                  <br />
-                  <span className="address-label">{address.label}</span>
-                </p>
-                <button
-                  onClick={() => handleSetDefault(address.id)}
-                  className={`default-btn ${
-                    address.isSetDefaultAddress ? "active" : ""
-                  }`}
-                  disabled={address.isSetDefaultAddress}
-                >
-                  {address.isSetDefaultAddress ? "Default" : "Set as Default"}
-                </button>
-              </li>
-            ))
-          ) : (
-            <p>No addresses found. Please add an address.</p>
-          )}
-        </ul>
-        <button onClick={onClose} className="modal-close-btn">
-          Close
-        </button>
+    <div id="root-addresses-modal">
+      <div className="address-modal">
+        <div className="address-modal-content">
+          <h3>My Addresses</h3>
+          {error && <p className="error-message">{error}</p>}
+          <ul className="address-list">
+            {Array.isArray(addresses) && addresses.length > 0 ? (
+              addresses.map((address) => (
+                <li key={address.id} className="address-item">
+                  <p className="address-details-text">
+                    <strong>
+                      {address.fullName} {address.phoneNumber}
+                    </strong>
+                    <br />
+                    {address.addressLine}, {address.barangay}, {address.city},{" "}
+                    {address.province}, {address.region} {address.postalCode}
+                    <br />
+                  </p>
+                  <button
+                    onClick={() => handleSetDefault(address.id)}
+                    className={`default-btn ${
+                      address.isSetDefaultAddress ? "active" : ""
+                    }`}
+                    disabled={address.isSetDefaultAddress}
+                  >
+                    {address.isSetDefaultAddress ? "Default" : "Set as Default"}
+                  </button>
+                </li>
+              ))
+            ) : (
+              <p>No addresses found. Please add an address.</p>
+            )}
+          </ul>
+          <button onClick={onClose} className="modal-close-btn">
+            Close
+          </button>
+        </div>
       </div>
     </div>
   );

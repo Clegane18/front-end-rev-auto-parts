@@ -1,56 +1,88 @@
-.address-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  
-  .address-modal-content {
-    background: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    width: 400px;
-    max-height: 80%;
-    overflow-y: auto;
-  }
-  
-  .address-list {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .address-item {
-    margin-bottom: 15px;
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 10px;
-  }
-  
-  .default-btn {
-    background-color: #f0f0f0;
-    color: #333;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-  }
-  
-  .default-btn.active {
-    background-color: orange;
-    color: white;
-    cursor: not-allowed;
-  }
-  
-  .modal-close-btn {
-    margin-top: 10px;
-    padding: 10px 15px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
-  
+#root-addresses-modal .address-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+#root-addresses-modal .address-modal-content h3 {
+  padding-bottom: 15px;
+}
+
+#root-addresses-modal .address-details-text p {
+  text-transform: none;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+#root-addresses-modal .address-modal-content {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 450px;
+  max-height: 80%;
+  overflow-y: auto;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  font-family: 'Montserrat', serif;
+}
+
+#root-addresses-modal .address-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#root-addresses-modal .address-item {
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+#root-addresses-modal .address-item p {
+  margin: 0;
+  font-size: 14px;
+  color: #333;
+}
+
+#root-addresses-modal .default-btn {
+  background-color: #f0f0f0;
+  color: #333;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+#root-addresses-modal .default-btn.active {
+  background-color: #B22222;
+  color: #ffffff;
+  cursor: not-allowed;
+}
+
+#root-addresses-modal .default-btn:hover:not(.active) {
+  background-color: #e0e0e0;
+}
+
+#root-addresses-modal .modal-close-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #0c619b;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+#root-addresses-modal .modal-close-btn:hover {
+  opacity: 0.75;
+}
