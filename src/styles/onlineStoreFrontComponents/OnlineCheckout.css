@@ -244,14 +244,6 @@
   text-transform: none;
 }
 
-#root-online-checkout .product-image {
-  width: 60px; 
-  height: 60px;
-  object-fit: cover;
-  margin-right: 20px;
-  border-radius: 4px;
-}
-
 #root-online-checkout .item-image-container {
   grid-area: image;
   display: flex;

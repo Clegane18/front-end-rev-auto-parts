@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import { useAuth } from "../../contexts/AuthContext";
+import { useLocation } from "react-router-dom";
 import {
   getCustomerProfile,
   updateCustomer,
@@ -15,6 +16,8 @@ import AddressCard from "./AddressCard";
 
 const CustomerProfilePage = () => {
   const { currentUser, token } = useAuth();
+  const location = useLocation();
+
   const [profile, setProfile] = useState({
     username: "",
     phoneNumber: "",
@@ -29,8 +32,13 @@ const CustomerProfilePage = () => {
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedMenu, setSelectedMenu] = useState("Profile");
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+
+  const initialMenu = location.state?.selectedMenu || "Profile";
+  const initialTab = location.state?.activeTab || "All";
+
+  const [selectedMenu, setSelectedMenu] = useState(initialMenu);
+  const [activeTab] = useState(initialTab);
 
   useEffect(() => {
     if (currentUser && token) {
@@ -249,7 +257,7 @@ const CustomerProfilePage = () => {
           {selectedMenu === "MyPurchase" && (
             <>
               <h1>My Purchases</h1>
-              <OrderTabs />{" "}
+              <OrderTabs initialTab={activeTab} />
             </>
           )}
         </div>

@@ -50,3 +50,26 @@ export const createOrder = async ({ customerId, addressId, items, token }) => {
     }
   }
 };
+
+export const getOrdersByStatus = async ({ status, customerId, token }) => {
+  try {
+    const response = await api.get("/orders/order-status", {
+      params: {
+        status,
+        customerId,
+      },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(
+        "Failed to fetch orders by status. Please try again later."
+      );
+    }
+  }
+};

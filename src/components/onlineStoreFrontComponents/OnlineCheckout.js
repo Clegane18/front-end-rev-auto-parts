@@ -74,17 +74,28 @@ const OnlineCheckout = () => {
       };
 
       const response = await createOrder(payload);
-      const { order } = response.data;
+      const order = response.data;
 
       if (order) {
         setShippingFee(order.shippingFee || 0);
-        setSuccessMessage("Order created successfully!");
+        setSuccessMessage(order.message);
         clearCart();
+        navigate("/customer-profile", {
+          state: { selectedMenu: "MyPurchase", activeTab: "To Pay" },
+        });
       } else {
         setError("Failed to retrieve order details. Please try again.");
       }
     } catch (err) {
-      setError(err.message);
+      console.error("Checkout error:", err);
+
+      if (err.response && err.response.data && err.response.data.message) {
+        setError(err.response.data.message);
+      } else if (err.message) {
+        setError(err.message);
+      } else {
+        setError("An unexpected error occurred. Please try again later.");
+      }
     }
   };
 
@@ -247,7 +258,7 @@ const OnlineCheckout = () => {
                   cartItems.reduce(
                     (acc, item) => acc + (item.unitPrice || 0) * item.quantity,
                     0
-                  ) + (shippingFee || 0)
+                  ) + (isFreeShipping ? 0 : shippingFee || 0)
                 ).toLocaleString()}
               </span>
             </div>
