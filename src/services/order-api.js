@@ -51,11 +51,10 @@ export const createOrder = async ({ customerId, addressId, items, token }) => {
   }
 };
 
-export const getOrdersByStatus = async ({ status, customerId, token }) => {
+export const getToPayOrders = async ({ customerId, token }) => {
   try {
-    const response = await api.get("/orders/order-status", {
+    const response = await api.get("/orders/status/To-pay", {
       params: {
-        status,
         customerId,
       },
       headers: {
@@ -68,8 +67,25 @@ export const getOrdersByStatus = async ({ status, customerId, token }) => {
       throw new Error(error.response.data.message);
     } else {
       throw new Error(
-        "Failed to fetch orders by status. Please try again later."
+        "Failed to fetch 'to pay' orders. Please try again later."
       );
+    }
+  }
+};
+
+export const cancelOrder = async ({ orderId, token }) => {
+  try {
+    const response = await api.post(`/orders/${orderId}/cancel`, null, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error("Failed to cancel order. Please try again later.");
     }
   }
 };

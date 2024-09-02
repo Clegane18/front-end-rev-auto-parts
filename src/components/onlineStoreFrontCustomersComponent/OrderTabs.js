@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getOrdersByStatus } from "../../services/order-api";
+import { getToPayOrders, cancelOrder } from "../../services/order-api";
 import { useAuth } from "../../contexts/AuthContext";
 import "../../styles/onlineStoreFrontCustomersComponent/OrderTabs.css";
 import { formatCurrency } from "../../utils/formatCurrency";
@@ -25,7 +25,7 @@ const OrderTabs = ({ initialTab = "All" }) => {
 
       try {
         const status = activeTab === "All" ? null : activeTab;
-        const response = await getOrdersByStatus({
+        const response = await getToPayOrders({
           status,
           customerId: currentUser.id,
           token,
@@ -56,7 +56,7 @@ const OrderTabs = ({ initialTab = "All" }) => {
       }
 
       try {
-        const response = await getOrdersByStatus({
+        const response = await getToPayOrders({
           status: "To Pay",
           customerId: currentUser.id,
           token,
@@ -72,6 +72,30 @@ const OrderTabs = ({ initialTab = "All" }) => {
 
     fetchToPayCount();
   }, [currentUser, token]);
+
+  const onCancelOrder = async (orderId) => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await cancelOrder({ orderId, token });
+      if (response.status === 200) {
+        // Update the orders list after successful cancellation
+        setOrders((prevOrders) =>
+          prevOrders.filter((order) => order.orderId !== orderId)
+        );
+        setToPayCount((prevCount) => prevCount - 1);
+      } else {
+        setError(response.message || "Failed to cancel order.");
+      }
+    } catch (err) {
+      setError(
+        err.message || "Failed to cancel order. Please try again later."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (!currentUser) {
     return <div>Loading user information...</div>;
@@ -140,7 +164,12 @@ const OrderTabs = ({ initialTab = "All" }) => {
                     <button className="contact-seller-btn">
                       Contact Seller
                     </button>
-                    <button className="cancel-order-btn">Cancel Order</button>
+                    <button
+                      className="cancel-order-btn"
+                      onClick={() => onCancelOrder(order.orderId)}
+                    >
+                      Cancel Order
+                    </button>
                   </div>
                 </div>
               ))}
