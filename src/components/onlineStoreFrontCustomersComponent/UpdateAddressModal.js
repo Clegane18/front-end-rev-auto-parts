@@ -218,7 +218,6 @@ const UpdateAddressModal = ({ isOpen, onClose, onSave, address }) => {
       province: selectedNames.provinceName,
       city: selectedNames.cityName,
       barangay: selectedNames.barangayName,
-      isSetDefaultAddress: formData.isDefault,
     };
 
     onSave(formDataWithNames);
