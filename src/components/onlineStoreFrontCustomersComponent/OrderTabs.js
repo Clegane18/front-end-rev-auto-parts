@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getToPayOrders, cancelOrder } from "../../services/order-api";
+import { getOrdersByStatus, cancelOrder } from "../../services/order-api";
 import { useAuth } from "../../contexts/AuthContext";
 import "../../styles/onlineStoreFrontCustomersComponent/OrderTabs.css";
 import { formatCurrency } from "../../utils/formatCurrency";
@@ -12,7 +12,14 @@ const OrderTabs = ({ initialTab = "All" }) => {
   const [error, setError] = useState(null);
   const { currentUser, token } = useAuth();
 
-  const tabs = ["All", "To Pay", "To Ship", "To Receive", "Completed"];
+  const tabs = [
+    "All",
+    "To Pay",
+    "To Ship",
+    "To Receive",
+    "Completed",
+    "Cancelled",
+  ];
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -25,7 +32,7 @@ const OrderTabs = ({ initialTab = "All" }) => {
 
       try {
         const status = activeTab === "All" ? null : activeTab;
-        const response = await getToPayOrders({
+        const response = await getOrdersByStatus({
           status,
           customerId: currentUser.id,
           token,
@@ -40,7 +47,7 @@ const OrderTabs = ({ initialTab = "All" }) => {
           setError(response.message);
         }
       } catch (err) {
-        setError("Failed to fetch orders. Please try again later.");
+        setError(err.message);
       } finally {
         setLoading(false);
       }
@@ -49,30 +56,6 @@ const OrderTabs = ({ initialTab = "All" }) => {
     fetchOrders();
   }, [activeTab, currentUser, token]);
 
-  useEffect(() => {
-    const fetchToPayCount = async () => {
-      if (!currentUser) {
-        return;
-      }
-
-      try {
-        const response = await getToPayOrders({
-          status: "To Pay",
-          customerId: currentUser.id,
-          token,
-        });
-
-        if (response.status === 200) {
-          setToPayCount(response.data.length);
-        }
-      } catch (err) {
-        console.error("Failed to fetch To Pay count");
-      }
-    };
-
-    fetchToPayCount();
-  }, [currentUser, token]);
-
   const onCancelOrder = async (orderId) => {
     setLoading(true);
     setError(null);
@@ -80,7 +63,6 @@ const OrderTabs = ({ initialTab = "All" }) => {
     try {
       const response = await cancelOrder({ orderId, token });
       if (response.status === 200) {
-        // Update the orders list after successful cancellation
         setOrders((prevOrders) =>
           prevOrders.filter((order) => order.orderId !== orderId)
         );
@@ -121,16 +103,21 @@ const OrderTabs = ({ initialTab = "All" }) => {
         <div className="tab-content">
           {loading && <div>Loading...</div>}
           {error && <div className="error-message">{error}</div>}
-          {!loading && !error && (
+          {!loading && !error && orders.length === 0 && (
+            <div>No Orders Yet</div>
+          )}
+          {!loading && !error && orders.length > 0 && (
             <>
-              {orders.length === 0 && (
-                <div>No orders available for this status.</div>
-              )}
               {orders.map((order) => (
                 <div key={order.orderId} className="order-item">
                   <div className="order-item-header">
                     <p className="text-in-my-purchases">
-                      Total To Pay: {formatCurrency(order.totalAmount)}
+                      Order Total: {formatCurrency(order.totalAmount)}
+                    </p>
+                    <p className="text-in-active-tab">
+                      {activeTab === "All"
+                        ? order.status || "Status Unavailable"
+                        : activeTab}
                     </p>
                   </div>
                   <div className="order-items">

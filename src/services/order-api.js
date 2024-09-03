@@ -51,6 +51,33 @@ export const createOrder = async ({ customerId, addressId, items, token }) => {
   }
 };
 
+export const getOrdersByStatus = async ({ status, customerId, token }) => {
+  try {
+    const response = await api.get("/orders/status", {
+      params: {
+        status,
+        customerId,
+      },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data && error.response.data.message) {
+      return {
+        status: error.response.status,
+        message: error.response.data.message,
+      };
+    } else {
+      return {
+        status: 500,
+        message: "Failed to fetch orders. Please try again later.",
+      };
+    }
+  }
+};
+
 export const getToPayOrders = async ({ customerId, token }) => {
   try {
     const response = await api.get("/orders/status/To-pay", {
@@ -67,7 +94,7 @@ export const getToPayOrders = async ({ customerId, token }) => {
       throw new Error(error.response.data.message);
     } else {
       throw new Error(
-        "Failed to fetch 'to pay' orders. Please try again later."
+        "Failed to fetch 'To pay' orders. Please try again later."
       );
     }
   }
@@ -86,6 +113,28 @@ export const cancelOrder = async ({ orderId, token }) => {
       throw new Error(error.response.data.message);
     } else {
       throw new Error("Failed to cancel order. Please try again later.");
+    }
+  }
+};
+
+export const getCancelledOrders = async ({ customerId, token }) => {
+  try {
+    const response = await api.get("/orders/status/To-pay", {
+      params: {
+        customerId,
+      },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(
+        "Failed to fetch 'Cancelled' orders. Please try again later."
+      );
     }
   }
 };

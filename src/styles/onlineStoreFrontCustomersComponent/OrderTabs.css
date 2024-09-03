@@ -57,6 +57,7 @@
   justify-content: space-between;
   border-bottom: 1px solid #e0e0e0;
   padding-bottom: 10px;
+  align-items: center;
 }
 
 #root-order-tabs .order-items {
@@ -107,7 +108,7 @@
 }
 
 .contact-seller-btn:hover, .cancel-order-btn:hover {
-  background-color: #e0e0e0;
+  opacity: 0.75;
 }
 
 #root-order-tabs .order-item-details:not(:last-child) {
@@ -118,4 +119,11 @@
   font-family: 'Montserrat', serif;
   text-transform: none;
   color: black;
+}
+
+#root-order-tabs .order-item .text-in-active-tab {
+  font-family: 'Montserrat', serif;
+  color: #c82333;
+  padding-right: 15px;
+  font-weight: bold;
 }
