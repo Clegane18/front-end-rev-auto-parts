@@ -78,28 +78,6 @@ export const getOrdersByStatus = async ({ status, customerId, token }) => {
   }
 };
 
-export const getToPayOrders = async ({ customerId, token }) => {
-  try {
-    const response = await api.get("/orders/status/To-pay", {
-      params: {
-        customerId,
-      },
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    if (error.response && error.response.data) {
-      throw new Error(error.response.data.message);
-    } else {
-      throw new Error(
-        "Failed to fetch 'To pay' orders. Please try again later."
-      );
-    }
-  }
-};
-
 export const cancelOrder = async ({ orderId, token }) => {
   try {
     const response = await api.post(`/orders/${orderId}/cancel`, null, {
@@ -117,24 +95,31 @@ export const cancelOrder = async ({ orderId, token }) => {
   }
 };
 
-export const getCancelledOrders = async ({ customerId, token }) => {
+export const getAllOrders = async () => {
   try {
-    const response = await api.get("/orders/status/To-pay", {
-      params: {
-        customerId,
-      },
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await api.get("/orders");
     return response.data;
   } catch (error) {
     if (error.response && error.response.data) {
       throw new Error(error.response.data.message);
     } else {
-      throw new Error(
-        "Failed to fetch 'Cancelled' orders. Please try again later."
-      );
+      throw new Error("Failed to fetch all Orders. Please try again later.");
+    }
+  }
+};
+
+export const updateOrderStatus = async (orderId, newStatus) => {
+  try {
+    const response = await api.put(`/orders/${orderId}/update-status`, {
+      newStatus,
+    });
+
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error("Failed to update order status. Please try again later.");
     }
   }
 };
