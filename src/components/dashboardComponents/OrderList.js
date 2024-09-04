@@ -3,6 +3,7 @@ import { getAllOrders, updateOrderStatus } from "../../services/order-api";
 import "../../styles/dashboardComponents/OrderList.css";
 import OrderDetailsModal from "./OrderDetailsModal";
 import { useWebSocket } from "../../contexts/WebSocketContext";
+import { formatCurrency } from "../../utils/formatCurrency";
 
 const OrdersList = () => {
   const [orders, setOrders] = useState([]);
@@ -80,10 +81,12 @@ const OrdersList = () => {
         <thead>
           <tr>
             <th>ID</th>
-            <th>Order</th>
+            <th>Order Number</th>
             <th>Date</th>
             <th>Customer</th>
             <th>Order Status</th>
+            <th>Merchandise Subtotal</th>
+            <th>Shipping Fee</th>
             <th>Total</th>
             <th>Items</th>
             <th>Action</th>
@@ -108,7 +111,9 @@ const OrdersList = () => {
                   <option value="Cancelled">Cancelled</option>
                 </select>
               </td>
-              <td>₱{parseFloat(order.totalAmount).toFixed(2)}</td>
+              <td>{formatCurrency(order.merchandiseSubtotal)}</td>{" "}
+              <td>{formatCurrency(order.shippingFee)}</td>{" "}
+              <td>{formatCurrency(order.totalAmount)}</td>{" "}
               <td>{order.items.length} items</td>
               <td>
                 <button onClick={() => viewOrderDetails(order)}>

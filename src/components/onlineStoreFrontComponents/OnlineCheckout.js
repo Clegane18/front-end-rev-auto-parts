@@ -63,6 +63,11 @@ const OnlineCheckout = () => {
 
   const handleCheckout = async () => {
     try {
+      const merchandiseSubtotal = cartItems.reduce(
+        (acc, item) => acc + (item.unitPrice || 0) * item.quantity,
+        0
+      );
+
       const payload = {
         customerId: Number(customerId),
         addressId: Number(addressId),
@@ -71,6 +76,8 @@ const OnlineCheckout = () => {
           quantity: item.quantity,
         })),
         token,
+        merchandiseSubtotal, // Send the merchandise subtotal separately
+        shippingFee, // Send the shipping fee separately
       };
 
       const response = await createOrder(payload);
@@ -153,7 +160,7 @@ const OnlineCheckout = () => {
               onClick={handleLogoClick}
               style={{ cursor: "pointer" }}
             />
-          </div>{" "}
+          </div>
           <div className="divider"></div>
           <h2 className="checkout-title">Checkout</h2>
         </header>
