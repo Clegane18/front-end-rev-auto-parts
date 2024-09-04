@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import { getAllOrders, updateOrderStatus } from "../../services/order-api";
 import "../../styles/dashboardComponents/OrderList.css";
 import OrderDetailsModal from "./OrderDetailsModal";
+import { useWebSocket } from "../../contexts/WebSocketContext";
 
 const OrdersList = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const socket = useWebSocket();
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -27,7 +29,23 @@ const OrdersList = () => {
     };
 
     fetchOrders();
-  }, []);
+
+    if (socket) {
+      socket.on("orderStatusUpdated", ({ orderId, newStatus }) => {
+        setOrders((prevOrders) =>
+          prevOrders.map((order) =>
+            order.id === orderId ? { ...order, status: newStatus } : order
+          )
+        );
+      });
+    }
+
+    return () => {
+      if (socket) {
+        socket.off("orderStatusUpdated");
+      }
+    };
+  }, [socket]);
 
   const viewOrderDetails = (order) => {
     setSelectedOrder(order);

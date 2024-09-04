@@ -1,16 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { getOrdersByStatus, cancelOrder } from "../../services/order-api";
 import { useAuth } from "../../contexts/AuthContext";
+import { useWebSocket } from "../../contexts/WebSocketContext";
 import "../../styles/onlineStoreFrontCustomersComponent/OrderTabs.css";
 import { formatCurrency } from "../../utils/formatCurrency";
 
 const OrderTabs = ({ initialTab = "All" }) => {
   const [activeTab, setActiveTab] = useState(initialTab);
   const [orders, setOrders] = useState([]);
+  const [allCount, setAllCount] = useState(0);
   const [toPayCount, setToPayCount] = useState(0);
+  const [toShipCount, setToShipCount] = useState(0);
+  const [toReceiveCount, setToReceiveCount] = useState(0);
+  const [completedCount, setCompletedCount] = useState(0);
+  const [cancelledCount, setCancelledCount] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const { currentUser, token } = useAuth();
+  const socket = useWebSocket();
 
   const tabs = [
     "All",
@@ -40,9 +47,7 @@ const OrderTabs = ({ initialTab = "All" }) => {
 
         if (response.status === 200) {
           setOrders(response.data);
-          if (activeTab === "To Pay") {
-            setToPayCount(response.data.length);
-          }
+          setCounts(response.data);
         } else {
           setError(response.message);
         }
@@ -53,8 +58,41 @@ const OrderTabs = ({ initialTab = "All" }) => {
       }
     };
 
+    const setCounts = (orders) => {
+      setAllCount(orders.length);
+      setToPayCount(orders.filter((order) => order.status === "To Pay").length);
+      setToShipCount(
+        orders.filter((order) => order.status === "To Ship").length
+      );
+      setToReceiveCount(
+        orders.filter((order) => order.status === "To Receive").length
+      );
+      setCompletedCount(
+        orders.filter((order) => order.status === "Completed").length
+      );
+      setCancelledCount(
+        orders.filter((order) => order.status === "Cancelled").length
+      );
+    };
+
     fetchOrders();
-  }, [activeTab, currentUser, token]);
+    if (socket) {
+      socket.on("orderStatusUpdated", ({ orderId, newStatus }) => {
+        setOrders((prevOrders) =>
+          prevOrders.map((order) =>
+            order.id === orderId ? { ...order, status: newStatus } : order
+          )
+        );
+        setCounts(orders);
+      });
+    }
+
+    return () => {
+      if (socket) {
+        socket.off("orderStatusUpdated");
+      }
+    };
+  }, [activeTab, currentUser, token, socket]);
 
   const onCancelOrder = async (orderId) => {
     setLoading(true);
@@ -90,15 +128,25 @@ const OrderTabs = ({ initialTab = "All" }) => {
     <div id="root-order-tabs">
       <div className="order-tabs-container">
         <ul className="order-tabs">
-          {tabs.map((tab) => (
-            <li
-              key={tab}
-              className={activeTab === tab ? "active" : ""}
-              onClick={() => setActiveTab(tab)}
-            >
-              {tab} {tab === "To Pay" && toPayCount > 0 && `(${toPayCount})`}
-            </li>
-          ))}
+          {tabs.map((tab) => {
+            let count = 0;
+            if (tab === "All") count = allCount;
+            if (tab === "To Pay") count = toPayCount;
+            if (tab === "To Ship") count = toShipCount;
+            if (tab === "To Receive") count = toReceiveCount;
+            if (tab === "Completed") count = completedCount;
+            if (tab === "Cancelled") count = cancelledCount;
+
+            return (
+              <li
+                key={tab}
+                className={activeTab === tab ? "active" : ""}
+                onClick={() => setActiveTab(tab)}
+              >
+                {tab} {count > 0 && `(${count})`}
+              </li>
+            );
+          })}
         </ul>
         <div className="tab-content">
           {loading && <div>Loading...</div>}
@@ -151,12 +199,14 @@ const OrderTabs = ({ initialTab = "All" }) => {
                     <button className="contact-seller-btn">
                       Contact Seller
                     </button>
-                    <button
-                      className="cancel-order-btn"
-                      onClick={() => onCancelOrder(order.orderId)}
-                    >
-                      Cancel Order
-                    </button>
+                    {activeTab === "To Pay" && (
+                      <button
+                        className="cancel-order-btn"
+                        onClick={() => onCancelOrder(order.orderId)}
+                      >
+                        Cancel Order
+                      </button>
+                    )}
                   </div>
                 </div>
               ))}

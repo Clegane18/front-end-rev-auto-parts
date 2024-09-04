@@ -72,7 +72,7 @@ export const getOrdersByStatus = async ({ status, customerId, token }) => {
     } else {
       return {
         status: 500,
-        message: "Failed to fetch orders. Please try again later.",
+        message: "No Orders Yet.",
       };
     }
   }
