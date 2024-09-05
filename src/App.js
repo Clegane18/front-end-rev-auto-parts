@@ -29,6 +29,8 @@ import CustomerProfilePage from "./components/onlineStoreFrontCustomersComponent
 import ArchivedProductsPage from "./components/inventoryComponents/ArchivedProductsPage";
 import OnlineCheckout from "./components/onlineStoreFrontComponents/OnlineCheckout";
 import OrderList from "./components/dashboardComponents/OrderList";
+import NotFoundPage from "./components/NotFoundPage";
+import OnlineStoreFrontCustomerLandingPage from "./components/onlineStoreFrontCustomersComponent/OnlineStoreFrontCustomerLandingPage"; // Import the Landing Page
 
 const App = () => {
   const { authToken, login } = useAuthentication();
@@ -40,6 +42,10 @@ const App = () => {
           <OnlineCartProvider>
             <WebSocketProvider>
               <Routes>
+                <Route
+                  path="/"
+                  element={<OnlineStoreFrontCustomerLandingPage />}
+                />
                 <Route
                   path="/login"
                   element={<LoginPage setAuthToken={login} />}
@@ -146,12 +152,7 @@ const App = () => {
                   path="/orders"
                   element={authToken ? <OrderList /> : <Navigate to="/login" />}
                 />
-                <Route
-                  path="*"
-                  element={
-                    <Navigate to={authToken ? "/dashboard" : "/login"} />
-                  }
-                />
+                <Route path="*" element={<NotFoundPage />} />
               </Routes>
             </WebSocketProvider>
           </OnlineCartProvider>
