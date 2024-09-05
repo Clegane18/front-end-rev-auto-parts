@@ -2,7 +2,6 @@ import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import ProductDetails from "./ProductDetails";
 import ProductSearch from "./ProductSearch";
-import ProductList from "./ProductList";
 import CartIcon from "./CartIcon";
 import ItemsByCategory from "./ItemsByCategory";
 import { CartContext } from "./CartContext";
@@ -10,9 +9,7 @@ import "../../styles/posComponents/POSPage.css";
 import logo from "../../assets/g&f-logo.png";
 
 const POSPage = () => {
-  const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
   const { addToCart, cartItems } = useContext(CartContext);
   const navigate = useNavigate();
 
@@ -23,14 +20,6 @@ const POSPage = () => {
   const handleAddToCart = (product) => {
     addToCart(product);
     setSelectedProduct(null);
-  };
-
-  const handleSearch = (products) => {
-    setProducts(products);
-  };
-
-  const handleSearchTermChange = (term) => {
-    setSearchTerm(term);
   };
 
   const handleBack = () => {
@@ -53,16 +42,7 @@ const POSPage = () => {
             <img src={logo} alt="G&F Auto Supply" className="shop-logo" />
           </div>
           <div className="search-results-wrapper">
-            <ProductSearch
-              onSearch={handleSearch}
-              onSearchTermChange={handleSearchTermChange}
-            />
-            {searchTerm && products.length > 0 && (
-              <ProductList
-                products={products}
-                onSelectProduct={handleSelectProduct}
-              />
-            )}
+            <ProductSearch onSelectProduct={handleSelectProduct} />
           </div>
           <div className="cart-icon">
             <CartIcon
