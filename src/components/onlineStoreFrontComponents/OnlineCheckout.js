@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState, useCallback } from "react";
 import { createOrder, calculateShippingFee } from "../../services/order-api";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { getAddressById } from "../../services/address-api";
 import { useAuth } from "../../contexts/AuthContext";
 import { OnlineCartContext } from "../onlineStoreFrontComponents/OnlineCartContext";
@@ -9,10 +9,11 @@ import logo from "../../assets/g&f-logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
 import AddressModal from "./AddressesModal";
+import { formatCurrency } from "../../utils/formatCurrency";
 
 const OnlineCheckout = () => {
   const { currentUser, token } = useAuth();
-  const { cartItems, clearCart } = useContext(OnlineCartContext);
+  const { clearCart } = useContext(OnlineCartContext);
   const [customerId, setCustomerId] = useState("");
   const [addressId, setAddressId] = useState("");
   const [addressDetails, setAddressDetails] = useState(null);
@@ -22,6 +23,8 @@ const OnlineCheckout = () => {
   const [shippingFee, setShippingFee] = useState(0);
   const [isFreeShipping, setIsFreeShipping] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const { items: cartItems } = location.state || { items: [] };
 
   const fetchAddressDetails = useCallback(
     async (id) => {
@@ -76,8 +79,8 @@ const OnlineCheckout = () => {
           quantity: item.quantity,
         })),
         token,
-        merchandiseSubtotal, // Send the merchandise subtotal separately
-        shippingFee, // Send the shipping fee separately
+        merchandiseSubtotal,
+        shippingFee,
       };
 
       const response = await createOrder(payload);
@@ -217,13 +220,12 @@ const OnlineCheckout = () => {
                   </div>
                 </div>
                 <p className="product-price">
-                  ₱{item.unitPrice ? item.unitPrice.toLocaleString() : "N/A"}
+                  {item.unitPrice ? formatCurrency(item.unitPrice) : "N/A"}
                 </p>
                 <p className="product-quantity">{item.quantity}</p>
                 <p className="product-subtotal">
-                  ₱
                   {item.unitPrice
-                    ? (item.unitPrice * item.quantity).toLocaleString()
+                    ? formatCurrency(item.unitPrice * item.quantity)
                     : "N/A"}
                 </p>
               </li>
@@ -240,13 +242,12 @@ const OnlineCheckout = () => {
             <div className="payment-row">
               <span>Merchandise Subtotal:</span>
               <span>
-                ₱
-                {cartItems
-                  .reduce(
+                {formatCurrency(
+                  cartItems.reduce(
                     (acc, item) => acc + (item.unitPrice || 0) * item.quantity,
                     0
                   )
-                  .toLocaleString()}
+                )}
               </span>
             </div>
             <div className="payment-row">
@@ -254,19 +255,18 @@ const OnlineCheckout = () => {
               <span>
                 {isFreeShipping
                   ? "Free Shipping Fee"
-                  : `₱${shippingFee ? shippingFee.toLocaleString() : "0"}`}
+                  : formatCurrency(shippingFee || 0)}
               </span>
             </div>
             <div className="payment-row total-payment">
               <span>Total Payment:</span>
               <span>
-                ₱
-                {(
+                {formatCurrency(
                   cartItems.reduce(
                     (acc, item) => acc + (item.unitPrice || 0) * item.quantity,
                     0
                   ) + (isFreeShipping ? 0 : shippingFee || 0)
-                ).toLocaleString()}
+                )}
               </span>
             </div>
           </div>

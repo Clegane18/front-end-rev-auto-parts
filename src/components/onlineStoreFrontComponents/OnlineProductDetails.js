@@ -39,7 +39,7 @@ const OnlineProductDetails = ({ product, onAddToCart, onClose }) => {
       unitPrice: product.price,
       subtotalAmount: quantity * product.price,
     };
-    navigate("/checkout", { state: { items: [productWithQuantity] } });
+    navigate("/online-checkout", { state: { items: [productWithQuantity] } });
   }, [checkAuth, quantity, product, navigate]);
 
   const handleAddToCartClick = useCallback(() => {
