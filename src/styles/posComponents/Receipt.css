@@ -70,6 +70,7 @@
 #root-receipt .quantity-container,
 #root-receipt .item-amount,
 #root-receipt .item-subtotal {
+  text-transform: none;
   flex: 1;
 }
 
@@ -77,6 +78,7 @@
   align-self: center;
   flex: 2;
   text-align: left;
+  text-transform: none;
 }
 
 #root-receipt .quantity-container span:first-child {
@@ -103,6 +105,7 @@
 
 #root-receipt .totals p {
   margin: 4px 0;
+  text-transform: none;
 }
 
 #root-receipt .buttons-container {

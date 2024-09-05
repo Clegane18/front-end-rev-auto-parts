@@ -127,3 +127,8 @@
   padding-right: 15px;
   font-weight: bold;
 }
+
+#root-order-tabs .error-message {
+  font-family: 'Montserrat', serif;
+  text-transform: none;
+}

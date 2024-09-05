@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import OnlineProductSearch from "./OnlineProductSearch";
-import OnlineProductList from "./OnlineProductList";
 import OnlineCartIcon from "./OnlineCartIcon";
 import { OnlineCartContext } from "./OnlineCartContext";
 import logo from "../../assets/g&f-logo.png";
@@ -11,8 +10,6 @@ import useRequireAuth from "../../utils/useRequireAuth";
 import "../../styles/onlineStoreFrontComponents/OnlineStoreFrontHeader.css";
 
 const OnlineStoreFrontHeader = ({
-  products,
-  searchTerm,
   handleSearch,
   handleSearchTermChange,
   handleSelectProduct,
@@ -53,13 +50,8 @@ const OnlineStoreFrontHeader = ({
           <OnlineProductSearch
             onSearch={handleSearch}
             onSearchTermChange={handleSearchTermChange}
+            onSelectProduct={handleSelectProduct}
           />
-          {searchTerm && products.length > 0 && (
-            <OnlineProductList
-              products={products}
-              onSelectProduct={handleSelectProduct}
-            />
-          )}
         </div>
         <div id="profile-icon" onClick={handleProfileOrLoginClick}>
           <FontAwesomeIcon
