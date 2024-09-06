@@ -1,5 +1,4 @@
-/* Online Store Header */
-#online-store-header {
+#root-online-store-header #online-store-header {
   background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
     url("../../assets/header-bg.png");
   background-size: cover;
@@ -14,6 +13,13 @@
   top: 0;
   z-index: 1000;
   transition: background 0.3s ease-in-out;
+}
+
+#root-online-store-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  transition: background 0.3s ease-in-out; 
 }
 
 #shop-info {
@@ -73,6 +79,8 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
   position: sticky;
   top: 77px;
+  z-index: 999; 
+  transition: background 0.3s ease-in-out;
 }
 
 #main-nav ul {
@@ -81,6 +89,7 @@
   padding: 0;
   display: flex;
   justify-content: center;
+  position: relative;
 }
 
 #main-nav ul li {
@@ -102,7 +111,6 @@
   transform: translateY(-3px);
 }
 
-/* Active link styling */
 #main-nav ul li a.active {
   color: #ff0000;
   font-weight: bold;
