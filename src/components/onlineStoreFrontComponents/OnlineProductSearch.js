@@ -39,7 +39,7 @@ const ProductSearch = ({ onSelectProduct }) => {
       }
 
       if (location.pathname === "/customer-profile") {
-        navigate(`/online-store?search=${encodeURIComponent(term)}`);
+        navigate(`/?search=${encodeURIComponent(term)}`);
         return;
       }
 

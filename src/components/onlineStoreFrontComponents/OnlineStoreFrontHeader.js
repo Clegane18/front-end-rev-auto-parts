@@ -31,7 +31,7 @@ const OnlineStoreFrontHeader = ({
   };
 
   const handleLogoClick = () => {
-    navigate("/online-store");
+    navigate("/");
   };
 
   return (

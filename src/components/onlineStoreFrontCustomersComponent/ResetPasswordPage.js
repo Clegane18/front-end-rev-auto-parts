@@ -17,7 +17,7 @@ const ResetPasswordPage = () => {
       const response = await resetPassword(token, newPassword, confirmPassword);
       setMessage(response.message);
       console.log("Response:", response);
-      navigate("/online-store");
+      navigate("/");
     } catch (error) {
       console.error("Error in handleResetPassword:", error);
       setMessage(error.message);

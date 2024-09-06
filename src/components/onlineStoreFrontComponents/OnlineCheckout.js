@@ -145,7 +145,7 @@ const OnlineCheckout = () => {
   };
 
   const handleLogoClick = () => {
-    navigate("/online-store");
+    navigate("/");
   };
 
   const encodeURL = (url) =>

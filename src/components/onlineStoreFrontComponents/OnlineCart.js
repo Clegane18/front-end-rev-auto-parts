@@ -22,7 +22,7 @@ const OnlineCart = () => {
   };
 
   const handleGoToOnline = () => {
-    navigate("/online-store");
+    navigate("/");
   };
 
   const calculateSubtotal = () => {

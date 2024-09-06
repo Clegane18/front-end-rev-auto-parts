@@ -15,7 +15,7 @@ const CreateAccountPage = () => {
     try {
       const result = await signUp({ username, email, password });
       console.log(result.message);
-      navigate("/online-store");
+      navigate("/");
     } catch (error) {
       setError(error.message);
     }

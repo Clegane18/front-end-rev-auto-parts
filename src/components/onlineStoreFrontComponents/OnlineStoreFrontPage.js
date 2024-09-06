@@ -14,13 +14,13 @@ const OnlineStoreFrontPage = () => {
   const checkAuth = useRequireAuth();
 
   const handleSelectProduct = (product) => {
-    if (checkAuth("/online-store")) {
+    if (checkAuth("/")) {
       setSelectedProduct(product);
     }
   };
 
   const handleAddToCart = (product) => {
-    if (checkAuth("/online-store")) {
+    if (checkAuth("/")) {
       addToCart(product);
       setSelectedProduct(null);
     }

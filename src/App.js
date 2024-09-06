@@ -30,7 +30,6 @@ import ArchivedProductsPage from "./components/inventoryComponents/ArchivedProdu
 import OnlineCheckout from "./components/onlineStoreFrontComponents/OnlineCheckout";
 import OrderList from "./components/dashboardComponents/OrderList";
 import NotFoundPage from "./components/NotFoundPage";
-import OnlineStoreFrontCustomerLandingPage from "./components/onlineStoreFrontCustomersComponent/OnlineStoreFrontCustomerLandingPage"; // Import the Landing Page
 
 const App = () => {
   const { authToken, login } = useAuthentication();
@@ -44,7 +43,13 @@ const App = () => {
               <Routes>
                 <Route
                   path="/"
-                  element={<OnlineStoreFrontCustomerLandingPage />}
+                  element={
+                    authToken ? (
+                      <OnlineStoreFrontPage />
+                    ) : (
+                      <Navigate to="/login" />
+                    )
+                  }
                 />
                 <Route
                   path="/login"
@@ -73,16 +78,6 @@ const App = () => {
                   element={
                     authToken ? (
                       <PendingStockManagementPage />
-                    ) : (
-                      <Navigate to="/login" />
-                    )
-                  }
-                />
-                <Route
-                  path="/online-store"
-                  element={
-                    authToken ? (
-                      <OnlineStoreFrontPage />
                     ) : (
                       <Navigate to="/login" />
                     )

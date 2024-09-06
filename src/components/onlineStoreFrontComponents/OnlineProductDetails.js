@@ -17,13 +17,13 @@ const OnlineProductDetails = ({ product, onAddToCart, onClose }) => {
   const navigate = useNavigate();
 
   const handleBuyNowClick = () => {
-    if (checkAuth("/online-store")) {
+    if (checkAuth("/")) {
       setShowBuyNow(true);
     }
   };
 
   const handleConfirmPurchaseClick = useCallback(() => {
-    if (!checkAuth("/online-store")) return;
+    if (!checkAuth("/")) return;
     if (quantity > product.stock) {
       setModalInfo({
         isOpen: true,
@@ -43,7 +43,7 @@ const OnlineProductDetails = ({ product, onAddToCart, onClose }) => {
   }, [checkAuth, quantity, product, navigate]);
 
   const handleAddToCartClick = useCallback(() => {
-    if (!checkAuth("/online-store")) return;
+    if (!checkAuth("/")) return;
     if (quantity > product.stock) {
       setModalInfo({
         isOpen: true,

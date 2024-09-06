@@ -21,7 +21,7 @@ const CustomerLoginPage = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/online-store");
+      navigate("/");
     }
   }, [isAuthenticated, navigate]);
 
@@ -37,7 +37,7 @@ const CustomerLoginPage = () => {
         email: decodedToken.email,
       };
       loginUser(user, result.token);
-      checkAuth("/online-store");
+      checkAuth("/");
     } catch (error) {
       setError(error.message);
     }
@@ -71,7 +71,7 @@ const CustomerLoginPage = () => {
         email: decodedToken.email,
       };
       loginUser(user, token);
-      checkAuth("/online-store");
+      checkAuth("/");
     }
   }, [location.search, loginUser, checkAuth]);
 
