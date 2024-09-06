@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { OnlineCartContext } from "./OnlineCartContext";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import { FiShoppingCart } from "react-icons/fi";
 import "../../styles/onlineStoreFrontComponents/OnlineCartIcon.css";
 import useRequireAuth from "../../utils/useRequireAuth";
 import { useNavigate } from "react-router-dom";
@@ -21,7 +20,7 @@ const CartIcon = () => {
   return (
     <div id="root-online-cart-icon">
       <div className="cart-icon-container" onClick={handleClick}>
-        <FontAwesomeIcon icon={faShoppingCart} className="cart-icon" />
+        <FiShoppingCart className="cart-icon" size={30} />
         {itemCount > 0 && <span className="item-count">{itemCount}</span>}
       </div>
     </div>

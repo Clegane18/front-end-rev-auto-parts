@@ -5,6 +5,7 @@ import OnlineStoreFrontItemsByCategory from "./OnlineStoreFrontItemsByCategory";
 import { OnlineCartContext } from "./OnlineCartContext";
 import "../../styles/onlineStoreFrontComponents/OnlineStoreFrontPage.css";
 import useRequireAuth from "../../utils/useRequireAuth";
+import ProductShowcaseCarousel from "./ProductShowcaseCarousel";
 
 const OnlineStoreFrontPage = () => {
   const [products, setProducts] = useState([]);
@@ -48,6 +49,9 @@ const OnlineStoreFrontPage = () => {
           handleSearchTermChange={handleSearchTermChange}
           handleSelectProduct={handleSelectProduct}
         />
+
+        <ProductShowcaseCarousel />
+
         <div className="online-content">
           <main className="online-main">
             <div className="products-section">

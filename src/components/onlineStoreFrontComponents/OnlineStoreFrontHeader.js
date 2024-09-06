@@ -1,11 +1,10 @@
 import React, { useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import OnlineProductSearch from "./OnlineProductSearch";
 import OnlineCartIcon from "./OnlineCartIcon";
 import { OnlineCartContext } from "./OnlineCartContext";
 import logo from "../../assets/g&f-logo.png";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faSignInAlt } from "@fortawesome/free-solid-svg-icons";
+import { FiUser, FiLogIn, FiChevronDown } from "react-icons/fi";
 import useRequireAuth from "../../utils/useRequireAuth";
 import "../../styles/onlineStoreFrontComponents/OnlineStoreFrontHeader.css";
 
@@ -35,37 +34,79 @@ const OnlineStoreFrontHeader = ({
   };
 
   return (
-    <header id="online-store-header">
-      <div id="shop-info">
-        <img
-          src={logo}
-          alt="G&F Auto Supply"
-          id="shop-logo"
-          onClick={handleLogoClick}
-          style={{ cursor: "pointer" }}
-        />
-      </div>
-      <div id="header-right">
-        <div id="search-results-wrapper">
-          <OnlineProductSearch
-            onSearch={handleSearch}
-            onSearchTermChange={handleSearchTermChange}
-            onSelectProduct={handleSelectProduct}
+    <>
+      <header id="online-store-header">
+        <div id="shop-info">
+          <img
+            src={logo}
+            alt="G&F Auto Supply"
+            id="shop-logo"
+            onClick={handleLogoClick}
+            style={{ cursor: "pointer" }}
+            loading="lazy"
           />
         </div>
-        <div id="profile-icon" onClick={handleProfileOrLoginClick}>
-          <FontAwesomeIcon
-            icon={checkAuth("/customer-profile") ? faUser : faSignInAlt}
-          />
+        <div id="header-right">
+          <div id="search-results-wrapper">
+            <OnlineProductSearch
+              onSearch={handleSearch}
+              onSearchTermChange={handleSearchTermChange}
+              onSelectProduct={handleSelectProduct}
+            />
+          </div>
+          <div id="profile-icon" onClick={handleProfileOrLoginClick}>
+            {checkAuth("/customer-profile") ? (
+              <FiUser size={30} />
+            ) : (
+              <FiLogIn size={30} />
+            )}
+          </div>
+          <div id="cart-icon">
+            <OnlineCartIcon
+              itemCount={cartItems.length}
+              onClick={handleCartIconClick}
+            />
+          </div>
         </div>
-        <div id="cart-icon">
-          <OnlineCartIcon
-            itemCount={cartItems.length}
-            onClick={handleCartIconClick}
-          />
-        </div>
-      </div>
-    </header>
+      </header>
+
+      <nav id="main-nav">
+        <ul>
+          <li>
+            <NavLink
+              to="/categories"
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              Browse Categories <FiChevronDown size={16} />
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/"
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              Home
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/about-us"
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              About Us
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/contact-us"
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              Contact Us
+            </NavLink>
+          </li>
+        </ul>
+      </nav>
+    </>
   );
 };
 

@@ -1,27 +1,8 @@
-#root-online-store-front-page {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  overflow-x: hidden;
-}
-
-#root-online-store-front-page .online-store-front-page {
+#root #root-online-store-front-page .online-store-front-page {
   display: flex;
   flex-direction: column;
   height: 100%;
-}
-
-#root-online-store-front-page .online-header {
-  background-color: #343a40;
-  color: #ffffff;
-  padding: 10px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  position: sticky; 
-  top: 0; 
-  z-index: 1000;
+  overflow-y: auto;
 }
 
 #root-online-store-front-page .shop-info {
@@ -58,8 +39,10 @@
 #root-online-store-front-page .online-content {
   display: flex;
   flex: 1;
-  overflow-x: hidden;
+  overflow-y: auto; /* Allow vertical scrolling */
+  overflow-x: hidden; /* Disable horizontal scrolling */
 }
+
 
 #root-online-store-front-page .online-main {
   display: flex;
