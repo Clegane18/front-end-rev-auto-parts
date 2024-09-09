@@ -1,51 +1,140 @@
-import React, { useContext, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { OnlineCartContext } from "./OnlineCartContext";
 import InsufficientStockModal from "./InsufficientStockModal";
 import "../../styles/onlineStoreFrontComponents/OnlineCart.css";
+import {
+  getCartItems,
+  updateCartItemQuantity,
+  removeProductFromCart,
+} from "../../services/cart-api";
+import { useAuth } from "../../contexts/AuthContext";
 import { formatCurrency } from "../../utils/formatCurrency";
 
 const OnlineCart = () => {
-  const { cartItems, removeFromCart, updateQuantity } =
-    useContext(OnlineCartContext);
-  const navigate = useNavigate();
-
+  const { token } = useAuth();
+  const [cartItems, setCartItems] = useState([]);
+  const [selectedItems, setSelectedItems] = useState([]);
   const [modalInfo, setModalInfo] = useState({
     isOpen: false,
     productName: "",
     stock: 0,
   });
+  const navigate = useNavigate();
 
-  const handlePay = () => {
-    const validItems = cartItems.filter((item) => item.quantity > 0);
-    navigate("/online-checkout", { state: { items: validItems } });
-  };
+  useEffect(() => {
+    const fetchCart = async () => {
+      try {
+        const response = await getCartItems({ token });
+        setCartItems(response.data.CartItems);
+      } catch (error) {
+        console.error("Error fetching cart:", error.message);
+      }
+    };
+    if (token) {
+      fetchCart();
+    }
+  }, [token]);
 
-  const handleGoToOnline = () => {
-    navigate("/");
-  };
+  useEffect(() => {
+    const savedSelectedItems =
+      JSON.parse(sessionStorage.getItem("selectedCartItems")) || [];
+    setSelectedItems(savedSelectedItems);
+  }, []);
 
-  const calculateSubtotal = () => {
-    return cartItems
-      .filter((item) => item.quantity > 0)
-      .reduce((acc, item) => acc + item.subtotalAmount, 0);
-  };
+  useEffect(() => {
+    sessionStorage.setItem("selectedCartItems", JSON.stringify(selectedItems));
+  }, [selectedItems]);
 
-  const handleQuantityChange = (index, newQuantity) => {
+  const handleQuantityChange = async (index, newQuantity) => {
     const item = cartItems[index];
-    if (newQuantity > item.stock) {
+
+    if (newQuantity > item.Product.stock) {
       setModalInfo({
         isOpen: true,
-        productName: item.productName || item.name,
-        stock: item.stock,
+        productName: item.Product.name,
+        stock: item.Product.stock,
       });
       return;
     }
-    updateQuantity(index, newQuantity);
+
+    const action =
+      newQuantity > item.quantity ? "increaseQuantity" : "decreaseQuantity";
+    const value = Math.abs(newQuantity - item.quantity);
+
+    try {
+      await updateCartItemQuantity({
+        productId: item.Product.id,
+        action,
+        value,
+        token,
+      });
+
+      const updatedItems = [...cartItems];
+      updatedItems[index].quantity = newQuantity;
+      updatedItems[index].subtotal =
+        updatedItems[index].quantity * updatedItems[index].Product.price;
+      setCartItems(updatedItems);
+    } catch (error) {
+      console.error("Error updating quantity:", error.message);
+    }
+  };
+
+  const handleRemoveFromCart = async (index) => {
+    const item = cartItems[index];
+
+    try {
+      await removeProductFromCart({
+        productId: item.Product.id,
+        token,
+      });
+
+      const updatedItems = cartItems.filter((_, i) => i !== index);
+      setCartItems(updatedItems);
+    } catch (error) {
+      console.error("Error removing item:", error.message);
+    }
+  };
+
+  const handleToggleSelection = (index) => {
+    const item = cartItems[index];
+    let updatedSelectedItems = [];
+
+    if (selectedItems.includes(item.id)) {
+      updatedSelectedItems = selectedItems.filter((id) => id !== item.id);
+    } else {
+      updatedSelectedItems = [...selectedItems, item.id];
+    }
+
+    setSelectedItems(updatedSelectedItems);
+  };
+
+  const calculateSelectedSubtotal = () => {
+    return cartItems.reduce((acc, item) => {
+      if (selectedItems.includes(item.id)) {
+        return acc + parseFloat(item.subtotal);
+      }
+      return acc;
+    }, 0);
+  };
+
+  const handlePay = () => {
+    const validItems = cartItems.filter(
+      (item) => selectedItems.includes(item.id) && item.quantity > 0
+    );
+
+    if (validItems.length > 0) {
+      navigate("/online-checkout", { state: { items: validItems } });
+    } else {
+      alert("Please select at least one item for checkout.");
+    }
   };
 
   const closeModal = () => {
     setModalInfo({ isOpen: false, productName: "", stock: 0 });
+  };
+
+  const handleGoToOnline = () => {
+    navigate("/");
   };
 
   const encodeURL = (url) =>
@@ -55,8 +144,7 @@ const OnlineCart = () => {
     <div id="root-online-cart">
       <div className="cart-container">
         <h2>Your cart</h2>
-        {cartItems.length === 0 ||
-        !cartItems.some((item) => item.quantity > 0) ? (
+        {cartItems.length === 0 ? (
           <div className="empty-cart">
             <p>Your cart is currently empty.</p>
             <button
@@ -74,57 +162,61 @@ const OnlineCart = () => {
               <span className="header-quantity">Quantity</span>
               <span className="header-total">Total</span>
             </div>
-            {cartItems
-              .filter((item) => item.quantity > 0)
-              .map((item, index) => (
-                <div key={index} className="cart-item">
-                  <div className="cart-item-details">
-                    <div className="item-image-container">
-                      <img
-                        src={`http://localhost:3002/${encodeURL(
-                          item.imageUrl.replace(/\\/g, "/")
-                        )}`}
-                        alt={item.name}
-                        className="item-image"
-                      />
-                    </div>
-                    <div className="item-info">
-                      <span className="item-name">
-                        {item.productName || item.name}
-                        <br></br>
-                        <button
-                          className="remove-button"
-                          onClick={() => removeFromCart(index)}
-                        >
-                          Remove
-                        </button>
-                      </span>
-                    </div>
-                    <span className="item-price">
-                      {formatCurrency(item.unitPrice)}
-                    </span>
-                    <div className="quantity-controls">
-                      <input
-                        type="number"
-                        value={item.quantity}
-                        onChange={(e) =>
-                          handleQuantityChange(index, Number(e.target.value))
-                        }
-                        min="1"
-                        max={item.stock}
-                      />
-                    </div>
-                    <span className="item-total">
-                      {formatCurrency(item.subtotalAmount)}
+            {cartItems.map((item, index) => (
+              <div key={index} className="cart-item">
+                <div className="cart-item-details">
+                  <div className="item-image-container">
+                    <input
+                      type="checkbox"
+                      checked={selectedItems.includes(item.id)}
+                      onChange={() => handleToggleSelection(index)}
+                      className="cart-item-checkbox"
+                    />
+                    <img
+                      src={`http://localhost:3002/${encodeURL(
+                        item.Product.imageUrl.replace(/\\/g, "/")
+                      )}`}
+                      alt={item.Product?.name || "No image"}
+                      className="item-image"
+                    />
+                  </div>
+                  <div className="item-info">
+                    <span className="item-name">
+                      {item.Product.name}
+                      <br />
+                      <button
+                        className="remove-button"
+                        onClick={() => handleRemoveFromCart(index)}
+                      >
+                        Remove
+                      </button>
                     </span>
                   </div>
+                  <span className="item-price">
+                    {formatCurrency(item.Product.price)}
+                  </span>
+                  <div className="quantity-controls">
+                    <input
+                      type="number"
+                      value={item.quantity}
+                      onChange={(e) =>
+                        handleQuantityChange(index, Number(e.target.value))
+                      }
+                      min="1"
+                      max={item.Product.stock}
+                    />
+                  </div>
+                  <span className="item-total">
+                    {formatCurrency(item.subtotal)}
+                  </span>
                 </div>
-              ))}
+              </div>
+            ))}
             <div className="online-cart-bottom-section">
               <div className="cart-summary">
-                <div className="subtotal-label">Subtotal:</div>
+                <div className="subtotal-label">Selected Items Subtotal:</div>
                 <div className="subtotal-value">
-                  {formatCurrency(calculateSubtotal())}
+                  {formatCurrency(calculateSelectedSubtotal())}
                 </div>
               </div>
               <div className="cart-summary-buttons">

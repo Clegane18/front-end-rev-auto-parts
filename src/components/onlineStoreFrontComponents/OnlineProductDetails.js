@@ -4,9 +4,12 @@ import InsufficientStockModal from "./InsufficientStockModal";
 import "../../styles/onlineStoreFrontComponents/OnlineProductDetails.css";
 import { formatCurrency } from "../../utils/formatCurrency";
 import useRequireAuth from "../../utils/useRequireAuth";
+import { addProductToCart } from "../../services/cart-api";
+import { useAuth } from "../../contexts/AuthContext";
 
-const OnlineProductDetails = ({ product, onAddToCart, onClose }) => {
+const OnlineProductDetails = ({ product, onClose, onCartUpdate }) => {
   const checkAuth = useRequireAuth();
+  const { currentUser, token } = useAuth();
   const [showBuyNow, setShowBuyNow] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [modalInfo, setModalInfo] = useState({
@@ -17,13 +20,13 @@ const OnlineProductDetails = ({ product, onAddToCart, onClose }) => {
   const navigate = useNavigate();
 
   const handleBuyNowClick = () => {
-    if (checkAuth("/")) {
+    if (checkAuth("/online-store")) {
       setShowBuyNow(true);
     }
   };
 
   const handleConfirmPurchaseClick = useCallback(() => {
-    if (!checkAuth("/")) return;
+    if (!checkAuth("/online-store")) return;
     if (quantity > product.stock) {
       setModalInfo({
         isOpen: true,
@@ -42,8 +45,8 @@ const OnlineProductDetails = ({ product, onAddToCart, onClose }) => {
     navigate("/online-checkout", { state: { items: [productWithQuantity] } });
   }, [checkAuth, quantity, product, navigate]);
 
-  const handleAddToCartClick = useCallback(() => {
-    if (!checkAuth("/")) return;
+  const handleAddToCartClick = useCallback(async () => {
+    if (!checkAuth("/online-store")) return;
     if (quantity > product.stock) {
       setModalInfo({
         isOpen: true,
@@ -53,14 +56,30 @@ const OnlineProductDetails = ({ product, onAddToCart, onClose }) => {
       return;
     }
 
-    const productWithQuantity = {
-      ...product,
-      quantity,
-      unitPrice: product.price,
-      subtotalAmount: quantity * product.price,
-    };
-    onAddToCart(productWithQuantity);
-  }, [checkAuth, quantity, product, onAddToCart]);
+    try {
+      await addProductToCart({
+        customerId: currentUser.id,
+        productId: product.id,
+        token,
+      });
+
+      onClose();
+
+      if (onCartUpdate) {
+        onCartUpdate();
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
+  }, [
+    checkAuth,
+    quantity,
+    product,
+    currentUser.id,
+    token,
+    onClose,
+    onCartUpdate,
+  ]);
 
   const handleQuantityChange = (e) => {
     const newQuantity = Number(e.target.value);

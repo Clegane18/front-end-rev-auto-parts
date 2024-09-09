@@ -1,9 +1,8 @@
-import React, { useContext, useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { createOrder, calculateShippingFee } from "../../services/order-api";
 import { useNavigate, useLocation } from "react-router-dom";
 import { getAddressById } from "../../services/address-api";
 import { useAuth } from "../../contexts/AuthContext";
-import { OnlineCartContext } from "../onlineStoreFrontComponents/OnlineCartContext";
 import "../../styles/onlineStoreFrontComponents/OnlineCheckout.css";
 import logo from "../../assets/g&f-logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,7 +12,6 @@ import { formatCurrency } from "../../utils/formatCurrency";
 
 const OnlineCheckout = () => {
   const { currentUser, token } = useAuth();
-  const { clearCart } = useContext(OnlineCartContext);
   const [customerId, setCustomerId] = useState("");
   const [addressId, setAddressId] = useState("");
   const [addressDetails, setAddressDetails] = useState(null);
@@ -67,7 +65,7 @@ const OnlineCheckout = () => {
   const handleCheckout = async () => {
     try {
       const merchandiseSubtotal = cartItems.reduce(
-        (acc, item) => acc + (item.unitPrice || 0) * item.quantity,
+        (acc, item) => acc + (item.subtotal || 0) * item.quantity,
         0
       );
 
@@ -75,7 +73,7 @@ const OnlineCheckout = () => {
         customerId: Number(customerId),
         addressId: Number(addressId),
         items: cartItems.map((item) => ({
-          productId: item.id,
+          productId: item.productId,
           quantity: item.quantity,
         })),
         token,
@@ -89,7 +87,6 @@ const OnlineCheckout = () => {
       if (order) {
         setShippingFee(order.shippingFee || 0);
         setSuccessMessage(order.message);
-        clearCart();
         navigate("/customer-profile", {
           state: { selectedMenu: "MyPurchase", activeTab: "To Pay" },
         });
@@ -98,14 +95,6 @@ const OnlineCheckout = () => {
       }
     } catch (err) {
       console.error("Checkout error:", err);
-
-      if (err.response && err.response.data && err.response.data.message) {
-        setError(err.response.data.message);
-      } else if (err.message) {
-        setError(err.message);
-      } else {
-        setError("An unexpected error occurred. Please try again later.");
-      }
     }
   };
 
@@ -208,24 +197,30 @@ const OnlineCheckout = () => {
                 <div className="product-details">
                   <div className="item-image-container">
                     <img
-                      src={`http://localhost:3002/${encodeURL(
-                        item.imageUrl.replace(/\\/g, "/")
-                      )}`}
-                      alt={item.name}
+                      src={
+                        item.Product?.imageUrl
+                          ? `http://localhost:3002/${encodeURL(
+                              item.Product.imageUrl.replace(/\\/g, "/")
+                            )}`
+                          : "default-image-url.jpg"
+                      }
+                      alt={item.Product?.name || "No image"}
                       className="item-image"
                     />
                   </div>
                   <div className="product-info">
-                    <p className="product-name">{item.name}</p>
+                    <p className="product-name">{item.Product?.name}</p>
                   </div>
                 </div>
                 <p className="product-price">
-                  {item.unitPrice ? formatCurrency(item.unitPrice) : "N/A"}
+                  {item.Product?.price
+                    ? formatCurrency(item.Product.price)
+                    : "N/A"}
                 </p>
                 <p className="product-quantity">{item.quantity}</p>
                 <p className="product-subtotal">
-                  {item.unitPrice
-                    ? formatCurrency(item.unitPrice * item.quantity)
+                  {item.Product?.price
+                    ? formatCurrency(item.Product.price * item.quantity)
                     : "N/A"}
                 </p>
               </li>
@@ -244,7 +239,8 @@ const OnlineCheckout = () => {
               <span>
                 {formatCurrency(
                   cartItems.reduce(
-                    (acc, item) => acc + (item.unitPrice || 0) * item.quantity,
+                    (acc, item) =>
+                      acc + (item.Product.price || 0) * item.quantity,
                     0
                   )
                 )}
@@ -263,7 +259,8 @@ const OnlineCheckout = () => {
               <span>
                 {formatCurrency(
                   cartItems.reduce(
-                    (acc, item) => acc + (item.unitPrice || 0) * item.quantity,
+                    (acc, item) =>
+                      acc + (item.Product.price || 0) * item.quantity,
                     0
                   ) + (isFreeShipping ? 0 : shippingFee || 0)
                 )}

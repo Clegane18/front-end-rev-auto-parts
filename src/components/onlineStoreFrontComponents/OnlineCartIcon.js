@@ -1,25 +1,35 @@
-import React, { useContext } from "react";
-import { OnlineCartContext } from "./OnlineCartContext";
+import React, { useState, useEffect } from "react";
 import { FiShoppingCart } from "react-icons/fi";
 import "../../styles/onlineStoreFrontComponents/OnlineCartIcon.css";
-import useRequireAuth from "../../utils/useRequireAuth";
-import { useNavigate } from "react-router-dom";
+import { getCartItemCount } from "../../services/cart-api";
+import { useAuth } from "../../contexts/AuthContext";
 
-const CartIcon = () => {
-  const { getItemCount } = useContext(OnlineCartContext);
-  const checkAuth = useRequireAuth();
-  const itemCount = getItemCount();
-  const navigate = useNavigate();
+const OnlineCartIcon = ({ onCartUpdateRef, onClick }) => {
+  const [itemCount, setItemCount] = useState(0);
+  const { token } = useAuth();
 
-  const handleClick = () => {
-    if (checkAuth("/online-cart")) {
-      navigate("/online-cart");
+  const fetchItemCount = async () => {
+    try {
+      const response = await getCartItemCount({ token });
+      setItemCount(response.data);
+    } catch (error) {
+      console.error("Error fetching item count:", error.message);
     }
   };
 
+  useEffect(() => {
+    if (token) {
+      fetchItemCount();
+    }
+
+    if (onCartUpdateRef) {
+      onCartUpdateRef.current = fetchItemCount;
+    }
+  }, [token, onCartUpdateRef]);
+
   return (
-    <div id="root-online-cart-icon">
-      <div className="cart-icon-container" onClick={handleClick}>
+    <div id="root-online-cart-icon" onClick={onClick}>
+      <div className="cart-icon-container">
         <FiShoppingCart className="cart-icon" size={30} />
         {itemCount > 0 && <span className="item-count">{itemCount}</span>}
       </div>
@@ -27,4 +37,4 @@ const CartIcon = () => {
   );
 };
 
-export default CartIcon;
+export default OnlineCartIcon;

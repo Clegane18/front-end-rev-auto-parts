@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import OnlineProductSearch from "./OnlineProductSearch";
 import OnlineCartIcon from "./OnlineCartIcon";
@@ -12,25 +12,17 @@ const OnlineStoreFrontHeader = ({
   handleSearch,
   handleSearchTermChange,
   handleSelectProduct,
+  children,
 }) => {
   const { cartItems } = useContext(OnlineCartContext);
   const navigate = useNavigate();
   const checkAuth = useRequireAuth();
+  const cartUpdateRef = useRef(null);
 
-  const handleProfileOrLoginClick = () => {
-    if (checkAuth("/customer-profile")) {
-      navigate("/customer-profile");
+  const handleCartUpdate = () => {
+    if (cartUpdateRef.current) {
+      cartUpdateRef.current();
     }
-  };
-
-  const handleCartIconClick = () => {
-    if (checkAuth("/online-cart")) {
-      navigate("/online-cart");
-    }
-  };
-
-  const handleLogoClick = () => {
-    navigate("/");
   };
 
   return (
@@ -42,7 +34,7 @@ const OnlineStoreFrontHeader = ({
               src={logo}
               alt="G&F Auto Supply"
               id="shop-logo"
-              onClick={handleLogoClick}
+              onClick={() => navigate("/")}
               style={{ cursor: "pointer" }}
               loading="lazy"
             />
@@ -55,7 +47,12 @@ const OnlineStoreFrontHeader = ({
                 onSelectProduct={handleSelectProduct}
               />
             </div>
-            <div id="profile-icon" onClick={handleProfileOrLoginClick}>
+            <div
+              id="profile-icon"
+              onClick={() =>
+                checkAuth("/customer-profile") && navigate("/customer-profile")
+              }
+            >
               {checkAuth("/customer-profile") ? (
                 <FiUser size={30} />
               ) : (
@@ -65,7 +62,10 @@ const OnlineStoreFrontHeader = ({
             <div id="cart-icon">
               <OnlineCartIcon
                 itemCount={cartItems.length}
-                onClick={handleCartIconClick}
+                onCartUpdateRef={cartUpdateRef}
+                onClick={() =>
+                  checkAuth("/online-cart") && navigate("/online-cart")
+                }
               />
             </div>
           </div>
@@ -73,40 +73,25 @@ const OnlineStoreFrontHeader = ({
         <nav id="main-nav">
           <ul>
             <li>
-              <NavLink
-                to="/categories"
-                className={({ isActive }) => (isActive ? "active" : "")}
-              >
+              <NavLink to="/categories">
                 Browse Categories <FiChevronDown size={16} />
               </NavLink>
             </li>
             <li>
-              <NavLink
-                to="/"
-                className={({ isActive }) => (isActive ? "active" : "")}
-              >
-                Home
-              </NavLink>
+              <NavLink to="/">Home</NavLink>
             </li>
             <li>
-              <NavLink
-                to="/about-us"
-                className={({ isActive }) => (isActive ? "active" : "")}
-              >
-                About Us
-              </NavLink>
+              <NavLink to="/about-us">About Us</NavLink>
             </li>
             <li>
-              <NavLink
-                to="/contact-us"
-                className={({ isActive }) => (isActive ? "active" : "")}
-              >
-                Contact Us
-              </NavLink>
+              <NavLink to="/contact-us">Contact Us</NavLink>
             </li>
           </ul>
         </nav>
       </div>
+
+      {children &&
+        React.cloneElement(children, { onCartUpdate: handleCartUpdate })}
     </>
   );
 };

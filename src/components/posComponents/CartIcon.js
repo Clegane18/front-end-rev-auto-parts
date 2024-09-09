@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { CartContext } from "./CartContext";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import { FiShoppingCart } from "react-icons/fi";
+
 import "../../styles/posComponents/CartIcon.css";
 
 const CartIcon = ({ onClick }) => {
@@ -11,7 +11,7 @@ const CartIcon = ({ onClick }) => {
   return (
     <div id="root-cart-icon">
       <div className="cart-icon-container" onClick={onClick}>
-        <FontAwesomeIcon icon={faShoppingCart} className="cart-icon" />
+        <FiShoppingCart className="cart-icon" size={30} />
         {itemCount > 0 && <span className="item-count">{itemCount}</span>}
       </div>
     </div>

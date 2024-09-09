@@ -47,11 +47,9 @@
   
   .submenu li.active {
     font-weight: bold;
-    color: #0c619b; 
+    color: #ff0000; 
   }
   
   .submenu li:hover {
-    font-weight: bold;
-    color: #0c619b; 
     opacity: 0.75;
   }

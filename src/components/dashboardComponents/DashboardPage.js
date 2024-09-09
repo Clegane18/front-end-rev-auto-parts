@@ -292,7 +292,7 @@ const DashboardPage = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/online-store">
+                <Link to="/">
                   <FontAwesomeIcon icon={faStoreAlt} /> Online Store Front
                 </Link>
               </li>

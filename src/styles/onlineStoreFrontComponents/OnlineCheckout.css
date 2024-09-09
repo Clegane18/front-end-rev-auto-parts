@@ -107,7 +107,9 @@
   margin-left: 15px;  
 }
 
-#root-online-checkout .change-address-link:hover{
+#root-online-checkout .change-address-link:hover, 
+#root-online-checkout .change-payment-method-link:hover,
+#root-online-checkout .checkout-button:hover{
   opacity: 0.75;
 }
 
