@@ -90,7 +90,7 @@ const OnlineStoreFrontFooter = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/contact" className="account-link">
+                <Link to="/contact-us" className="account-link">
                   Contact
                 </Link>
               </li>

@@ -28,7 +28,7 @@ const ContactUsPage = () => {
             <div className="contact-details">
               <h3>Write To Us</h3>
               <p className="contact-us-text">
-                Fill out our form and we will contact you within 24 hours.
+                Fill out our form and we will contact you within 72 hours.
               </p>
               <p className="contact-us-text">
                 Emails: gf.autosupply1724@gmail.com
