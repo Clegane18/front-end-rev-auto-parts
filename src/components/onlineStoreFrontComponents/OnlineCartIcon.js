@@ -8,16 +8,16 @@ const OnlineCartIcon = ({ onCartUpdateRef, onClick }) => {
   const [itemCount, setItemCount] = useState(0);
   const { token } = useAuth();
 
-  const fetchItemCount = async () => {
-    try {
-      const response = await getCartItemCount({ token });
-      setItemCount(response.data);
-    } catch (error) {
-      console.error("Error fetching item count:", error.message);
-    }
-  };
-
   useEffect(() => {
+    const fetchItemCount = async () => {
+      try {
+        const response = await getCartItemCount({ token });
+        setItemCount(response.data);
+      } catch (error) {
+        console.error("Error fetching item count:", error.message);
+      }
+    };
+
     if (token) {
       fetchItemCount();
     }

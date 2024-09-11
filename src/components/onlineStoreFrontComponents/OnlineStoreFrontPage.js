@@ -6,6 +6,7 @@ import { OnlineCartContext } from "./OnlineCartContext";
 import "../../styles/onlineStoreFrontComponents/OnlineStoreFrontPage.css";
 import useRequireAuth from "../../utils/useRequireAuth";
 import ProductShowcaseCarousel from "./ProductShowcaseCarousel";
+import OnlineStoreFrontFooter from "./OnlineStoreFrontFooter";
 
 const OnlineStoreFrontPage = () => {
   const [products, setProducts] = useState([]);
@@ -41,15 +42,14 @@ const OnlineStoreFrontPage = () => {
 
   return (
     <div id="root-online-store-front-page">
+      <OnlineStoreFrontHeader
+        products={products}
+        searchTerm={searchTerm}
+        handleSearch={handleSearch}
+        handleSearchTermChange={handleSearchTermChange}
+        handleSelectProduct={handleSelectProduct}
+      />
       <div className="online-store-front-page">
-        <OnlineStoreFrontHeader
-          products={products}
-          searchTerm={searchTerm}
-          handleSearch={handleSearch}
-          handleSearchTermChange={handleSearchTermChange}
-          handleSelectProduct={handleSelectProduct}
-        />
-
         <ProductShowcaseCarousel />
 
         <div className="online-content">
@@ -68,6 +68,7 @@ const OnlineStoreFrontPage = () => {
             />
           )}
         </div>
+        <OnlineStoreFrontFooter />
       </div>
     </div>
   );

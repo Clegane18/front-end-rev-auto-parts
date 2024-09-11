@@ -1,22 +1,118 @@
 #root-online-store-front-footer .footer {
-    background-color: #000;
-    color: #fff;
-    text-align: center;
-    padding: 20px;
-  }
-  
-  #root-online-store-front-footer .newsletter input,
-  #root-online-store-front-footer .newsletter button {
-    margin-top: 10px;
-  }
-  
+  background-color: #000;
+  color: #fff;
+  text-align: center;
+  padding: 15px 10px;
+  font-family: 'Roboto', sans-serif;
+}
+
+#root-online-store-front-footer .footer-content {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+#root-online-store-front-footer .footer-section {
+  margin: 10px 10px;
+  min-width: 160px;
+  flex-grow: 1;
+}
+
+#root-online-store-front-footer .footer-section h2, 
+#root-online-store-front-footer .footer-section h3 {
+  font-size: 16px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #fff;
+}
+
+#root-online-store-front-footer .footer-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#root-online-store-front-footer .footer-section ul li {
+  margin-bottom: 8px;
+}
+
+#root-online-store-front-footer .footer-section ul li a,
+#root-online-store-front-footer .footer-section ul li button,
+#root-online-store-front-footer .footer-section ul li {
+  color: white;
+  font-size: 13px;
+  text-transform: none;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+#root-online-store-front-footer .footer-section ul li a:hover,
+#root-online-store-front-footer .footer-section ul li:hover,
+#root-online-store-front-footer .footer-section ul li button:hover {
+  color: #ff0000;
+  text-decoration: underline;
+}
+
+#root-online-store-front-footer .footer-section ul li button {
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+}
+
+#root-online-store-front-footer .footer-section .small-letter {
+  text-transform: none;
+  font-size: 14px;
+  padding-bottom: 5px;
+}
+
+#root-online-store-front-footer .footer-section .padding-bottom {
+  padding-bottom: 5px;
+  text-transform: none;
+}
+
+#root-online-store-front-footer .social-icons {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+#root-online-store-front-footer .social-icons svg {
+  font-size: 22px;
+  cursor: pointer;
+  color: #fff;
+  transition: color 0.3s ease;
+}
+
+#root-online-store-front-footer .social-icons svg:hover {
+  color: #ff0000;
+}
+
+#root-online-store-front-footer .copyright {
+  font-size: 11px;
+  margin-top: 5px;
+  color: dimgray;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 5px;
+}
+
+@media (max-width: 768px) {
   #root-online-store-front-footer .footer-content {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 20px;
+    flex-direction: column;
+    align-items: center;
   }
-  
-  #root-online-store-front-footer .footer-content div {
-    margin: 10px;
+
+  #root-online-store-front-footer .footer-section {
+    margin: 10px 0;
+    text-align: center;
   }
-  
+}

@@ -30,6 +30,8 @@ import ArchivedProductsPage from "./components/inventoryComponents/ArchivedProdu
 import OnlineCheckout from "./components/onlineStoreFrontComponents/OnlineCheckout";
 import OrderList from "./components/dashboardComponents/OrderList";
 import NotFoundPage from "./components/NotFoundPage";
+import AboutUsPage from "./components/onlineStoreFrontComponents/AboutUsPage";
+import ContactUsPage from "./components/onlineStoreFrontComponents/ContactUsPage";
 
 const App = () => {
   const { authToken, login } = useAuthentication();
@@ -147,6 +149,8 @@ const App = () => {
                   path="/orders"
                   element={authToken ? <OrderList /> : <Navigate to="/login" />}
                 />
+                <Route path="/about-us" element={<AboutUsPage />} />
+                <Route path="/contact-us" element={<ContactUsPage />} />
                 <Route path="*" element={<NotFoundPage />} />
               </Routes>
             </WebSocketProvider>
