@@ -48,7 +48,16 @@
       padding: 6px 12px;
     }
   }
-  
+
+  #root-online-store-front-items-by-category .best-sellers-section {
+    margin-bottom: 40px;
+    background-color: #F9F9F9;
+    border-radius: 10px;
+    padding: 20px 40px; 
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1), 
+    0 6px 6px rgba(0, 0, 0, 0.05); 
+  }
+
   #root-online-store-front-items-by-category .category-section {
     margin-bottom: 40px;
   }
@@ -60,6 +69,15 @@
     color: #333;
     font-weight: 300;
   }
+  
+  #root-online-store-front-items-by-category .best-selling-header {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 32px;
+    color: #ff0000; 
+    font-weight: bold; 
+    letter-spacing: 1px; 
+}
   
   #root-online-store-front-items-by-category .products {
     display: grid;
@@ -90,6 +108,27 @@
     opacity: 0.75;
   }
   
+  #root-online-store-front-items-by-category .best-seller-product-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  #root-online-store-front-items-by-category .best-seller-product-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border: 1px solid #ff0f0f;
+  }
+
   #root-online-store-front-items-by-category .product-image-container {
     width: 120px; 
     height: 150px; 
@@ -139,6 +178,12 @@
     font-size: 14px;
     color: #333;
   }
+
+  #root-online-store-front-items-by-category .item-sold {
+    font-size: 14px;
+    margin-top: 5px;
+    text-transform: none;
+  }
   
   #root-online-store-front-items-by-category .view-all-container {
     text-align: center;
@@ -150,7 +195,7 @@
     padding: 10px 20px;
     font-size: 13px;
     color: #ffffff;
-    background-color: #c82333;
+    background-color: #ff4747;
     border: none;
     border-radius: 2px;
     cursor: pointer;

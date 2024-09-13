@@ -89,6 +89,24 @@ export const republishItemByProductId = async () => {
   }
 };
 
+export const getBestSellingProductsForMonth = async (limit = 5) => {
+  try {
+    const response = await api.get(`/products/best-sellers-for-month`, {
+      params: {
+        limit: limit
+      }
+    });
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(
+        "Failed to fetch best-selling products for the current month. Please try again later."
+      );
+    }
+  }
+};
 
 export const getAllCategoriesInOnlineStoreFront = async () => {
   try {

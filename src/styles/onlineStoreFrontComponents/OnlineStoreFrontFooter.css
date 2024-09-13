@@ -105,6 +105,31 @@
   padding-top: 5px;
 }
 
+#root-online-store-front-footer .footer .shop-now-btn {
+  background-color: transparent; 
+  border: 1px solid rgba(255, 0, 0, 0.7);
+  color: rgba(255, 255, 255, 0.7);
+  padding: 12px 24px; 
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, border 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 5px; 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); 
+}
+
+#root-online-store-front-footer .footer .shop-now-btn:hover {
+  background-color: rgba(255, 0, 0, 0.1); 
+  color: #fff; 
+  border: 1px solid #ff0000; 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
+}
+
+#root-online-store-front-footer .footer .shop-now-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.5); 
+}
+
 @media (max-width: 768px) {
   #root-online-store-front-footer .footer-content {
     flex-direction: column;

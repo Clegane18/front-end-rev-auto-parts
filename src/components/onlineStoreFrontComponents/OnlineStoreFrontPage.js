@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useRef, useContext } from "react";
 import OnlineStoreFrontHeader from "./OnlineStoreFrontHeader";
 import OnlineProductDetails from "./OnlineProductDetails";
 import OnlineStoreFrontItemsByCategory from "./OnlineStoreFrontItemsByCategory";
@@ -14,6 +14,8 @@ const OnlineStoreFrontPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const { addToCart } = useContext(OnlineCartContext);
   const checkAuth = useRequireAuth();
+
+  const scrollToCategoryRef = useRef(null);
 
   const handleSelectProduct = (product) => {
     if (checkAuth("/")) {
@@ -48,6 +50,11 @@ const OnlineStoreFrontPage = () => {
         handleSearch={handleSearch}
         handleSearchTermChange={handleSearchTermChange}
         handleSelectProduct={handleSelectProduct}
+        onScrollToCategory={(categoryId) => {
+          if (scrollToCategoryRef.current) {
+            scrollToCategoryRef.current(categoryId); 
+          }
+        }}
       />
       <div className="online-store-front-page">
         <ProductShowcaseCarousel />
@@ -57,6 +64,10 @@ const OnlineStoreFrontPage = () => {
             <div className="products-section">
               <OnlineStoreFrontItemsByCategory
                 onSelectProduct={handleSelectProduct}
+                exposeScrollFunction={(scrollFn) => {
+                  scrollToCategoryRef.current = scrollFn; 
+                }}
+
               />
             </div>
           </main>

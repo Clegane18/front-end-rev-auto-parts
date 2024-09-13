@@ -1,8 +1,7 @@
-import React, { useContext, useRef } from "react";
+import React, {  useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import OnlineProductSearch from "./OnlineProductSearch";
 import OnlineCartIcon from "./OnlineCartIcon";
-import { OnlineCartContext } from "./OnlineCartContext";
 import logo from "../../assets/g&f-logo.png";
 import { FiUser, FiLogIn, FiChevronDown } from "react-icons/fi";
 import useRequireAuth from "../../utils/useRequireAuth";
@@ -13,8 +12,8 @@ const OnlineStoreFrontHeader = ({
   handleSearchTermChange,
   handleSelectProduct,
   children,
+  onScrollToCategory
 }) => {
-  const { cartItems } = useContext(OnlineCartContext);
   const navigate = useNavigate();
   const checkAuth = useRequireAuth();
   const cartUpdateRef = useRef(null);
@@ -22,6 +21,12 @@ const OnlineStoreFrontHeader = ({
   const handleCartUpdate = () => {
     if (cartUpdateRef.current) {
       cartUpdateRef.current();
+    }
+  };
+
+  const handleScrollToCategories = () => {
+    if (onScrollToCategory) {
+      onScrollToCategory("categories-section");
     }
   };
 
@@ -61,8 +66,6 @@ const OnlineStoreFrontHeader = ({
             </div>
             <div id="cart-icon">
               <OnlineCartIcon
-                itemCount={cartItems.length}
-                onCartUpdateRef={cartUpdateRef}
                 onClick={() =>
                   checkAuth("/online-cart") && navigate("/online-cart")
                 }
@@ -73,7 +76,7 @@ const OnlineStoreFrontHeader = ({
         <nav id="main-nav">
           <ul>
             <li>
-              <NavLink to="/categories">
+            <NavLink to="#" onClick={handleScrollToCategories}>
                 Browse Categories <FiChevronDown size={16} />
               </NavLink>
             </li>
