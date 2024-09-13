@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signUp } from "../../services/online-store-front-customer-api";
+import { useAuth } from "../../contexts/AuthContext"; 
 import "../../styles/onlineStoreFrontCustomersComponent/CreateAccountPage.css";
 
 const CreateAccountPage = () => {
@@ -8,18 +9,22 @@ const CreateAccountPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const { login } = useAuth(); 
   const navigate = useNavigate();
 
   const handleCreateAccount = async (event) => {
     event.preventDefault();
     try {
       const result = await signUp({ username, email, password });
-      console.log(result.message);
+  
+      login(result.accountInfo, result.token);
+  
       navigate("/");
     } catch (error) {
       setError(error.message);
     }
   };
+  
 
   return (
     <div className="create-account-container">

@@ -28,6 +28,15 @@ const OrderTabs = ({ initialTab = "All" }) => {
     "Cancelled",
   ];
 
+  const setCounts = (updatedOrders) => {
+    setAllCount(updatedOrders.length);
+    setToPayCount(updatedOrders.filter((order) => order.status === "To Pay").length);
+    setToShipCount(updatedOrders.filter((order) => order.status === "To Ship").length);
+    setToReceiveCount(updatedOrders.filter((order) => order.status === "To Receive").length);
+    setCompletedCount(updatedOrders.filter((order) => order.status === "Completed").length);
+    setCancelledCount(updatedOrders.filter((order) => order.status === "Cancelled").length);
+  };
+
   useEffect(() => {
     const fetchOrders = async () => {
       if (!currentUser) {
@@ -58,32 +67,17 @@ const OrderTabs = ({ initialTab = "All" }) => {
       }
     };
 
-    const setCounts = (orders) => {
-      setAllCount(orders.length);
-      setToPayCount(orders.filter((order) => order.status === "To Pay").length);
-      setToShipCount(
-        orders.filter((order) => order.status === "To Ship").length
-      );
-      setToReceiveCount(
-        orders.filter((order) => order.status === "To Receive").length
-      );
-      setCompletedCount(
-        orders.filter((order) => order.status === "Completed").length
-      );
-      setCancelledCount(
-        orders.filter((order) => order.status === "Cancelled").length
-      );
-    };
-
     fetchOrders();
+
     if (socket) {
       socket.on("orderStatusUpdated", ({ orderId, newStatus }) => {
-        setOrders((prevOrders) =>
-          prevOrders.map((order) =>
+        setOrders((prevOrders) => {
+          const updatedOrders = prevOrders.map((order) =>
             order.id === orderId ? { ...order, status: newStatus } : order
-          )
-        );
-        setCounts(orders);
+          );
+          setCounts(updatedOrders); 
+          return updatedOrders;
+        });
       });
     }
 

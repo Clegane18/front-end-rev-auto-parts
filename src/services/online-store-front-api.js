@@ -88,3 +88,19 @@ export const republishItemByProductId = async () => {
     }
   }
 };
+
+
+export const getAllCategoriesInOnlineStoreFront = async () => {
+  try {
+    const response = await api.get("products/categories/");
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(
+        "Failed to fetch categories from online store front. Please try again later."
+      );
+    }
+  }
+};

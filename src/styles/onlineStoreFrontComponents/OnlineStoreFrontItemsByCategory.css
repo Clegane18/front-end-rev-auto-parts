@@ -96,7 +96,7 @@
     display: flex;
     justify-content: center;
     align-items: center; 
-    margin-bottom: 5px;
+    margin-bottom: 10px;
   }
   
   #root-online-store-front-items-by-category .product-image {
@@ -118,16 +118,23 @@
   }
 
   #root-online-store-front-items-by-category .item-name {
-    margin: 0;
     font-size: 16px;
     font-weight: bold;
     margin: 10px 0;
-    height: 35px; /* gap between name and image */
+    max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
-  }
   
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  
+    line-clamp: 2;
+  
+    white-space: normal;
+    max-height: 3.6em; 
+  }  
+
   #root-online-store-front-items-by-category .item-price {
     font-size: 14px;
     color: #333;
@@ -153,5 +160,63 @@
   
   #root-online-store-front-items-by-category .view-all:hover {
     opacity: 0.75;
+  }
+  
+  #root-online-store-front-items-by-category .categories-section {
+    margin-top: 40px; 
+    padding: 20px 0;
+    border-top: 1px solid #e0e0e0; 
+    max-height: 400px; 
+    overflow-y: auto; 
+    overflow-x: hidden;
+  }
+  
+  #root-online-store-front-items-by-category .category-header {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #ff0000; 
+    text-align: left;
+  }
+  
+  #root-online-store-front-items-by-category .category-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); 
+    gap: 0px 15px; 
+  }
+  
+  #root-online-store-front-items-by-category .category-item {
+    font-size: 1em;
+    padding: 2px 0; 
+    color: black;
+    cursor: pointer;
+    text-align: left;
+    font-weight: normal;
+    transition: color 0.3s ease, transform 0.3s ease;
+    display: inline-block;
+    font-family: 'Montserrat', serif;
+  }
+  
+  #root-online-store-front-items-by-category .category-item:hover {
+    color: #ff0000; 
+    transform: translateY(-3px);
+  }
+  
+  @media (max-width: 1024px) {
+    #root-online-store-front-items-by-category .category-grid {
+      grid-template-columns: repeat(4, 1fr); 
+    }
+  }
+  
+  @media (max-width: 768px) {
+    #root-online-store-front-items-by-category .category-grid {
+      grid-template-columns: repeat(3, 1fr); 
+    }
+  }
+  
+  @media (max-width: 480px) {
+    #root-online-store-front-items-by-category .category-grid {
+      grid-template-columns: repeat(2, 1fr); 
+    }
   }
   
