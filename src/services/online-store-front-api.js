@@ -93,8 +93,8 @@ export const getBestSellingProductsForMonth = async (limit = 5) => {
   try {
     const response = await api.get(`/products/best-sellers-for-month`, {
       params: {
-        limit: limit
-      }
+        limit: limit,
+      },
     });
     return response.data;
   } catch (error) {
@@ -119,6 +119,25 @@ export const getAllCategoriesInOnlineStoreFront = async () => {
       throw new Error(
         "Failed to fetch categories from online store front. Please try again later."
       );
+    }
+  }
+};
+
+export const sendContactUsEmail = async ({ name, email, phone, message }) => {
+  try {
+    const response = await api.post("/contact-us", {
+      name,
+      email,
+      phone,
+      message,
+    });
+
+    return response.data.message;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error("Failed to send email. Please try again later.");
     }
   }
 };

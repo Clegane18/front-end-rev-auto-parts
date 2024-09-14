@@ -1,167 +1,177 @@
 #root-contact-us-page {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: space-between;
 }
 
 #root-contact-us-page .contact-us-content {
-    display: flex;
-    justify-content: space-between;
-    flex: 1;
-    padding: 50px 100px; 
-    background-color: #fff; 
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); 
+  display: flex;
+  justify-content: space-between;
+  flex: 1;
+  padding: 50px 100px;
+  background-color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 #root-contact-us-page .contact-options {
-    flex: 0.8; 
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 8px; 
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); 
+  flex: 0.8;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 #root-contact-us-page .contact-option {
-    display: flex;
-    gap: 15px;
-    align-items: flex-start;
-    padding-bottom: 20px;
-    position: relative; 
-    margin-bottom: 30px; 
+  display: flex;
+  gap: 15px;
+  align-items: flex-start;
+  padding-bottom: 20px;
+  position: relative;
+  margin-bottom: 30px;
 }
 
 #root-contact-us-page .contact-option::after {
-    content: "";
-    position: absolute;
-    bottom: -15px;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background-color: #ddd; 
+  content: "";
+  position: absolute;
+  bottom: -15px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #ddd;
 }
 
 #root-contact-us-page .contact-option:last-child::after {
-    display: none; 
+  display: none;
 }
 
 #root-contact-us-page .icon {
-    font-size: 2.2em;
-    color: #BB0000;
+  font-size: 2.2em;
+  color: #bb0000;
 }
 
 #root-contact-us-page .contact-details h3 {
-    margin: 0;
-    font-size: 1.6em;
-    color: #333;
-    font-weight: bold;
-    text-transform: uppercase;
+  margin: 0;
+  font-size: 1.6em;
+  color: #333;
+  font-weight: bold;
+  text-transform: uppercase;
 }
 
 #root-contact-us-page .contact-details p,
 #root-contact-us-page .contact-details a {
-    margin: 5px 0;
-    font-size: 1.1em;
-    color: #666;
-    line-height: 1.5em;
+  margin: 5px 0;
+  font-size: 1.1em;
+  color: #666;
+  line-height: 1.5em;
 }
 
 #root-contact-us-page .contact-details a {
-    color: #f44336;
-    text-decoration: none;
-    font-weight: bold;
+  color: #f44336;
+  text-decoration: none;
+  font-weight: bold;
 }
 
 #root-contact-us-page .contact-form-container {
-    flex: 1;
-    margin-left: 50px;
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 8px; 
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); 
+  flex: 1;
+  margin-left: 50px;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 #root-contact-us-page .contact-form {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 #root-contact-us-page .form-row {
-    display: flex;
-    gap: 20px;
-    margin-bottom: 20px;
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
 }
 
 #root-contact-us-page input,
 #root-contact-us-page textarea {
-    width: 100%;
-    padding: 15px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 1.2em;
-    background-color: #f9f9f9; 
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1.2em;
+  background-color: #f9f9f9;
+  text-transform: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 #root-contact-us-page input::placeholder,
 #root-contact-us-page textarea::placeholder {
-    text-transform: none;
+  text-transform: none;
 }
 
 #root-contact-us-page textarea {
-    height: 150px;
-    resize: none;
+  height: 150px;
+  resize: none;
 }
 
 #root-contact-us-page .send-message-button {
-    margin-top: 20px;
-    padding: 15px 40px;
-    background-color: #BB0000;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    font-size: 1.2em;
-    cursor: pointer;
-    align-self: flex-end;
+  margin-top: 20px;
+  padding: 15px 40px;
+  background-color: #bb0000;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 1.2em;
+  cursor: pointer;
+  align-self: flex-end;
 }
 
 #root-contact-us-page .send-message-button:hover {
-    opacity: 0.75;
+  opacity: 0.75;
 }
 
 #root-contact-us-page .contact-us-text {
-    text-transform: none;
+  text-transform: none;
 }
 
 #root-contact-us-page a {
-    font-family: 'Montserrat', serif;
-    text-transform: none;
+  font-family: "Montserrat", serif;
+  text-transform: none;
 }
 
 #root-contact-us-page .get-directions-button {
-    font-size: 1.2em;
-    color: #d32f2f;
-    text-decoration: none;
-    position: relative;
-    font-weight: bold;
+  font-size: 1.2em;
+  color: #d32f2f;
+  text-decoration: none;
+  position: relative;
+  font-weight: bold;
 }
 
 #root-contact-us-page .get-directions-button::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 2px;
-    bottom: 0;
-    left: 0;
-    background-color: #d32f2f;
-    visibility: visible;
-    transform: scaleX(1);
-    transition: all 0.3s ease-in-out;
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #d32f2f;
+  visibility: visible;
+  transform: scaleX(1);
+  transition: all 0.3s ease-in-out;
 }
 
 #root-contact-us-page .get-directions-button:hover::after {
-    transform: scaleX(0);
+  transform: scaleX(0);
 }
 
 #root-contact-us-page .get-directions-button:hover {
-    color: #b71c1c;
+  color: #b71c1c;
+}
+
+#root-contact-us-page .error-message {
+  color: red;
+  margin-top: 10px;
+  font-size: 1em;
 }
