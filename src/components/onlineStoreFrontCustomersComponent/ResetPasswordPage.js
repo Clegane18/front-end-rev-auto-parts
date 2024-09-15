@@ -25,33 +25,35 @@ const ResetPasswordPage = () => {
   };
 
   return (
-    <div className="reset-password-container">
-      <h2>Reset Your Password</h2>
-      <p>Please set your new password.</p>
-      {message && <p>{message}</p>}
-      <form onSubmit={handleResetPassword}>
-        <div className="input-group">
-          <label>New Password</label>
-          <input
-            type="password"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            required
-          />
-        </div>
-        <div className="input-group">
-          <label>Confirm Password</label>
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit" className="submit-button">
-          Submit
-        </button>
-      </form>
+    <div id="root-reset-password">
+      <div className="reset-password-container">
+        <h2>Reset Your Password</h2>
+        <p>Please set your new password.</p>
+        {message && <p>{message}</p>}
+        <form onSubmit={handleResetPassword}>
+          <div className="input-group">
+            <label>New Password</label>
+            <input
+              type="password"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              required
+            />
+          </div>
+          <div className="input-group">
+            <label>Confirm Password</label>
+            <input
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
+          </div>
+          <button type="submit" className="submit-button">
+            Submit
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

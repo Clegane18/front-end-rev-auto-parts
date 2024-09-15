@@ -25,27 +25,29 @@ const RequestResetPasswordPage = () => {
   };
 
   return (
-    <div className="reset-password-container">
-      <h2>Reset Your Password</h2>
-      <p>We will send you an email to reset your password.</p>
-      {message && <p>{message}</p>}
-      <form onSubmit={handleRequestResetPassword}>
-        <div className="input-group">
-          <label>Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit" className="submit-button">
-          Submit
+    <div id="root-reset-password">
+      <div className="reset-password-container">
+        <h2>Reset Your Password</h2>
+        <p>We will send you an email to reset your password.</p>
+        {message && <p>{message}</p>}
+        <form onSubmit={handleRequestResetPassword}>
+          <div className="input-group">
+            <label>Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <button type="submit" className="submit-button">
+            Submit
+          </button>
+        </form>
+        <button onClick={handleCancel} className="cancel-link">
+          Cancel
         </button>
-      </form>
-      <button onClick={handleCancel} className="cancel-link">
-        Cancel
-      </button>
+      </div>
     </div>
   );
 };

@@ -106,15 +106,6 @@ const CustomerLoginPage = () => {
               <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
             </button>
           </div>
-          <div className="forgot-password">
-            <button
-              type="button"
-              onClick={handleResetPassword}
-              className="create-account-link"
-            >
-              Forgot your password?
-            </button>
-          </div>
           <button type="submit" className="sign-in-button">
             Sign In
           </button>
@@ -136,6 +127,15 @@ const CustomerLoginPage = () => {
             className="create-account-link"
           >
             Create account
+          </button>
+        </div>
+        <div className="forgot-password">
+          <button
+            type="button"
+            onClick={handleResetPassword}
+            className="create-account-link"
+          >
+            Forgot your password?
           </button>
         </div>
       </div>
