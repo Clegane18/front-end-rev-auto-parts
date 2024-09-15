@@ -6,8 +6,14 @@ import "../../styles/onlineStoreFrontCustomersComponent/CustomerLoginPage.css";
 import googleLogo from "../../assets/google-logo.png";
 import { login } from "../../services/online-store-front-customer-api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEye,
+  faEyeSlash,
+  faEnvelope,
+  faLock,
+} from "@fortawesome/free-solid-svg-icons";
 import { jwtDecode } from "jwt-decode";
+import LoginHeader from "./LoginHeader";
 
 const CustomerLoginPage = () => {
   const [email, setEmail] = useState("");
@@ -77,34 +83,41 @@ const CustomerLoginPage = () => {
 
   return (
     <div id="root-customer-login-page">
+      <LoginHeader />
       <div className="login-container">
         <h2>Login</h2>
         {error && <p className="error-message">{error}</p>}
         <form onSubmit={handleLogin} className="form-container">
           <div className="input-group">
             <label className="email-lbl">Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+            <div className="input-icon">
+              <FontAwesomeIcon icon={faEnvelope} className="input-field-icon" />
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
           </div>
           <div className="input-group password-group">
             <label className="pass-lbl">Password</label>
-            <input
-              type={showPassword ? "text" : "password"}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-            <button
-              type="button"
-              onClick={togglePasswordVisibility}
-              className="password-toggle-button"
-            >
-              <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
-            </button>
+            <div className="input-icon">
+              <FontAwesomeIcon icon={faLock} className="input-field-icon" />
+              <input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <button
+                type="button"
+                onClick={togglePasswordVisibility}
+                className="password-toggle-button"
+              >
+                <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+              </button>
+            </div>
           </div>
           <button type="submit" className="sign-in-button">
             Sign In
@@ -138,6 +151,12 @@ const CustomerLoginPage = () => {
             Forgot your password?
           </button>
         </div>
+      </div>
+      <div className="login-footer">
+        <p>
+          We're glad to see you! Let’s get started and enjoy a seamless shopping
+          experience.
+        </p>
       </div>
     </div>
   );

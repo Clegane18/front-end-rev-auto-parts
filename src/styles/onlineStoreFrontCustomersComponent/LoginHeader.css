@@ -1,0 +1,35 @@
+#root-login-header .login-header {
+  width: 100%;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+    url("../../assets/header-bg.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 10px;
+  color: white;
+  text-align: center;
+  border-bottom: 2px solid #bb0000;
+  transition: background 0.3s ease-in-out;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+#root-login-header .login-logo {
+  width: 200px;
+  height: auto;
+  cursor: pointer;
+  transition: opacity 0.3s ease-in-out;
+}
+
+#root-login-header .login-logo:hover {
+  opacity: 0.75;
+}
+
+#root-login-header .login-tagline {
+  font-size: 14px;
+  color: #f0f0f0;
+  margin-bottom: 10px;
+  text-align: center;
+  font-style: italic;
+}

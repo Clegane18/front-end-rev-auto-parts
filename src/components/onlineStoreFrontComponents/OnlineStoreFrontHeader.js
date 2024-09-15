@@ -1,4 +1,4 @@
-import React, {  useRef } from "react";
+import React, { useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import OnlineProductSearch from "./OnlineProductSearch";
 import OnlineCartIcon from "./OnlineCartIcon";
@@ -12,7 +12,7 @@ const OnlineStoreFrontHeader = ({
   handleSearchTermChange,
   handleSelectProduct,
   children,
-  onScrollToCategory
+  onScrollToCategory,
 }) => {
   const navigate = useNavigate();
   const checkAuth = useRequireAuth();
@@ -76,7 +76,7 @@ const OnlineStoreFrontHeader = ({
         <nav id="main-nav">
           <ul>
             <li>
-            <NavLink to="#" onClick={handleScrollToCategories}>
+              <NavLink to="#" onClick={handleScrollToCategories}>
                 Browse Categories <FiChevronDown size={16} />
               </NavLink>
             </li>

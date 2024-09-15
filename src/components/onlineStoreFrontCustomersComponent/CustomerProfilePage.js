@@ -7,6 +7,7 @@ import {
   updateCustomer,
 } from "../../services/online-store-front-customer-api";
 import OnlineStoreFrontHeader from "../onlineStoreFrontComponents/OnlineStoreFrontHeader";
+import OnlineStoreFrontFooter from "../onlineStoreFrontComponents/OnlineStoreFrontFooter";
 import Sidebar from "./Sidebar";
 import OrderTabs from "./OrderTabs";
 import "../../styles/onlineStoreFrontCustomersComponent/CustomerProfilePage.css";
@@ -269,6 +270,7 @@ const CustomerProfilePage = () => {
           onClose={() => setShowSuccessModal(false)}
         />
       )}
+      <OnlineStoreFrontFooter />
     </div>
   );
 };

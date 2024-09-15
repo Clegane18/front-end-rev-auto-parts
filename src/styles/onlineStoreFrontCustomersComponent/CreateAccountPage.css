@@ -1,11 +1,31 @@
+#root {
+  overflow-y: hidden;
+}
+#root-create-account-page {
+  margin-top: 20px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-image: url("../../assets/g&f-background.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
 #root-create-account-page .create-account-container {
   width: 100%;
   max-width: 400px;
   margin: 0 auto;
-  padding: 20px;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
+  padding: 30px;
+  background-color: rgba(255, 255, 255, 0.85);
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 90px;
 }
 
 #root-create-account-page .create-account-container h2 {
@@ -14,8 +34,14 @@
   font-weight: 300;
 }
 
+#root-create-account-page .form-container {
+  width: 100%;
+}
+
 #root-create-account-page .input-group {
   margin-bottom: 15px;
+  width: 100%;
+  text-align: center;
 }
 
 #root-create-account-page .input-group label {
@@ -24,31 +50,82 @@
   text-align: center;
 }
 
-#root-create-account-page .input-group input {
+#root-create-account-page .input-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+#root-create-account-page .input-icon input {
   width: 100%;
-  padding: 8px;
+  padding: 10px 10px 10px 35px;
   box-sizing: border-box;
   border: 1px solid #ccc;
   border-radius: 4px;
   text-transform: none;
 }
 
-#root-create-account-page .button-container {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
+#root-create-account-page .input-field-icon {
+  position: absolute;
+  left: 10px;
+  color: #888;
+}
+
+#root-create-account-page .password-toggle-button {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #888;
 }
 
 #root-create-account-page .create-account-button {
-  width: 25%;
+  width: 100%;
   padding: 10px;
   background-color: #bb0000;
   color: #fff;
   border: none;
-  border-radius: 2px;
+  border-radius: 4px;
   cursor: pointer;
 }
 
 #root-create-account-page .create-account-button:hover {
   opacity: 0.75;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+#root-create-account-page .additional-options {
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+}
+
+#root-create-account-page .additional-options button {
+  color: #0056b3;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+#root-create-account-page .additional-options button:hover {
+  text-decoration: underline;
+}
+
+#root-create-account-page .login-footer {
+  margin-top: 20px;
+  font-size: 12px;
+  color: #ffffff;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 10px;
+  border-radius: 5px;
+}
+
+#root-create-account-page .error-message {
+  color: red;
+  text-align: center;
+  margin-bottom: 15px;
 }

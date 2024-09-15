@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../styles/onlineStoreFrontCustomersComponent/RequestResetPasswordPage.css";
 import { requestResetPassword } from "../../services/online-store-front-customer-api";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import LoginHeader from "./LoginHeader";
 
 const RequestResetPasswordPage = () => {
   const [email, setEmail] = useState("");
@@ -25,7 +28,8 @@ const RequestResetPasswordPage = () => {
   };
 
   return (
-    <div id="root-reset-password">
+    <div id="root-request-reset-password">
+      <LoginHeader />
       <div className="reset-password-container">
         <h2>Reset Your Password</h2>
         <p>We will send you an email to reset your password.</p>
@@ -33,12 +37,15 @@ const RequestResetPasswordPage = () => {
         <form onSubmit={handleRequestResetPassword}>
           <div className="input-group">
             <label>Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+            <div className="input-icon">
+              <FontAwesomeIcon icon={faEnvelope} className="input-field-icon" />
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
           </div>
           <button type="submit" className="submit-button">
             Submit
@@ -47,6 +54,12 @@ const RequestResetPasswordPage = () => {
         <button onClick={handleCancel} className="cancel-link">
           Cancel
         </button>
+      </div>
+      <div className="login-footer">
+        <p>
+          We're glad to see you! Let’s get started and enjoy a seamless shopping
+          experience.
+        </p>
       </div>
     </div>
   );
