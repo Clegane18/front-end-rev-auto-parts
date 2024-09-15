@@ -85,8 +85,10 @@ const ContactUsPage = () => {
                 1104 Gov Fortunato Halili Rd, Santa Maria, Bulacan
               </p>
               <a
-                href="https://www.google.com/maps"
+                href="https://www.google.com/maps/search/?api=1&query=1104+Gov+Fortunato+Halili+Rd,+Santa+Maria,+Bulacan"
                 className="get-directions-button"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 Get Directions
               </a>

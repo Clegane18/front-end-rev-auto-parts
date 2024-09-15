@@ -30,6 +30,7 @@
   box-sizing: border-box;
   border: 1px solid #ccc;
   border-radius: 4px;
+  text-transform: none;
 }
 
 #root-create-account-page .button-container {

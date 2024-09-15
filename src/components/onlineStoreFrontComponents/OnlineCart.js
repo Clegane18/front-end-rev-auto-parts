@@ -9,6 +9,8 @@ import {
 } from "../../services/cart-api";
 import { useAuth } from "../../contexts/AuthContext";
 import { formatCurrency } from "../../utils/formatCurrency";
+import OnlineStoreFrontHeader from "./OnlineStoreFrontHeader";
+import OnlineStoreFrontFooter from "./OnlineStoreFrontFooter";
 
 const OnlineCart = () => {
   const { token } = useAuth();
@@ -142,6 +144,7 @@ const OnlineCart = () => {
 
   return (
     <div id="root-online-cart">
+      <OnlineStoreFrontHeader />
       <div className="cart-container">
         <h2>Your cart</h2>
         {cartItems.length === 0 ? (
@@ -240,6 +243,7 @@ const OnlineCart = () => {
         stock={modalInfo.stock}
         onClose={closeModal}
       />
+      <OnlineStoreFrontFooter />
     </div>
   );
 };

@@ -10,26 +10,30 @@ import { formatCurrency } from "../../utils/formatCurrency";
 const encodeURL = (url) =>
   encodeURIComponent(url).replace(/%2F/g, "/").replace(/%3A/g, ":");
 
-const OnlineStoreFrontItemsByCategory = ({ onSelectProduct, exposeScrollFunction }) => {
+const OnlineStoreFrontItemsByCategory = ({
+  onSelectProduct,
+  exposeScrollFunction,
+}) => {
   const [groupedProducts, setGroupedProducts] = useState({});
   const [categories, setCategories] = useState([]);
   const [visibleItems, setVisibleItems] = useState({});
   const [showAll, setShowAll] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [bestSellers, setBestSellers] = useState([]); 
-  const [visibleBestSellers, setVisibleBestSellers] = useState([]); 
-  const [showAllBestSellers, setShowAllBestSellers] = useState(false); 
+  const [bestSellers, setBestSellers] = useState([]);
+  const [visibleBestSellers, setVisibleBestSellers] = useState([]);
+  const [showAllBestSellers, setShowAllBestSellers] = useState(false);
 
   useEffect(() => {
     const fetchItemsAndCategories = async () => {
       try {
-        const bestSellingProductsResponse = await getBestSellingProductsForMonth(5);
+        const bestSellingProductsResponse =
+          await getBestSellingProductsForMonth(5);
         const bestSellersData = bestSellingProductsResponse.data || [];
 
         setBestSellers(bestSellersData);
         setVisibleBestSellers(bestSellersData.slice(0, 3));
-        setShowAllBestSellers(bestSellersData.length > 3); 
+        setShowAllBestSellers(bestSellersData.length > 3);
 
         const categoryData = await getAllCategoriesInOnlineStoreFront();
         setCategories(categoryData.categories);
@@ -74,15 +78,16 @@ const OnlineStoreFrontItemsByCategory = ({ onSelectProduct, exposeScrollFunction
   };
 
   const handleViewAllBestSellers = () => {
-    setVisibleBestSellers(bestSellers); 
-    setShowAllBestSellers(false); 
+    setVisibleBestSellers(bestSellers);
+    setShowAllBestSellers(false);
   };
 
   const scrollToCategory = (categoryId) => {
     const section = document.getElementById(categoryId);
     if (section) {
       const yOffset = -130;
-      const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      const y =
+        section.getBoundingClientRect().top + window.pageYOffset + yOffset;
       window.scrollTo({ top: y, behavior: "smooth" });
     }
   };
@@ -106,7 +111,8 @@ const OnlineStoreFrontItemsByCategory = ({ onSelectProduct, exposeScrollFunction
       <div className="best-sellers-section" id="best-selling-products-section">
         <h2 className="best-selling-header">Best Selling Products</h2>
         <div className="products">
-          {Array.isArray(visibleBestSellers) && visibleBestSellers.length > 0 ? (
+          {Array.isArray(visibleBestSellers) &&
+          visibleBestSellers.length > 0 ? (
             visibleBestSellers.map((product) => (
               <div
                 key={product.productName}
@@ -135,10 +141,7 @@ const OnlineStoreFrontItemsByCategory = ({ onSelectProduct, exposeScrollFunction
         </div>
         {showAllBestSellers && (
           <div className="view-all-container">
-            <button
-              className="view-all"
-              onClick={handleViewAllBestSellers}
-            >
+            <button className="view-all" onClick={handleViewAllBestSellers}>
               View All
             </button>
           </div>
@@ -196,7 +199,9 @@ const OnlineStoreFrontItemsByCategory = ({ onSelectProduct, exposeScrollFunction
               <div
                 key={index}
                 className="category-item"
-                onClick={() => scrollToCategory(category.replace(/\s+/g, "-").toLowerCase())}
+                onClick={() =>
+                  scrollToCategory(category.replace(/\s+/g, "-").toLowerCase())
+                }
                 style={{ cursor: "pointer" }}
               >
                 {category}

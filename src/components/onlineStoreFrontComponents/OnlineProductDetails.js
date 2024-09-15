@@ -37,7 +37,7 @@ const OnlineProductDetails = ({ product, onClose, onCartUpdate }) => {
     }
 
     const productWithQuantity = {
-      ...product,
+      Product: { ...product },
       quantity,
       unitPrice: product.price,
       subtotalAmount: quantity * product.price,
@@ -112,7 +112,12 @@ const OnlineProductDetails = ({ product, onClose, onCartUpdate }) => {
             <p className="product-item-code">ITEM CODE: {product.itemCode}</p>
           </div>
           <div className="product-description">
-            <p>• {product.description.split("\n").join("</p><p>• ")}</p>
+            <p>
+              •{" "}
+              {product.description
+                ? product.description.split("\n").join("</p><p>• ")
+                : "No description available"}
+            </p>
           </div>
           <div className="product-actions">
             <button onClick={handleBuyNowClick} className="buy-now-button">
