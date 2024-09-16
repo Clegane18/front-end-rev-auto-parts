@@ -16,6 +16,7 @@ import {
   faCheck,
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
+import logo from "../../assets/g&f-logo.png";
 
 const PendingStockManagement = () => {
   const [pendingStocks, setPendingStocks] = useState([]);
@@ -157,8 +158,8 @@ const PendingStockManagement = () => {
   return (
     <div id="pending-stock-root">
       <div className="pending-stock-container">
-        <div className="store-name" onClick={handleBack}>
-          G&F Auto Supply
+        <div className="shop-info" onClick={handleBack}>
+          <img src={logo} alt="G&F Auto Supply" className="shop-logo" />
         </div>
         <h2>Pending Stock Management</h2>
         <div className="pending-stock-form">

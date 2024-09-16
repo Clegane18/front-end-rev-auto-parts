@@ -1,59 +1,148 @@
 #root-order-list {
-    font-family: Arial, sans-serif;
-    color: #333;
-    max-width: 960px;
-    margin: auto;
+  font-family: "Montserrat", serif;
+  color: #333;
+  width: 100%;
+  margin: auto;
+}
+
+#root-order-list .order-list-container {
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 90%;
+  margin: auto;
+}
+
+#root-order-list .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+#root-order-list .header-left {
+  display: flex;
+  align-items: center;
+}
+
+#root-order-list .header-left img.logo-back-button {
+  width: 170px;
+  height: auto;
+  cursor: pointer;
+  margin-right: 15px;
+  padding-left: 10px;
+  transition: all 0.3s ease-in-out;
+}
+
+#root-order-list .header-left img.logo-back-button:hover {
+  opacity: 0.85;
+  transform: scale(1.05);
+}
+
+#root-order-list .header h1 {
+  font-size: 24px;
+  color: #1e2633;
+}
+
+#root-order-list .refresh-button {
+  background-color: #d30a0a;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
+#root-order-list .refresh-button:hover,
+#root-order-list .view-details-button:hover,
+#root-order-list .delete-button:hover {
+  opacity: 0.65;
+}
+
+#root-order-list .table-container {
+  max-height: 600px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
 }
 
 #root-order-list table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
+  width: 100%;
+  border-collapse: collapse;
 }
 
-#root-order-list th, #root-order-list td {
-    border: 1px solid #ccc;
-    padding: 8px;
-    text-align: left;
+#root-order-list th,
+#root-order-list td {
+  border: 1px solid #e0e0e0;
+  padding: 12px;
+  text-align: left;
 }
 
 #root-order-list th {
-    background-color: #f4f4f4;
+  background: #1d2b3a;
+  color: white;
+  font-weight: bold;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  text-align: center;
 }
 
-#root-order-list tr:nth-child(even) {
-    background-color: #f9f9f9;
+#root-order-list tbody tr:hover {
+  background-color: #f0f0f0;
 }
 
-#root-order-list .success {
-    color: green;
+#root-order-list .view-details-button {
+  background-color: #d30a0a;
+  color: white;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  margin-right: 8px;
+  margin-bottom: 5px;
 }
 
-#root-order-list .pending {
-    color: red;
+#root-order-list .delete-button {
+  background-color: #d30a0a;
+  color: #ffffff;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-#root-order-list select {
-    padding: 5px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    cursor: pointer;
+#root-order-list .delete-button svg,
+#root-order-list .view-details-button svg,
+#root-order-list .refresh-button svg {
+  margin-right: 5px;
 }
 
-#root-order-list select:focus {
-    outline: none;
-    border-color: #007bff;
+#root-order-list .action-buttons {
+  display: flex;
+  align-items: center;
 }
 
-#root-order-list button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 8px 16px;
-    color: #007bff;
-    transition: background-color 0.2s ease-in-out;
+#root-order-list .loading-spinner {
+  text-align: center;
+  padding: 50px;
 }
 
-#root-order-list button:hover {
-    background-color: #e8f0fe;
+#root-order-list .error-message {
+  text-align: center;
+  color: #d30a0a;
+  font-weight: bold;
 }

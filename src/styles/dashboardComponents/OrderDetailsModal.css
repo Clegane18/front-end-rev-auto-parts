@@ -1,33 +1,98 @@
 #root-order-details-modal .modal {
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.4); 
-  }
-  
-  #root-order-details-modal .modal-content {
-    background-color: #fefefe;
-    margin: 15% auto; 
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%; 
-  }
-  
-  #root-order-details-modal .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-  }
-  
-  #root-order-details-modal .close:hover,
-  #root-order-details-modal .close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-  }
-  
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.65);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#root-order-details-modal .modal-content.modern {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px 30px;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease-in-out;
+  position: relative;
+}
+
+#root-order-details-modal .modal-content h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #d30a0a;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  border-bottom: 2px solid #d30a0a;
+  padding-bottom: 10px;
+}
+
+#root-order-details-modal .modal-content p {
+  font-size: 14px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+#root-order-details-modal .modal-content p span {
+  font-weight: bold;
+  color: #37474f;
+  margin-right: 5px;
+}
+
+#root-order-details-modal .customer-details,
+#root-order-details-modal .shipping-details {
+  margin-bottom: 10px;
+  padding: 10px 0;
+}
+
+#root-order-details-modal .details-section {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 10px;
+}
+
+#root-order-details-modal .details-column {
+  width: 45%;
+}
+
+#root-order-details-modal .modal-content h3 {
+  font-size: 16px;
+  margin-top: 10px;
+  font-weight: 600;
+  color: #d30a0a;
+  text-transform: uppercase;
+  padding-bottom: 5px;
+}
+
+#root-order-details-modal .separator {
+  border-top: 1px solid #e0e0e0;
+  margin: 20px 0;
+}
+
+#root-order-details-modal .close-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #d30a0a;
+  transition: color 0.3s ease-in-out;
+}
+
+#root-order-details-modal .close-button:hover {
+  opacity: 0.75;
+}
+
+#root-order-details-modal p {
+  text-transform: none;
+}

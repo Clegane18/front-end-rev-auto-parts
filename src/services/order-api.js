@@ -123,3 +123,20 @@ export const updateOrderStatus = async (orderId, newStatus) => {
     }
   }
 };
+
+export const deleteOrderById = async (orderId) => {
+  try {
+    const response = await api.delete(`/orders/${orderId}`);
+
+    return {
+      status: response.status,
+      message: response.data.message,
+    };
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error("Failed to delete order. Please try again later.");
+    }
+  }
+};
