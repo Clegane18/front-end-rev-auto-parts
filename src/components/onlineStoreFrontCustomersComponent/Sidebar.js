@@ -1,13 +1,30 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 import "../../styles/onlineStoreFrontCustomersComponent/Sidebar.css";
-import { FaUser, FaAddressBook, FaShoppingCart } from "react-icons/fa";
+import {
+  AccountCircle,
+  LocationOn,
+  ShoppingCart,
+  ExitToApp,
+} from "@mui/icons-material";
+import { useAuth } from "../../contexts/AuthContext";
+import LogoutConfirmationModal from "./LogoutConfirmationModal";
 
 const Sidebar = ({ selectedMenu, setSelectedMenu }) => {
   const [isAccountMenuOpen, setAccountMenuOpen] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false);
+  const { logout } = useAuth();
+  const navigate = useNavigate();
 
   const handleAccountClick = () => {
     setAccountMenuOpen(!isAccountMenuOpen);
+  };
+
+  const handleLogout = () => {
+    logout();
+    setModalOpen(false);
+    navigate("/customer-login");
   };
 
   return (
@@ -19,7 +36,7 @@ const Sidebar = ({ selectedMenu, setSelectedMenu }) => {
               onClick={handleAccountClick}
               className={isAccountMenuOpen ? "active" : ""}
             >
-              <FaUser className="icon" /> My Account
+              <AccountCircle className="icon" /> My Account
             </button>
             {isAccountMenuOpen && (
               <ul className="submenu">
@@ -27,13 +44,16 @@ const Sidebar = ({ selectedMenu, setSelectedMenu }) => {
                   className={selectedMenu === "Profile" ? "active" : ""}
                   onClick={() => setSelectedMenu("Profile")}
                 >
-                  <FaUser className="icon" /> Profile
+                  <AccountCircle className="icon" /> Profile
                 </li>
                 <li
                   className={selectedMenu === "Addresses" ? "active" : ""}
                   onClick={() => setSelectedMenu("Addresses")}
                 >
-                  <FaAddressBook className="icon" /> Addresses
+                  <LocationOn className="icon" /> Addresses
+                </li>
+                <li onClick={() => setModalOpen(true)}>
+                  <ExitToApp className="icon" /> Logout
                 </li>
               </ul>
             )}
@@ -43,11 +63,17 @@ const Sidebar = ({ selectedMenu, setSelectedMenu }) => {
               onClick={() => setSelectedMenu("MyPurchase")}
               className={selectedMenu === "MyPurchase" ? "active" : ""}
             >
-              <FaShoppingCart className="icon" /> My Purchases
+              <ShoppingCart className="icon" /> My Purchases
             </button>
           </li>
         </ul>
       </div>
+
+      <LogoutConfirmationModal
+        isOpen={isModalOpen}
+        onClose={() => setModalOpen(false)}
+        onConfirm={handleLogout}
+      />
     </div>
   );
 };

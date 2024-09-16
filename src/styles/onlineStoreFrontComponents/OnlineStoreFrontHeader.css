@@ -19,7 +19,7 @@
   position: sticky;
   top: 0;
   z-index: 1000;
-  transition: background 0.3s ease-in-out; 
+  transition: background 0.3s ease-in-out;
 }
 
 #shop-info {
@@ -59,7 +59,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-#online-store-header .online-store-header .shop-info #shop-logo  {
+#online-store-header .online-store-header .shop-info #shop-logo {
   max-height: 100px;
   padding-left: 50px;
   filter: brightness(1);
@@ -79,7 +79,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
   position: sticky;
   top: 77px;
-  z-index: 999; 
+  z-index: 999;
   transition: background 0.3s ease-in-out;
 }
 
@@ -94,7 +94,7 @@
 
 #main-nav ul li {
   margin: 0 25px;
-  font-family: 'Montserrat', serif;
+  font-family: "Montserrat", serif;
   font-size: 18px;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
