@@ -2,7 +2,7 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import "../../styles/dashboardComponents/OrderDetailsModal.css";
-
+import { formatCurrency } from "../../utils/formatCurrency";
 const OrderDetailsModal = ({ order, onClose }) => {
   const handleClickOutside = (e) => {
     if (e.target.className === "modal") {
@@ -24,9 +24,9 @@ const OrderDetailsModal = ({ order, onClose }) => {
               <span>Status:</span> {order.status}
             </p>
             <p>
-              <span>Total Amount:</span> ₱
-              {parseFloat(order.totalAmount).toFixed(2)}
+              <span>Total Amount:</span> {formatCurrency(order.totalAmount)}
             </p>
+
             <p>
               <span>Order Date:</span>{" "}
               {new Date(order.createdAt).toLocaleDateString()}
