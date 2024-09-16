@@ -11,41 +11,43 @@ const Sidebar = ({ selectedMenu, setSelectedMenu }) => {
   };
 
   return (
-    <div className="sidebar">
-      <ul className="sidebar-menu">
-        <li>
-          <button
-            onClick={handleAccountClick}
-            className={isAccountMenuOpen ? "active" : ""}
-          >
-            <FaUser className="icon" /> My Account
-          </button>
-          {isAccountMenuOpen && (
-            <ul className="submenu">
-              <li
-                className={selectedMenu === "Profile" ? "active" : ""}
-                onClick={() => setSelectedMenu("Profile")}
-              >
-                <FaUser className="icon" /> Profile
-              </li>
-              <li
-                className={selectedMenu === "Addresses" ? "active" : ""}
-                onClick={() => setSelectedMenu("Addresses")}
-              >
-                <FaAddressBook className="icon" /> Addresses
-              </li>
-            </ul>
-          )}
-        </li>
-        <li className={selectedMenu === "MyPurchase" ? "active" : ""}>
-          <button
-            onClick={() => setSelectedMenu("MyPurchase")}
-            className={selectedMenu === "MyPurchase" ? "active" : ""}
-          >
-            <FaShoppingCart className="icon" /> My Purchases
-          </button>
-        </li>
-      </ul>
+    <div id="root-side-bar">
+      <div className="sidebar">
+        <ul className="sidebar-menu">
+          <li>
+            <button
+              onClick={handleAccountClick}
+              className={isAccountMenuOpen ? "active" : ""}
+            >
+              <FaUser className="icon" /> My Account
+            </button>
+            {isAccountMenuOpen && (
+              <ul className="submenu">
+                <li
+                  className={selectedMenu === "Profile" ? "active" : ""}
+                  onClick={() => setSelectedMenu("Profile")}
+                >
+                  <FaUser className="icon" /> Profile
+                </li>
+                <li
+                  className={selectedMenu === "Addresses" ? "active" : ""}
+                  onClick={() => setSelectedMenu("Addresses")}
+                >
+                  <FaAddressBook className="icon" /> Addresses
+                </li>
+              </ul>
+            )}
+          </li>
+          <li className={selectedMenu === "MyPurchase" ? "active" : ""}>
+            <button
+              onClick={() => setSelectedMenu("MyPurchase")}
+              className={selectedMenu === "MyPurchase" ? "active" : ""}
+            >
+              <FaShoppingCart className="icon" /> My Purchases
+            </button>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 };

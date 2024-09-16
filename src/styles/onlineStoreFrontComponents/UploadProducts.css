@@ -1,176 +1,176 @@
 #root-upload-products {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    padding: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 20px;
 }
 
 /* Responsive Design */
 @media (min-width: 768px) {
-    #root-upload-products .search-field {
-        margin-right: 20px; /* Adjust margin for larger screens */
-    }
+  #root-upload-products .search-field {
+    margin-right: 20px;
+  }
 }
 
 #root-upload-products .container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 /* Responsive Design */
 @media (min-width: 1200px) {
-    #root-upload-products .search-field {
-        max-width: 700px; /* Increase max-width for larger screens */
-    }
+  #root-upload-products .search-field {
+    max-width: 700px;
+  }
 }
 
 #root-upload-products .search-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 10px 20px;
 }
 
 #root-upload-products .store-name {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 #root-upload-products .shop-logo {
-    max-height: 40px;
-    cursor: pointer;
-    margin-left: 20px;
+  max-height: 40px;
+  cursor: pointer;
+  margin-left: 20px;
 }
 
 #root-upload-products .shop-logo:hover {
-    opacity: 0.75;
+  opacity: 0.75;
 }
 
 #root-upload-products .search-field {
-    display: flex;
-    align-items: center;
-    flex: 1;
-    position: relative;
-    margin-right: 680px; /* Adjust for smaller screens */
-    max-width: 550px;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  position: relative;
+  margin-right: 680px;
+  max-width: 550px;
 }
 
 #root-upload-products .search-field input {
-    flex: 1;
-    padding: 10px 40px 10px 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    text-transform: none;
+  flex: 1;
+  padding: 10px 40px 10px 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-transform: none;
 }
 
 #root-upload-products .search-icon {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #007bff;
-    cursor: pointer;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #007bff;
+  cursor: pointer;
 }
 
 #root-upload-products .table-container {
-    display: flex;
-    flex-direction: column;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    padding: 0 1rem 1rem 1rem;
-    flex: 1;
-    overflow-y: auto;
-    max-height: calc(100vh - 140px);
-    border: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 0 1rem 1rem 1rem;
+  flex: 1;
+  overflow-y: auto;
+  max-height: calc(100vh - 140px);
+  border: 1px solid #ddd;
 }
 
 #root-upload-products .products-table {
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
 }
 
 #root-upload-products .products-table thead {
-    position: -webkit-sticky;
-    position: sticky;
-    top: 0;
-    background-color: #f9f9f9;
-    z-index: 1;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  background-color: #f9f9f9;
+  z-index: 1;
 }
 
 #root-upload-products .products-table th {
-    padding: 12px;
-    text-align: center;
-    background-color: #f1f1f1;
-    border-bottom: 2px solid #ddd;
-    font-family: 'Montserrat', serif;
-    text-transform: none;
+  padding: 12px;
+  text-align: center;
+  background-color: #f1f1f1;
+  border-bottom: 2px solid #ddd;
+  font-family: "Montserrat", serif;
+  text-transform: none;
 }
 
 #root-upload-products .products-table td {
-    padding: 12px;
-    text-align: center;
-    border-bottom: 1px solid #ddd;
-    font-family: 'Montserrat', serif;
-    text-transform: none;
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  font-family: "Montserrat", serif;
+  text-transform: none;
 }
 
 #root-upload-products .error-message {
-    color: red;
+  color: red;
 }
 
 #root-upload-products .status-draft {
-    color: #6C757D;
+  color: #6c757d;
 }
 
 #root-upload-products .status-ready {
-    color: #FFA500;
+  color: #ffa500;
 }
 
 #root-upload-products .status-published {
-    color: #28A745;
+  color: #28a745;
 }
 
 #root-upload-products button {
-    padding: 8px 12px;
-    margin: 4px;
-    font-size: 14px;
-    border: none;
-    border-radius: 4px;
-    color: #ffffff;
-    background-color: #0c619b;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
+  padding: 8px 12px;
+  margin: 4px;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  color: #ffffff;
+  background-color: #0c619b;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 #root-upload-products .search-icon {
-    color: #0c619b;
+  color: #0c619b;
 }
 
-#root-upload-products button:hover, 
+#root-upload-products button:hover,
 #root-upload-products .search-icon:hover {
-    opacity: 0.75;
+  opacity: 0.75;
 }
 
 #root-upload-products button .fa-times {
-    color: #dc3545;
+  color: #dc3545;
 }
 
 #root-upload-products button .fa-upload {
-    color: #17a2b8;
+  color: #17a2b8;
 }
 
 #root-upload-products button .fa-check-circle {
-    color: #28a745;
+  color: #28a745;
 }
 
 #root-upload-products button .fa-undo {
-    color: #ffc107;
+  color: #ffc107;
 }
