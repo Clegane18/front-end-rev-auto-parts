@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import "../../styles/dashboardComponents/OrderDetailsModal.css";
 import { formatCurrency } from "../../utils/formatCurrency";
+
 const OrderDetailsModal = ({ order, onClose }) => {
   const handleClickOutside = (e) => {
     if (e.target.className === "modal") {
@@ -71,6 +72,20 @@ const OrderDetailsModal = ({ order, onClose }) => {
                 <span>Address Line:</span> {order.address.addressLine}
               </p>
             </div>
+          </div>
+
+          <div className="details-section order-items">
+            <h3>Items Ordered</h3>
+            {order.items.map((item) => (
+              <div key={item.productId} className="order-item">
+                <p>
+                  <span>Product:</span> {item.productName}
+                </p>
+                <p>
+                  <span>Quantity:</span> {item.quantity}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </div>
