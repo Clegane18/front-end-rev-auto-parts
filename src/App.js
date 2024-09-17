@@ -32,6 +32,8 @@ import OrderList from "./components/dashboardComponents/OrderList";
 import NotFoundPage from "./components/NotFoundPage";
 import AboutUsPage from "./components/onlineStoreFrontComponents/AboutUsPage";
 import ContactUsPage from "./components/onlineStoreFrontComponents/ContactUsPage";
+import CustomerList from "./components/dashboardComponents/CustomerList";
+import AccountSuspended from "./components/dashboardComponents/AccountSuspended";
 
 const App = () => {
   const { authToken, login } = useAuthentication();
@@ -83,6 +85,18 @@ const App = () => {
                     ) : (
                       <Navigate to="/login" />
                     )
+                  }
+                />
+                <Route
+                  path="/customer-list"
+                  element={
+                    authToken ? <CustomerList /> : <Navigate to="/login" />
+                  }
+                />
+                <Route
+                  path="/account-suspended"
+                  element={
+                    authToken ? <AccountSuspended /> : <Navigate to="/login" />
                   }
                 />
                 <Route

@@ -65,11 +65,13 @@
 }
 
 #root-order-list .refresh-button:hover,
-#root-order-list .view-details-button:hover,
-#root-order-list .delete-button:hover,
-#root-order-list .print-all-button:hover,
-#root-order-list .action-buttons .MuiIconButton-root:hover .MuiSvgIcon-root {
+#root-order-list .print-all-button:hover {
   opacity: 0.65;
+}
+
+#root-order-list .print-all-button svg,
+#root-order-list .refresh-button svg {
+  margin-right: 5px;
 }
 
 #root-order-list .print-all-button {
@@ -89,8 +91,6 @@
 #root-order-list .table-container {
   max-height: 600px;
   overflow-y: auto;
-  overflow-x: hidden;
-  border: 1px solid #e0e0e0;
   border-radius: 8px;
 }
 
@@ -101,9 +101,9 @@
 
 #root-order-list th,
 #root-order-list td {
-  border: 1px solid #e0e0e0;
   padding: 12px;
-  text-align: left;
+  text-align: center;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 #root-order-list th {
@@ -113,50 +113,31 @@
   position: sticky;
   top: 0;
   z-index: 1;
-  text-align: center;
 }
 
 #root-order-list tbody tr:hover {
   background-color: #f0f0f0;
 }
 
-#root-order-list .view-details-button {
-  background-color: #d30a0a;
-  color: white;
-  padding: 6px 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 11px;
-  display: flex;
-  align-items: center;
-  margin-right: 8px;
-  margin-bottom: 5px;
-}
-
-#root-order-list .delete-button {
-  background-color: #d30a0a;
-  color: #ffffff;
-  border: none;
-  padding: 6px 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-#root-order-list .delete-button svg,
-#root-order-list .view-details-button svg,
-#root-order-list .refresh-button svg,
-#root-order-list .print-all-button svg {
-  margin-right: 5px;
-}
-
 #root-order-list .action-buttons {
   display: flex;
+  gap: 10px;
   align-items: center;
+}
+
+#root-order-list .MuiIconButton-root {
+  padding: 8px;
+  font-size: 20px;
+}
+
+#root-order-list .action-buttons svg {
+  color: #d30a0a;
+}
+
+#root-order-list .view-details-button:hover,
+#root-order-list .delete-button:hover,
+#root-order-list .action-buttons .MuiIconButton-root:hover .MuiSvgIcon-root {
+  opacity: 0.65;
 }
 
 #root-order-list .loading-spinner {
@@ -168,18 +149,4 @@
   text-align: center;
   color: #d30a0a;
   font-weight: bold;
-}
-
-#root-order-list.action-buttons {
-  display: flex;
-  gap: 10px;
-}
-
-#root-order-list.action-buttons .MuiIconButton-root {
-  padding: 8px;
-  font-size: 20px;
-}
-
-#root-order-list .action-buttons .MuiIconButton-root .MuiSvgIcon-root {
-  color: #d30a0a;
 }

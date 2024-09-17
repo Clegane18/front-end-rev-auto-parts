@@ -1,0 +1,99 @@
+#root-customer-list {
+  font-family: "Montserrat", serif;
+  color: #333;
+  width: 100%;
+  margin: auto;
+}
+
+#root-customer-list .customer-list-container {
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 90%;
+  margin: auto;
+}
+
+#root-customer-list .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+#root-customer-list .header h1 {
+  font-size: 24px;
+  color: #1e2633;
+}
+
+#root-customer-list .header-left {
+  display: flex;
+  align-items: center;
+}
+
+#root-customer-list .logo-back-button {
+  width: 170px;
+  height: auto;
+  cursor: pointer;
+  margin-right: 15px;
+  transition: all 0.3s ease-in-out;
+}
+
+#root-customer-list .logo-back-button:hover {
+  opacity: 0.85;
+  transform: scale(1.05);
+}
+
+#root-customer-list .customer-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#root-customer-list .customer-table thead th {
+  background-color: #1d2b3a;
+  color: white;
+  padding: 15px;
+  text-align: center;
+  font-weight: bold;
+  border-bottom: 2px solid #e0e0e0;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+#root-customer-list .customer-table tbody td {
+  padding: 15px;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: center;
+}
+
+#root-customer-list .customer-table tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+#root-customer-list .action-column {
+  display: flex;
+  justify-content: space-around;
+}
+
+#root-customer-list .view-btn,
+#root-customer-list .delete-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+#root-customer-list .table-container {
+  max-height: 600px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+}
+
+#root-customer-list .action-column svg {
+  color: #d30a0a;
+}

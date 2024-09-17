@@ -297,7 +297,7 @@ const DashboardPage = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/customers">
+                <Link to="/customer-list">
                   <FontAwesomeIcon icon={faUsers} /> Customers
                 </Link>
               </li>

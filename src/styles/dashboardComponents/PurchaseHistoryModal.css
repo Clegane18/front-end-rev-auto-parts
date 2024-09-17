@@ -1,0 +1,133 @@
+#root-purchase-history-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+#root-purchase-history-modal .modal {
+  width: 80%;
+  max-width: 700px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
+  max-height: 80%;
+  position: relative;
+}
+
+#root-purchase-history-modal .modal-content {
+  padding: 24px;
+  position: relative;
+}
+
+#root-purchase-history-modal .close-button {
+  color: #d30a0a;
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+#root-purchase-history-modal .close-button:hover {
+  opacity: 0.75;
+}
+
+#root-purchase-history-modal .header-section h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #d30a0a;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+#root-purchase-history-modal .content-section {
+  max-height: 60vh;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+#root-purchase-history-modal .loading-message,
+#root-purchase-history-modal .error-message,
+#root-purchase-history-modal .no-history-message {
+  text-align: center;
+  color: #777;
+  font-size: 1.2rem;
+  padding: 20px 0;
+}
+
+#root-purchase-history-modal .purchase-history-item {
+  background-color: #f9f9f9;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+#root-purchase-history-modal .purchase-history-item p {
+  margin: 4px 0;
+  font-size: 1rem;
+  color: #555;
+  text-transform: none;
+}
+
+#root-purchase-history-modal .purchase-history-item strong {
+  color: #333;
+}
+
+#root-purchase-history-modal .purchase-items-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+#root-purchase-history-modal .items-white-container {
+  background-color: white;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 16px;
+}
+
+#root-purchase-history-modal .purchase-items-list li {
+  font-size: 0.9rem;
+  color: #333;
+  padding: 4px 0;
+  border-bottom: 1px solid #ddd;
+  text-transform: none;
+}
+
+#root-purchase-history-modal hr {
+  border: none;
+  border-top: 1px solid #ddd;
+  margin: 16px 0;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+  #root-purchase-history-modal .modal {
+    width: 90%;
+    max-width: 95%;
+  }
+
+  #root-purchase-history-modal .header-section h2 {
+    font-size: 1.6rem;
+  }
+
+  #root-purchase-history-modal .modal-content {
+    padding: 16px;
+  }
+
+  #root-purchase-history-modal .close-button {
+    font-size: 1.2rem;
+  }
+}

@@ -1,0 +1,50 @@
+#root-account-suspended-page .suspended-container {
+  background-image: url("../../assets/g&f-background.jpg");
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#root-account-suspended-page .suspended-card {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 400px;
+}
+
+#root-account-suspended-page .suspended-card h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #1a2129;
+}
+
+#root-account-suspended-page .suspended-card p {
+  font-size: 16px;
+  margin-bottom: 20px;
+  color: #333;
+  text-transform: none;
+}
+
+#root-account-suspended-page .suspended-card button {
+  background-color: #d32f2f;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#root-account-suspended-page .suspended-card button:hover {
+  opacity: 0.75;
+}
+
+#root-account-suspended-page .suspended-icon {
+  color: #ff0000;
+  margin-bottom: 20px;
+}

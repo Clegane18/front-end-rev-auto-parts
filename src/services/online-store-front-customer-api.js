@@ -136,3 +136,82 @@ export const updateCustomer = async ({
     }
   }
 };
+
+export const getAllCustomers = async () => {
+  try {
+    const response = await api.get("/customers");
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Error in getAllCustomers:",
+      error.response ? error.response.data : error.message
+    );
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error("Failed to fetch customers. Please try again later.");
+    }
+  }
+};
+
+export const toggleCustomerStatus = async (customerId, currentStatus) => {
+  try {
+    const response = await api.put(
+      `/customers/${customerId}/account-status/toggle-status`,
+      {
+        currentStatus,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Error in toggleCustomerStatus:",
+      error.response ? error.response.data : error.message
+    );
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(
+        "Failed to update customer status. Please try again later."
+      );
+    }
+  }
+};
+
+export const getCustomerOnlinePurchaseHistory = async (customerId) => {
+  try {
+    const response = await api.get(`/order-history/${customerId}`);
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Error in getCustomerOnlinePurchaseHistory:",
+      error.response ? error.response.data : error.message
+    );
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(
+        "Failed to retrieve customer purchase history. Please try again later."
+      );
+    }
+  }
+};
+
+export const deleteCustomerById = async (customerId) => {
+  try {
+    const response = await api.delete(`/delete-account/${customerId}`);
+
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Error in deleteCustomerById:",
+      error.response ? error.response.data : error.message
+    );
+
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error("Failed to delete the customer. Please try again later.");
+    }
+  }
+};
