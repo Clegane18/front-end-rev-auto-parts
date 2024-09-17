@@ -10,9 +10,17 @@ import ConfirmDeleteOrderModal from "./ConfirmDeleteOrderModal";
 import { useWebSocket } from "../../contexts/WebSocketContext";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSync, faEye, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faSync } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/g&f-logo.png";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
+import {
+  Visibility as EyeIcon,
+  Delete as DeleteIcon,
+  Print as PrintIcon,
+} from "@mui/icons-material";
+import { printWaybill } from "../../utils/printWaybill";
 
 const OrdersList = () => {
   const [orders, setOrders] = useState([]);
@@ -109,6 +117,22 @@ const OrdersList = () => {
     setDeleteError(null);
   };
 
+  const handlePrintAllWaybills = () => {
+    let currentIndex = 0;
+
+    const printNextWaybill = () => {
+      if (currentIndex < orders.length) {
+        const order = orders[currentIndex];
+        printWaybill(order, formatCurrency);
+        currentIndex++;
+
+        setTimeout(printNextWaybill, 1000);
+      }
+    };
+
+    printNextWaybill();
+  };
+
   return (
     <div id="root-order-list">
       <div className="order-list-container">
@@ -122,13 +146,22 @@ const OrdersList = () => {
             />
             <h1>Orders List</h1>
           </div>
-          <button className="refresh-button" onClick={fetchOrders}>
-            <FontAwesomeIcon icon={faSync} /> Refresh
-          </button>
+          <div className="button-container">
+            <button
+              className="print-all-button"
+              onClick={handlePrintAllWaybills}
+            >
+              <PrintIcon /> Print All Waybills
+            </button>
+            <button className="refresh-button" onClick={fetchOrders}>
+              <FontAwesomeIcon icon={faSync} /> Refresh
+            </button>
+          </div>
         </div>
+
         {loading ? (
           <div className="loading-spinner">
-            <img src="/assets/spinner.gif" alt="Loading..." />
+            <p>Loading...</p>
           </div>
         ) : error ? (
           <div className="error-message">Error: {error}</div>
@@ -179,19 +212,31 @@ const OrdersList = () => {
                     <td>{formatCurrency(order.shippingFee)}</td>
                     <td>{formatCurrency(order.totalAmount)}</td>
                     <td>{order.items.length} items</td>
-                    <td>
-                      <button
-                        className="view-details-button"
-                        onClick={() => viewOrderDetails(order)}
-                      >
-                        <FontAwesomeIcon icon={faEye} /> View Details
-                      </button>
-                      <button
-                        className="delete-button"
-                        onClick={() => openDeleteModal(order)}
-                      >
-                        <FontAwesomeIcon icon={faTrash} /> Delete
-                      </button>
+                    <td className="action-buttons">
+                      <Tooltip title="View Details">
+                        <IconButton
+                          color="primary"
+                          onClick={() => viewOrderDetails(order)}
+                        >
+                          <EyeIcon />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="Delete Order">
+                        <IconButton
+                          color="secondary"
+                          onClick={() => openDeleteModal(order)}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="Print Waybill">
+                        <IconButton
+                          color="default"
+                          onClick={() => printWaybill(order, formatCurrency)}
+                        >
+                          <PrintIcon />
+                        </IconButton>
+                      </Tooltip>
                     </td>
                   </tr>
                 ))}

@@ -45,6 +45,12 @@
   color: #1e2633;
 }
 
+#root-order-list .button-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
 #root-order-list .refresh-button {
   background-color: #d30a0a;
   color: white;
@@ -60,8 +66,24 @@
 
 #root-order-list .refresh-button:hover,
 #root-order-list .view-details-button:hover,
-#root-order-list .delete-button:hover {
+#root-order-list .delete-button:hover,
+#root-order-list .print-all-button:hover,
+#root-order-list .action-buttons .MuiIconButton-root:hover .MuiSvgIcon-root {
   opacity: 0.65;
+}
+
+#root-order-list .print-all-button {
+  padding: 10px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #d30a0a;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 12px;
 }
 
 #root-order-list .table-container {
@@ -127,7 +149,8 @@
 
 #root-order-list .delete-button svg,
 #root-order-list .view-details-button svg,
-#root-order-list .refresh-button svg {
+#root-order-list .refresh-button svg,
+#root-order-list .print-all-button svg {
   margin-right: 5px;
 }
 
@@ -145,4 +168,18 @@
   text-align: center;
   color: #d30a0a;
   font-weight: bold;
+}
+
+#root-order-list.action-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+#root-order-list.action-buttons .MuiIconButton-root {
+  padding: 8px;
+  font-size: 20px;
+}
+
+#root-order-list .action-buttons .MuiIconButton-root .MuiSvgIcon-root {
+  color: #d30a0a;
 }

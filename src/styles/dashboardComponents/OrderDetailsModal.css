@@ -11,7 +11,7 @@
   align-items: center;
 }
 
-#root-order-details-modal .modal-content.modern {
+#root-order-details-modal .modal-content.waybill-style {
   background-color: #ffffff;
   border-radius: 12px;
   padding: 20px 30px;
@@ -19,62 +19,92 @@
   max-height: 90vh;
   overflow-y: auto;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-  transition: all 0.3s ease-in-out;
   position: relative;
+  font-family: "Montserrat", serif;
 }
 
-#root-order-details-modal .modal-content h2 {
-  font-size: 20px;
-  font-weight: 700;
-  color: #d30a0a;
+#root-order-details-modal .header-section h2 {
+  font-size: 22px;
+  font-weight: bold;
   margin-bottom: 15px;
+  color: #d30a0a;
   text-transform: uppercase;
-  border-bottom: 2px solid #d30a0a;
-  padding-bottom: 10px;
+  text-align: left;
 }
 
-#root-order-details-modal .modal-content p {
+#root-order-details-modal .header-info {
+  display: flex;
+  justify-content: space-between;
   font-size: 14px;
+  color: #333;
+  padding: 5px 0;
+}
+
+#root-order-details-modal .header-section {
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+}
+
+#root-order-details-modal .items-section h3 {
+  font-size: 16px;
+  font-weight: bold;
+  color: #d30a0a;
+  text-transform: uppercase;
+  padding-bottom: 5px;
   margin-bottom: 10px;
+}
+
+#root-order-details-modal .item-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+#root-order-details-modal .item-details {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+#root-order-details-modal .item-name {
+  font-size: 14px;
   color: #333;
 }
 
-#root-order-details-modal .modal-content p span {
-  font-weight: bold;
-  color: #37474f;
-  margin-right: 5px;
+#root-order-details-modal .item-quantity {
+  font-size: 14px;
+  color: #333;
+  text-align: right;
+}
+
+#root-order-details-modal .customer-shipping-section {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 10px;
 }
 
 #root-order-details-modal .customer-details,
 #root-order-details-modal .shipping-details {
-  margin-bottom: 10px;
-  padding: 10px 0;
-}
-
-#root-order-details-modal .details-section {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 15px;
-  border-bottom: 1px solid #e0e0e0;
-  padding-bottom: 10px;
-}
-
-#root-order-details-modal .details-column {
   width: 45%;
 }
 
-#root-order-details-modal .modal-content h3 {
+#root-order-details-modal .customer-details h3,
+#root-order-details-modal .shipping-details h3 {
   font-size: 16px;
-  margin-top: 10px;
-  font-weight: 600;
+  font-weight: bold;
   color: #d30a0a;
   text-transform: uppercase;
   padding-bottom: 5px;
 }
 
-#root-order-details-modal .separator {
-  border-top: 1px solid #e0e0e0;
-  margin: 20px 0;
+#root-order-details-modal .customer-details p,
+#root-order-details-modal .shipping-details p {
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #333;
+  text-transform: none;
 }
 
 #root-order-details-modal .close-button {
@@ -86,13 +116,4 @@
   font-size: 20px;
   cursor: pointer;
   color: #d30a0a;
-  transition: color 0.3s ease-in-out;
-}
-
-#root-order-details-modal .close-button:hover {
-  opacity: 0.75;
-}
-
-#root-order-details-modal p {
-  text-transform: none;
 }
