@@ -126,3 +126,53 @@
   text-align: center;
   margin-bottom: 15px;
 }
+
+#root-create-account-page .terms-link {
+  font-size: 12px;
+  margin-top: 10px;
+  color: #0056b3;
+}
+
+#root-create-account-page .terms-link a {
+  color: #bb0000;
+  text-decoration: none;
+}
+
+#root-create-account-page .terms-link a:hover {
+  text-decoration: underline;
+  opacity: 0.8;
+}
+
+#root-create-account-page .terms-checkbox {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #555;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+#root-create-account-page .terms-checkbox input[type="checkbox"] {
+  margin-right: 10px;
+  transform: scale(1.2);
+}
+
+#root-create-account-page .terms-checkbox label {
+  color: #333;
+  font-weight: 500;
+}
+
+#root-create-account-page .terms-checkbox label:hover {
+  cursor: pointer;
+}
+
+#root-create-account-page .terms-checkbox a {
+  color: #bb0000;
+  text-decoration: none;
+}
+
+#root-create-account-page .terms-checkbox a:hover {
+  text-decoration: underline;
+  opacity: 0.8;
+}

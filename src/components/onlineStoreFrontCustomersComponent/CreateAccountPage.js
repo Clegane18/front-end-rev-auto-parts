@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { signUp } from "../../services/online-store-front-customer-api";
 import { useAuth } from "../../contexts/AuthContext";
 import "../../styles/onlineStoreFrontCustomersComponent/CreateAccountPage.css";
@@ -12,6 +12,7 @@ import {
   faEye,
   faEyeSlash,
 } from "@fortawesome/free-solid-svg-icons";
+import TermsAndConditionsModal from "./TermsAndConditionsModal";
 
 const CreateAccountPage = () => {
   const [username, setUsername] = useState("");
@@ -21,11 +22,18 @@ const CreateAccountPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState("");
+  const [isTermsAgreed, setIsTermsAgreed] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleCreateAccount = async (event) => {
     event.preventDefault();
+
+    if (!isTermsAgreed) {
+      setShowModal(true);
+      return;
+    }
 
     if (password !== confirmPassword) {
       setError("Passwords do not match.");
@@ -122,6 +130,17 @@ const CreateAccountPage = () => {
               </button>
             </div>
           </div>
+          <div className="terms-checkbox">
+            <input
+              type="checkbox"
+              id="termsCheckbox"
+              checked={isTermsAgreed}
+              onChange={(e) => setIsTermsAgreed(e.target.checked)}
+            />
+            <label htmlFor="termsCheckbox">
+              I have read and agree to the terms and conditions.
+            </label>
+          </div>
           <button type="submit" className="create-account-button">
             Create Account
           </button>
@@ -134,8 +153,16 @@ const CreateAccountPage = () => {
           >
             Already have an account? Log in
           </button>
+          <p className="terms-link">
+            By creating an account, you agree to our{" "}
+            <Link to="/terms-and-conditions">Terms and Conditions</Link>.
+          </p>
         </div>
       </div>
+      <TermsAndConditionsModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+      />
       <div className="login-footer">
         <p>
           We're glad to see you! Let’s get started and enjoy a seamless shopping

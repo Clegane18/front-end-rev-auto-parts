@@ -1,0 +1,80 @@
+#root-terms-and-conditions .terms-container {
+  margin: 40px auto;
+  padding: 30px;
+  max-width: 90%;
+  background-color: rgba(255, 255, 255, 0.95);
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  color: #333;
+  height: 90vh;
+  overflow-y: auto;
+}
+
+#root-terms-and-conditions .terms-header {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+  color: #bb0000;
+  text-align: center;
+  font-weight: bold;
+}
+
+#root-terms-and-conditions .terms-container h3 {
+  font-size: 1.7em;
+  margin-top: 30px;
+  color: #1a2129;
+  font-weight: bold;
+}
+
+#root-terms-and-conditions .terms-container p {
+  line-height: 1.8;
+  margin-bottom: 20px;
+  color: #666;
+  text-transform: none;
+}
+
+#root-terms-and-conditions .terms-container a {
+  color: #e63946;
+  text-decoration: none;
+}
+
+#root-terms-and-conditions .terms-container a:hover {
+  text-decoration: underline;
+  opacity: 0.8;
+}
+
+#root-terms-and-conditions .terms-container strong {
+  color: #1a2129;
+}
+
+#root-terms-and-conditions .back-button {
+  margin-top: 30px;
+  padding: 12px 20px;
+  background-color: #bb0000;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#root-terms-and-conditions .back-button:hover {
+  background-color: #e63946;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+  #root-terms-and-conditions .terms-container {
+    padding: 20px;
+    max-width: 100%;
+  }
+
+  #root-terms-and-conditions .terms-header {
+    font-size: 2em;
+  }
+
+  #root-terms-and-conditions .terms-container h3 {
+    font-size: 1.5em;
+  }
+}

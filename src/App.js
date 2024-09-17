@@ -34,6 +34,7 @@ import AboutUsPage from "./components/onlineStoreFrontComponents/AboutUsPage";
 import ContactUsPage from "./components/onlineStoreFrontComponents/ContactUsPage";
 import CustomerList from "./components/dashboardComponents/CustomerList";
 import AccountSuspended from "./components/dashboardComponents/AccountSuspended";
+import TermsAndConditions from "./components/onlineStoreFrontCustomersComponent/TermsAndConditions";
 
 const App = () => {
   const { authToken, login } = useAuthentication();
@@ -99,6 +100,11 @@ const App = () => {
                     authToken ? <AccountSuspended /> : <Navigate to="/login" />
                   }
                 />
+                <Route
+                  path="/terms-and-conditions"
+                  element={<TermsAndConditions />}
+                />
+
                 <Route
                   path="/upload-products"
                   element={

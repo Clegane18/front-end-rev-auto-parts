@@ -28,20 +28,27 @@ const OnlineStoreFrontFooter = () => {
     e.preventDefault();
     const productSection = document.getElementById("product-section");
     if (productSection) {
-      const yOffset = -130; 
-      const y = productSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      const yOffset = -130;
+      const y =
+        productSection.getBoundingClientRect().top +
+        window.pageYOffset +
+        yOffset;
       window.scrollTo({ top: y, behavior: "smooth" });
     }
   };
-  
-  
+
   const handleShopNowClick = (e) => {
     e.preventDefault();
-  
-    const bestSellingSection = document.getElementById("best-selling-products-section"); 
+
+    const bestSellingSection = document.getElementById(
+      "best-selling-products-section"
+    );
     if (bestSellingSection) {
-      const yOffset = -130; 
-      const y = bestSellingSection.getBoundingClientRect().top + window.pageYOffset + yOffset; 
+      const yOffset = -130;
+      const y =
+        bestSellingSection.getBoundingClientRect().top +
+        window.pageYOffset +
+        yOffset;
       window.scrollTo({ top: y, behavior: "smooth" });
     }
   };
@@ -103,6 +110,14 @@ const OnlineStoreFrontFooter = () => {
               <li>
                 <Link to="/contact-us" className="account-link">
                   Contact
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/terms-and-conditions"
+                  className="terms-and-conditions-link"
+                >
+                  Terms and conditions
                 </Link>
               </li>
             </ul>
