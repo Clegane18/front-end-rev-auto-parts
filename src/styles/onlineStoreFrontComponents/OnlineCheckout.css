@@ -2,18 +2,15 @@
   max-width: 1000px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #FFFFFF; 
+  background-color: #ffffff;
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 #root-online-checkout .checkout-header {
-  background-image: linear-gradient(
-      rgba(0, 0, 0, 0.7), 
-      rgba(0, 0, 0, 0.7)
-    ), 
-    url("../../assets/header-bg.png"); 
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+    url("../../assets/header-bg.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -21,7 +18,7 @@
   padding: 10px 20px;
   display: flex;
   align-items: center;
-  justify-content: flex-start; 
+  justify-content: flex-start;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-bottom: 1px solid #ddd;
   margin-bottom: 20px;
@@ -29,8 +26,8 @@
 
 #shop-logo {
   width: 180px;
-  margin-right: 5px; 
-  margin-left: 5px;  
+  margin-right: 5px;
+  margin-left: 5px;
 }
 #root-online-checkout .space-between-phoneNo-and-addr {
   padding-right: 5px;
@@ -39,16 +36,15 @@
 #root-online-checkout .divider {
   width: 2px;
   height: 30px;
-  background-color: #B22222;
-  margin-right: 5px; 
+  background-color: #b22222;
+  margin-right: 5px;
 }
-
 
 #root-online-checkout .checkout-title {
   font-size: 24px;
   font-weight: 300;
   color: #ffffff;
-  font-family: 'Montserrat', serif;
+  font-family: "Montserrat", serif;
 }
 
 #root-online-checkout .error-message {
@@ -83,7 +79,7 @@
 }
 
 #root-online-checkout .default-tag {
-  background-color: #B22222;
+  background-color: #b22222;
   color: white;
   padding: 2px 6px;
   border-radius: 4px;
@@ -94,22 +90,22 @@
 }
 
 #root-online-checkout .change-address-link {
-  background-color: #B22222;  
+  background-color: #b22222;
   color: white;
-  padding: 4px 9px; 
-  border-radius: 3px;  
+  padding: 4px 9px;
+  border-radius: 3px;
   border: none;
   cursor: pointer;
-  font-size: 10px;  
+  font-size: 10px;
   transition: background-color 0.3s ease;
   text-transform: uppercase;
   font-weight: bold;
-  margin-left: 15px;  
+  margin-left: 15px;
 }
 
-#root-online-checkout .change-address-link:hover, 
+#root-online-checkout .change-address-link:hover,
 #root-online-checkout .change-payment-method-link:hover,
-#root-online-checkout .checkout-button:hover{
+#root-online-checkout .checkout-button:hover {
   opacity: 0.75;
 }
 
@@ -124,7 +120,7 @@
   font-weight: bold;
   border-bottom: 2px solid #ddd;
   color: #555;
-  font-family: 'Montserrat', serif;
+  font-family: "Montserrat", serif;
 }
 
 #root-online-checkout .header-product-name {
@@ -142,12 +138,11 @@
   list-style: none;
   padding: 0;
   margin: 0;
-  max-height: 200px; 
-  overflow-y: auto;  
+  max-height: 200px;
+  overflow-y: auto;
   border: 1px solid #ddd;
   border-radius: 4px;
   background-color: #ffffff;
-
 }
 
 #root-online-checkout .product-item {
@@ -180,7 +175,7 @@
 }
 
 #root-online-checkout .product-info .product-name {
-  font-family: 'Montserrat', serif;
+  font-family: "Montserrat", serif;
   text-transform: none;
   margin-bottom: 5px;
 }
@@ -212,17 +207,17 @@
   align-items: center;
   font-weight: bold;
   margin-bottom: 10px;
-  font-family: 'Montserrat', serif;
+  font-family: "Montserrat", serif;
 }
 
 #root-online-checkout .change-payment-method-link {
-  background-color: #B22222;  
+  background-color: #b22222;
   color: white;
-  padding: 4px 9px; 
-  border-radius: 3px;  
+  padding: 4px 9px;
+  border-radius: 3px;
   border: none;
   cursor: pointer;
-  font-size: 10px;  
+  font-size: 10px;
   transition: background-color 0.3s ease;
   text-transform: uppercase;
   font-weight: bold;
@@ -230,8 +225,8 @@
 
 #root-online-checkout .payment-summary {
   margin-top: 10px;
-  font-family: 'Montserrat', serif;
-  line-height: 1.5; 
+  font-family: "Montserrat", serif;
+  line-height: 1.5;
 }
 
 #root-online-checkout .payment-row {
@@ -256,7 +251,7 @@
 }
 
 #root-online-checkout .checkout-button {
-  background-color: #B22222;
+  background-color: #b22222;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -285,4 +280,46 @@
   width: 75px;
   height: 75px;
   object-fit: contain;
+}
+
+#root-online-checkout .payment-method-section {
+  position: relative;
+}
+
+#root-online-checkout .payment-method-dropdown {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  background-color: #f9f9f9;
+  border: 1px solid #e5e5e5;
+  padding: 5px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  width: 105px;
+  border-radius: 6px;
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+}
+
+#root-online-checkout .payment-method-dropdown ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-top: 2px solid #d32f2f;
+}
+
+#root-online-checkout .payment-method-dropdown ul li {
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+#root-online-checkout .payment-method-dropdown ul li:last-child {
+  border-bottom: none;
+}
+
+#root-online-checkout .payment-method-dropdown ul li:hover {
+  background-color: #f0f0f0;
+  color: #d32f2f;
 }

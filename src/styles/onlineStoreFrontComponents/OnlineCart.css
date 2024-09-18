@@ -1,17 +1,18 @@
 #root {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 
 #root-online-cart .cart-container {
   padding: 20px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
+  min-height: 100vh;
 }
 
 #root-online-cart .cart-container h2 {
   text-align: center;
   font-size: 24px;
   margin-bottom: 20px;
-  color: #3D4246;
+  color: #3d4246;
 }
 
 #root-online-cart .empty-cart {
@@ -34,7 +35,8 @@
   margin-top: 10px;
   width: fit-content;
   align-self: center;
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease;
 }
 
 #root-online-cart .empty-cart .back-to-online-button:hover {
@@ -54,7 +56,7 @@
   margin-left: 130px;
 }
 #root-online-cart .cart-header {
-  font-family: 'Montserrat', serif;
+  font-family: "Montserrat", serif;
   display: grid;
   grid-template-columns: 3.4fr 1.5fr 1.4fr 1.2fr 0.9fr;
   justify-content: space-between;
@@ -62,13 +64,13 @@
   border-bottom: 2px solid #ddd;
   background-color: #ffffff;
   z-index: 10;
-  text-align: left; 
+  text-align: left;
 }
 
 #root-online-cart .cart-header span {
   font-size: 18px;
   color: #333;
-  text-align: center; 
+  text-align: center;
 }
 
 #root-online-cart .cart-item {
@@ -80,7 +82,7 @@
 
 #root-online-cart .cart-item-details {
   display: grid;
-  grid-template-columns: 0.2fr 2fr 1fr 1fr 1fr; 
+  grid-template-columns: 0.2fr 2fr 1fr 1fr 1fr;
   align-items: center;
   padding-right: 130px;
 }
@@ -108,7 +110,7 @@
 }
 
 #root-online-cart .item-name {
-  font-family: 'Montserrat', serif;
+  font-family: "Montserrat", serif;
   font-size: 15px;
   color: #333;
 }
@@ -124,7 +126,8 @@
   margin-top: 5px;
   width: fit-content;
   align-self: center;
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease;
 }
 
 #root-online-cart .remove-button:hover {
@@ -168,7 +171,7 @@
 
 #root-online-cart .cart-summary {
   display: grid;
-  grid-template-columns: 5.3fr 1.5fr; 
+  grid-template-columns: 5.3fr 1.5fr;
   padding: 15px;
   font-size: 16px;
   color: #333;
@@ -177,12 +180,12 @@
 }
 
 #root-online-cart .cart-summary .subtotal-label {
-  font-family: 'Montserrat', serif;
+  font-family: "Montserrat", serif;
   padding-left: 100px;
 }
 
 #root-online-cart .cart-summary .subtotal-value {
-  justify-self: start; 
+  justify-self: start;
   padding-left: 50px;
 }
 
@@ -201,11 +204,12 @@
   border: 1px solid #d4d4d8;
   border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease;
 }
 
 #root-online-cart .cart-summary-buttons .pay-button {
-  background-color: #B22222;
+  background-color: #b22222;
   color: #ffffff;
 }
 

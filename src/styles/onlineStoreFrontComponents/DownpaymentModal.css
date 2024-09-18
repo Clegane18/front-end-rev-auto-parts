@@ -2,8 +2,8 @@
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
+  width: 100%;
+  height: 100%;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
@@ -12,40 +12,60 @@
 }
 
 #root-downpayment-modal .downpayment-modal-content {
-  background-color: #fff;
-  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 30px;
   border-radius: 10px;
-  width: 400px;
-  max-width: 100%;
+  width: 100%;
+  max-width: 400px;
   text-align: center;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+#root-downpayment-modal h3 {
+  margin-bottom: 20px;
+  font-weight: 300;
+}
+
+#root-downpayment-modal p {
+  margin-bottom: 15px;
 }
 
 #root-downpayment-modal .modal-actions {
   display: flex;
-  justify-content: space-around;
+  flex-direction: column;
+  gap: 15px;
   margin-top: 20px;
 }
 
 #root-downpayment-modal .confirm-button,
 #root-downpayment-modal .cancel-button {
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
+  width: 100%;
+  padding: 10px;
   font-size: 16px;
-  border-radius: 5px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
-.confirm-button {
-  background-color: #28a745;
-  color: white;
+#root-downpayment-modal .confirm-button {
+  background-color: #bb0000;
+  color: #fff;
 }
 
-.cancel-button {
-  background-color: #dc3545;
-  color: white;
+#root-downpayment-modal .cancel-button {
+  background-color: #ccc;
+  color: #000;
 }
 
-.confirm-button:hover,
-.cancel-button:hover {
-  opacity: 0.9;
+#root-downpayment-modal .confirm-button:hover,
+#root-downpayment-modal .cancel-button:hover {
+  opacity: 0.75;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+#root-downpayment-modal .modal-footer {
+  margin-top: 20px;
+  font-size: 12px;
+  color: #000;
+  text-align: center;
 }

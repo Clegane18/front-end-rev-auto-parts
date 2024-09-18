@@ -1,0 +1,89 @@
+#root-gcash-payment-modal .gcash-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+#root-gcash-payment-modal .gcash-modal-content {
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 30px;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+#root-gcash-payment-modal h2 {
+  font-weight: 300;
+  margin-bottom: 20px;
+}
+
+#root-gcash-payment-modal p {
+  margin-bottom: 15px;
+}
+
+#root-gcash-payment-modal .qr-code-container {
+  margin: 20px 0;
+}
+
+#root-gcash-payment-modal .qr-code-container img {
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+}
+
+#root-gcash-payment-modal .reference-input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-transform: none;
+}
+
+#root-gcash-payment-modal .modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+#root-gcash-payment-modal .confirm-button,
+#root-gcash-payment-modal .cancel-button {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#root-gcash-payment-modal .confirm-button {
+  background-color: #bb0000;
+  color: #fff;
+}
+
+#root-gcash-payment-modal .cancel-button {
+  background-color: #ccc;
+  color: #000;
+}
+
+#root-gcash-payment-modal .confirm-button:hover,
+#root-gcash-payment-modal .cancel-button:hover {
+  opacity: 0.75;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+#root-gcash-payment-modal .modal-footer {
+  margin-top: 20px;
+  font-size: 12px;
+  color: #000;
+  text-align: center;
+}

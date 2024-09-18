@@ -27,13 +27,22 @@ export const calculateShippingFee = async ({ addressId, token }) => {
   }
 };
 
-export const createOrder = async ({ customerId, addressId, items, token }) => {
+export const createOrder = async ({
+  customerId,
+  addressId,
+  items,
+  paymentMethod,
+  gcashReferenceNumber,
+  token,
+}) => {
   try {
     const response = await api.post(
       `/create-order/${addressId}`,
       {
         customerId,
         items,
+        paymentMethod,
+        gcashReferenceNumber,
       },
       {
         headers: {

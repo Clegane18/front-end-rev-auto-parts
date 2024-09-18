@@ -58,7 +58,7 @@
 
 #root-customer-profile-page .save-button {
   padding: 10px 20px;
-  background-color: #0c619b;
+  background-color: #d30a0a;
   color: #fff;
   border: none;
   border-radius: 3px;
@@ -92,7 +92,7 @@
 }
 
 #root-customer-profile-page .purchase-tabs .active {
-  background-color: #0c619b;
+  background-color: #d30a0a;
   color: #fff;
 }
 
@@ -151,7 +151,7 @@
 }
 
 #root-customer-profile-page input:checked + .slider {
-  background-color: #0c619b;
+  background-color: #d30a0a;
 }
 
 #root-customer-profile-page input:checked + .slider:before {

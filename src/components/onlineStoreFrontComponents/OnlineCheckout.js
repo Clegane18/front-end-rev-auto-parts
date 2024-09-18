@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
 import AddressModal from "./AddressesModal";
 import DownpaymentModal from "./DownpaymentModal";
+import GCashPaymentModal from "./GCashPaymentModal";
 import { formatCurrency } from "../../utils/formatCurrency";
 
 const OnlineCheckout = () => {
@@ -19,10 +20,14 @@ const OnlineCheckout = () => {
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
+  const [isPaymentDropdownOpen, setIsPaymentDropdownOpen] = useState(false);
   const [shippingFee, setShippingFee] = useState(0);
   const [isFreeShipping, setIsFreeShipping] = useState(false);
   const [isDownpaymentModalOpen, setIsDownpaymentModalOpen] = useState(false);
   const [downpaymentAmount, setDownpaymentAmount] = useState(0);
+  const [paymentMethod, setPaymentMethod] = useState("Cash on Delivery");
+  const [isGCashModalOpen, setIsGCashModalOpen] = useState(false);
+
   const navigate = useNavigate();
   const location = useLocation();
   const { items: cartItems } = location.state || { items: [] };
@@ -66,26 +71,27 @@ const OnlineCheckout = () => {
   }, [currentUser, fetchAddressDetails]);
 
   const handleCheckout = () => {
-    const inStorePickupItems = cartItems.filter(
-      (item) => item.Product?.purchaseMethod === "in-store-pickup"
-    );
-
-    console.log("In-Store Pickup Items:", inStorePickupItems);
-
-    if (inStorePickupItems.length > 0) {
-      const downpayment = inStorePickupItems.reduce((acc, item) => {
-        return acc + item.Product.price * item.quantity * 0.2;
-      }, 0);
-
-      setDownpaymentAmount(downpayment);
-      setIsDownpaymentModalOpen(true);
-    } else {
-      processCheckout();
-    }
+    processCheckout();
   };
 
-  const processCheckout = async () => {
+  const processCheckout = async (
+    gcashRefNumber = null,
+    paymentMethodParam = paymentMethod
+  ) => {
     try {
+      const inStorePickupItems = cartItems.filter(
+        (item) => item.Product?.purchaseMethod === "in-store-pickup"
+      );
+
+      if (inStorePickupItems.length > 0 && !gcashRefNumber) {
+        const downpayment = inStorePickupItems.reduce((acc, item) => {
+          return acc + item.Product.price * item.quantity * 0.2;
+        }, 0);
+        setDownpaymentAmount(downpayment);
+        setIsDownpaymentModalOpen(true);
+        return;
+      }
+
       const merchandiseSubtotal = cartItems.reduce(
         (acc, item) => acc + (item.Product.price || 0) * item.quantity,
         0
@@ -95,13 +101,17 @@ const OnlineCheckout = () => {
         customerId: Number(customerId),
         addressId: Number(addressId),
         items: cartItems.map((item) => ({
-          productId: item.Product.productId,
+          productId: item.Product.id,
           quantity: item.quantity,
         })),
         token,
         merchandiseSubtotal,
         shippingFee,
+        paymentMethod: paymentMethodParam,
+        gcashReferenceNumber: gcashRefNumber,
       };
+
+      console.log("Sending payload:", payload);
 
       const response = await createOrder(payload);
       const order = response.data;
@@ -109,6 +119,9 @@ const OnlineCheckout = () => {
       if (order) {
         setShippingFee(order.shippingFee || 0);
         setSuccessMessage(order.message);
+        setIsDownpaymentModalOpen(false);
+        setIsGCashModalOpen(false);
+
         navigate("/customer-profile", {
           state: { selectedMenu: "MyPurchase", activeTab: "To Pay" },
         });
@@ -117,11 +130,34 @@ const OnlineCheckout = () => {
       }
     } catch (err) {
       console.error("Checkout error:", err);
+      if (err.response && err.response.data && err.response.data.message) {
+        setError(err.response.data.message);
+      } else {
+        setError("An error occurred during checkout. Please try again.");
+      }
     }
   };
 
   const openAddressModal = () => setIsAddressModalOpen(true);
   const closeAddressModal = () => setIsAddressModalOpen(false);
+
+  const togglePaymentDropdown = () =>
+    setIsPaymentDropdownOpen(!isPaymentDropdownOpen);
+
+  const selectPaymentMethod = (method) => {
+    setPaymentMethod(method);
+    setIsPaymentDropdownOpen(false);
+  };
+
+  const handleDownpaymentConfirm = () => {
+    setIsDownpaymentModalOpen(false);
+    setIsGCashModalOpen(true);
+  };
+
+  const handleGCashPaymentConfirm = (referenceNumber) => {
+    setIsGCashModalOpen(false);
+    processCheckout(referenceNumber, "G-Cash");
+  };
 
   const handleAddressChange = async () => {
     try {
@@ -252,9 +288,24 @@ const OnlineCheckout = () => {
         <div className="payment-method-section">
           <div className="payment-method-header">
             <span>Payment Method</span>
-            <span>Cash on Delivery</span>
-            <button className="change-payment-method-link">Change</button>
+            <span>{paymentMethod}</span>
+            <button
+              className="change-payment-method-link"
+              onClick={togglePaymentDropdown}
+            >
+              Change
+            </button>
           </div>
+          {isPaymentDropdownOpen && (
+            <div className="payment-method-dropdown">
+              <ul>
+                <li onClick={() => selectPaymentMethod("Cash on Delivery")}>
+                  Cash on Delivery
+                </li>
+                <li onClick={() => selectPaymentMethod("G-Cash")}>GCash</li>
+              </ul>
+            </div>
+          )}
           <div className="payment-summary">
             <div className="payment-row">
               <span>Merchandise Subtotal:</span>
@@ -308,7 +359,12 @@ const OnlineCheckout = () => {
           isOpen={isDownpaymentModalOpen}
           onClose={() => setIsDownpaymentModalOpen(false)}
           downpaymentAmount={downpaymentAmount}
-          onConfirm={processCheckout}
+          onConfirm={handleDownpaymentConfirm}
+        />
+        <GCashPaymentModal
+          isOpen={isGCashModalOpen}
+          onClose={() => setIsGCashModalOpen(false)}
+          onConfirm={handleGCashPaymentConfirm}
         />
       </div>
     </div>

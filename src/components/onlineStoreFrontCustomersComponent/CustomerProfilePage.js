@@ -213,6 +213,7 @@ const CustomerProfilePage = () => {
                           },
                         })
                       }
+                      menuPlacement="top"
                     />
                     <Select
                       placeholder="Month"
@@ -229,6 +230,7 @@ const CustomerProfilePage = () => {
                           },
                         })
                       }
+                      menuPlacement="top"
                     />
                     <Select
                       placeholder="Year"
@@ -245,6 +247,7 @@ const CustomerProfilePage = () => {
                           },
                         })
                       }
+                      menuPlacement="top"
                     />
                   </div>
                 </div>

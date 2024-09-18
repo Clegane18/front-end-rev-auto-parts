@@ -1,19 +1,18 @@
-
 #root-address-card .address-card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
-  position: sticky; 
-  top: 0; 
-  background-color: #ffffff;  
-  z-index: 100;  
-  padding: 10px 20px;  
+  position: sticky;
+  top: 0;
+  background-color: #ffffff;
+  z-index: 100;
+  padding: 10px 20px;
 }
 
 #root-address-card .address-card-container {
-  overflow-y: auto; 
-  max-height: 550px; 
+  overflow-y: auto;
+  max-height: 550px;
 }
 
 #root-address-card .address-card {
@@ -64,11 +63,11 @@
 }
 
 #root-address-card .default-label-container .default-label {
-  background-color: #FFFFFF; 
+  background-color: #ffffff;
   padding: 5px 10px;
   border-radius: 5px;
-  color: #0c619b;
-  border: 1px solid #0c619b;
+  color: #d30a0a;
+  border: 1px solid #d30a0a;
 }
 
 #root-address-card .add-address-icon {
@@ -78,7 +77,7 @@
 #root-address-card .add-address-button {
   display: flex;
   align-items: center;
-  background-color: #0c619b;
+  background-color: #d30a0a;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -94,7 +93,7 @@
 #root-address-card .set-default-button {
   display: flex;
   align-items: center;
-  background-color: #009688;
+  background-color: #1d2b3a;
   color: white;
   border: none;
   padding: 5px 10px;
@@ -106,7 +105,7 @@
 #root-address-card .edit-button {
   display: flex;
   align-items: center;
-  background-color: #0c619b;
+  background-color: #d30a0a;
   color: #ffffff;
   border: none;
   padding: 5px 10px;
@@ -118,7 +117,7 @@
 #root-address-card .delete-button {
   display: flex;
   align-items: center;
-  background-color: #0c619b;  
+  background-color: #d30a0a;
   color: #ffffff;
   border: none;
   padding: 5px 10px;
@@ -128,12 +127,13 @@
 }
 
 #root-address-card .delete-button:disabled {
-  background-color: #a7a7a7; 
-  cursor: not-allowed; 
-  opacity: 0.90;
+  background-color: #a7a7a7;
+  cursor: not-allowed;
+  opacity: 0.9;
 }
 
-#root-address-card .edit-button:hover, #root-address-card .delete-button:hover {
+#root-address-card .edit-button:hover,
+#root-address-card .delete-button:hover {
   opacity: 0.75;
 }
 
