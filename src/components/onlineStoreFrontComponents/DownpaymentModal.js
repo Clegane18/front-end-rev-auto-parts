@@ -22,6 +22,10 @@ const DownpaymentModal = ({
         <p>
           The payment will be processed via <strong>GCash</strong>.
         </p>
+        <p className="terms-conditions">
+          Please pick up your item within 7 days to avoid cancellation and
+          forfeiture of payment.
+        </p>
         <div className="modal-actions">
           <button className="confirm-button" onClick={onConfirm}>
             Confirm & Pay
