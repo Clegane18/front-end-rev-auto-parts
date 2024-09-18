@@ -38,6 +38,7 @@
   width: 200px;
   height: 200px;
   object-fit: contain;
+  border: 2px solid red;
 }
 
 #root-gcash-payment-modal .reference-input {
