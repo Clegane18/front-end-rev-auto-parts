@@ -160,7 +160,11 @@ const OnlineStoreFrontItemsByCategory = ({
               {visibleItems[category].map((item) => (
                 <div
                   key={item.id}
-                  className="product-item"
+                  className={`product-item ${
+                    item.purchaseMethod === "in-store-pickup"
+                      ? "in-store-pickup-item"
+                      : ""
+                  }`}
                   onClick={() => onSelectProduct(item)}
                 >
                   <div className="product-image-container">
@@ -175,6 +179,9 @@ const OnlineStoreFrontItemsByCategory = ({
                   <div className="item-price-container">
                     <h3 className="item-name">{item.name}</h3>
                     <p className="item-price">{formatCurrency(item.price)}</p>
+                    {item.purchaseMethod === "in-store-pickup" && (
+                      <p className="pickup-only-label">In-Store Pickup Only</p>
+                    )}
                   </div>
                 </div>
               ))}

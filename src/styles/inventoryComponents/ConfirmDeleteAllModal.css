@@ -47,7 +47,7 @@
 }
 
 #root-confirm-delete-all-modal .btn-confirm {
-  background-color: #0c619b;
+  background-color: #d30a0a;
   color: white;
 }
 
@@ -57,7 +57,7 @@
 }
 
 #root-confirm-delete-all-modal .btn-cancel {
-  background-color: #0c619b;
+  background-color: #d30a0a;
   color: white;
   margin-left: 10px;
 }

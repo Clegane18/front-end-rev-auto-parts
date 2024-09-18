@@ -8,6 +8,7 @@ import logo from "../../assets/g&f-logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
 import AddressModal from "./AddressesModal";
+import DownpaymentModal from "./DownpaymentModal";
 import { formatCurrency } from "../../utils/formatCurrency";
 
 const OnlineCheckout = () => {
@@ -20,6 +21,8 @@ const OnlineCheckout = () => {
   const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
   const [shippingFee, setShippingFee] = useState(0);
   const [isFreeShipping, setIsFreeShipping] = useState(false);
+  const [isDownpaymentModalOpen, setIsDownpaymentModalOpen] = useState(false);
+  const [downpaymentAmount, setDownpaymentAmount] = useState(0);
   const navigate = useNavigate();
   const location = useLocation();
   const { items: cartItems } = location.state || { items: [] };
@@ -62,10 +65,29 @@ const OnlineCheckout = () => {
     }
   }, [currentUser, fetchAddressDetails]);
 
-  const handleCheckout = async () => {
+  const handleCheckout = () => {
+    const inStorePickupItems = cartItems.filter(
+      (item) => item.Product?.purchaseMethod === "in-store-pickup"
+    );
+
+    console.log("In-Store Pickup Items:", inStorePickupItems);
+
+    if (inStorePickupItems.length > 0) {
+      const downpayment = inStorePickupItems.reduce((acc, item) => {
+        return acc + item.Product.price * item.quantity * 0.2;
+      }, 0);
+
+      setDownpaymentAmount(downpayment);
+      setIsDownpaymentModalOpen(true);
+    } else {
+      processCheckout();
+    }
+  };
+
+  const processCheckout = async () => {
     try {
       const merchandiseSubtotal = cartItems.reduce(
-        (acc, item) => acc + (item.subtotal || 0) * item.quantity,
+        (acc, item) => acc + (item.Product.price || 0) * item.quantity,
         0
       );
 
@@ -73,7 +95,7 @@ const OnlineCheckout = () => {
         customerId: Number(customerId),
         addressId: Number(addressId),
         items: cartItems.map((item) => ({
-          productId: item.productId,
+          productId: item.Product.productId,
           quantity: item.quantity,
         })),
         token,
@@ -281,6 +303,12 @@ const OnlineCheckout = () => {
           isOpen={isAddressModalOpen}
           onClose={closeAddressModal}
           onAddressChange={handleAddressChange}
+        />
+        <DownpaymentModal
+          isOpen={isDownpaymentModalOpen}
+          onClose={() => setIsDownpaymentModalOpen(false)}
+          downpaymentAmount={downpaymentAmount}
+          onConfirm={processCheckout}
         />
       </div>
     </div>

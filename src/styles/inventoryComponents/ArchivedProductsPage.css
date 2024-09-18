@@ -1,18 +1,18 @@
 #root-archived-products-page {
   padding: 20px;
-  font-family: 'Montserrat', serif;
+  font-family: "Montserrat", serif;
   background-color: #f9f9fb;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   max-height: 80vh;
-  overflow-y: auto; 
+  overflow-y: auto;
 }
 
 #root-archived-products-page button {
   padding: 10px 15px;
   margin-right: 12px;
   border: none;
-  background-color: #0c619b;
+  background-color: #d30a0a;
   color: white;
   cursor: pointer;
   border-radius: 6px;
@@ -79,9 +79,9 @@
   border-radius: 6px;
   background-color: white;
   cursor: pointer;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   appearance: none;
-  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2212%22%20height%3D%2212%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22%230c619b%22%3E%3Cpath%20d%3D%22M6%2011L0%205h12z%22%2F%3E%3C%2Fsvg%3E');
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2212%22%20height%3D%2212%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22%23d30a0a%22%3E%3Cpath%20d%3D%22M6%2011L0%205h12z%22%2F%3E%3C%2Fsvg%3E");
   background-repeat: no-repeat;
   background-position: calc(100% - 5px) center;
   background-size: 12px 12px;
@@ -89,12 +89,12 @@
 }
 
 #sortOrder:hover {
-  border-color: #0c619b;
+  border-color: #d30a0a;
 }
 
 #sortOrder:focus {
   outline: none;
-  border-color: #0c619b;
+  border-color: #d30a0a;
 }
 
 #root-archived-products-page .control-panel {
@@ -112,7 +112,8 @@
 }
 
 #root-archived-products-page .shop-logo:hover {
-  opacity: 0.75;
+  opacity: 0.85;
+  transform: scale(1.05);
 }
 
 #root-archived-products-page .control-panel {
@@ -120,23 +121,23 @@
   gap: 1rem;
   align-items: center;
   flex-wrap: wrap;
-  background-color: #ffffff; 
-  padding: 1rem; 
-  border-radius: 8px; 
+  background-color: #ffffff;
+  padding: 1rem;
+  border-radius: 8px;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
 }
 
 #root-archived-products-page .table-container {
   overflow-y: auto;
-  background-color: #ffffff; 
-  padding: 0 1rem 1rem 1rem; 
-  border-radius: 8px; 
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); 
+  background-color: #ffffff;
+  padding: 0 1rem 1rem 1rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
 }
 
 #root-archived-products-page h1 {
   font-size: 2rem;
-  color: #1A2129;
+  color: #1a2129;
   text-align: left;
   padding: 20px 0;
   margin: 0;

@@ -47,7 +47,8 @@
 }
 
 #root-upload-products .shop-logo:hover {
-  opacity: 0.75;
+  opacity: 0.85;
+  transform: scale(1.05);
 }
 
 #root-upload-products .search-field {
@@ -143,7 +144,7 @@
   border: none;
   border-radius: 4px;
   color: #ffffff;
-  background-color: #0c619b;
+  background-color: #d30a0a;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -151,7 +152,7 @@
 }
 
 #root-upload-products .search-icon {
-  color: #0c619b;
+  color: #d30a0a;
 }
 
 #root-upload-products button:hover,
@@ -160,11 +161,12 @@
 }
 
 #root-upload-products button .fa-times {
-  color: #dc3545;
+  color: #d30a0a;
 }
 
 #root-upload-products button .fa-upload {
-  color: #17a2b8;
+  background-color: #d30a0a;
+  color: white;
 }
 
 #root-upload-products button .fa-check-circle {
@@ -173,4 +175,55 @@
 
 #root-upload-products button .fa-undo {
   color: #ffc107;
+}
+
+#root-upload-products .select-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  width: 135px;
+}
+
+#root-upload-products .select-wrapper select {
+  width: 100%;
+  padding: 8px;
+  padding-right: 15px;
+  border: 2px solid #ff0000;
+  border-radius: 6px;
+  background-color: #ffffff;
+  color: #000000;
+  font-family: "Montserrat", serif;
+  font-size: 14px;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+#root-upload-products .select-wrapper::after {
+  content: "▼";
+  position: absolute;
+  right: 5px;
+  top: 48%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 12px;
+  color: #000000;
+}
+
+#root-upload-products .select-wrapper select:hover,
+#root-upload-products .select-wrapper select:focus {
+  border-color: #ff4500;
+  box-shadow: 0 0 5px rgba(255, 69, 0, 0.5);
+  color: #000000;
+}
+
+@media (max-width: 768px) {
+  #root-upload-products .select-wrapper select {
+    font-size: 12px;
+    padding: 6px;
+  }
 }

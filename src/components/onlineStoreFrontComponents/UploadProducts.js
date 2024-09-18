@@ -4,9 +4,11 @@ import {
   uploadProductImage,
   getProductByIdAndPublish,
   unpublishItemByProductId,
+  updateProductPurchaseMethod,
 } from "../../services/online-store-front-api";
 import UploadPhotoModal from "./UploadPhotoModal";
 import ConfirmationModal from "./ConfirmationModal";
+import ChangePurchaseMethodModal from "./ChangePurchaseMethodModal";
 import "../../styles/onlineStoreFrontComponents/UploadProducts.css";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -27,7 +29,10 @@ const UploadProducts = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [showChangePurchaseMethodModal, setShowChangePurchaseMethodModal] =
+    useState(false);
   const [action, setAction] = useState("");
+  const [newPurchaseMethod, setNewPurchaseMethod] = useState("");
   const navigate = useNavigate();
 
   const fetchProducts = async () => {
@@ -140,6 +145,29 @@ const UploadProducts = () => {
     }
   };
 
+  const handlePurchaseMethodChange = (productId, newMethod) => {
+    const product = allProducts.find((p) => p.id === productId);
+    setSelectedProduct(product);
+    setNewPurchaseMethod(newMethod);
+    setShowChangePurchaseMethodModal(true);
+  };
+
+  const handleConfirmPurchaseMethodChange = async () => {
+    try {
+      await updateProductPurchaseMethod({
+        productId: selectedProduct.id,
+        newPurchaseMethod,
+      });
+      await fetchProducts();
+      setShowChangePurchaseMethodModal(false);
+      setSelectedProduct(null);
+      setErrorMessage("");
+    } catch (error) {
+      console.error("Error updating purchase method:", error);
+      setErrorMessage(error.message || "Failed to update purchase method.");
+    }
+  };
+
   const getStatusClassName = (status) => {
     switch (status) {
       case "draft":
@@ -187,6 +215,7 @@ const UploadProducts = () => {
                 <th>Stock</th>
                 <th>Description</th>
                 <th>Status</th>
+                <th>Purchase Method</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -205,18 +234,44 @@ const UploadProducts = () => {
                       {product.status}
                     </td>
                     <td>
-                      <button onClick={() => handleUploadPhotoClick(product)}>
-                        <FontAwesomeIcon icon={faUpload} /> Upload Photo
+                      <div className="select-wrapper">
+                        <select
+                          value={product.purchaseMethod}
+                          onChange={(e) =>
+                            handlePurchaseMethodChange(
+                              product.id,
+                              e.target.value
+                            )
+                          }
+                        >
+                          <option value="delivery">Delivery</option>
+                          <option value="in-store-pickup">
+                            In-Store Pickup
+                          </option>
+                        </select>
+                      </div>
+                    </td>
+                    <td>
+                      <button
+                        className="upload-photo-icon"
+                        onClick={() => handleUploadPhotoClick(product)}
+                        title="Upload Photo"
+                      >
+                        <FontAwesomeIcon icon={faUpload} />
                       </button>
                       {product.status === "published" ? (
                         <button
                           onClick={() => handleUnpublishClick(product.id)}
+                          title="Unpublish"
                         >
-                          <FontAwesomeIcon icon={faEyeSlash} /> Unpublish
+                          <FontAwesomeIcon icon={faEyeSlash} />
                         </button>
                       ) : (
-                        <button onClick={() => handlePublishClick(product.id)}>
-                          <FontAwesomeIcon icon={faCheckCircle} /> Publish
+                        <button
+                          onClick={() => handlePublishClick(product.id)}
+                          title="Publish"
+                        >
+                          <FontAwesomeIcon icon={faCheckCircle} />
                         </button>
                       )}
                     </td>
@@ -244,6 +299,16 @@ const UploadProducts = () => {
           onClose={() => setShowConfirmationModal(false)}
           onConfirm={handleConfirm}
           action={action}
+          itemName={selectedProduct?.name}
+        />
+      )}
+      {showChangePurchaseMethodModal && (
+        <ChangePurchaseMethodModal
+          isOpen={showChangePurchaseMethodModal}
+          onClose={() => setShowChangePurchaseMethodModal(false)}
+          onConfirm={handleConfirmPurchaseMethodChange}
+          newMethod={newPurchaseMethod}
+          currentMethod={selectedProduct?.purchaseMethod}
           itemName={selectedProduct?.name}
         />
       )}

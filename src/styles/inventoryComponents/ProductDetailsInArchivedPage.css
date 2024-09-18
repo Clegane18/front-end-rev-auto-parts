@@ -55,6 +55,7 @@
   margin: 10px 0;
   font-size: 16px;
   color: #555;
+  text-transform: none;
 }
 
 #root-product-details-in-archived-page .product-info strong {

@@ -47,7 +47,7 @@
   border-radius: 5px;
   margin-bottom: 15px;
   text-align: center;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
 #root-add-stock-modal form {
@@ -91,13 +91,13 @@
   transition: background-color 0.3s, transform 0.2s;
 }
 
-#root-add-stock-modal .modal-content .button-group button[type="submit"], 
-#root-add-stock-modal .modal-content .button-group button[type="button"]{
-  background-color: #0c619b;
+#root-add-stock-modal .modal-content .button-group button[type="submit"],
+#root-add-stock-modal .modal-content .button-group button[type="button"] {
+  background-color: #d30a0a;
   color: #ffffff;
 }
 
-#root-add-stock-modal .modal-content .button-group button[type="submit"]:hover, 
+#root-add-stock-modal .modal-content .button-group button[type="submit"]:hover,
 #root-add-stock-modal .modal-content .button-group button[type="button"]:hover {
   opacity: 0.75;
 }

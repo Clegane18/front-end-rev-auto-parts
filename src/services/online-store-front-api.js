@@ -141,3 +141,24 @@ export const sendContactUsEmail = async ({ name, email, phone, message }) => {
     }
   }
 };
+
+export const updateProductPurchaseMethod = async ({
+  productId,
+  newPurchaseMethod,
+}) => {
+  try {
+    const response = await api.put(`/products/${productId}/purchase-method`, {
+      newPurchaseMethod,
+    });
+
+    return response.data.message;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(
+        "Failed to update purchase method. Please try again later."
+      );
+    }
+  }
+};

@@ -6,23 +6,18 @@
 }
 
 #root-pos-page .pos-header {
-  background-image: linear-gradient(
-      rgba(0, 0, 0, 0.7), 
-      rgba(0, 0, 0, 0.7)
-    ), 
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
     url("../../assets/header-bg.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  height: 80px; 
+  height: 80px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
-  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1); 
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
 }
-
-
 
 #root-pos-page .shop-info {
   display: flex;
@@ -70,11 +65,12 @@
 }
 
 #root-pos-page .shop-logo img {
-  filter: none; 
+  filter: none;
 }
 
 #root-pos-page .shop-logo:hover {
-  opacity: 0.75;
+  opacity: 0.85;
+  transform: scale(1.05);
 }
 
 /* Responsive Design */
@@ -99,7 +95,7 @@
 }
 
 @media (min-width: 1440px) {
-  #root-pos-page .pos-header {  
+  #root-pos-page .pos-header {
     padding: 20px 40px;
   }
 

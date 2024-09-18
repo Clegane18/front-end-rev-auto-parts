@@ -1,0 +1,128 @@
+#root-change-purchase-method-modal .confirmation-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease-in-out;
+  z-index: 1000;
+}
+
+#root-change-purchase-method-modal .confirmation-modal-content {
+  background: #fff;
+  padding: 25px;
+  border-radius: 8px;
+  width: 380px;
+  max-width: 90%;
+  max-height: 60%;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  animation: slideIn 0.4s ease-out;
+  z-index: 1001;
+}
+
+#root-change-purchase-method-modal .warning-icon {
+  font-size: 36px;
+  color: #ff6347;
+  margin-bottom: 15px;
+}
+
+#root-change-purchase-method-modal .confirmation-modal-content h3 {
+  margin-top: 0;
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+#root-change-purchase-method-modal .confirmation-modal-content p {
+  color: #555;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+#root-change-purchase-method-modal .confirmation-modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+#root-change-purchase-method-modal .confirm-button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  background-color: #bd4138;
+  color: white;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+#root-change-purchase-method-modal .cancel-button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  background-color: #e0e0e0;
+  color: #333;
+  border: 1px solid #ccc;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+#root-change-purchase-method-modal .cancel-button:hover,
+#root-change-purchase-method-modal .confirm-button:hover {
+  opacity: 0.75;
+  transform: scale(1.05);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 600px) {
+  #root-change-purchase-method-modal .confirmation-modal-content {
+    width: 90%;
+    max-height: 70%;
+  }
+
+  .warning-icon {
+    font-size: 30px;
+  }
+
+  #root-change-purchase-method-modal .confirmation-modal-content h3 {
+    font-size: 18px;
+  }
+
+  #root-change-purchase-method-modal .confirmation-modal-content p {
+    font-size: 14px;
+  }
+
+  #root-change-purchase-method-modal .confirm-button,
+  .cancel-button {
+    padding: 10px 15px;
+    font-size: 14px;
+  }
+
+  #root-change-purchase-method-modal .confirmation-modal-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
