@@ -36,6 +36,16 @@ const OrderDetailsModal = ({ order, onClose }) => {
                 </strong>
               </span>
             </div>
+            <div className="pricing-details">
+              <p className="merchandise-sub-total-padding-right">
+                Merchandise Subtotal:{" "}
+                <strong>{formatCurrency(order.merchandiseSubtotal)}</strong>
+              </p>
+              <p>
+                Shipping Fee:{" "}
+                <strong>{formatCurrency(order.shippingFee)}</strong>
+              </p>
+            </div>
           </div>
 
           <div className="items-section">
@@ -49,7 +59,6 @@ const OrderDetailsModal = ({ order, onClose }) => {
               </div>
             ))}
           </div>
-
           <div className="customer-shipping-section">
             <div className="customer-details">
               <h3>Customer Details</h3>

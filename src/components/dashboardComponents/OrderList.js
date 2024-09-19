@@ -2,11 +2,14 @@ import React, { useEffect, useState } from "react";
 import {
   getAllOrders,
   updateOrderStatus,
+  updateOrderPaymentStatus,
   deleteOrderById,
 } from "../../services/order-api";
 import "../../styles/dashboardComponents/OrderList.css";
 import OrderDetailsModal from "./OrderDetailsModal";
 import ConfirmDeleteOrderModal from "./ConfirmDeleteOrderModal";
+import CompareGCashModal from "./CompareGCashModal";
+import SuccessModal from "../SuccessModal";
 import { useWebSocket } from "../../contexts/WebSocketContext";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -19,6 +22,7 @@ import {
   Visibility as EyeIcon,
   Delete as DeleteIcon,
   Print as PrintIcon,
+  FactCheck as FactCheckIcon,
 } from "@mui/icons-material";
 import { printWaybill } from "../../utils/printWaybill";
 
@@ -29,6 +33,11 @@ const OrdersList = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [orderToDelete, setOrderToDelete] = useState(null);
   const [deleteError, setDeleteError] = useState(null);
+  const [isCompareModalOpen, setIsCompareModalOpen] = useState(false);
+  const [customerReferenceNumber, setCustomerReferenceNumber] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("");
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
   const socket = useWebSocket();
   const navigate = useNavigate();
 
@@ -92,6 +101,23 @@ const OrdersList = () => {
     }
   };
 
+  const handlePaymentStatusChange = async (orderId, newPaymentStatus) => {
+    try {
+      await updateOrderPaymentStatus(orderId, newPaymentStatus);
+
+      setOrders((prevOrders) =>
+        prevOrders.map((order) =>
+          order.id === orderId
+            ? { ...order, paymentStatus: newPaymentStatus }
+            : order
+        )
+      );
+    } catch (err) {
+      console.error("Failed to update order payment status:", err);
+      setError("Failed to update order payment status.");
+    }
+  };
+
   const handleDeleteOrder = async (orderId) => {
     try {
       const response = await deleteOrderById(orderId);
@@ -133,6 +159,21 @@ const OrdersList = () => {
     printNextWaybill();
   };
 
+  const openCompareModal = (order) => {
+    setCustomerReferenceNumber(order.gcashReferenceNumber);
+    setPaymentMethod(order.paymentMethod);
+    setIsCompareModalOpen(true);
+  };
+
+  const closeCompareModal = () => {
+    setIsCompareModalOpen(false);
+  };
+
+  const handleCompareSuccess = (message) => {
+    setSuccessMessage(message);
+    setIsSuccessModalOpen(true);
+  };
+
   return (
     <div id="root-order-list">
       <div className="order-list-container">
@@ -170,76 +211,110 @@ const OrdersList = () => {
             <table>
               <thead>
                 <tr>
-                  <th>ID</th>
                   <th>Order Number</th>
                   <th>Date</th>
                   <th>Customer</th>
                   <th>Order Status</th>
-                  <th>Merchandise Subtotal</th>
-                  <th>Shipping Fee</th>
                   <th>Total</th>
                   <th>Items</th>
+                  <th>Payment Status</th>
+                  <th>Payment Method</th>
+                  <th>Gcash Ref No.</th>
                   <th>Action</th>
                 </tr>
               </thead>
               <tbody>
-                {orders.map((order) => (
-                  <tr
-                    key={order.id}
-                    className={`status-${order.status
-                      .toLowerCase()
-                      .replace(" ", "-")}`}
-                  >
-                    <td>{order.id}</td>
-                    <td>{order.orderNumber}</td>
-                    <td>{new Date(order.createdAt).toLocaleDateString()}</td>
-                    <td>{order.customer.username}</td>
-                    <td>
-                      <select
-                        value={order.status}
-                        onChange={(e) =>
-                          handleStatusChange(order.id, e.target.value)
-                        }
-                      >
-                        <option value="To Pay">To Pay</option>
-                        <option value="To Ship">To Ship</option>
-                        <option value="To Receive">To Receive</option>
-                        <option value="Completed">Completed</option>
-                        <option value="Cancelled">Cancelled</option>
-                      </select>
-                    </td>
-                    <td>{formatCurrency(order.merchandiseSubtotal)}</td>
-                    <td>{formatCurrency(order.shippingFee)}</td>
-                    <td>{formatCurrency(order.totalAmount)}</td>
-                    <td>{order.items.length} items</td>
-                    <td className="action-buttons">
-                      <Tooltip title="View Details">
-                        <IconButton
-                          color="primary"
-                          onClick={() => viewOrderDetails(order)}
+                {orders.map((order) => {
+                  const normalizedPaymentMethod = order.paymentMethod
+                    ? order.paymentMethod
+                        .toLowerCase()
+                        .replace(/[^a-z0-9]/g, "")
+                    : "";
+
+                  return (
+                    <tr
+                      key={order.id}
+                      className={`status-${order.status
+                        .toLowerCase()
+                        .replace(" ", "-")}`}
+                    >
+                      <td>{order.orderNumber}</td>
+                      <td>{new Date(order.createdAt).toLocaleDateString()}</td>
+                      <td>{order.customer.username}</td>
+                      <td>
+                        <select
+                          value={order.status}
+                          onChange={(e) =>
+                            handleStatusChange(order.id, e.target.value)
+                          }
                         >
-                          <EyeIcon />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip title="Delete Order">
-                        <IconButton
-                          color="secondary"
-                          onClick={() => openDeleteModal(order)}
+                          <option value="To Pay">To Pay</option>
+                          <option value="To Ship">To Ship</option>
+                          <option value="To Receive">To Receive</option>
+                          <option value="Completed">Completed</option>
+                          <option value="Cancelled">Cancelled</option>
+                        </select>
+                      </td>
+                      <td>{formatCurrency(order.totalAmount)}</td>
+                      <td>{order.items.length} items</td>
+                      <td>
+                        <select
+                          value={order.paymentStatus}
+                          onChange={(e) =>
+                            handlePaymentStatusChange(order.id, e.target.value)
+                          }
                         >
-                          <DeleteIcon />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip title="Print Waybill">
-                        <IconButton
-                          color="default"
-                          onClick={() => printWaybill(order, formatCurrency)}
-                        >
-                          <PrintIcon />
-                        </IconButton>
-                      </Tooltip>
-                    </td>
-                  </tr>
-                ))}
+                          <option value="Pending">Pending</option>
+                          <option value="Paid">Paid</option>
+                        </select>
+                      </td>
+                      <td>{order.paymentMethod}</td>
+                      <td>
+                        {order.gcashReferenceNumber
+                          ? order.gcashReferenceNumber
+                          : "COD"}
+                      </td>
+
+                      <td className="action-buttons">
+                        <Tooltip title="View Details">
+                          <IconButton
+                            color="primary"
+                            onClick={() => viewOrderDetails(order)}
+                          >
+                            <EyeIcon />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Delete Order">
+                          <IconButton
+                            color="secondary"
+                            onClick={() => openDeleteModal(order)}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Print Waybill">
+                          <IconButton
+                            color="default"
+                            onClick={() => printWaybill(order, formatCurrency)}
+                          >
+                            <PrintIcon />
+                          </IconButton>
+                        </Tooltip>
+
+                        {normalizedPaymentMethod.includes("gcash") && (
+                          <Tooltip title="Compare GCash Reference">
+                            <IconButton
+                              color="default"
+                              onClick={() => openCompareModal(order)}
+                            >
+                              <FactCheckIcon />
+                            </IconButton>
+                          </Tooltip>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
@@ -253,6 +328,21 @@ const OrdersList = () => {
             onClose={closeDeleteModal}
             onConfirm={handleDeleteOrder}
             errorMessage={deleteError}
+          />
+        )}
+        {isCompareModalOpen && (
+          <CompareGCashModal
+            isOpen={isCompareModalOpen}
+            onClose={closeCompareModal}
+            customerReferenceNumber={customerReferenceNumber}
+            paymentMethod={paymentMethod}
+            onSuccess={handleCompareSuccess}
+          />
+        )}
+        {isSuccessModalOpen && (
+          <SuccessModal
+            message={successMessage}
+            onClose={() => setIsSuccessModalOpen(false)}
           />
         )}
       </div>
