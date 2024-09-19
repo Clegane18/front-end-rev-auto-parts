@@ -27,10 +27,16 @@ export const signUp = async ({ username, email, password }) => {
 
 export const login = async ({ email, password }) => {
   try {
-    const response = await api.post("/login", {
-      email,
-      password,
-    });
+    const response = await api.post(
+      "/login",
+      {
+        email,
+        password,
+      },
+      {
+        validateStatus: () => true,
+      }
+    );
     return response.data;
   } catch (error) {
     console.error(

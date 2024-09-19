@@ -35,6 +35,16 @@ const CustomerLoginPage = () => {
     event.preventDefault();
     try {
       const result = await login({ email, password });
+
+      if (result.status === 403) {
+        navigate("/account-suspended");
+        return;
+      }
+
+      if (result.status !== 200) {
+        setError(result.data.message || "An error occurred.");
+        return;
+      }
       const decodedToken = jwtDecode(result.token);
       const user = {
         id: decodedToken.id,
