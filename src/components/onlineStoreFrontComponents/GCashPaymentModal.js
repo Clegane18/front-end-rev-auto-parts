@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import "../../styles/onlineStoreFrontComponents/GCashPaymentModal.css";
 import qrCode from "../../assets/gcash-qr.jpg";
+import { formatCurrency } from "../../utils/formatCurrency";
 
-const GCashPaymentModal = ({ isOpen, onClose, onConfirm }) => {
+const GCashPaymentModal = ({ isOpen, onClose, onConfirm, amountToPay }) => {
   const [referenceNumber, setReferenceNumber] = useState("");
 
   const handleConfirm = () => {
@@ -20,10 +21,13 @@ const GCashPaymentModal = ({ isOpen, onClose, onConfirm }) => {
       <div className="gcash-modal-overlay">
         <div className="gcash-modal-content">
           <h2>Pay with GCash</h2>
-          <p>Please scan the QR code below to pay the downpayment via GCash.</p>
+          <p>Please scan the QR code below to pay via GCash.</p>
           <div className="qr-code-container">
             <img src={qrCode} alt="GCash QR Code" />
           </div>
+          <p>
+            Amount to Pay: <strong>{formatCurrency(amountToPay)}</strong>
+          </p>
           <p>
             After completing the payment, enter the GCash reference number
             below:

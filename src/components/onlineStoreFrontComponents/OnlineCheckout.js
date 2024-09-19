@@ -1,3 +1,5 @@
+// src/components/onlineStoreFrontComponents/OnlineCheckout.js
+
 import React, { useEffect, useState, useCallback } from "react";
 import { createOrder, calculateShippingFee } from "../../services/order-api";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -10,6 +12,7 @@ import { faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
 import AddressModal from "./AddressesModal";
 import DownpaymentModal from "./DownpaymentModal";
 import GCashPaymentModal from "./GCashPaymentModal";
+import WarningModal from "./WarningModal";
 import { formatCurrency } from "../../utils/formatCurrency";
 
 const OnlineCheckout = () => {
@@ -27,6 +30,8 @@ const OnlineCheckout = () => {
   const [downpaymentAmount, setDownpaymentAmount] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState("Cash on Delivery");
   const [isGCashModalOpen, setIsGCashModalOpen] = useState(false);
+  const [gcashAmountToPay, setGcashAmountToPay] = useState(0);
+  const [isWarningModalOpen, setIsWarningModalOpen] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -82,13 +87,44 @@ const OnlineCheckout = () => {
       const inStorePickupItems = cartItems.filter(
         (item) => item.Product?.purchaseMethod === "in-store-pickup"
       );
+      const regularItems = cartItems.filter(
+        (item) => item.Product?.purchaseMethod !== "in-store-pickup"
+      );
 
-      if (inStorePickupItems.length > 0 && !gcashRefNumber) {
+      if (
+        inStorePickupItems.length > 0 &&
+        !gcashRefNumber &&
+        paymentMethodParam === "G-Cash"
+      ) {
         const downpayment = inStorePickupItems.reduce((acc, item) => {
           return acc + item.Product.price * item.quantity * 0.2;
         }, 0);
         setDownpaymentAmount(downpayment);
         setIsDownpaymentModalOpen(true);
+        return;
+      }
+
+      if (paymentMethodParam === "G-Cash" && !gcashRefNumber) {
+        let amountToPay = 0;
+
+        if (inStorePickupItems.length > 0) {
+          const downpayment = inStorePickupItems.reduce((acc, item) => {
+            return acc + item.Product.price * item.quantity * 0.2;
+          }, 0);
+          amountToPay += downpayment;
+        }
+
+        if (regularItems.length > 0) {
+          const regularItemsTotal = regularItems.reduce((acc, item) => {
+            return acc + item.Product.price * item.quantity;
+          }, 0);
+          amountToPay +=
+            regularItemsTotal + (isFreeShipping ? 0 : shippingFee || 0);
+        }
+
+        setGcashAmountToPay(amountToPay);
+        setIsGCashModalOpen(true);
+        setIsWarningModalOpen(true);
         return;
       }
 
@@ -121,6 +157,7 @@ const OnlineCheckout = () => {
         setSuccessMessage(order.message);
         setIsDownpaymentModalOpen(false);
         setIsGCashModalOpen(false);
+        setIsWarningModalOpen(false);
 
         navigate("/customer-profile", {
           state: { selectedMenu: "MyPurchase", activeTab: "To Pay" },
@@ -152,10 +189,12 @@ const OnlineCheckout = () => {
   const handleDownpaymentConfirm = () => {
     setIsDownpaymentModalOpen(false);
     setIsGCashModalOpen(true);
+    setIsWarningModalOpen(true);
   };
 
   const handleGCashPaymentConfirm = (referenceNumber) => {
     setIsGCashModalOpen(false);
+    setIsWarningModalOpen(false);
     processCheckout(referenceNumber, "G-Cash");
   };
 
@@ -365,6 +404,11 @@ const OnlineCheckout = () => {
           isOpen={isGCashModalOpen}
           onClose={() => setIsGCashModalOpen(false)}
           onConfirm={handleGCashPaymentConfirm}
+          amountToPay={gcashAmountToPay}
+        />
+        <WarningModal
+          isOpen={isWarningModalOpen}
+          onClose={() => setIsWarningModalOpen(false)}
         />
       </div>
     </div>
