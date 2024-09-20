@@ -1,45 +1,32 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import OnlineStoreFrontHeader from "./OnlineStoreFrontHeader";
-import OnlineProductDetails from "./OnlineProductDetails";
 import OnlineStoreFrontItemsByCategory from "./OnlineStoreFrontItemsByCategory";
-import { OnlineCartContext } from "./OnlineCartContext";
+import OnlineStoreFrontFooter from "./OnlineStoreFrontFooter";
+import ProductShowcaseCarousel from "./ProductShowcaseCarousel";
 import "../../styles/onlineStoreFrontComponents/OnlineStoreFrontPage.css";
 import useRequireAuth from "../../utils/useRequireAuth";
-import ProductShowcaseCarousel from "./ProductShowcaseCarousel";
-import OnlineStoreFrontFooter from "./OnlineStoreFrontFooter";
 
 const OnlineStoreFrontPage = () => {
   const [products, setProducts] = useState([]);
-  const [selectedProduct, setSelectedProduct] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const { addToCart } = useContext(OnlineCartContext);
   const checkAuth = useRequireAuth();
+  const navigate = useNavigate();
 
   const scrollToCategoryRef = useRef(null);
 
   const handleSelectProduct = (product) => {
     if (checkAuth("/")) {
-      setSelectedProduct(product);
+      navigate(`/product/${product.id}`, { state: { product } });
     }
   };
 
-  const handleAddToCart = (product) => {
-    if (checkAuth("/")) {
-      addToCart(product);
-      setSelectedProduct(null);
-    }
-  };
-
-  const handleSearch = (products) => {
-    setProducts(products);
+  const handleSearch = (searchedProducts) => {
+    setProducts(searchedProducts);
   };
 
   const handleSearchTermChange = (term) => {
     setSearchTerm(term);
-  };
-
-  const handleCloseModal = () => {
-    setSelectedProduct(null);
   };
 
   return (
@@ -52,7 +39,7 @@ const OnlineStoreFrontPage = () => {
         handleSelectProduct={handleSelectProduct}
         onScrollToCategory={(categoryId) => {
           if (scrollToCategoryRef.current) {
-            scrollToCategoryRef.current(categoryId); 
+            scrollToCategoryRef.current(categoryId);
           }
         }}
       />
@@ -65,19 +52,11 @@ const OnlineStoreFrontPage = () => {
               <OnlineStoreFrontItemsByCategory
                 onSelectProduct={handleSelectProduct}
                 exposeScrollFunction={(scrollFn) => {
-                  scrollToCategoryRef.current = scrollFn; 
+                  scrollToCategoryRef.current = scrollFn;
                 }}
-
               />
             </div>
           </main>
-          {selectedProduct && (
-            <OnlineProductDetails
-              product={selectedProduct}
-              onAddToCart={handleAddToCart}
-              onClose={handleCloseModal}
-            />
-          )}
         </div>
         <OnlineStoreFrontFooter />
       </div>

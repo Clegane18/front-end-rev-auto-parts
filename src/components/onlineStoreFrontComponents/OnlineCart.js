@@ -177,7 +177,10 @@ const OnlineCart = () => {
                     />
                     <img
                       src={`http://localhost:3002/${encodeURL(
-                        item.Product.imageUrl.replace(/\\/g, "/")
+                        item.Product.images?.[0]?.imageUrl.replace(
+                          /\\/g,
+                          "/"
+                        ) || "default-image.jpg"
                       )}`}
                       alt={item.Product?.name || "No image"}
                       className="item-image"

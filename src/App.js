@@ -35,6 +35,7 @@ import ContactUsPage from "./components/onlineStoreFrontComponents/ContactUsPage
 import CustomerList from "./components/dashboardComponents/CustomerList";
 import AccountSuspended from "./components/dashboardComponents/AccountSuspended";
 import TermsAndConditions from "./components/onlineStoreFrontCustomersComponent/TermsAndConditions";
+import OnlineProductDetailsPage from "./components/onlineStoreFrontComponents/OnlineProductDetailsPage";
 
 const App = () => {
   const { authToken, login } = useAuthentication();
@@ -111,6 +112,11 @@ const App = () => {
                     authToken ? <UploadProducts /> : <Navigate to="/login" />
                   }
                 />
+                <Route
+                  path="/product/:productId"
+                  element={<OnlineProductDetailsPage />}
+                />
+
                 <Route
                   path="/checkout"
                   element={authToken ? <Checkout /> : <Navigate to="/login" />}

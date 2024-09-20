@@ -186,7 +186,7 @@
 
 #root-upload-products .select-wrapper select {
   width: 100%;
-  padding: 8px;
+  padding: 5px;
   padding-right: 15px;
   border: 2px solid #ff0000;
   border-radius: 6px;
@@ -196,15 +196,14 @@
   font-size: 14px;
   cursor: pointer;
   outline: none;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
+  appearance: auto;
+  -webkit-appearance: auto;
+  -moz-appearance: auto;
   text-align: center;
   transition: all 0.3s ease;
 }
 
 #root-upload-products .select-wrapper::after {
-  content: "▼";
   position: absolute;
   right: 5px;
   top: 48%;

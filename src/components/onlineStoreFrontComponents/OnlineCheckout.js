@@ -1,5 +1,3 @@
-// src/components/onlineStoreFrontComponents/OnlineCheckout.js
-
 import React, { useEffect, useState, useCallback } from "react";
 import { createOrder, calculateShippingFee } from "../../services/order-api";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -295,9 +293,12 @@ const OnlineCheckout = () => {
                   <div className="item-image-container">
                     <img
                       src={
-                        item.Product?.imageUrl
+                        item.Product?.images?.[0]?.imageUrl
                           ? `http://localhost:3002/${encodeURL(
-                              item.Product.imageUrl.replace(/\\/g, "/")
+                              item.Product.images[0].imageUrl.replace(
+                                /\\/g,
+                                "/"
+                              )
                             )}`
                           : "default-image-url.jpg"
                       }

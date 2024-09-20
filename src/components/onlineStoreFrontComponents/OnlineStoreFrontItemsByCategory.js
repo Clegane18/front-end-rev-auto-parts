@@ -99,11 +99,11 @@ const OnlineStoreFrontItemsByCategory = ({
   }, [exposeScrollFunction]);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <p className="loading">Loading...</p>;
   }
 
   if (error) {
-    return <p>{error}</p>;
+    return <p className="error">{error}</p>;
   }
 
   return (
@@ -115,9 +115,10 @@ const OnlineStoreFrontItemsByCategory = ({
           visibleBestSellers.length > 0 ? (
             visibleBestSellers.map((product) => (
               <div
-                key={product.productName}
+                key={product.id}
                 className="best-seller-product-item"
                 onClick={() => onSelectProduct(product)}
+                style={{ cursor: "pointer" }}
               >
                 <div className="product-image-container">
                   <img
@@ -166,11 +167,13 @@ const OnlineStoreFrontItemsByCategory = ({
                       : ""
                   }`}
                   onClick={() => onSelectProduct(item)}
+                  style={{ cursor: "pointer" }}
                 >
                   <div className="product-image-container">
                     <img
                       src={`http://localhost:3002/${encodeURL(
-                        item.imageUrl.replace(/\\/g, "/")
+                        item.images?.[0]?.imageUrl.replace(/\\/g, "/") ||
+                          "default-image.jpg"
                       )}`}
                       alt={item.name}
                       className="product-image"
