@@ -463,18 +463,21 @@ const ProductManagement = () => {
                           <button
                             className="edit-button"
                             onClick={() => setEditingProduct(product)}
+                            title="Edit Product"
                           >
                             <FaEdit />
                           </button>
                           <button
                             className="delete-button"
                             onClick={() => setDeletingProduct(product)}
+                            title="Delete Product"
                           >
                             <FaTrash />
                           </button>
                           <button
                             className="add-stock-button"
                             onClick={() => setAddingStockProduct(product)}
+                            title="Add Stock"
                           >
                             <FaPlus />
                           </button>
