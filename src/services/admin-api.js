@@ -1,16 +1,68 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:3002/api/admin";
+const api = axios.create({
+  baseURL: "http://localhost:3002/api/admin",
+});
 
 export const adminLogIn = async ({ email, password }) => {
   try {
-    const response = await axios.post(`${BASE_URL}/logInAdmin`, {
+    const response = await api.post("/logInAdmin", {
       email,
       password,
     });
+
     return response.data;
   } catch (error) {
-    console.error("Error in admin log in:", error.response || error.message);
-    throw error;
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error("Failed to log in. Please try again later.");
+    }
+  }
+};
+
+export const updateAdminEmail = async (adminId, newEmail, token) => {
+  try {
+    const response = await api.put(
+      `/${adminId}/update-email`,
+      { newEmail },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error("Failed to update admin email. Please try again later.");
+    }
+  }
+};
+
+export const updateAdminPassword = async (adminId, newPassword, token) => {
+  try {
+    const response = await api.put(
+      `/${adminId}/update-password`,
+      { newPassword },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(
+        "Failed to update admin password. Please try again later."
+      );
+    }
   }
 };
