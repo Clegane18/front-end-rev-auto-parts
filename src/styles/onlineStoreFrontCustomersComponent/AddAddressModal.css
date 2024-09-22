@@ -1,310 +1,309 @@
 #root-add-address-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  
-  #root-add-address-modal .modal-content {
-    position: relative;
-    background: #fff;
-    padding: 30px;
-    width: 517px;
-    height: 88vh;
-    border-radius: 12px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-    z-index: 1001;
-    box-sizing: border-box;
-  }
-  
-  
-  #root-add-address-modal .modal-overlay .modal-content .modal-title {
-    font-size: 1.75rem;
-    margin-bottom: 1.5rem;
-    text-align: center;
-    font-weight: 300;
-    text-transform: none;
-    text-align: left;
-  }
-  
-  #root-add-address-modal .input-group {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 1.5rem;
-  }
-  
-  #root-add-address-modal .modal-input {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 1rem;
-  }
-  
-  #root-add-address-modal .address-selector {
-    position: relative;
-    padding-bottom: 20px;
-    z-index: 10;
-    overflow: visible;
-  }
-
-  #root-add-address-modal .address-display-wrapper .modal-input-address-display {
-    text-transform: none;
-    font-size: 15px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
-  
-  #root-add-address-modal .address-display-wrapper {
-    display: flex;
-    align-items: center;
-    position: relative;
-    overflow: hidden; 
-  }
-  
-  #root-add-address-modal .modal-input-address-display {
-    width: 100% !important;
-    padding-right: 30px;
-    box-sizing: border-box;
-    position: relative;
-  }
-  
-  #root-add-address-modal .arrow-icon {
-    position: absolute;
-    right: 8px;
-    top: 50%;
-    transform: translateY(-50%);
-    pointer-events: none;
-    transition: transform 0.3s ease;
-    color: #999999;
-    height: 16px;
-  }
-  
-  #root-add-address-modal .arrow-icon.closed {
-    transform: translateY(-50%) rotate(90deg);
-  }
-  
-  #root-add-address-modal .arrow-icon.open {
-    transform: translateY(-50%) rotate(0deg);
-  }
-  
-  #root-add-address-modal .tab-container {
-    display: flex;
-    border-bottom: 2px solid #ddd;
-  }
-  
-  #root-add-address-modal .tab-button {
-    flex: 1;
-    padding: 12px;
-    background: none;
-    border: none;
-    border-bottom: 2px solid transparent;
-    cursor: pointer;
-    font-weight: 500;
-    color: #444;
-  }
-  
-  #root-add-address-modal .tab-button.active {
-    border-bottom-color: #0c619b;
-    color: #0c619b;
-  }
-  
-  #root-add-address-modal .modal-content .tab-content {
-    overflow-y: auto;
-    max-height: 200px;
-  }
-  
-  #root-add-address-modal .modal-select {
-    width: 100%;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 1rem;
-    max-height: 150px; 
-    overflow-y: auto;
-    position: absolute; 
-    top: 100%; 
-    background-color: #fff;
-    z-index: 1050 !important;
-    min-width: 200px;
-  }
-  
-  #root-add-address-modal .modal-select option {
-    padding: 5px;
-    height: 24px;
-  }
-  
-  #root-add-address-modal .action-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 2rem;
-  }
-  
-  #root-add-address-modal .cancel-btn,
-  #root-add-address-modal .submit-btn {
-    padding: 12px 20px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 1rem;
-  }
-  
-  #root-add-address-modal .cancel-btn {
-    background-color: #ccc;
-    color: #333;
-  }
-  
-  #root-add-address-modal .submit-btn {
-    background-color: red;
-    color: #fff;
-  }
-  
-  #root-add-address-modal .address-selector .address-display-wrapper .clear-icon {
-    position: absolute;
-    right: 25px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-    color: #999999;
-    z-index: 101;
-  }
-  
-  #root-add-address-modal .other-information {
-    display: flex;
-    flex-direction: column;
-    position: relative; 
-    gap: 10px;
-    z-index: 1 !important;
-  }
-  
-  #root-add-address-modal .other-information .postal-code,
-  #root-add-address-modal .other-information .streetname-building-house-no {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    text-transform: none;
-  }
-  
-  #root-add-address-modal .other-information .postal-code input,
-  #root-add-address-modal .other-information .streetname-building-house-no input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box; 
-  }
-  
-  #root-add-address-modal .modal-content .label-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 10px;
-  }
 
-  
-  #root-add-address-modal .modal-content .label-buttons p {
-    margin: 0;
-    font-weight: 300;
-    color: black;
-  }
-  
-  #root-add-address-modal .modal-content .label-buttons button {
-    max-width: 20%;
-  }
-  
-  #root-add-address-modal .modal-content .home-work-buttons {
-    display: flex;
-    gap: 20px;
-  }
-  
-  #root-add-address-modal .modal-content .label-button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    background-color: #f0f0f0;
-    color: #333;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s ease;
-  }
-  
-  #root-add-address-modal .modal-content .label-button.active {
-    background-color: #717171;
-    color: white;
-  }
-  
-  #root-add-address-modal .modal-content .label-button:hover {
-    opacity: 0.75;
-  }
-  
-  #root-add-address-modal .modal-content .default-checkbox {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 10px;
-  }
-  
-  #root-add-address-modal .modal-content .default-checkbox input[type="checkbox"] {
-    width: 17px; 
-    height: 17px; 
-    cursor: pointer;
-    accent-color: #0c619b;
-  }
-  
-  
-  #root-add-address-modal .modal-content .default-checkbox label {
-    margin: 0;
-    font-size: 17px;
-    font-weight: 300;
-    text-transform: none;
-    color: black;
-  }
-  
-  #root-add-address-modal .modal-content .modal-buttons {
-    display: flex;
-    justify-content: flex-end;
-    gap: 25px; 
-    margin-top: 55px; 
-  }
+#root-add-address-modal .modal-content {
+  position: relative;
+  background: #fff;
+  padding: 30px;
+  width: 517px;
+  height: 88vh;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  z-index: 1001;
+  box-sizing: border-box;
+}
 
-  #root-add-address-modal .modal-content .modal-buttons .cancel-button {
-    background-color: #FFFFFF;
-    border: 1px solid black;
-    border-radius: 4px; 
+#root-add-address-modal .modal-overlay .modal-content .modal-title {
+  font-size: 1.75rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-weight: 300;
+  text-transform: none;
+  text-align: left;
+}
+
+#root-add-address-modal .input-group {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 1.5rem;
+}
+
+#root-add-address-modal .modal-input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+#root-add-address-modal .address-selector {
+  position: relative;
+  padding-bottom: 20px;
+  z-index: 10;
+  overflow: visible;
+}
+
+#root-add-address-modal .address-display-wrapper .modal-input-address-display {
+  text-transform: none;
+  font-size: 15px;
+}
+
+#root-add-address-modal .address-display-wrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+#root-add-address-modal .modal-input-address-display {
+  width: 100% !important;
+  padding-right: 30px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+#root-add-address-modal .arrow-icon {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  transition: transform 0.3s ease;
+  color: #999999;
+  height: 16px;
+}
+
+#root-add-address-modal .arrow-icon.closed {
+  transform: translateY(-50%) rotate(90deg);
+}
+
+#root-add-address-modal .arrow-icon.open {
+  transform: translateY(-50%) rotate(0deg);
+}
+
+#root-add-address-modal .tab-container {
+  display: flex;
+  border-bottom: 2px solid #ddd;
+}
+
+#root-add-address-modal .tab-button {
+  flex: 1;
+  padding: 12px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  font-weight: 500;
+  color: #444;
+}
+
+#root-add-address-modal .tab-button.active {
+  border-bottom-color: #0c619b;
+  color: #0c619b;
+}
+
+#root-add-address-modal .modal-content .tab-content {
+  overflow-y: auto;
+  max-height: 200px;
+}
+
+#root-add-address-modal .modal-select {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  max-height: 150px;
+  overflow-y: auto;
+  position: absolute;
+  top: 100%;
+  background-color: #fff;
+  z-index: 1050 !important;
+  min-width: 200px;
+}
+
+#root-add-address-modal .modal-select option {
+  padding: 5px;
+  height: 24px;
+}
+
+#root-add-address-modal .action-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
+#root-add-address-modal .cancel-btn,
+#root-add-address-modal .submit-btn {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+#root-add-address-modal .cancel-btn {
+  background-color: #ccc;
+  color: #333;
+}
+
+#root-add-address-modal .submit-btn {
+  background-color: red;
+  color: #fff;
+}
+
+#root-add-address-modal .address-selector .address-display-wrapper .clear-icon {
+  position: absolute;
+  right: 25px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #999999;
+  z-index: 101;
+}
+
+#root-add-address-modal .other-information {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  gap: 10px;
+  z-index: 1 !important;
+}
+
+#root-add-address-modal .other-information .postal-code,
+#root-add-address-modal .other-information .streetname-building-house-no {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-transform: none;
+}
+
+#root-add-address-modal .other-information .postal-code input,
+#root-add-address-modal .other-information .streetname-building-house-no input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+#root-add-address-modal .modal-content .label-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+#root-add-address-modal .modal-content .label-buttons p {
+  margin: 0;
+  font-weight: 300;
+  color: black;
+}
+
+#root-add-address-modal .modal-content .label-buttons button {
+  max-width: 20%;
+}
+
+#root-add-address-modal .modal-content .home-work-buttons {
+  display: flex;
+  gap: 20px;
+}
+
+#root-add-address-modal .modal-content .label-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #f0f0f0;
+  color: #333;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+#root-add-address-modal .modal-content .label-button.active {
+  background-color: #717171;
+  color: white;
+}
+
+#root-add-address-modal .modal-content .label-button:hover {
+  opacity: 0.75;
+}
+
+#root-add-address-modal .modal-content .default-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+#root-add-address-modal
+  .modal-content
+  .default-checkbox
+  input[type="checkbox"] {
+  width: 17px;
+  height: 17px;
+  cursor: pointer;
+  accent-color: #d30a0a;
+}
+
+#root-add-address-modal .modal-content .default-checkbox label {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 300;
+  text-transform: none;
+  color: black;
+}
+
+#root-add-address-modal .modal-content .modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 25px;
+  margin-top: 55px;
+}
+
+#root-add-address-modal .modal-content .modal-buttons .cancel-button {
+  background-color: #ffffff;
+  border: 1px solid black;
+  border-radius: 4px;
+}
+
+#root-add-address-modal .loading-icon {
+  animation: spin 1s linear infinite;
+  margin-left: 5px;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
   }
-  
-  #root-add-address-modal .loading-icon {
-    animation: spin 1s linear infinite;
-    margin-left: 5px;
+  to {
+    transform: rotate(360deg);
   }
-  
-  @keyframes spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-  
-  #root-add-address-modal .select-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  #root-add-address-modal .loading-wrapper {
-    font-family: 'Montserrat', serif;
-    text-transform: none;
-    display: flex;
-    align-items: center;
-    font-size: 14px;
-    margin: 10px 0;
-  }
-  
+}
+
+#root-add-address-modal .select-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#root-add-address-modal .loading-wrapper {
+  font-family: "Montserrat", serif;
+  text-transform: none;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  margin: 10px 0;
+}

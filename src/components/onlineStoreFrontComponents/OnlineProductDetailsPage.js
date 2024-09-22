@@ -27,16 +27,16 @@ const OnlineProductDetailsPage = () => {
     stock: 0,
   });
   const [product, setProduct] = useState(null);
+  const [mainImageUrl, setMainImageUrl] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Placeholder data for ratings and comments
-  const [ratings, setRatings] = useState({
+  const [ratings] = useState({
     average: 4.5,
     count: 120,
   });
 
-  const [comments, setComments] = useState([
+  const [comments] = useState([
     {
       id: 1,
       username: "Jan Codrey",
@@ -76,7 +76,20 @@ const OnlineProductDetailsPage = () => {
         }
 
         const data = response.data;
+
+        if (!data.data || !data.data.id) {
+          throw new Error("Product data is incomplete.");
+        }
+
         setProduct(data.data);
+
+        const primaryImage = data.data.images.find((img) => img.isPrimary);
+        setMainImageUrl(
+          primaryImage
+            ? `http://localhost:3002/${encodeURL(primaryImage.imageUrl)}`
+            : `http://localhost:3002/default-image.jpg`
+        );
+
         setLoading(false);
       } catch (err) {
         console.error("Error fetching product by ID:", err.message);
@@ -116,6 +129,12 @@ const OnlineProductDetailsPage = () => {
 
   const handleAddToCartClick = useCallback(async () => {
     if (!checkAuth("/online-store")) return;
+
+    if (!currentUser || !currentUser.id) {
+      setError("User not authenticated. Please log in.");
+      return;
+    }
+
     if (quantity > product.stock) {
       setModalInfo({
         isOpen: true,
@@ -138,7 +157,7 @@ const OnlineProductDetailsPage = () => {
       console.error(error.message);
       setError("Failed to add product to cart. Please try again.");
     }
-  }, [checkAuth, quantity, product, currentUser.id, token, navigate]);
+  }, [checkAuth, quantity, product, currentUser, token, navigate]);
 
   const handleQuantityChange = (e) => {
     const newQuantity = Number(e.target.value);
@@ -158,6 +177,10 @@ const OnlineProductDetailsPage = () => {
 
   const closeModal = () => {
     setModalInfo({ isOpen: false, productName: "", stock: 0 });
+  };
+
+  const handleThumbnailClick = (imageUrl) => {
+    setMainImageUrl(`http://localhost:3002/${encodeURL(imageUrl)}`);
   };
 
   if (loading) {
@@ -184,15 +207,10 @@ const OnlineProductDetailsPage = () => {
     );
   }
 
-  const mainImageUrl = product.images?.[0]?.imageUrl
-    ? `http://localhost:3002/${encodeURL(product.images[0].imageUrl)}`
-    : `http://localhost:3002/default-image.jpg`;
-
   return (
     <div id="root-product-details-page">
       <OnlineStoreFrontHeader />
       <div className="product-details-container">
-        {/* Image Gallery Section */}
         <div className="product-image-section">
           <div className="image-gallery">
             <img
@@ -207,13 +225,16 @@ const OnlineProductDetailsPage = () => {
                   src={`http://localhost:3002/${encodeURL(image.imageUrl)}`}
                   alt={`${product.name} alternate ${index + 1}`}
                   className="product-additional-image"
+                  onClick={() => handleThumbnailClick(image.imageUrl)}
+                  style={{
+                    cursor: "pointer",
+                  }}
                 />
               ))}
             </div>
           </div>
         </div>
 
-        {/* Product Information Section */}
         <div className="product-info-section">
           <h2 className="product-name">{product.name}</h2>
           <div className="rating-section">
@@ -237,7 +258,7 @@ const OnlineProductDetailsPage = () => {
             </button>
           </div>
           {showBuyNow && (
-            <div className="buy-now-section">
+            <div className={`buy-now-section ${showBuyNow ? "active" : ""}`}>
               <p className="stock-info">Current Stock: {product.stock}</p>
               <label className="quantity-label">
                 Quantity:

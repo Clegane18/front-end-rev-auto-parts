@@ -4,12 +4,15 @@ const api = axios.create({
   baseURL: "http://localhost:3002/api/online-store-front",
 });
 
-export const uploadProductImage = async (productId, file) => {
+export const uploadProductImages = async (productId, files) => {
   try {
     const formData = new FormData();
-    formData.append("file", file);
 
-    const response = await api.post(`/uploadPhoto/${productId}`, formData, {
+    files.forEach((file) => {
+      formData.append("files", file);
+    });
+
+    const response = await api.post(`/uploadPhotos/${productId}`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -21,7 +24,7 @@ export const uploadProductImage = async (productId, file) => {
       throw new Error(error.response.data.message);
     } else {
       throw new Error(
-        "Failed to upload product image. Please try again later."
+        "Failed to upload product images. Please try again later."
       );
     }
   }
@@ -158,6 +161,58 @@ export const updateProductPurchaseMethod = async ({
     } else {
       throw new Error(
         "Failed to update purchase method. Please try again later."
+      );
+    }
+  }
+};
+
+export const deleteProductImageById = async ({ productImageId }) => {
+  try {
+    const response = await api.delete(
+      `/products/${productImageId}/delete-product-image`
+    );
+
+    return response.data.message;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(
+        "Failed to delete product image. Please try again later."
+      );
+    }
+  }
+};
+
+export const changePrimaryProductImageById = async ({ productImageId }) => {
+  try {
+    const response = await api.put(
+      `/products/${productImageId}/change-primary-product-image`
+    );
+
+    return response.data.message;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(
+        "Failed to change primary product image. Please try again later."
+      );
+    }
+  }
+};
+
+export const getAllProductImagesByProductId = async ({ productId }) => {
+  try {
+    const response = await api.get(`/products/${productId}/images`);
+
+    return response.data.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(
+        "Failed to fetching all product images. Please try again later."
       );
     }
   }

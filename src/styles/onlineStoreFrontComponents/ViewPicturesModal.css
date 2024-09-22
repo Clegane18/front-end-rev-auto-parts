@@ -1,0 +1,230 @@
+#root-view-pictures-modal .modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1001;
+}
+
+#root-view-pictures-modal .modal-content {
+  background-color: #fff;
+  width: 90%;
+  max-width: 800px;
+  max-height: 95vh;
+  overflow-y: hidden;
+  border-radius: 10px;
+  padding: 30px;
+  position: relative;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#root-view-pictures-modal .close-button {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+}
+
+#root-view-pictures-modal .close-button svg {
+  width: 30px;
+  height: 30px;
+  color: #bb0000;
+}
+
+#root-view-pictures-modal h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: 300;
+}
+
+#root-view-pictures-modal .carousel-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+#root-view-pictures-modal .nav-button {
+  background: none;
+  border: none;
+  color: #bb0000;
+  padding: 12px;
+  cursor: pointer;
+  border-radius: 50%;
+  position: absolute;
+  top: 40%;
+  transform: translateY(-50%);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#root-view-pictures-modal .nav-button svg {
+  width: 30px;
+  height: 30px;
+}
+
+#root-view-pictures-modal .prev-button {
+  left: 10px;
+}
+
+#root-view-pictures-modal .next-button {
+  right: 10px;
+}
+
+#root-view-pictures-modal .image-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 40px 0;
+}
+
+#root-view-pictures-modal .main-image {
+  width: 100%;
+  max-height: 400px;
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+#root-view-pictures-modal .primary-badge {
+  font-family: "Montserrat", serif;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: #bb0000;
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+#root-view-pictures-modal .delete-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #bb0000;
+  border: none;
+  padding: 8px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+#root-view-pictures-modal .delete-button:hover {
+  opacity: 0.75;
+}
+
+#root-view-pictures-modal .delete-button svg {
+  width: 20px;
+  height: 20px;
+  color: #fff;
+}
+
+#root-view-pictures-modal .delete-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+#root-view-pictures-modal .set-primary-button {
+  position: absolute;
+  bottom: 20px;
+  left: 10px;
+  background-color: #bb0000;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: background-color 0.3s;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+#root-view-pictures-modal .set-primary-button:hover {
+  background-color: #a30000;
+}
+
+#root-view-pictures-modal .set-primary-button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+#root-view-pictures-modal .thumbnails {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+#root-view-pictures-modal .thumbnail {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border: 2px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: border 0.3s, transform 0.3s;
+}
+
+#root-view-pictures-modal .thumbnail:hover {
+  border: 2px solid #bb0000;
+  transform: scale(1.05);
+}
+
+#root-view-pictures-modal .thumbnail.active {
+  border: 2px solid #bb0000;
+}
+
+#root-view-pictures-modal .error-message {
+  color: red;
+  margin-top: 10px;
+  text-align: center;
+}
+
+#root-view-pictures-modal .loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+#root-view-pictures-modal .spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border-left-color: #bb0000;
+  animation: spin 1s linear infinite;
+  margin-bottom: 10px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

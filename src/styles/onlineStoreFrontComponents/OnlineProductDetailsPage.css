@@ -30,12 +30,12 @@
 }
 
 #root-product-details-page .product-main-image {
-  width: 100%;
-  max-width: 400px;
-  height: auto;
+  width: 350px;
+  height: 350px;
   border-radius: 8px;
   object-fit: cover;
   margin-bottom: 15px;
+  border: 3px solid #b22222;
 }
 
 #root-product-details-page .additional-images {
@@ -49,12 +49,14 @@
   border-radius: 4px;
   object-fit: cover;
   cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  border: 2px solid #ccc;
 }
 
 #root-product-details-page .product-additional-image:hover {
   transform: scale(1.05);
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  border-color: #b22222;
 }
 
 #root-product-details-page .product-info-section {
@@ -62,6 +64,7 @@
   padding: 20px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 
 #root-product-details-page .product-name {
@@ -161,11 +164,19 @@
 }
 
 #root-product-details-page .buy-now-section {
-  margin-top: 20px;
+  margin-top: 1px;
   padding: 20px;
   background-color: #f9f9f9;
   border-left: 4px solid #b22222;
   border-radius: 6px;
+  height: 90px;
+  visibility: hidden;
+  transition: visibility 0s, opacity 0.3s linear;
+}
+
+#root-product-details-page .buy-now-section.active {
+  visibility: visible;
+  opacity: 1;
 }
 
 #root-product-details-page .stock-info {
@@ -211,96 +222,6 @@
 
 #root-product-details-page .error {
   color: #b22222;
-}
-
-/* Ratings and Comments Section */
-#root-product-details-page .ratings-comments-container {
-  max-width: 1200px;
-  margin: 20px auto;
-  padding: 20px;
-  font-family: "Montserrat", sans-serif;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-#root-product-details-page .ratings-summary {
-  margin-bottom: 30px;
-}
-
-#root-product-details-page .ratings-summary h3 {
-  font-size: 22px;
-  color: #1a2129;
-  margin-bottom: 10px;
-}
-
-#root-product-details-page .ratings-details {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-#root-product-details-page .comments-section {
-  margin-bottom: 30px;
-}
-
-#root-product-details-page .comments-section h3 {
-  font-size: 22px;
-  color: #1a2129;
-  margin-bottom: 15px;
-}
-
-#root-product-details-page .comment {
-  border-bottom: 1px solid #ddd;
-  padding: 15px 0;
-}
-
-#root-product-details-page .comment:last-child {
-  border-bottom: none;
-}
-
-#root-product-details-page .comment-header {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 5px;
-}
-
-#root-product-details-page .comment-username {
-  font-weight: 600;
-  color: #1a2129;
-}
-
-#root-product-details-page .comment-date {
-  font-size: 12px;
-  color: #888888;
-}
-
-#root-product-details-page .comment-rating {
-  display: flex;
-  gap: 2px;
-  margin-bottom: 10px;
-}
-
-#root-product-details-page .comment-text {
-  font-size: 14px;
-  color: #555555;
-}
-
-#root-product-details-page .add-comment-section {
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 6px;
-}
-
-#root-product-details-page .add-comment-section h3 {
-  font-size: 20px;
-  color: #1a2129;
-  margin-bottom: 10px;
-}
-
-#root-product-details-page .add-comment-section p {
-  font-size: 14px;
-  color: #555555;
 }
 
 /* Responsive Design */

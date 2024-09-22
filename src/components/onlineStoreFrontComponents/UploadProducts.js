@@ -1,22 +1,25 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { getAllProducts } from "../../services/inventory-api";
 import {
-  uploadProductImage,
+  uploadProductImages,
   getProductByIdAndPublish,
   unpublishItemByProductId,
   updateProductPurchaseMethod,
+  getAllProductImagesByProductId,
 } from "../../services/online-store-front-api";
 import UploadPhotoModal from "./UploadPhotoModal";
 import ConfirmationModal from "./ConfirmationModal";
 import ChangePurchaseMethodModal from "./ChangePurchaseMethodModal";
+import ViewPicturesModal from "./ViewPicturesModal";
 import "../../styles/onlineStoreFrontComponents/UploadProducts.css";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSearch,
   faUpload,
-  faEyeSlash,
+  faEye,
   faCheckCircle,
+  faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import logo from "../../assets/g&f-logo.png";
 import { useNavigate } from "react-router-dom";
@@ -33,7 +36,13 @@ const UploadProducts = () => {
     useState(false);
   const [action, setAction] = useState("");
   const [newPurchaseMethod, setNewPurchaseMethod] = useState("");
+  const [images, setImages] = useState([]);
+  const [showViewPicturesModal, setShowViewPicturesModal] = useState(false);
+  const [imagesLoading, setImagesLoading] = useState(false);
   const navigate = useNavigate();
+
+  const BASE_URL =
+    process.env.REACT_APP_API_BASE_URL || "http://localhost:3002/";
 
   const fetchProducts = async () => {
     try {
@@ -62,29 +71,22 @@ const UploadProducts = () => {
 
   const handleSearch = useCallback(() => {
     try {
-      let filteredProducts = allProducts;
+      let filtered = allProducts;
 
       if (searchQuery) {
-        filteredProducts = filteredProducts.filter(
+        const query = searchQuery.toLowerCase();
+        filtered = filtered.filter(
           (product) =>
-            product.itemCode
-              .toLowerCase()
-              .includes(searchQuery.toLowerCase()) ||
-            product.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            product.category
-              .toLowerCase()
-              .includes(searchQuery.toLowerCase()) ||
-            product.description
-              .toLowerCase()
-              .includes(searchQuery.toLowerCase()) ||
-            product.supplierName
-              .toLowerCase()
-              .includes(searchQuery.toLowerCase())
+            product.itemCode.toLowerCase().includes(query) ||
+            product.brand.toLowerCase().includes(query) ||
+            product.name.toLowerCase().includes(query) ||
+            product.category.toLowerCase().includes(query) ||
+            product.description.toLowerCase().includes(query) ||
+            product.supplierName.toLowerCase().includes(query)
         );
       }
 
-      setFilteredProducts(filteredProducts);
+      setFilteredProducts(filtered);
     } catch (error) {
       console.error("Failed to search products", error);
       setErrorMessage("Failed to search products. Please try again later.");
@@ -100,20 +102,40 @@ const UploadProducts = () => {
     setShowUploadModal(true);
   };
 
+  const handleViewPicturesClick = async (product) => {
+    try {
+      setImagesLoading(true);
+      const imagesData = await getAllProductImagesByProductId({
+        productId: product.id,
+      });
+      console.log("API Response Images:", imagesData);
+      setImages(imagesData || []);
+      setSelectedProduct(product);
+      setShowViewPicturesModal(true);
+    } catch (error) {
+      console.error("Error fetching product images:", error);
+      setErrorMessage(error.message || "Failed to fetch product images.");
+    } finally {
+      setImagesLoading(false);
+    }
+  };
+
   const handleCloseModal = () => {
     setShowUploadModal(false);
     setSelectedProduct(null);
   };
 
-  const handleSavePhoto = async (product, file) => {
+  const handleSavePhoto = async (product, files) => {
     try {
-      await uploadProductImage(product.id, file);
+      await uploadProductImages(product.id, files);
       await fetchProducts();
       setShowUploadModal(false);
       setSelectedProduct(null);
     } catch (error) {
-      console.error("Error uploading product photo:", error);
-      setErrorMessage(error.message || "An unexpected error occurred.");
+      console.error("Error uploading product photos:", error);
+      setErrorMessage(
+        error.response?.data?.message || "An unexpected error occurred."
+      );
     }
   };
 
@@ -252,40 +274,52 @@ const UploadProducts = () => {
                       </div>
                     </td>
                     <td>
-                      <button
-                        className="upload-photo-icon"
-                        onClick={() => handleUploadPhotoClick(product)}
-                        title="Upload Photo"
-                      >
-                        <FontAwesomeIcon icon={faUpload} />
-                      </button>
-                      {product.status === "published" ? (
+                      <div className="action-buttons">
                         <button
-                          onClick={() => handleUnpublishClick(product.id)}
-                          title="Unpublish"
+                          className="upload-photo-icon"
+                          onClick={() => handleUploadPhotoClick(product)}
+                          title="Upload Photo"
                         >
-                          <FontAwesomeIcon icon={faEyeSlash} />
+                          <FontAwesomeIcon icon={faUpload} />
                         </button>
-                      ) : (
                         <button
-                          onClick={() => handlePublishClick(product.id)}
-                          title="Publish"
+                          className="view-pictures-icon"
+                          onClick={() => handleViewPicturesClick(product)}
+                          title="View Pictures"
                         >
-                          <FontAwesomeIcon icon={faCheckCircle} />
+                          <FontAwesomeIcon icon={faEye} />
                         </button>
-                      )}
+                        {product.status === "published" ? (
+                          <button
+                            className="unpublish-icon"
+                            onClick={() => handleUnpublishClick(product.id)}
+                            title="Unpublish"
+                          >
+                            <FontAwesomeIcon icon={faTimes} />
+                          </button>
+                        ) : (
+                          <button
+                            className="publish-icon"
+                            onClick={() => handlePublishClick(product.id)}
+                            title="Publish"
+                          >
+                            <FontAwesomeIcon icon={faCheckCircle} />
+                          </button>
+                        )}
+                      </div>
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan="9">No products found</td>
+                  <td colSpan="10">No products found</td>
                 </tr>
               )}
             </tbody>
           </table>
         </div>
       </div>
+
       {showUploadModal && (
         <UploadPhotoModal
           product={selectedProduct}
@@ -293,6 +327,7 @@ const UploadProducts = () => {
           onClose={handleCloseModal}
         />
       )}
+
       {showConfirmationModal && (
         <ConfirmationModal
           isOpen={showConfirmationModal}
@@ -302,6 +337,7 @@ const UploadProducts = () => {
           itemName={selectedProduct?.name}
         />
       )}
+
       {showChangePurchaseMethodModal && (
         <ChangePurchaseMethodModal
           isOpen={showChangePurchaseMethodModal}
@@ -310,6 +346,19 @@ const UploadProducts = () => {
           newMethod={newPurchaseMethod}
           currentMethod={selectedProduct?.purchaseMethod}
           itemName={selectedProduct?.name}
+        />
+      )}
+
+      {showViewPicturesModal && (
+        <ViewPicturesModal
+          images={images}
+          loading={imagesLoading}
+          baseUrl={BASE_URL}
+          onClose={() => {
+            setShowViewPicturesModal(false);
+            setImages([]);
+            setSelectedProduct(null);
+          }}
         />
       )}
     </div>

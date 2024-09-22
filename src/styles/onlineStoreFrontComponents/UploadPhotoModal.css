@@ -12,22 +12,34 @@
 }
 
 #root-upload-photo-modal .modal-content {
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  width: 400px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#root-upload-photo-modal h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: 300;
 }
 
 #root-upload-photo-modal .button-group {
   display: flex;
   justify-content: space-between;
+  width: 100%;
   margin-top: 20px;
 }
 
 #root-upload-photo-modal .error-message {
   color: red;
-  margin-bottom: 10px;
+  text-align: center;
+  margin-bottom: 15px;
 }
 
 #root-upload-photo-modal .file-upload-label {
@@ -40,6 +52,7 @@
   cursor: pointer;
   text-align: center;
   transition: background-color 0.3s, border-color 0.3s;
+  width: 100%;
 }
 
 #root-upload-photo-modal .file-upload-label.dragging {
@@ -55,26 +68,72 @@
   display: none;
 }
 
-#root-upload-photo-modal button {
+#root-upload-photo-modal .upload-button {
+  width: 48%;
+  padding: 10px;
+  background-color: #bd4138;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.3s, box-shadow 0.3s;
+}
+
+#root-upload-photo-modal .upload-button:hover {
+  opacity: 0.75;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+#root-upload-photo-modal .cancel-button {
+  width: 48%;
+  padding: 10px;
+  background-color: #e0e0e0;
+  color: #333;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
   display: flex;
   align-items: center;
-  background-color: #28a745;
-  color: white;
+  justify-content: center;
+}
+
+#root-upload-photo-modal .cancel-icon {
+  margin-right: 5px;
+}
+
+#root-upload-photo-modal .selected-files {
+  margin-top: 15px;
+  width: 100%;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+#root-upload-photo-modal .selected-files ul {
+  list-style: none;
+  padding: 0;
+}
+
+#root-upload-photo-modal .selected-files li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+}
+
+#root-upload-photo-modal .remove-file-button {
+  background: none;
   border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
+  color: red;
   cursor: pointer;
   font-size: 16px;
 }
 
-#root-upload-photo-modal button .cancel-icon {
-  margin-right: 5px;
-}
-
-#root-upload-photo-modal button[type="button"] {
-  background-color: #949292;
-}
-
-#root-upload-photo-modal button:hover {
-  opacity: 0.9;
+#root-upload-photo-modal .remove-file-button:hover {
+  opacity: 0.75;
 }

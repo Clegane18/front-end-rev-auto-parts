@@ -165,8 +165,7 @@
 }
 
 #root-upload-products button .fa-upload {
-  background-color: #d30a0a;
-  color: white;
+  color: #d30a0a;
 }
 
 #root-upload-products button .fa-check-circle {
@@ -225,4 +224,41 @@
     font-size: 12px;
     padding: 6px;
   }
+}
+
+#root-upload-products .action-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#root-upload-products .action-buttons button {
+  background-color: transparent;
+  color: #d30a0a;
+  padding: 6px;
+  margin: 0 4px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+#root-upload-products .action-buttons button:hover {
+  opacity: 0.75;
+}
+
+#root-upload-products .view-pictures-icon {
+  color: #d30a0a;
+}
+
+#root-upload-products .view-pictures-icon:hover {
+  color: #d30a0a;
+}
+
+#root-upload-products .upload-photo-icon {
+  color: #d30a0a;
+}
+
+#root-upload-products .upload-photo-icon:hover {
+  color: #a30707;
 }
