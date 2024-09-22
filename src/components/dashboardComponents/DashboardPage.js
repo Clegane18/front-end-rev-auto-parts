@@ -35,7 +35,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import LogOutConfirmationModal from "./LogOutConfirmationModal";
 import { formatCurrency } from "../../utils/formatCurrency";
-import useAuthentication from "../LoginComponents/useAuthentication";
+import { useAdminAuth } from "../../contexts/AdminAuthContext";
 
 const DashboardPage = () => {
   const [monthlyIncome, setMonthlyIncome] = useState([]);
@@ -53,7 +53,7 @@ const DashboardPage = () => {
   const [selectedReports, setSelectedReports] = useState([]);
   const [isAllSelected, setIsAllSelected] = useState(false);
   const stockReminderRef = useRef();
-  const { logout } = useAuthentication();
+  const { logout } = useAdminAuth();
 
   const navigate = useNavigate();
 

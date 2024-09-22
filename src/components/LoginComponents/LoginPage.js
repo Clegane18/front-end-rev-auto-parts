@@ -1,42 +1,48 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { adminLogIn } from "../../services/admin-api";
 import "../../styles/LoginComponents/LoginPage.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faLock } from "@fortawesome/free-solid-svg-icons";
 import { EyeIcon, EyeOffIcon } from "@heroicons/react/outline";
+import { useAdminAuth } from "../../contexts/AdminAuthContext";
 
-const LoginPage = ({ setAuthToken }) => {
+const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [generalError, setGeneralError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate();
+
+  const { login } = useAdminAuth();
 
   const handleLogin = async (event) => {
     event.preventDefault();
+    setEmailError("");
+    setPasswordError("");
+    setGeneralError("");
+
     try {
       const response = await adminLogIn({ email, password });
-      setAuthToken(response.token);
-      navigate("/dashboard");
-    } catch (error) {
-      const { data } = error.response || {};
-      setEmailError(data?.message?.includes("email") ? data.message : "");
-      setPasswordError(
-        data?.message?.includes("password") ? "Incorrect password" : ""
-      );
 
-      if (data?.message?.includes("email")) {
+      login(response.token);
+    } catch (error) {
+      const message = error.message || "An unexpected error occurred.";
+
+      if (message.toLowerCase().includes("email")) {
+        setEmailError(message);
         setEmail("");
-      } else if (data?.message?.includes("password")) {
+      } else if (message.toLowerCase().includes("password")) {
+        setPasswordError(message);
         setPassword("");
+      } else {
+        setGeneralError(message);
       }
     }
   };
 
   const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
+    setShowPassword((prevState) => !prevState);
   };
 
   return (
@@ -48,7 +54,7 @@ const LoginPage = ({ setAuthToken }) => {
             <div className={`form-group ${emailError ? "has-error" : ""}`}>
               <FontAwesomeIcon icon={faUser} className="input-icon" />
               <input
-                type="text"
+                type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -56,6 +62,7 @@ const LoginPage = ({ setAuthToken }) => {
                 placeholder={emailError ? emailError : "Email"}
               />
             </div>
+
             <div className={`form-group ${passwordError ? "has-error" : ""}`}>
               <FontAwesomeIcon icon={faLock} className="input-icon" />
               <input
@@ -66,18 +73,22 @@ const LoginPage = ({ setAuthToken }) => {
                 className={`login-input ${passwordError ? "input-error" : ""}`}
                 placeholder={passwordError ? passwordError : "Password"}
               />
-              {showPassword ? (
-                <EyeOffIcon
-                  className="password-toggle-icon"
-                  onClick={togglePasswordVisibility}
-                />
-              ) : (
-                <EyeIcon
-                  className="password-toggle-icon"
-                  onClick={togglePasswordVisibility}
-                />
-              )}
+              <span
+                onClick={togglePasswordVisibility}
+                className="password-toggle"
+              >
+                {showPassword ? (
+                  <EyeOffIcon className="password-toggle-icon" />
+                ) : (
+                  <EyeIcon className="password-toggle-icon" />
+                )}
+              </span>
             </div>
+
+            {generalError && (
+              <div className="error-message">{generalError}</div>
+            )}
+
             <button type="submit" className="login-button">
               Log In
             </button>
