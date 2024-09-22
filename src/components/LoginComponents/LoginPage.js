@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faLock } from "@fortawesome/free-solid-svg-icons";
 import { EyeIcon, EyeOffIcon } from "@heroicons/react/outline";
 import { useAdminAuth } from "../../contexts/AdminAuthContext";
+import { Link } from "react-router-dom";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -93,6 +94,12 @@ const LoginPage = () => {
               Log In
             </button>
           </form>
+
+          <div className="additional-links">
+            <Link to="/change-credentials" className="change-link">
+              Change Account Credentials
+            </Link>
+          </div>
         </div>
       </div>
     </div>

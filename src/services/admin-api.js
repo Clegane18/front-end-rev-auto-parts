@@ -43,11 +43,16 @@ export const updateAdminEmail = async (adminId, newEmail, token) => {
   }
 };
 
-export const updateAdminPassword = async (adminId, newPassword, token) => {
+export const updateAdminPassword = async (
+  adminId,
+  oldPassword,
+  newPassword,
+  token
+) => {
   try {
     const response = await api.put(
       `/${adminId}/update-password`,
-      { newPassword },
+      { oldPassword, newPassword },
       {
         headers: {
           Authorization: `Bearer ${token}`,

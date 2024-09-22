@@ -27,6 +27,7 @@ import CustomerList from "./components/dashboardComponents/CustomerList";
 import AccountSuspended from "./components/dashboardComponents/AccountSuspended";
 import TermsAndConditions from "./components/onlineStoreFrontCustomersComponent/TermsAndConditions";
 import OnlineProductDetailsPage from "./components/onlineStoreFrontComponents/OnlineProductDetailsPage";
+import ChangeCredentialsPage from "./components/LoginComponents/ChangeCredentialsPage";
 
 const App = () => {
   const { authToken, login } = useAdminAuth();
@@ -97,6 +98,7 @@ const App = () => {
       <Route path="/create-account" element={<CreateAccountPage />} />
       <Route path="/reset-password" element={<RequestResetPasswordPage />} />
       <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
+      <Route path="/change-credentials" element={<ChangeCredentialsPage />} />
       <Route
         path="/customer-profile"
         element={

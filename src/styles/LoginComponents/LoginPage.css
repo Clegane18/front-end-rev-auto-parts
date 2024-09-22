@@ -1,148 +1,163 @@
-  #root-login-page .login-page-wrapper {
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-image: url('../../assets/g&f-background.jpg');
-    background-size: 100% 100%;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-color: #f4f4f9;
-    justify-content: flex-start;
-    align-items: center; 
-    padding: 0 0 100px 100px !important; 
-  }
+#root-login-page .login-page-wrapper {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("../../assets/g&f-background.jpg");
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #f4f4f9;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0 0 100px 100px !important;
+}
 
+#root-login-page .login-content {
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+  padding: 20px;
+  background-color: #a12d2d;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  color: white;
+}
 
+#root-login-page .login-form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
+}
+
+#root-login-page .form-group {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+#root-login-page .login-content h2 {
+  color: #000000;
+}
+
+#root-login-page .login-input {
+  width: 100%;
+  padding: 10px 10px 10px 40px;
+  border: 1px solid #692d2d;
+  border-radius: 4px;
+  background-color: #732429;
+  color: white;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease-in-out;
+  text-transform: none;
+}
+
+#root-login-page .login-input::placeholder {
+  color: #fad6d6;
+}
+
+#root-login-page .form-group.has-error .login-input {
+  border-color: rgb(255, 102, 102);
+}
+
+#root-login-page .input-error::placeholder {
+  color: rgb(217, 134, 134);
+}
+
+#root-login-page .input-icon {
+  position: absolute;
+  left: 12px;
+  padding-top: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #aaa;
+}
+
+#root-login-page .login-button {
+  background-color: #1a2129 !important;
+  color: #ffffff !important;
+  border: none !important;
+  padding: 10px 20px !important;
+  cursor: pointer !important;
+  border-radius: 5px !important;
+  transition: background-color 0.3s !important;
+  width: 120px;
+  margin: 0 auto;
+}
+
+#root-login-page .login-button:hover {
+  background-color: #27313b !important;
+  transition: background-color 0.3s ease-in-out, opacity 0.3s ease-in-out !important;
+}
+
+.password-toggle-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  color: #999;
+}
+
+#root-login-page .additional-links {
+  font-family: "Montserrat", serif;
+  text-transform: uppercase;
+  margin-top: 15px;
+  text-align: center;
+}
+
+#root-login-page .change-link {
+  color: #f0a5a5;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+#root-login-page .change-link:hover {
+  text-decoration: underline;
+  opacity: 0.85;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
   #root-login-page .login-content {
-    text-align: center;
-    max-width: 400px;
-    width: 100%;
-    padding: 20px;
-    background-color: #A12D2D;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    color: white;
-  }
-
-  #root-login-page .login-form {
-    display: flex;
-    flex-direction: column;
-    margin-top: 15px;
-  }
-
-  #root-login-page .form-group {
-    margin-bottom: 20px;
-    position: relative;
+    padding: 15px;
+    max-width: 90%;
   }
 
   #root-login-page .login-content h2 {
-    color: #000000;
+    font-size: 20px;
   }
 
   #root-login-page .login-input {
-    width: 100%;
-    padding: 10px 10px 10px 40px;
-    border: 1px solid #692d2d;
-    border-radius: 4px;
-    background-color: #732429;
-    color: white;
-    box-sizing: border-box;
-    transition: border-color 0.3s ease-in-out;
-    text-transform: none;
-  }
-
-  #root-login-page .login-input::placeholder {
-    color: #FAD6D6; 
-  }
-  
-  #root-login-page .form-group.has-error .login-input {
-    border-color: rgb(255, 102, 102);
-  }
-
-  #root-login-page .input-error::placeholder {
-    color:  rgb(217, 134, 134);
-  }
-
-  #root-login-page .input-icon {
-    position: absolute;
-    left: 12px;
-    padding-top: 4px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #aaa;
+    padding: 8px 8px 8px 35px;
+    font-size: 14px;
   }
 
   #root-login-page .login-button {
-    background-color: #1A2129 !important;
-    color: #ffffff !important;
-    border: none !important;
-    padding: 10px 20px !important;
-    cursor: pointer !important;
-    border-radius: 5px !important;
-    transition: background-color 0.3s !important;
-    width: 120px; 
-    margin: 0 auto; 
+    padding: 8px 15px;
+    font-size: 14px;
   }
-  
+}
 
-  #root-login-page .login-button:hover {
-    background-color: #27313b!important;
-    transition: background-color 0.3s ease-in-out, opacity 0.3s ease-in-out !important;
+@media (min-width: 1921px) {
+  #root-login-page .login-page-wrapper {
+    padding: 0 0 200px 150px !important;
   }
 
-  .password-toggle-icon {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
-    color: #999;
-  }
-  
-  
-  /* Responsive Design */
-  @media (max-width: 600px) {
-    #root-login-page .login-content {
-      padding: 15px;
-      max-width: 90%;
-    }
-
-    #root-login-page .login-content h2 {
-      font-size: 20px;
-    }
-
-    #root-login-page .login-input {
-      padding: 8px 8px 8px 35px;
-      font-size: 14px;
-    }
-
-    #root-login-page .login-button {
-      padding: 8px 15px;
-      font-size: 14px;
-    }
+  #root-login-page .login-content {
+    max-width: 500px;
+    padding: 25px;
   }
 
-  @media (min-width: 1921px) {
-    #root-login-page .login-page-wrapper {
-      padding: 0 0 200px 150px !important;
-    }
-  
-    #root-login-page .login-content {
-      max-width: 500px; 
-      padding: 25px; 
-    }
-  
-    #root-login-page .login-input {
-      padding: 12px 12px 12px 45px; 
-      font-size: 16px; 
-    }
-  
-    #root-login-page .login-button {
-      padding: 12px 25px; 
-      font-size: 16px; 
-    }
+  #root-login-page .login-input {
+    padding: 12px 12px 12px 45px;
+    font-size: 16px;
   }
+
+  #root-login-page .login-button {
+    padding: 12px 25px;
+    font-size: 16px;
+  }
+}
