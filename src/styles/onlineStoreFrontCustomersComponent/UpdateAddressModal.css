@@ -23,7 +23,6 @@
   box-sizing: border-box;
 }
 
-
 #root-update-address-modal .modal-overlay .modal-content .modal-title {
   font-size: 1.75rem;
   margin-bottom: 1.5rem;
@@ -54,7 +53,9 @@
   overflow: visible;
 }
 
-#root-update-address-modal .address-display-wrapper .modal-input-address-display {
+#root-update-address-modal
+  .address-display-wrapper
+  .modal-input-address-display {
   text-transform: none;
   font-size: 15px;
 }
@@ -63,7 +64,7 @@
   display: flex;
   align-items: center;
   position: relative;
-  overflow: hidden; 
+  overflow: hidden;
 }
 
 #root-update-address-modal .modal-input-address-display {
@@ -80,7 +81,7 @@
   transform: translateY(-50%);
   pointer-events: none;
   transition: transform 0.3s ease;
-  color: #999999
+  color: #999999;
 }
 
 #root-update-address-modal .arrow-icon.closed {
@@ -108,8 +109,8 @@
 }
 
 #root-update-address-modal .tab-button.active {
-  border-bottom-color: #0c619b;
-  color: #0c619b;
+  border-bottom-color: #d30a0a;
+  color: #d30a0a;
 }
 
 #root-update-address-modal .modal-content .tab-content {
@@ -122,10 +123,10 @@
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 1rem;
-  max-height: 150px; 
+  max-height: 150px;
   overflow-y: auto;
-  position: absolute; 
-  top: 100%; 
+  position: absolute;
+  top: 100%;
   background-color: #fff;
   z-index: 1050 !important;
   min-width: 200px;
@@ -161,7 +162,10 @@
   color: #fff;
 }
 
-#root-update-address-modal .address-selector .address-display-wrapper .clear-icon {
+#root-update-address-modal
+  .address-selector
+  .address-display-wrapper
+  .clear-icon {
   position: absolute;
   right: 35px;
   top: 50%;
@@ -174,7 +178,7 @@
 .other-information {
   display: flex;
   flex-direction: column;
-  position: relative; 
+  position: relative;
   gap: 10px;
   z-index: 1 !important;
 }
@@ -190,13 +194,16 @@
 }
 
 #root-update-address-modal .other-information .postal-code input,
-#root-update-address-modal .other-information .streetname-building-house-no input {
+#root-update-address-modal
+  .other-information
+  .streetname-building-house-no
+  input {
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  box-sizing: border-box; 
+  box-sizing: border-box;
 }
 
 #root-update-address-modal .modal-content .label-buttons {
@@ -205,7 +212,6 @@
   gap: 10px;
   margin-bottom: 10px;
 }
-
 
 #root-update-address-modal .modal-content .label-buttons p {
   margin: 0;
@@ -249,14 +255,20 @@
   margin-top: 10px;
 }
 
-#root-update-address-modal .modal-content .default-checkbox input[type="checkbox"] {
-  width: 17px; 
-  height: 17px; 
+#root-update-address-modal
+  .modal-content
+  .default-checkbox
+  input[type="checkbox"] {
+  width: 17px;
+  height: 17px;
   cursor: pointer;
-  accent-color: #0c619b;
+  accent-color: #d30a0a;
 }
 
-#root-update-address-modal .modal-content .default-checkbox input[type="checkbox"]:disabled {
+#root-update-address-modal
+  .modal-content
+  .default-checkbox
+  input[type="checkbox"]:disabled {
   cursor: not-allowed;
   opacity: 0.6;
 }
@@ -272,14 +284,14 @@
 #root-update-address-modal .modal-content .modal-buttons {
   display: flex;
   justify-content: flex-end;
-  gap: 25px; 
-  margin-top: 55px; 
+  gap: 25px;
+  margin-top: 55px;
 }
 
 #root-update-address-modal .modal-content .modal-buttons .cancel-button {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   border: 1px solid black;
-  border-radius: 4px; 
+  border-radius: 4px;
 }
 
 #root-update-address-modal .loading-icon {
@@ -303,14 +315,10 @@
 }
 
 #root-update-address-modal .loading-wrapper {
-  font-family: 'Montserrat', serif;
+  font-family: "Montserrat", serif;
   text-transform: none;
   display: flex;
   align-items: center;
   font-size: 14px;
   margin: 10px 0;
 }
-
-
-
-
