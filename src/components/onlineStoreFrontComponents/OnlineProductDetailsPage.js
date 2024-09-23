@@ -7,12 +7,20 @@ import useRequireAuth from "../../utils/useRequireAuth";
 import { addProductToCart } from "../../services/cart-api";
 import { useAuth } from "../../contexts/AuthContext";
 import { getProductById } from "../../services/inventory-api";
+import { createComment, getAllComments } from "../../services/comments-api";
 import OnlineStoreFrontHeader from "./OnlineStoreFrontHeader";
 import OnlineStoreFrontFooter from "./OnlineStoreFrontFooter";
 import { FaStar } from "react-icons/fa";
 
-const encodeURL = (url) =>
-  encodeURIComponent(url).replace(/%2F/g, "/").replace(/%3A/g, ":");
+const encodeURL = (url) => url.replace(/\\/g, "/");
+
+const buildImageUrl = (imagePath) => {
+  if (imagePath.startsWith("/")) {
+    return `http://localhost:3002${imagePath}`;
+  } else {
+    return `http://localhost:3002/${imagePath}`;
+  }
+};
 
 const OnlineProductDetailsPage = () => {
   const { productId } = useParams();
@@ -31,74 +39,100 @@ const OnlineProductDetailsPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const [ratings] = useState({
-    average: 4.5,
-    count: 120,
+  const [ratings, setRatings] = useState({
+    average: 0,
+    count: 0,
   });
 
-  const [comments] = useState([
-    {
-      id: 1,
-      username: "Jan Codrey",
-      rating: 5,
-      comment: "Damn sheessh.",
-      date: "2023-09-15",
-    },
-    {
-      id: 2,
-      username: "Cogie",
-      rating: 4,
-      comment: "Ako si Ekuj nasao.",
-      date: "2023-09-10",
-    },
-    {
-      id: 3,
-      username: "Andrei",
-      rating: 4,
-      comment: "Angas pre!.",
-      date: "2023-09-10",
-    },
-  ]);
+  const [comments, setComments] = useState([]);
+
+  const [newRating, setNewRating] = useState(5);
+  const [newCommentText, setNewCommentText] = useState("");
+  const [newImages, setNewImages] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionError, setSubmissionError] = useState(null);
 
   useEffect(() => {
-    const fetchProduct = async () => {
+    const fetchProductAndComments = async () => {
       try {
         if (!productId) {
           throw new Error("Product ID is missing.");
         }
 
-        const response = await getProductById(productId);
+        const productResponse = await getProductById(productId);
 
-        if (response.status !== 200) {
+        if (productResponse.status !== 200) {
           throw new Error(
-            response.data.message || "Failed to fetch product details."
+            productResponse.message || "Failed to fetch product details."
           );
         }
 
-        const data = response.data;
+        const productData = productResponse.data;
 
-        if (!data.data || !data.data.id) {
+        if (!productData.data || !productData.data.id) {
           throw new Error("Product data is incomplete.");
         }
 
-        setProduct(data.data);
+        setProduct(productData.data);
 
-        const primaryImage = data.data.images.find((img) => img.isPrimary);
+        const primaryImage = productData.data.images.find(
+          (img) => img.isPrimary
+        );
         setMainImageUrl(
           primaryImage
-            ? `http://localhost:3002/${encodeURL(primaryImage.imageUrl)}`
-            : `http://localhost:3002/default-image.jpg`
+            ? buildImageUrl(encodeURL(primaryImage.imageUrl))
+            : "http://localhost:3002/default-image.jpg"
         );
+
+        const commentsResponse = await getAllComments({ productId });
+
+        if (commentsResponse.status !== 200) {
+          throw new Error(
+            commentsResponse.message || "Failed to fetch comments."
+          );
+        }
+
+        const fetchedComments = commentsResponse.data;
+
+        setComments(
+          fetchedComments.map((comment) => ({
+            id: comment.commentId,
+            username: comment.customer.username,
+            rating: comment.rating,
+            comment: comment.commentText,
+            date: new Date(comment.createdAt).toISOString().split("T")[0],
+            images: comment.images
+              ? comment.images.map((image) => {
+                  let formattedImage = encodeURL(image);
+                  return formattedImage.startsWith("/")
+                    ? formattedImage
+                    : `/${formattedImage}`;
+                })
+              : [],
+          }))
+        );
+
+        const totalRatings = fetchedComments.reduce(
+          (acc, curr) => acc + curr.rating,
+          0
+        );
+        const count = fetchedComments.length;
+        const average = count > 0 ? totalRatings / count : 0;
+
+        setRatings({
+          average: average,
+          count: count,
+        });
 
         setLoading(false);
       } catch (err) {
-        console.error("Error fetching product by ID:", err.message);
+        console.error("Error fetching product and comments:", err.message);
         setError(err.message);
         setLoading(false);
       }
     };
 
-    fetchProduct();
+    fetchProductAndComments();
   }, [productId]);
 
   const handleBuyNowClick = () => {
@@ -180,7 +214,92 @@ const OnlineProductDetailsPage = () => {
   };
 
   const handleThumbnailClick = (imageUrl) => {
-    setMainImageUrl(`http://localhost:3002/${encodeURL(imageUrl)}`);
+    setMainImageUrl(buildImageUrl(encodeURL(imageUrl)));
+  };
+
+  const handleRatingChange = (rating) => {
+    setNewRating(rating);
+  };
+
+  const handleCommentTextChange = (e) => {
+    setNewCommentText(e.target.value);
+  };
+
+  const handleImagesChange = (e) => {
+    setNewImages(Array.from(e.target.files));
+  };
+
+  const handleRemoveImage = (index) => {
+    setNewImages((prevImages) => prevImages.filter((_, i) => i !== index));
+  };
+
+  const handleSubmitComment = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmissionError(null);
+
+    if (!currentUser || !currentUser.id) {
+      setSubmissionError("You must be logged in to submit a review.");
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (!product || !product.id) {
+      setSubmissionError("Product ID is missing or invalid.");
+      setIsSubmitting(false);
+      return;
+    }
+
+    try {
+      const commentData = {
+        customerId: currentUser.id,
+        rating: Number(newRating),
+        commentText: newCommentText,
+        images: newImages,
+      };
+
+      const createdComment = await createComment(
+        commentData,
+        token,
+        Number(product.id)
+      );
+
+      const mappedComment = {
+        id: createdComment.data.commentId,
+        username: currentUser.username || "Anonymous",
+        rating: createdComment.data.rating,
+        comment: createdComment.data.commentText,
+        date: new Date(createdComment.data.createdAt)
+          .toISOString()
+          .split("T")[0],
+        images: createdComment.data.images
+          ? createdComment.data.images.map((image) => encodeURL(image))
+          : [],
+      };
+
+      setComments((prevComments) => [mappedComment, ...prevComments]);
+
+      setRatings((prevRatings) => {
+        const totalRating =
+          prevRatings.average * prevRatings.count + createdComment.data.rating;
+        const newCount = prevRatings.count + 1;
+        return {
+          average: totalRating / newCount,
+          count: newCount,
+        };
+      });
+
+      setNewRating(5);
+      setNewCommentText("");
+      setNewImages([]);
+    } catch (err) {
+      console.error("Error submitting comment:", err.message);
+      setSubmissionError(
+        err.message || "Failed to submit comment. Please try again."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (loading) {
@@ -219,18 +338,29 @@ const OnlineProductDetailsPage = () => {
               className="product-main-image"
             />
             <div className="additional-images">
-              {product.images?.map((image, index) => (
-                <img
-                  key={index}
-                  src={`http://localhost:3002/${encodeURL(image.imageUrl)}`}
-                  alt={`${product.name} alternate ${index + 1}`}
-                  className="product-additional-image"
-                  onClick={() => handleThumbnailClick(image.imageUrl)}
-                  style={{
-                    cursor: "pointer",
-                  }}
-                />
-              ))}
+              {product.images?.map((image, index) => {
+                let formattedImageUrl = encodeURL(image.imageUrl);
+                if (!formattedImageUrl.startsWith("/")) {
+                  formattedImageUrl = `/${formattedImageUrl}`;
+                }
+
+                const fullImageUrl = buildImageUrl(formattedImageUrl);
+
+                return (
+                  <img
+                    key={index}
+                    src={fullImageUrl}
+                    alt={`${product.name} alternate ${index + 1}`}
+                    className="product-additional-image"
+                    onClick={() => handleThumbnailClick(image.imageUrl)}
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = "http://localhost:3002/default-image.jpg";
+                    }}
+                    loading="lazy"
+                  />
+                );
+              })}
             </div>
           </div>
         </div>
@@ -241,7 +371,9 @@ const OnlineProductDetailsPage = () => {
             <span className="average-rating">
               {ratings.average.toFixed(1)} <FaStar color="#FFD700" />
             </span>
-            <span className="rating-count">({ratings.count} reviews)</span>
+            <span className="rating-count">
+              ({ratings.count} {ratings.count === 1 ? "review" : "reviews"})
+            </span>
           </div>
           <p className="product-price">{formatCurrency(product.price)}</p>
           <p className="product-item-code">Item Code: {product.itemCode}</p>
@@ -282,7 +414,6 @@ const OnlineProductDetailsPage = () => {
         </div>
       </div>
 
-      {/* Ratings and Comments Section */}
       <div className="ratings-comments-container">
         <div className="ratings-summary">
           <h3>Customer Reviews</h3>
@@ -291,7 +422,8 @@ const OnlineProductDetailsPage = () => {
               {ratings.average.toFixed(1)} <FaStar color="#FFD700" />
             </span>
             <span className="rating-count">
-              based on {ratings.count} reviews
+              Based on {ratings.count}{" "}
+              {ratings.count === 1 ? "review" : "reviews"}
             </span>
           </div>
         </div>
@@ -306,17 +438,37 @@ const OnlineProductDetailsPage = () => {
                   <span className="comment-date">
                     {new Date(comment.date).toLocaleDateString()}
                   </span>
+                  <div className="comment-rating">
+                    {[...Array(5)].map((star, index) => (
+                      <FaStar
+                        key={index}
+                        color={index < comment.rating ? "#FFD700" : "#ccc"}
+                        size={14}
+                      />
+                    ))}
+                  </div>
                 </div>
-                <div className="comment-rating">
-                  {[...Array(5)].map((star, index) => (
-                    <FaStar
-                      key={index}
-                      color={index < comment.rating ? "#FFD700" : "#ccc"}
-                      size={14}
-                    />
-                  ))}
-                </div>
+
                 <p className="comment-text">{comment.comment}</p>
+
+                {comment.images && comment.images.length > 0 && (
+                  <div className="comment-images">
+                    {comment.images.map((image, idx) => (
+                      <img
+                        key={idx}
+                        src={`http://localhost:3002${image}`}
+                        alt={`Attachment ${idx + 1} for comment ${comment.id}`}
+                        className="comment-image"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src =
+                            "http://localhost:3002/default-comment-image.jpg";
+                        }}
+                        loading="lazy"
+                      />
+                    ))}
+                  </div>
+                )}
               </div>
             ))
           ) : (
@@ -326,7 +478,89 @@ const OnlineProductDetailsPage = () => {
 
         <div className="add-comment-section">
           <h3>Write a Review</h3>
-          <p>Feature coming soon!</p>
+          {submissionError && (
+            <p className="error-message">{submissionError}</p>
+          )}
+          <form onSubmit={handleSubmitComment} className="comment-form">
+            <label className="form-label">
+              Rating:
+              <div className="star-rating">
+                {[...Array(5)].map((star, index) => {
+                  const ratingValue = index + 1;
+                  return (
+                    <label key={index}>
+                      <input
+                        type="radio"
+                        name="rating"
+                        value={ratingValue}
+                        onClick={() => handleRatingChange(ratingValue)}
+                        style={{ display: "none" }}
+                      />
+                      <FaStar
+                        className="star"
+                        color={ratingValue <= newRating ? "#FFD700" : "#ccc"}
+                        size={24}
+                        onMouseOver={() => setNewRating(ratingValue)}
+                        onMouseLeave={() => setNewRating(newRating)}
+                        style={{ cursor: "pointer" }}
+                      />
+                    </label>
+                  );
+                })}
+              </div>
+            </label>
+            <label className="form-label">
+              Comment:
+              <textarea
+                value={newCommentText}
+                onChange={handleCommentTextChange}
+                className="form-textarea"
+                rows="4"
+                placeholder="Write your review here..."
+                required
+              ></textarea>
+            </label>
+            <label className="form-label">
+              Upload Images (optional):
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={handleImagesChange}
+                className="form-input"
+              />
+            </label>
+
+            {newImages.length > 0 && (
+              <div className="image-previews">
+                {newImages.map((image, index) => (
+                  <div key={index} className="image-preview">
+                    <img
+                      src={URL.createObjectURL(image)}
+                      alt={`Preview ${index + 1}`}
+                      className="preview-image"
+                    />
+                    <button
+                      type="button"
+                      className="remove-image-button"
+                      onClick={() => handleRemoveImage(index)}
+                      aria-label={`Remove image ${index + 1}`}
+                    >
+                      &times;
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              className="submit-comment-button"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Submitting..." : "Submit Review"}
+            </button>
+          </form>
         </div>
       </div>
 

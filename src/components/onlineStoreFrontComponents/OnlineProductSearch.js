@@ -10,7 +10,6 @@ const ProductSearch = ({ onSelectProduct }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedTerm, setDebouncedTerm] = useState("");
   const [productSuggestions, setProductSuggestions] = useState([]);
-  const [isSearching, setIsSearching] = useState(false);
   const checkAuth = useRequireAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -32,7 +31,6 @@ const ProductSearch = ({ onSelectProduct }) => {
 
   const handleSearch = async (term) => {
     if (checkAuth("/customer-login")) {
-      setIsSearching(true);
       if (!term) {
         setProductSuggestions([]);
         return;
@@ -59,7 +57,6 @@ const ProductSearch = ({ onSelectProduct }) => {
           { id: "no-results", name: "No products found" },
         ]);
       }
-      setIsSearching(false);
     }
   };
 
@@ -104,8 +101,6 @@ const ProductSearch = ({ onSelectProduct }) => {
           ))}
         </div>
       )}
-
-      {isSearching && <div className="loading">Searching...</div>}
     </div>
   );
 };
