@@ -126,26 +126,36 @@ const OnlineCheckout = () => {
         return;
       }
 
-      const merchandiseSubtotal = cartItems.reduce(
-        (acc, item) => acc + (item.Product.price || 0) * item.quantity,
-        0
-      );
+      const itemsMap = new Map();
+
+      cartItems.forEach((item) => {
+        const productId = item.Product.id;
+        if (itemsMap.has(productId)) {
+          itemsMap.get(productId).quantity += item.quantity;
+        } else {
+          itemsMap.set(productId, { productId, quantity: item.quantity });
+        }
+      });
+
+      const items = Array.from(itemsMap.values());
+
+      const merchandiseSubtotal = items.reduce((acc, item) => {
+        const product = cartItems.find(
+          (ci) => ci.Product.id === item.productId
+        ).Product;
+        return acc + (product.price || 0) * item.quantity;
+      }, 0);
 
       const payload = {
         customerId: Number(customerId),
         addressId: Number(addressId),
-        items: cartItems.map((item) => ({
-          productId: item.Product.id,
-          quantity: item.quantity,
-        })),
+        items,
         token,
         merchandiseSubtotal,
         shippingFee,
         paymentMethod: paymentMethodParam,
         gcashReferenceNumber: gcashRefNumber,
       };
-
-      console.log("Sending payload:", payload);
 
       const response = await createOrder(payload);
       const order = response.data;
