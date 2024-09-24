@@ -229,7 +229,6 @@
   color: #b22222;
 }
 
-/* Ratings and Comments Section */
 #root-product-details-page .ratings-comments-container {
   padding: 40px 20px;
   width: 79%;
@@ -331,6 +330,7 @@
   border-radius: 4px;
   object-fit: cover;
   border: 1px solid #ccc;
+  cursor: pointer;
 }
 
 #root-product-details-page .add-comment-section .error-message {
@@ -431,12 +431,93 @@
   transition: color 0.2s;
 }
 
-#root-product-details-page .star:hover,
-#root-product-details-page .star:hover ~ .star {
-  color: #ffd700;
+#root-product-details-page .image-modal {
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* Responsive Design */
+#root-product-details-page .image-modal-content {
+  position: relative;
+  width: 600px;
+  height: 600px;
+  background-color: #fff;
+  padding: 0;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+#root-product-details-page .image-modal-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+#root-product-details-page .image-modal-close-icon {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #fff;
+  z-index: 2;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  padding: 5px;
+}
+
+#root-product-details-page .image-modal-close-icon:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+#root-product-details-page .image-modal-nav {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  right: 15px;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 2;
+}
+
+#root-product-details-page .prev-icon,
+#root-product-details-page .next-icon {
+  cursor: pointer;
+  font-size: 36px;
+  padding: 10px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  user-select: none;
+}
+
+#root-product-details-page .prev-icon:hover,
+#root-product-details-page .next-icon:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+@media (max-width: 768px) {
+  #root-product-details-page .image-modal-content {
+    width: 95%;
+    height: 95%;
+  }
+
+  #root-product-details-page .prev-icon,
+  #root-product-details-page .next-icon {
+    font-size: 28px;
+  }
+}
+
 @media (max-width: 992px) {
   #root-product-details-page .product-details-container {
     flex-direction: column;

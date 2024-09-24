@@ -7,10 +7,14 @@ import useRequireAuth from "../../utils/useRequireAuth";
 import { addProductToCart } from "../../services/cart-api";
 import { useAuth } from "../../contexts/AuthContext";
 import { getProductById } from "../../services/inventory-api";
-import { createComment, getAllComments } from "../../services/comments-api";
+import {
+  createComment,
+  getAllComments,
+  verifyCustomerProductPurchase,
+} from "../../services/comments-api";
 import OnlineStoreFrontHeader from "./OnlineStoreFrontHeader";
 import OnlineStoreFrontFooter from "./OnlineStoreFrontFooter";
-import { FaStar } from "react-icons/fa";
+import { FaStar, FaTimes, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const encodeURL = (url) => url.replace(/\\/g, "/");
 
@@ -38,19 +42,22 @@ const OnlineProductDetailsPage = () => {
   const [mainImageUrl, setMainImageUrl] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
   const [ratings, setRatings] = useState({
     average: 0,
     count: 0,
   });
-
   const [comments, setComments] = useState([]);
-
   const [newRating, setNewRating] = useState(5);
   const [newCommentText, setNewCommentText] = useState("");
   const [newImages, setNewImages] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionError, setSubmissionError] = useState(null);
+  const [canSubmitReview, setCanSubmitReview] = useState(true);
+  const [imageModal, setImageModal] = useState({
+    isOpen: false,
+    images: [],
+    currentIndex: 0,
+  });
 
   useEffect(() => {
     const fetchProductAndComments = async () => {
@@ -102,12 +109,7 @@ const OnlineProductDetailsPage = () => {
             comment: comment.commentText,
             date: new Date(comment.createdAt).toISOString().split("T")[0],
             images: comment.images
-              ? comment.images.map((image) => {
-                  let formattedImage = encodeURL(image);
-                  return formattedImage.startsWith("/")
-                    ? formattedImage
-                    : `/${formattedImage}`;
-                })
+              ? comment.images.map((image) => encodeURL(image))
               : [],
           }))
         );
@@ -125,6 +127,16 @@ const OnlineProductDetailsPage = () => {
         });
 
         setLoading(false);
+
+        if (currentUser) {
+          const response = await verifyCustomerProductPurchase(
+            { customerId: currentUser.id, productId },
+            token
+          );
+          if (!response.data.hasPurchased) {
+            setCanSubmitReview(false);
+          }
+        }
       } catch (err) {
         console.error("Error fetching product and comments:", err.message);
         setError(err.message);
@@ -133,7 +145,7 @@ const OnlineProductDetailsPage = () => {
     };
 
     fetchProductAndComments();
-  }, [productId]);
+  }, [productId, currentUser, token]);
 
   const handleBuyNowClick = () => {
     if (checkAuth("/online-store")) {
@@ -213,6 +225,49 @@ const OnlineProductDetailsPage = () => {
     setModalInfo({ isOpen: false, productName: "", stock: 0 });
   };
 
+  const closeImageModal = () => {
+    setImageModal({ isOpen: false, images: [], currentIndex: 0 });
+  };
+
+  const handleImageClick = (imagesArray, index) => {
+    setImageModal({
+      isOpen: true,
+      images: imagesArray,
+      currentIndex: index,
+    });
+  };
+
+  const handleNextImage = () => {
+    if (
+      imageModal.isOpen &&
+      imageModal.images &&
+      imageModal.images.length > 0
+    ) {
+      const nextIndex =
+        (imageModal.currentIndex + 1) % imageModal.images.length;
+      setImageModal({
+        ...imageModal,
+        currentIndex: nextIndex,
+      });
+    }
+  };
+
+  const handlePreviousImage = () => {
+    if (
+      imageModal.isOpen &&
+      imageModal.images &&
+      imageModal.images.length > 0
+    ) {
+      const prevIndex =
+        (imageModal.currentIndex - 1 + imageModal.images.length) %
+        imageModal.images.length;
+      setImageModal({
+        ...imageModal,
+        currentIndex: prevIndex,
+      });
+    }
+  };
+
   const handleThumbnailClick = (imageUrl) => {
     setMainImageUrl(buildImageUrl(encodeURL(imageUrl)));
   };
@@ -251,15 +306,16 @@ const OnlineProductDetailsPage = () => {
     }
 
     try {
-      const commentData = {
-        customerId: currentUser.id,
-        rating: Number(newRating),
-        commentText: newCommentText,
-        images: newImages,
-      };
+      const formData = new FormData();
+      formData.append("rating", newRating);
+      formData.append("commentText", newCommentText);
+
+      newImages.forEach((image) => {
+        formData.append("images", image);
+      });
 
       const createdComment = await createComment(
-        commentData,
+        formData,
         token,
         Number(product.id)
       );
@@ -295,7 +351,8 @@ const OnlineProductDetailsPage = () => {
     } catch (err) {
       console.error("Error submitting comment:", err.message);
       setSubmissionError(
-        err.message || "Failed to submit comment. Please try again."
+        err.response?.data?.message ||
+          "Failed to submit comment. Please try again."
       );
     } finally {
       setIsSubmitting(false);
@@ -431,7 +488,7 @@ const OnlineProductDetailsPage = () => {
         <div className="comments-section">
           <h3>Reviews</h3>
           {comments.length > 0 ? (
-            comments.map((comment) => (
+            comments.map((comment, idx) => (
               <div key={comment.id} className="comment">
                 <div className="comment-header">
                   <span className="comment-username">{comment.username}</span>
@@ -451,14 +508,17 @@ const OnlineProductDetailsPage = () => {
 
                 <p className="comment-text">{comment.comment}</p>
 
-                {comment.images && comment.images.length > 0 && (
+                {comment?.images?.length > 0 && (
                   <div className="comment-images">
-                    {comment.images.map((image, idx) => (
+                    {comment.images.map((image, imgIdx) => (
                       <img
-                        key={idx}
+                        key={imgIdx}
                         src={`http://localhost:3002${image}`}
-                        alt={`Attachment ${idx + 1} for comment ${comment.id}`}
+                        alt={`Attachment ${imgIdx + 1} for comment ${
+                          comment.id
+                        }`}
                         className="comment-image"
+                        onClick={() => handleImageClick(comment.images, imgIdx)}
                         onError={(e) => {
                           e.target.onerror = null;
                           e.target.src =
@@ -517,7 +577,6 @@ const OnlineProductDetailsPage = () => {
                 className="form-textarea"
                 rows="4"
                 placeholder="Write your review here..."
-                required
               ></textarea>
             </label>
             <label className="form-label">
@@ -556,10 +615,16 @@ const OnlineProductDetailsPage = () => {
             <button
               type="submit"
               className="submit-comment-button"
-              disabled={isSubmitting}
+              disabled={!canSubmitReview || isSubmitting}
             >
               {isSubmitting ? "Submitting..." : "Submit Review"}
             </button>
+
+            {!canSubmitReview && (
+              <p className="error-message">
+                You can only submit a review if you have purchased this product.
+              </p>
+            )}
           </form>
         </div>
       </div>
@@ -570,6 +635,40 @@ const OnlineProductDetailsPage = () => {
         stock={modalInfo.stock}
         onClose={closeModal}
       />
+
+      {imageModal.isOpen && (
+        <div className="image-modal" onClick={closeImageModal}>
+          <div
+            className="image-modal-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <FaTimes
+              className="image-modal-close-icon"
+              onClick={closeImageModal}
+            />
+            <img
+              src={`http://localhost:3002${
+                imageModal.images[imageModal.currentIndex]
+              }`}
+              alt="Comment Attachment"
+              className="image-modal-img"
+            />
+            {imageModal.images.length > 1 && (
+              <div className="image-modal-nav">
+                <FaChevronLeft
+                  className="prev-icon"
+                  onClick={handlePreviousImage}
+                />
+                <FaChevronRight
+                  className="next-icon"
+                  onClick={handleNextImage}
+                />
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
       <OnlineStoreFrontFooter />
     </div>
   );
