@@ -10,7 +10,6 @@ import { archiveProductById } from "../../services/archive-api";
 import "../../styles/inventoryComponents/ProductManagement.css";
 import EditProductModal from "./EditProductModal";
 import ConfirmArchiveModal from "./ConfirmArchiveModal";
-
 import AddProductModal from "./AddProductModal";
 import AddStockModal from "./AddStockModal";
 import {
@@ -24,7 +23,7 @@ import {
 import { debounce } from "../../utils/debounce";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { useNavigate } from "react-router-dom";
-import { faPrint } from "@fortawesome/free-solid-svg-icons";
+import { faPrint, faSync } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import logo from "../../assets/g&f-logo.png";
 
@@ -408,6 +407,13 @@ const ProductManagement = () => {
 
           <button className="low-stock-button" onClick={handleLowStock}>
             {isShowingLowStock ? "All Products" : "Low Stock"}
+          </button>
+          <button
+            onClick={fetchProducts}
+            className="refresh-button"
+            title="Refresh Inventory Products"
+          >
+            <FontAwesomeIcon icon={faSync} />
           </button>
           <button onClick={() => setAddingProduct(true)}>
             <FaPlusCircle /> Add Product

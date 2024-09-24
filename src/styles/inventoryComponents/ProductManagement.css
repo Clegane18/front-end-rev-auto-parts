@@ -127,7 +127,7 @@
 }
 
 #root-product-management .product-table tr:hover {
-  background-color: #cbc9c9;
+  background-color: #e0e0e0;
 }
 
 #root-product-management .error-message {
@@ -185,6 +185,22 @@
 
 #root-product-management .filter-bar .filter-selector {
   width: 113px;
+}
+
+#root-product-management .refresh-button {
+  background-color: #d30a0a;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+
+#root-product-management .refresh-button:hover {
+  opacity: 0.75;
 }
 
 /* Responsive design */
