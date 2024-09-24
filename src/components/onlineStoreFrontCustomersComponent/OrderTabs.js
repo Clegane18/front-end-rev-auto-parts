@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { getOrdersByStatus, cancelOrder } from "../../services/order-api";
 import { useAuth } from "../../contexts/AuthContext";
 import { useWebSocket } from "../../contexts/WebSocketContext";
@@ -30,11 +31,21 @@ const OrderTabs = ({ initialTab = "All" }) => {
 
   const setCounts = (updatedOrders) => {
     setAllCount(updatedOrders.length);
-    setToPayCount(updatedOrders.filter((order) => order.status === "To Pay").length);
-    setToShipCount(updatedOrders.filter((order) => order.status === "To Ship").length);
-    setToReceiveCount(updatedOrders.filter((order) => order.status === "To Receive").length);
-    setCompletedCount(updatedOrders.filter((order) => order.status === "Completed").length);
-    setCancelledCount(updatedOrders.filter((order) => order.status === "Cancelled").length);
+    setToPayCount(
+      updatedOrders.filter((order) => order.status === "To Pay").length
+    );
+    setToShipCount(
+      updatedOrders.filter((order) => order.status === "To Ship").length
+    );
+    setToReceiveCount(
+      updatedOrders.filter((order) => order.status === "To Receive").length
+    );
+    setCompletedCount(
+      updatedOrders.filter((order) => order.status === "Completed").length
+    );
+    setCancelledCount(
+      updatedOrders.filter((order) => order.status === "Cancelled").length
+    );
   };
 
   useEffect(() => {
@@ -75,7 +86,7 @@ const OrderTabs = ({ initialTab = "All" }) => {
           const updatedOrders = prevOrders.map((order) =>
             order.id === orderId ? { ...order, status: newStatus } : order
           );
-          setCounts(updatedOrders); 
+          setCounts(updatedOrders);
           return updatedOrders;
         });
       });
@@ -190,9 +201,9 @@ const OrderTabs = ({ initialTab = "All" }) => {
                     ))}
                   </div>
                   <div className="order-actions">
-                    <button className="contact-seller-btn">
+                    <Link to="/contact-us" className="contact-seller-btn">
                       Contact Seller
-                    </button>
+                    </Link>
                     {activeTab === "To Pay" && (
                       <button
                         className="cancel-order-btn"
