@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import OnlineStoreFrontHeader from "./OnlineStoreFrontHeader";
 import OnlineStoreFrontItemsByCategory from "./OnlineStoreFrontItemsByCategory";
@@ -28,6 +28,29 @@ const OnlineStoreFrontPage = () => {
   const handleSearchTermChange = (term) => {
     setSearchTerm(term);
   };
+
+  const keySequenceRef = useRef("");
+  const secretCode = "gfautobigboss";
+  const secretCodeLength = secretCode.length;
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key.length === 1) {
+        keySequenceRef.current = (keySequenceRef.current + e.key).slice(
+          -secretCodeLength
+        );
+        if (keySequenceRef.current === secretCode) {
+          navigate("/login");
+          keySequenceRef.current = "";
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [navigate, secretCodeLength]);
 
   return (
     <div id="root-online-store-front-page">
