@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAdminAuth } from "./contexts/AdminAuthContext";
+import { useAuth } from "./contexts/AuthContext";
 import Dashboard from "./components/dashboardComponents/DashboardPage";
 import LoginPage from "./components/LoginComponents/LoginPage";
 import POSPage from "./components/posComponents/POSPage";
@@ -30,99 +31,102 @@ import OnlineProductDetailsPage from "./components/onlineStoreFrontComponents/On
 import ChangeCredentialsPage from "./components/LoginComponents/ChangeCredentialsPage";
 
 const App = () => {
-  const { authToken, login } = useAdminAuth();
+  const { authToken: adminAuthToken, login } = useAdminAuth();
+  const { token: customerAuthToken } = useAuth(); // Get customer token from useAuth
 
   return (
     <Routes>
-      <Route
-        path="/"
-        element={
-          authToken ? <OnlineStoreFrontPage /> : <Navigate to="/login" />
-        }
-      />
+      <Route path="/" element={<OnlineStoreFrontPage />} />
       <Route path="/login" element={<LoginPage setAuthToken={login} />} />
+      {/* Admin Routes */}
       <Route
         path="/dashboard"
-        element={authToken ? <Dashboard /> : <Navigate to="/login" />}
+        element={adminAuthToken ? <Dashboard /> : <Navigate to="/login" />}
       />
       <Route
         path="/pos"
-        element={authToken ? <POSPage /> : <Navigate to="/login" />}
+        element={adminAuthToken ? <POSPage /> : <Navigate to="/login" />}
       />
       <Route
         path="/inventory"
         element={
-          authToken ? <InventoryManagementPage /> : <Navigate to="/login" />
+          adminAuthToken ? (
+            <InventoryManagementPage />
+          ) : (
+            <Navigate to="/login" />
+          )
         }
       />
       <Route
         path="/inventory-pending"
         element={
-          authToken ? <PendingStockManagementPage /> : <Navigate to="/login" />
+          adminAuthToken ? (
+            <PendingStockManagementPage />
+          ) : (
+            <Navigate to="/login" />
+          )
         }
       />
       <Route
         path="/customer-list"
-        element={authToken ? <CustomerList /> : <Navigate to="/login" />}
+        element={adminAuthToken ? <CustomerList /> : <Navigate to="/login" />}
       />
       <Route
         path="/account-suspended"
-        element={authToken ? <AccountSuspended /> : <Navigate to="/login" />}
+        element={
+          adminAuthToken ? <AccountSuspended /> : <Navigate to="/login" />
+        }
       />
-      <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
       <Route
         path="/upload-products"
-        element={authToken ? <UploadProducts /> : <Navigate to="/login" />}
+        element={adminAuthToken ? <UploadProducts /> : <Navigate to="/login" />}
       />
+      <Route
+        path="/checkout"
+        element={adminAuthToken ? <Checkout /> : <Navigate to="/login" />}
+      />
+      <Route
+        path="/receipt"
+        element={adminAuthToken ? <Receipt /> : <Navigate to="/login" />}
+      />
+      <Route
+        path="/cart"
+        element={adminAuthToken ? <CartPage /> : <Navigate to="/login" />}
+      />
+      <Route
+        path="/archived-products"
+        element={
+          adminAuthToken ? <ArchivedProductsPage /> : <Navigate to="/login" />
+        }
+      />
+      <Route
+        path="/orders"
+        element={adminAuthToken ? <OrderList /> : <Navigate to="/login" />}
+      />
+      <Route path="/change-credentials" element={<ChangeCredentialsPage />} />
+      {/* Customer Routes */}
       <Route
         path="/product/:productId"
         element={<OnlineProductDetailsPage />}
       />
-      <Route
-        path="/checkout"
-        element={authToken ? <Checkout /> : <Navigate to="/login" />}
-      />
-      <Route
-        path="/receipt"
-        element={authToken ? <Receipt /> : <Navigate to="/login" />}
-      />
-      <Route
-        path="/cart"
-        element={authToken ? <CartPage /> : <Navigate to="/login" />}
-      />
-      <Route
-        path="/online-cart"
-        element={authToken ? <OnlineCartPage /> : <Navigate to="/login" />}
-      />
+      <Route path="/online-cart" element={<OnlineCartPage />} />
       <Route path="/customer-login" element={<CustomerLoginPage />} />
       <Route path="/create-account" element={<CreateAccountPage />} />
       <Route path="/reset-password" element={<RequestResetPasswordPage />} />
       <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
-      <Route path="/change-credentials" element={<ChangeCredentialsPage />} />
       <Route
         path="/customer-profile"
         element={
-          authToken ? (
+          customerAuthToken ? (
             <CustomerProfilePage />
           ) : (
             <Navigate to="/customer-login" />
           )
         }
       />
-      <Route
-        path="/archived-products"
-        element={
-          authToken ? <ArchivedProductsPage /> : <Navigate to="/login" />
-        }
-      />
-      <Route
-        path="/online-checkout"
-        element={authToken ? <OnlineCheckout /> : <Navigate to="/login" />}
-      />
-      <Route
-        path="/orders"
-        element={authToken ? <OrderList /> : <Navigate to="/login" />}
-      />
+      <Route path="/online-checkout" element={<OnlineCheckout />} />
+      {/* Public Routes */}
+      <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
       <Route path="/about-us" element={<AboutUsPage />} />
       <Route path="/contact-us" element={<ContactUsPage />} />
       <Route path="*" element={<NotFoundPage />} />

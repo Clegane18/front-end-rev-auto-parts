@@ -37,7 +37,10 @@ export const login = async ({ email, password }) => {
         validateStatus: () => true,
       }
     );
-    return response.data;
+    return {
+      status: response.status,
+      data: response.data,
+    };
   } catch (error) {
     console.error(
       "Error in login:",
