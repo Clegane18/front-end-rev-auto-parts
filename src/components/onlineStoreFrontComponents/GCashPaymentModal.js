@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../styles/onlineStoreFrontComponents/GCashPaymentModal.css";
 import qrCode from "../../assets/gcash-qr.jpg";
 import { formatCurrency } from "../../utils/formatCurrency";
-
+// luma
 const GCashPaymentModal = ({ isOpen, onClose, onConfirm, amountToPay }) => {
   const [referenceNumber, setReferenceNumber] = useState("");
+
+  useEffect(() => {
+    if (isOpen) {
+      setReferenceNumber("");
+    }
+  }, [isOpen]);
 
   const handleConfirm = () => {
     if (referenceNumber.trim()) {
@@ -17,7 +23,7 @@ const GCashPaymentModal = ({ isOpen, onClose, onConfirm, amountToPay }) => {
   if (!isOpen) return null;
 
   return (
-    <div id="root-gcash-payment-modal">
+    <div id="root-gcash-payment-modal" role="dialog" aria-modal="true">
       <div className="gcash-modal-overlay">
         <div className="gcash-modal-content">
           <h2>Pay with GCash</h2>

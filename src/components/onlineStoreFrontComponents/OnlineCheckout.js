@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { createOrder, calculateShippingFee } from "../../services/order-api";
 import { useNavigate, useLocation } from "react-router-dom";
 import { getAddressById } from "../../services/address-api";
@@ -30,10 +30,29 @@ const OnlineCheckout = () => {
   const [isGCashModalOpen, setIsGCashModalOpen] = useState(false);
   const [gcashAmountToPay, setGcashAmountToPay] = useState(0);
   const [isWarningModalOpen, setIsWarningModalOpen] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
   const { items: cartItems } = location.state || { items: [] };
+
+  const hasInStorePickup = useMemo(() => {
+    return cartItems.some(
+      (item) => item.Product?.purchaseMethod === "in-store-pickup"
+    );
+  }, [cartItems]);
+
+  const inStorePickupItems = useMemo(() => {
+    return cartItems.filter(
+      (item) => item.Product?.purchaseMethod === "in-store-pickup"
+    );
+  }, [cartItems]);
+
+  const regularItems = useMemo(() => {
+    return cartItems.filter(
+      (item) => item.Product?.purchaseMethod !== "in-store-pickup"
+    );
+  }, [cartItems]);
 
   const fetchAddressDetails = useCallback(
     async (id) => {
@@ -54,7 +73,7 @@ const OnlineCheckout = () => {
           setIsFreeShipping(false);
         }
       } catch (err) {
-        setError(err.message);
+        setError(err.message || "Failed to fetch address details.");
       }
     },
     [token]
@@ -73,59 +92,89 @@ const OnlineCheckout = () => {
     }
   }, [currentUser, fetchAddressDetails]);
 
-  const handleCheckout = () => {
-    processCheckout();
+  const merchandiseSubtotal = useMemo(() => {
+    return cartItems.reduce(
+      (acc, item) => acc + (item.Product.price || 0) * item.quantity,
+      0
+    );
+  }, [cartItems]);
+
+  const totalPayment = useMemo(() => {
+    return merchandiseSubtotal + (isFreeShipping ? 0 : shippingFee || 0);
+  }, [merchandiseSubtotal, isFreeShipping, shippingFee]);
+
+  useEffect(() => {
+    if (hasInStorePickup) {
+      setPaymentMethod("G-Cash");
+    } else {
+      setPaymentMethod("Cash on Delivery");
+    }
+  }, [hasInStorePickup]);
+
+  const calculateDownpayment = (items) => {
+    return items.reduce(
+      (acc, item) => acc + item.Product.price * item.quantity * 0.2,
+      0
+    );
   };
 
-  const processCheckout = async (
-    gcashRefNumber = null,
-    paymentMethodParam = paymentMethod
-  ) => {
+  const calculateAmountToPay = () => {
+    let amount = 0;
+
+    if (hasInStorePickup) {
+      amount += calculateDownpayment(inStorePickupItems);
+    }
+
+    if (regularItems.length > 0) {
+      const regularTotal = regularItems.reduce(
+        (acc, item) => acc + item.Product.price * item.quantity,
+        0
+      );
+      amount += regularTotal + (isFreeShipping ? 0 : shippingFee || 0);
+    }
+
+    return amount;
+  };
+
+  const requiresDownpayment = (paymentMethodParam, gcashRefNumber) => {
+    return (
+      hasInStorePickup && paymentMethodParam === "G-Cash" && !gcashRefNumber
+    );
+  };
+
+  const requiresGCashPayment = (paymentMethodParam, gcashRefNumber) => {
+    return (
+      paymentMethodParam === "G-Cash" && !gcashRefNumber && !hasInStorePickup
+    );
+  };
+
+  const handleDownpaymentConfirm = () => {
+    setIsDownpaymentModalOpen(false);
+
+    const amountToPay = calculateAmountToPay();
+    setGcashAmountToPay(amountToPay);
+
+    setIsGCashModalOpen(true);
+    setIsWarningModalOpen(true);
+  };
+
+  const handleGCashPaymentConfirm = (referenceNumber) => {
+    setIsGCashModalOpen(false);
+    setIsWarningModalOpen(false);
+    processCheckout(referenceNumber, "G-Cash");
+  };
+
+  const handleError = (err) => {
+    console.error("Checkout error:", err);
+    if (err.response?.data?.message) {
+      setError(err.response.data.message);
+    } else {
+      setError("An error occurred during checkout. Please try again.");
+    }
+  };
+
+  const finalizeOrder = async (gcashRefNumber, paymentMethodParam) => {
     try {
-      const inStorePickupItems = cartItems.filter(
-        (item) => item.Product?.purchaseMethod === "in-store-pickup"
-      );
-      const regularItems = cartItems.filter(
-        (item) => item.Product?.purchaseMethod !== "in-store-pickup"
-      );
-
-      if (
-        inStorePickupItems.length > 0 &&
-        !gcashRefNumber &&
-        paymentMethodParam === "G-Cash"
-      ) {
-        const downpayment = inStorePickupItems.reduce((acc, item) => {
-          return acc + item.Product.price * item.quantity * 0.2;
-        }, 0);
-        setDownpaymentAmount(downpayment);
-        setIsDownpaymentModalOpen(true);
-        return;
-      }
-
-      if (paymentMethodParam === "G-Cash" && !gcashRefNumber) {
-        let amountToPay = 0;
-
-        if (inStorePickupItems.length > 0) {
-          const downpayment = inStorePickupItems.reduce((acc, item) => {
-            return acc + item.Product.price * item.quantity * 0.2;
-          }, 0);
-          amountToPay += downpayment;
-        }
-
-        if (regularItems.length > 0) {
-          const regularItemsTotal = regularItems.reduce((acc, item) => {
-            return acc + item.Product.price * item.quantity;
-          }, 0);
-          amountToPay +=
-            regularItemsTotal + (isFreeShipping ? 0 : shippingFee || 0);
-        }
-
-        setGcashAmountToPay(amountToPay);
-        setIsGCashModalOpen(true);
-        setIsWarningModalOpen(true);
-        return;
-      }
-
       const itemsMap = new Map();
 
       cartItems.forEach((item) => {
@@ -138,13 +187,6 @@ const OnlineCheckout = () => {
       });
 
       const items = Array.from(itemsMap.values());
-
-      const merchandiseSubtotal = items.reduce((acc, item) => {
-        const product = cartItems.find(
-          (ci) => ci.Product.id === item.productId
-        ).Product;
-        return acc + (product.price || 0) * item.quantity;
-      }, 0);
 
       const payload = {
         customerId: Number(customerId),
@@ -174,36 +216,55 @@ const OnlineCheckout = () => {
         setError("Failed to retrieve order details. Please try again.");
       }
     } catch (err) {
-      console.error("Checkout error:", err);
-      if (err.response && err.response.data && err.response.data.message) {
-        setError(err.response.data.message);
-      } else {
-        setError("An error occurred during checkout. Please try again.");
-      }
+      handleError(err);
     }
+  };
+
+  const processCheckout = async (
+    gcashRefNumber = null,
+    paymentMethodParam = paymentMethod
+  ) => {
+    setIsProcessing(true);
+    try {
+      if (requiresDownpayment(paymentMethodParam, gcashRefNumber)) {
+        const downpayment = calculateDownpayment(inStorePickupItems);
+        setDownpaymentAmount(downpayment);
+        setIsDownpaymentModalOpen(true);
+        return;
+      }
+
+      if (requiresGCashPayment(paymentMethodParam, gcashRefNumber)) {
+        const amountToPay = calculateAmountToPay();
+        setGcashAmountToPay(amountToPay);
+        setIsGCashModalOpen(true);
+        setIsWarningModalOpen(true);
+        return;
+      }
+
+      await finalizeOrder(gcashRefNumber, paymentMethodParam);
+    } catch (err) {
+      handleError(err);
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  const handleCheckout = () => {
+    processCheckout();
   };
 
   const openAddressModal = () => setIsAddressModalOpen(true);
   const closeAddressModal = () => setIsAddressModalOpen(false);
 
-  const togglePaymentDropdown = () =>
-    setIsPaymentDropdownOpen(!isPaymentDropdownOpen);
+  const togglePaymentDropdown = () => {
+    if (!hasInStorePickup) {
+      setIsPaymentDropdownOpen(!isPaymentDropdownOpen);
+    }
+  };
 
   const selectPaymentMethod = (method) => {
     setPaymentMethod(method);
     setIsPaymentDropdownOpen(false);
-  };
-
-  const handleDownpaymentConfirm = () => {
-    setIsDownpaymentModalOpen(false);
-    setIsGCashModalOpen(true);
-    setIsWarningModalOpen(true);
-  };
-
-  const handleGCashPaymentConfirm = (referenceNumber) => {
-    setIsGCashModalOpen(false);
-    setIsWarningModalOpen(false);
-    processCheckout(referenceNumber, "G-Cash");
   };
 
   const handleAddressChange = async () => {
@@ -318,6 +379,9 @@ const OnlineCheckout = () => {
                   </div>
                   <div className="product-info">
                     <p className="product-name">{item.Product?.name}</p>
+                    {item.Product?.purchaseMethod === "in-store-pickup" && (
+                      <p className="pickup-only-label">In-Store Pickup Only</p>
+                    )}
                   </div>
                 </div>
                 <p className="product-price">
@@ -339,14 +403,16 @@ const OnlineCheckout = () => {
           <div className="payment-method-header">
             <span>Payment Method</span>
             <span>{paymentMethod}</span>
-            <button
-              className="change-payment-method-link"
-              onClick={togglePaymentDropdown}
-            >
-              Change
-            </button>
+            {!hasInStorePickup && (
+              <button
+                className="change-payment-method-link"
+                onClick={togglePaymentDropdown}
+              >
+                Change
+              </button>
+            )}
           </div>
-          {isPaymentDropdownOpen && (
+          {!hasInStorePickup && isPaymentDropdownOpen && (
             <div className="payment-method-dropdown">
               <ul>
                 <li onClick={() => selectPaymentMethod("Cash on Delivery")}>
@@ -356,18 +422,18 @@ const OnlineCheckout = () => {
               </ul>
             </div>
           )}
+          {hasInStorePickup && (
+            <div className="payment-info">
+              <p>
+                <strong>Note:</strong> All in-store pickup items must be paid
+                via GCash as a downpayment.
+              </p>
+            </div>
+          )}
           <div className="payment-summary">
             <div className="payment-row">
               <span>Merchandise Subtotal:</span>
-              <span>
-                {formatCurrency(
-                  cartItems.reduce(
-                    (acc, item) =>
-                      acc + (item.Product.price || 0) * item.quantity,
-                    0
-                  )
-                )}
-              </span>
+              <span>{formatCurrency(merchandiseSubtotal)}</span>
             </div>
             <div className="payment-row">
               <span>Shipping Total:</span>
@@ -379,25 +445,17 @@ const OnlineCheckout = () => {
             </div>
             <div className="payment-row total-payment">
               <span>Total Payment:</span>
-              <span>
-                {formatCurrency(
-                  cartItems.reduce(
-                    (acc, item) =>
-                      acc + (item.Product.price || 0) * item.quantity,
-                    0
-                  ) + (isFreeShipping ? 0 : shippingFee || 0)
-                )}
-              </span>
+              <span>{formatCurrency(totalPayment)}</span>
             </div>
           </div>
         </div>
         <div className="checkout-actions">
           <button
             onClick={handleCheckout}
-            disabled={cartItems.length === 0 || error}
+            disabled={cartItems.length === 0 || error || isProcessing}
             className="checkout-button"
           >
-            Place Order
+            {isProcessing ? "Processing..." : "Place Order"}
           </button>
         </div>
         <AddressModal

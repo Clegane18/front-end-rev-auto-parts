@@ -9,9 +9,9 @@ const DownpaymentModal = ({
   onConfirm,
 }) => {
   if (!isOpen) return null;
-
+  // luma
   return (
-    <div id="root-downpayment-modal">
+    <div id="root-downpayment-modal" role="dialog" aria-modal="true">
       <div className="downpayment-modal-content">
         <h3>In-Store Pickup Downpayment</h3>
         <p>
