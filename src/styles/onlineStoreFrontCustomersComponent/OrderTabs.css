@@ -50,14 +50,42 @@
   margin-bottom: 20px;
   padding: 10px;
   background-color: #f9f9f9;
+  border-radius: 5px;
 }
 
 #root-order-tabs .order-item-header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   border-bottom: 1px solid #e0e0e0;
   padding-bottom: 10px;
-  align-items: center;
+}
+
+#root-order-tabs .order-summary {
+  display: flex;
+  flex-direction: column;
+}
+
+#root-order-tabs .order-total {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-family: "Montserrat", serif;
+  color: black;
+}
+
+#root-order-tabs .order-status {
+  font-size: 14px;
+  color: #555555;
+  font-family: "Montserrat", serif;
+}
+
+#root-order-tabs .order-actions .order-eta {
+  font-size: 14px;
+  color: #555555;
+  font-weight: bold;
+  font-family: "Montserrat", serif;
+  margin-left: 20px;
 }
 
 #root-order-tabs .order-items {
@@ -84,6 +112,21 @@
   width: 100px;
   height: 100px;
   object-fit: contain;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+}
+
+#root-order-tabs .image-placeholder {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e0e0e0;
+  color: #777777;
+  border-radius: 5px;
+  font-size: 12px;
+  text-align: center;
 }
 
 #root-order-tabs .item-details-container {
@@ -92,17 +135,35 @@
   max-width: 500px;
 }
 
+#root-order-tabs .order-item .text-in-my-purchases {
+  font-family: "Montserrat", serif;
+  text-transform: none;
+  color: black;
+  margin: 0;
+}
+
+#root-order-tabs .order-item .text-in-active-tab {
+  font-family: "Montserrat", serif;
+  color: #c82333;
+  padding-right: 15px;
+  font-weight: bold;
+  margin: 0;
+}
+
 #root-order-tabs .order-actions {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
   padding-top: 10px;
 }
 
+#root-order-tabs .cancel-order-btn,
 #root-order-tabs .contact-seller-btn {
   display: inline-block;
   background-color: #f0f0f0;
   color: black;
   font-family: "Montserrat", serif;
+  text-transform: none;
   border: none;
   padding: 10px 20px;
   text-align: center;
@@ -113,42 +174,76 @@
   transition: background-color 0.3s ease;
 }
 
-#root-order-tabs .cancel-order-btn {
-  background-color: #f0f0f0;
-  color: black;
-  border: none;
-  padding: 5px 10px;
-  margin-left: 10px;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.3s;
-  font-size: 16px;
-  text-transform: none;
-}
-
 #root-order-tabs .contact-seller-btn:hover,
-.cancel-order-btn:hover {
+#root-order-tabs .cancel-order-btn:hover {
   opacity: 0.75;
-}
-
-#root-order-tabs .order-item-details:not(:last-child) {
-  border-bottom: 1px solid #e0e0e0;
-}
-
-#root-order-tabs .order-item .text-in-my-purchases {
-  font-family: "Montserrat", serif;
-  text-transform: none;
-  color: black;
-}
-
-#root-order-tabs .order-item .text-in-active-tab {
-  font-family: "Montserrat", serif;
-  color: #c82333;
-  padding-right: 15px;
-  font-weight: bold;
 }
 
 #root-order-tabs .error-message {
   font-family: "Montserrat", serif;
   text-transform: none;
+  color: #dc3545;
+  font-size: 16px;
+  text-align: center;
+  margin-top: 20px;
+}
+
+#root-order-tabs .loading,
+#root-order-tabs .no-orders {
+  font-family: "Montserrat", serif;
+  text-transform: none;
+  font-size: 16px;
+  text-align: center;
+  margin-top: 20px;
+  color: #555555;
+}
+
+@media (max-width: 768px) {
+  #root-order-tabs .order-tabs {
+    flex-wrap: wrap;
+  }
+
+  #root-order-tabs .order-item-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  #root-order-tabs .order-summary {
+    margin-bottom: 10px;
+  }
+
+  #root-order-tabs .order-eta {
+    margin-left: 0;
+    margin-top: 5px;
+  }
+
+  #root-order-tabs .order-item-details {
+    flex-direction: column;
+  }
+
+  #root-order-tabs .item-image-container {
+    margin-bottom: 10px;
+  }
+
+  #root-order-tabs .item-image,
+  #root-order-tabs .image-placeholder {
+    width: 100%;
+    height: auto;
+  }
+
+  #root-order-tabs .order-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  #root-order-tabs .contact-seller-btn,
+  #root-order-tabs .cancel-order-btn {
+    width: 100%;
+    margin: 5px 0 0 0;
+  }
+
+  #root-order-tabs .order-summary,
+  #root-order-tabs .order-eta {
+    width: 100%;
+  }
 }

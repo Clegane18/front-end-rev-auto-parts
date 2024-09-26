@@ -84,7 +84,7 @@ const OrderTabs = ({ initialTab = "All" }) => {
       socket.on("orderStatusUpdated", ({ orderId, newStatus }) => {
         setOrders((prevOrders) => {
           const updatedOrders = prevOrders.map((order) =>
-            order.id === orderId ? { ...order, status: newStatus } : order
+            order.orderId === orderId ? { ...order, status: newStatus } : order
           );
           setCounts(updatedOrders);
           return updatedOrders;
@@ -201,6 +201,9 @@ const OrderTabs = ({ initialTab = "All" }) => {
                     ))}
                   </div>
                   <div className="order-actions">
+                    {order.status === "To Ship" && (
+                      <p className="order-eta">ETA: {order.eta}</p>
+                    )}
                     <Link to="/contact-us" className="contact-seller-btn">
                       Contact Seller
                     </Link>
