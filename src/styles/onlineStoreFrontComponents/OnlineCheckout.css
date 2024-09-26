@@ -159,10 +159,17 @@
   flex: 2;
 }
 
-#root-online-checkout .product-image {
-  width: 60px;
-  height: 60px;
-  margin-right: 20px;
+#root-online-checkout .item-image-container {
+  grid-area: image;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#root-online-checkout .item-image {
+  width: 75px;
+  height: 75px;
+  object-fit: contain;
 }
 
 #root-online-checkout .product-info {
@@ -181,10 +188,11 @@
   margin-left: 10px;
 }
 
-#root-online-checkout .product-info .product-price,
-#root-online-checkout .product-info .product-quantity,
-#root-online-checkout .product-info .product-subtotal {
-  color: #777;
+#root-online-checkout .product-info .pickup-only-label {
+  color: #ff0000;
+  font-weight: bold;
+  font-size: 14px;
+  margin-left: 10px;
 }
 
 #root-online-checkout .product-price,
@@ -192,6 +200,7 @@
 #root-online-checkout .product-subtotal {
   flex: 1;
   text-align: center;
+  color: #777;
 }
 
 #root-online-checkout .payment-method-section {
@@ -200,6 +209,7 @@
   background-color: #ffffff;
   border: 1px solid #ddd;
   border-radius: 4px;
+  position: relative;
 }
 
 #root-online-checkout .payment-method-header {
@@ -222,6 +232,44 @@
   transition: background-color 0.3s ease;
   text-transform: uppercase;
   font-weight: bold;
+}
+
+#root-online-checkout .payment-method-dropdown {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  background-color: #f9f9f9;
+  border: 1px solid #e5e5e5;
+  padding: 5px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  width: 105px;
+  border-radius: 6px;
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+}
+
+#root-online-checkout .payment-method-dropdown ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-top: 2px solid #d32f2f;
+}
+
+#root-online-checkout .payment-method-dropdown ul li {
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+#root-online-checkout .payment-method-dropdown ul li:last-child {
+  border-bottom: none;
+}
+
+#root-online-checkout .payment-method-dropdown ul li:hover {
+  background-color: #f0f0f0;
+  color: #d32f2f;
 }
 
 #root-online-checkout .payment-summary {
@@ -270,64 +318,37 @@
   text-transform: none;
 }
 
-#root-online-checkout .item-image-container {
-  grid-area: image;
+#root-online-checkout .payment-note {
   display: flex;
-  justify-content: center;
   align-items: center;
-}
-
-#root-online-checkout .item-image {
-  width: 75px;
-  height: 75px;
-  object-fit: contain;
-}
-
-#root-online-checkout .payment-method-section {
-  position: relative;
-}
-
-#root-online-checkout .payment-method-dropdown {
-  position: absolute;
-  top: 40px;
-  right: 0;
-  background-color: #f9f9f9;
-  border: 1px solid #e5e5e5;
-  padding: 5px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
-  z-index: 1000;
-  width: 105px;
-  border-radius: 6px;
-  font-family: "Roboto", sans-serif;
-  font-size: 14px;
-}
-
-#root-online-checkout .payment-method-dropdown ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  border-top: 2px solid #d32f2f;
-}
-
-#root-online-checkout .payment-method-dropdown ul li {
+  background-color: #fff5f5;
+  border: 1px solid #ffcccc;
   padding: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  border-bottom: 1px solid #e5e5e5;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #d32f2f;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-#root-online-checkout .payment-method-dropdown ul li:last-child {
-  border-bottom: none;
-}
-
-#root-online-checkout .payment-method-dropdown ul li:hover {
-  background-color: #f0f0f0;
+#root-online-checkout .payment-note-icon {
+  margin-right: 10px;
   color: #d32f2f;
 }
+#root-online-checkout .payment-note span {
+  font-family: "Montserrat", serif;
+  flex: 1;
+  text-align: left;
+}
 
-#root-online-checkout .product-info .pickup-only-label {
+#root-online-checkout .pickup-only-label {
   color: #ff0000;
   font-weight: bold;
   font-size: 14px;
   margin-left: 10px;
+}
+
+#root-online-checkout .reminder-for-instore-pickup {
+  font-family: "Montserrat", serif;
 }

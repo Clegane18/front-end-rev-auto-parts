@@ -6,7 +6,10 @@ import { useAuth } from "../../contexts/AuthContext";
 import "../../styles/onlineStoreFrontComponents/OnlineCheckout.css";
 import logo from "../../assets/g&f-logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faMapMarkerAlt,
+  faInfoCircle,
+} from "@fortawesome/free-solid-svg-icons";
 import AddressModal from "./AddressesModal";
 import DownpaymentModal from "./DownpaymentModal";
 import GCashPaymentModal from "./GCashPaymentModal";
@@ -412,6 +415,18 @@ const OnlineCheckout = () => {
               </button>
             )}
           </div>
+          {hasInStorePickup && (
+            <div className="payment-note">
+              <FontAwesomeIcon
+                icon={faInfoCircle}
+                className="payment-note-icon"
+              />
+              <span className="reminder-for-instore-pickup">
+                Reminder: For in-store pickup items, please complete your
+                payment using GCash for downpayment.
+              </span>
+            </div>
+          )}
           {!hasInStorePickup && isPaymentDropdownOpen && (
             <div className="payment-method-dropdown">
               <ul>
@@ -420,14 +435,6 @@ const OnlineCheckout = () => {
                 </li>
                 <li onClick={() => selectPaymentMethod("G-Cash")}>GCash</li>
               </ul>
-            </div>
-          )}
-          {hasInStorePickup && (
-            <div className="payment-info">
-              <p>
-                <strong>Note:</strong> All in-store pickup items must be paid
-                via GCash as a downpayment.
-              </p>
             </div>
           )}
           <div className="payment-summary">
