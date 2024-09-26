@@ -32,13 +32,11 @@ import ChangeCredentialsPage from "./components/LoginComponents/ChangeCredential
 
 const App = () => {
   const { authToken: adminAuthToken, login } = useAdminAuth();
-  const { token: customerAuthToken } = useAuth(); // Get customer token from useAuth
-
+  const { token: customerAuthToken } = useAuth();
   return (
     <Routes>
       <Route path="/" element={<OnlineStoreFrontPage />} />
       <Route path="/login" element={<LoginPage setAuthToken={login} />} />
-      {/* Admin Routes */}
       <Route
         path="/dashboard"
         element={adminAuthToken ? <Dashboard /> : <Navigate to="/login" />}
@@ -104,7 +102,6 @@ const App = () => {
         element={adminAuthToken ? <OrderList /> : <Navigate to="/login" />}
       />
       <Route path="/change-credentials" element={<ChangeCredentialsPage />} />
-      {/* Customer Routes */}
       <Route
         path="/product/:productId"
         element={<OnlineProductDetailsPage />}
@@ -125,7 +122,6 @@ const App = () => {
         }
       />
       <Route path="/online-checkout" element={<OnlineCheckout />} />
-      {/* Public Routes */}
       <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
       <Route path="/about-us" element={<AboutUsPage />} />
       <Route path="/contact-us" element={<ContactUsPage />} />

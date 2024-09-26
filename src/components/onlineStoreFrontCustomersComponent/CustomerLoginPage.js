@@ -45,17 +45,36 @@ const CustomerLoginPage = () => {
         setError(result.data.message || "An error occurred.");
         return;
       }
-      const decodedToken = jwtDecode(result.token);
+
+      const token = result.data.token;
+
+      if (!token || typeof token !== "string") {
+        setError("Invalid token received.");
+        console.error("Invalid token:", token);
+        return;
+      }
+
+      let decodedToken;
+      try {
+        decodedToken = jwtDecode(token);
+      } catch (decodeError) {
+        setError("Failed to decode token.");
+        console.error("Failed to decode token:", decodeError);
+        return;
+      }
+
       const user = {
         id: decodedToken.id,
-        token: result.token,
         username: decodedToken.username,
         email: decodedToken.email,
       };
-      loginUser(user, result.token);
+
+      loginUser(user, token);
+
       checkAuth("/");
     } catch (error) {
-      setError(error.message);
+      console.error("Login error:", error);
+      setError(error.message || "An unexpected error occurred.");
     }
   };
 

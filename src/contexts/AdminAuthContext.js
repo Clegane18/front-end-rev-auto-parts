@@ -12,6 +12,7 @@ export const AdminAuthProvider = ({ children }) => {
 
   useEffect(() => {
     const storedToken = localStorage.getItem("adminAuthToken");
+
     if (storedToken) {
       try {
         const decodedToken = jwtDecode(storedToken);
