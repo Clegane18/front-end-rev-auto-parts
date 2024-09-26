@@ -176,6 +176,8 @@ body {
   background-color: #f8d7da;
   border-left-color: #dc3545;
   color: #721c24;
+  overflow-y: auto;
+  height: 100px;
 }
 
 #root-dashboard-page .low-stock-list-item:hover {
@@ -233,7 +235,7 @@ body {
   font-size: 1.6em;
   color: #000;
   margin-bottom: 20px;
-  font-weight: 300;
+  font-weight: 600;
   text-transform: uppercase;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
   text-align: center;
@@ -312,7 +314,7 @@ body {
 }
 
 #root-dashboard-page .dashboard-container .main-content .section-container h3 {
-  font-weight: 500;
+  font-weight: 600;
   font-size: 25px;
 }
 

@@ -403,7 +403,7 @@ const DashboardPage = () => {
                     <span className="no-print">
                       <FontAwesomeIcon icon={faCheckCircle} />
                     </span>
-                    In Stock: {totalStock}
+                    In Stock: {formatCurrency(totalStock)}
                   </div>
                   <div className="low-stock-list-item total-items">
                     <span className="no-print">

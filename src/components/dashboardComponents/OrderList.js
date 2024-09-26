@@ -219,7 +219,7 @@ const OrdersList = () => {
                   <th>Items</th>
                   <th>Payment Status</th>
                   <th>Payment Method</th>
-                  <th>Gcash Ref No.</th>
+                  <th>GCash Ref No.</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -272,7 +272,7 @@ const OrdersList = () => {
                       <td>
                         {order.gcashReferenceNumber
                           ? order.gcashReferenceNumber
-                          : "COD"}
+                          : "N/A"}
                       </td>
 
                       <td className="action-buttons">

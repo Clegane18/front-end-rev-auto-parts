@@ -140,6 +140,7 @@
   font-size: 16px;
   color: #333;
   text-align: center;
+  font-family: "Montserrat", serif;
 }
 
 #root-online-cart .quantity-controls {
@@ -153,12 +154,14 @@
   border-radius: 4px;
   width: 50px;
   text-align: center;
+  font-family: "Montserrat", serif;
 }
 
 #root-online-cart .item-total {
   font-size: 16px;
   color: #333;
   text-align: center;
+  font-family: "Montserrat", serif;
 }
 
 #root-online-cart .online-cart-bottom-section {
@@ -186,7 +189,8 @@
 
 #root-online-cart .cart-summary .subtotal-value {
   justify-self: start;
-  padding-left: 50px;
+  font-family: "Montserrat", serif;
+  padding-left: 40px;
 }
 
 #root-online-cart .cart-summary-buttons {

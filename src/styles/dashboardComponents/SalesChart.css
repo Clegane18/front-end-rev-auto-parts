@@ -1,0 +1,16 @@
+#root-sales-chart {
+  padding: 5px;
+}
+
+#root-sales-chart .recharts-yAxis .recharts-cartesian-axis-tick {
+  font-family: "Montserrat", serif;
+  font-size: 14px;
+  color: #333;
+  margin-right: 5px;
+}
+
+#root-sales-chart .recharts-xAxis .recharts-cartesian-axis-tick {
+  font-family: "Montserrat", serif;
+  font-size: 14px;
+  color: #333;
+}
