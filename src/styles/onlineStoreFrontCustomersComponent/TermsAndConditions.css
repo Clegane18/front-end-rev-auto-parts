@@ -47,7 +47,7 @@
 }
 
 #root-terms-and-conditions .back-button {
-  margin-top: 30px;
+  margin-top: 28px;
   padding: 12px 20px;
   background-color: #bb0000;
   color: white;
@@ -60,7 +60,7 @@
 }
 
 #root-terms-and-conditions .back-button:hover {
-  background-color: #e63946;
+  opacity: 0.75;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 

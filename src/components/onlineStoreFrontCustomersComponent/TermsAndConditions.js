@@ -110,9 +110,15 @@ const TermsAndConditions = () => {
 
         <button
           className="back-button"
-          onClick={() => navigate("/create-account")}
+          onClick={() => {
+            if (window.history.length > 1) {
+              navigate(-1);
+            } else {
+              navigate("/");
+            }
+          }}
         >
-          Back to Sign In
+          Back
         </button>
       </div>
     </div>
