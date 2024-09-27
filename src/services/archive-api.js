@@ -108,3 +108,19 @@ export const deleteAllArchivedProducts = async () => {
     }
   }
 };
+
+export const autoDeleteArchivedProducts = async () => {
+  try {
+    const response = await api.post("/auto-delete");
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(
+        "Failed to perform automatic deletion of archived products. Please try again later."
+      );
+    }
+  }
+};
+

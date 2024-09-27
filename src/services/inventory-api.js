@@ -82,10 +82,21 @@ export const getAllItemsByCategory = async () => {
 // Filter APIs
 export const getProductByBrand = (brand) =>
   api.get(`/products/filter/brand?brand=${brand}`);
-export const getProductByPriceRange = (minPrice, maxPrice) =>
-  api.get(
-    `/products/filter/price-range?minPrice=${minPrice}&maxPrice=${maxPrice}`
-  );
+
+export const getProductByPriceRange = async (minPrice, maxPrice) => {
+  try {
+    const response = await api.get("/products/filter/price-range", {
+      params: {
+        minPrice,
+        maxPrice,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching products by price range:", error);
+    throw error;
+  }
+};
 export const getProductByNameOrDescription = (query) =>
   api.get(`/products/filter/nameOrDescription?query=${query}`);
 

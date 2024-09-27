@@ -5,6 +5,8 @@ import {
   addProduct,
   getLowStockProducts,
   getProductsByDateRange,
+  getProductByPriceRange,
+  addToProductStock,
 } from "../../services/inventory-api";
 import { archiveProductById } from "../../services/archive-api";
 import "../../styles/inventoryComponents/ProductManagement.css";
@@ -26,10 +28,12 @@ import { useNavigate } from "react-router-dom";
 import { faPrint, faSync } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import logo from "../../assets/g&f-logo.png";
+import DuplicateProductModal from "./DuplicateProductModal";
 
 const ProductManagement = () => {
   const [products, setProducts] = useState([]);
   const [allProducts, setAllProducts] = useState([]);
+  const [maxPriceInInventory, setMaxPriceInInventory] = useState(10000);
   const [isShowingLowStock, setIsShowingLowStock] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
   const [deletingProduct, setDeletingProduct] = useState(null);
@@ -42,6 +46,9 @@ const ProductManagement = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [filterType, setFilterType] = useState("default");
+  const [duplicateProduct, setDuplicateProduct] = useState(null);
+  const [showDuplicateModal, setShowDuplicateModal] = useState(false);
+  const [additionalStock, setAdditionalStock] = useState(0);
 
   useEffect(() => {
     fetchProducts();
@@ -56,6 +63,10 @@ const ProductManagement = () => {
         setProducts(response.data.data);
         setAllProducts(response.data.data);
         setIsShowingLowStock(false);
+
+        const prices = response.data.data.map((product) => product.price);
+        const highestPrice = Math.max(...prices);
+        setMaxPriceInInventory(highestPrice);
       } else {
         console.error("API response data is not an array:", response.data);
         setProducts([]);
@@ -118,12 +129,8 @@ const ProductManagement = () => {
       }
 
       if (minPrice || maxPrice) {
-        filteredProducts = filteredProducts.filter((product) => {
-          const price = parseFloat(product.price);
-          const min = minPrice ? parseFloat(minPrice) : -Infinity;
-          const max = maxPrice ? parseFloat(maxPrice) : Infinity;
-          return price >= min && price <= max;
-        });
+        const response = await getProductByPriceRange(minPrice, maxPrice);
+        filteredProducts = response.data;
       }
 
       setProducts(filteredProducts);
@@ -177,15 +184,26 @@ const ProductManagement = () => {
   const handleAddProduct = async (productData) => {
     try {
       const response = await addProduct(productData);
-      handleProductAdded(response.data.product);
-      setAddingProduct(false);
-      clearErrorMessage();
+
+      if (response.status === 409) {
+        setDuplicateProduct(response.data.product);
+        setShowDuplicateModal(true);
+      } else {
+        handleProductAdded(response.data.product);
+        setAddingProduct(false);
+        clearErrorMessage();
+      }
     } catch (error) {
-      console.error("Failed to add product", error);
-      setErrorMessage(
-        error.response?.data?.error ||
-          "Failed to add product. Please try again later."
-      );
+      if (error.response && error.response.status === 409) {
+        setDuplicateProduct(error.response.data.product);
+        setShowDuplicateModal(true);
+      } else {
+        console.error("Failed to add product", error);
+        setErrorMessage(
+          error.response?.data?.error ||
+            "Failed to add product. Please try again later."
+        );
+      }
     }
   };
 
@@ -215,6 +233,39 @@ const ProductManagement = () => {
       setErrorMessage(
         error.response?.data?.error ||
           "Failed to update product. Please try again later."
+      );
+    }
+  };
+
+  const handleAddQuantityToExistingProduct = async () => {
+    try {
+      const quantityToAdd = parseInt(additionalStock, 10);
+
+      if (isNaN(quantityToAdd) || quantityToAdd <= 0) {
+        setErrorMessage("Please enter a valid quantity to add.");
+        return;
+      }
+
+      const productId = duplicateProduct.id;
+
+      const response = await addToProductStock(productId, quantityToAdd);
+
+      setProducts((prevProducts) =>
+        prevProducts.map((product) =>
+          product.id === productId
+            ? { ...product, stock: response.updatedStockCount }
+            : product
+        )
+      );
+
+      setShowDuplicateModal(false);
+      setAddingProduct(false);
+      clearErrorMessage();
+    } catch (error) {
+      console.error("Error adding product stock:", error.message);
+      setErrorMessage(
+        error.message ||
+          "Failed to update product stock. Please try again later."
       );
     }
   };
@@ -368,20 +419,39 @@ const ProductManagement = () => {
             )}
             {filterType === "price" && (
               <div className="price-filter">
-                <input
-                  type="number"
-                  placeholder="Min Price"
+                <select
                   value={minPrice}
                   onChange={(e) => setMinPrice(e.target.value)}
                   style={{ width: "100%" }}
-                />
-                <input
-                  type="number"
-                  placeholder="Max Price"
+                >
+                  <option value="">Min Price</option>
+                  <option value="1000">₱1,000</option>
+                  <option value="2000">₱2,000</option>
+                  <option value="3000">₱3,000</option>
+                  <option value="4000">₱4,000</option>
+                  <option value="5000">₱5,000</option>
+                  <option value="6000">₱6,000</option>
+                  <option value="6000">₱7,000</option>
+                  <option value="8000">₱8,000</option>
+                  <option value="9000">₱9,000</option>
+                  <option value="10000">₱10,000</option>
+                </select>
+
+                <select
                   value={maxPrice}
                   onChange={(e) => setMaxPrice(e.target.value)}
                   style={{ width: "100%" }}
-                />
+                >
+                  <option value="">Max Price</option>
+                  {Array.from(
+                    { length: Math.ceil(maxPriceInInventory / 1000) },
+                    (_, index) => (
+                      <option key={index} value={(index + 1) * 1000}>
+                        ₱{(index + 1) * 1000}
+                      </option>
+                    )
+                  )}
+                </select>
               </div>
             )}
             {filterType === "date" && (
@@ -534,6 +604,16 @@ const ProductManagement = () => {
             product={addingStockProduct}
             onClose={() => setAddingStockProduct(null)}
             onSave={handleUpdateProduct}
+          />
+        )}
+        {showDuplicateModal && (
+          <DuplicateProductModal
+            onClose={() => setShowDuplicateModal(false)}
+            onConfirm={handleAddQuantityToExistingProduct}
+            existingProduct={duplicateProduct}
+            additionalStock={additionalStock}
+            setAdditionalStock={setAdditionalStock}
+            errorMessage={errorMessage}
           />
         )}
       </div>
