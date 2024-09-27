@@ -46,7 +46,6 @@ const DuplicateProductModal = ({
             className="quantity-input"
             onKeyDown={handleKeyDown}
           />
-          {errorMessage && <p className="error-message">{errorMessage}</p>}
           <div className="modal-buttons">
             <button className="btn-confirm" onClick={onConfirm}>
               Add Quantity
