@@ -1,0 +1,139 @@
+#root-showcase-upload-modal .modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1002;
+}
+
+#root-showcase-upload-modal .modal-content {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#root-showcase-upload-modal h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: 300;
+}
+
+#root-showcase-upload-modal .button-group {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 20px;
+}
+
+#root-showcase-upload-modal .error-message {
+  color: red;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+#root-showcase-upload-modal .file-upload-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #6c757d;
+  padding: 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s, border-color 0.3s;
+  width: 100%;
+}
+
+#root-showcase-upload-modal .file-upload-label.dragging {
+  background-color: #e6f7ff;
+  border-color: #007bff;
+}
+
+#root-showcase-upload-modal .file-upload-label .upload-icon {
+  margin-right: 10px;
+}
+
+#root-showcase-upload-modal #showcase-file-upload {
+  display: none;
+}
+
+#root-showcase-upload-modal .upload-button {
+  width: 48%;
+  padding: 10px;
+  background-color: #bd4138;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.3s, box-shadow 0.3s;
+}
+
+#root-showcase-upload-modal .upload-button:hover {
+  opacity: 0.75;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+#root-showcase-upload-modal .cancel-button {
+  width: 48%;
+  padding: 10px;
+  background-color: #e0e0e0;
+  color: #333;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#root-showcase-upload-modal .cancel-icon {
+  margin-right: 5px;
+}
+
+#root-showcase-upload-modal .selected-files {
+  margin-top: 15px;
+  width: 100%;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+#root-showcase-upload-modal .selected-files ul {
+  list-style: none;
+  padding: 0;
+}
+
+#root-showcase-upload-modal .selected-files li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+}
+
+#root-showcase-upload-modal .remove-file-button {
+  background: none;
+  border: none;
+  color: red;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#root-showcase-upload-modal .remove-file-button:hover {
+  opacity: 0.75;
+}

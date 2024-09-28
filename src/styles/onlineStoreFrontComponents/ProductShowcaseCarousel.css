@@ -1,14 +1,14 @@
 #root-product-showcase-carousel .carousel-container {
-    width: 400vw; 
-    height: auto;
-    display: flex;
-    overflow: hidden;
-    position: relative;
-  }
-  
-  #root-product-showcase-carousel .carousel-image {
-    width: 100vw;
-    height: auto;
-    object-fit: cover;
-    flex-shrink: 0; 
-  }
+  width: 400vw;
+  height: auto;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+}
+
+#root-product-showcase-carousel .carousel-image {
+  width: 100vw;
+  height: auto;
+  object-fit: cover;
+  flex-shrink: 0;
+}

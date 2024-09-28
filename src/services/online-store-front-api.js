@@ -217,3 +217,44 @@ export const getAllProductImagesByProductId = async ({ productId }) => {
     }
   }
 };
+
+export const uploadShowcaseImages = async (files) => {
+  try {
+    const formData = new FormData();
+
+    files.forEach((file) => {
+      formData.append("files", file);
+    });
+
+    const response = await api.post("/showcase-upload", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(
+        "Failed to upload showcase images. Please try again later."
+      );
+    }
+  }
+};
+
+export const getShowcaseImages = async () => {
+  try {
+    const response = await api.get("/showcase-images");
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(
+        "Failed to fetch showcase images. Please try again later."
+      );
+    }
+  }
+};

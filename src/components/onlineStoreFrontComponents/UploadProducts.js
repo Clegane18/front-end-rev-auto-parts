@@ -6,8 +6,10 @@ import {
   unpublishItemByProductId,
   updateProductPurchaseMethod,
   getAllProductImagesByProductId,
+  uploadShowcaseImages,
 } from "../../services/online-store-front-api";
 import UploadPhotoModal from "./UploadPhotoModal";
+import ShowcaseUploadModal from "./ShowcaseUploadModal";
 import ConfirmationModal from "./ConfirmationModal";
 import ChangePurchaseMethodModal from "./ChangePurchaseMethodModal";
 import ViewPicturesModal from "./ViewPicturesModal";
@@ -20,6 +22,7 @@ import {
   faEye,
   faCheckCircle,
   faTimes,
+  faImages,
 } from "@fortawesome/free-solid-svg-icons";
 import logo from "../../assets/g&f-logo.png";
 import { useNavigate } from "react-router-dom";
@@ -31,6 +34,7 @@ const UploadProducts = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showUploadModal, setShowUploadModal] = useState(false);
+  const [showShowcaseUploadModal, setShowShowcaseUploadModal] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [showChangePurchaseMethodModal, setShowChangePurchaseMethodModal] =
     useState(false);
@@ -102,6 +106,10 @@ const UploadProducts = () => {
     setShowUploadModal(true);
   };
 
+  const handleUploadShowcasePhotoClick = () => {
+    setShowShowcaseUploadModal(true);
+  };
+
   const handleViewPicturesClick = async (product) => {
     try {
       setImagesLoading(true);
@@ -125,6 +133,10 @@ const UploadProducts = () => {
     setSelectedProduct(null);
   };
 
+  const handleCloseShowcaseUploadModal = () => {
+    setShowShowcaseUploadModal(false);
+  };
+
   const handleSavePhoto = async (product, files) => {
     try {
       await uploadProductImages(product.id, files);
@@ -133,6 +145,20 @@ const UploadProducts = () => {
       setSelectedProduct(null);
     } catch (error) {
       console.error("Error uploading product photos:", error);
+      setErrorMessage(
+        error.response?.data?.message || "An unexpected error occurred."
+      );
+    }
+  };
+
+  const handleSaveShowcasePhotos = async (files) => {
+    try {
+      await uploadShowcaseImages(files);
+      await fetchProducts();
+      setShowShowcaseUploadModal(false);
+      setErrorMessage("Showcase images uploaded successfully.");
+    } catch (error) {
+      console.error("Error uploading showcase photos:", error);
       setErrorMessage(
         error.response?.data?.message || "An unexpected error occurred."
       );
@@ -210,18 +236,29 @@ const UploadProducts = () => {
   return (
     <div id="root-upload-products">
       <div className="container">
-        <div className="search-container">
-          <div className="store-name" onClick={handleBack}>
-            <img src={logo} alt="Your Logo" className="shop-logo" />
-          </div>
-          <div className="search-field">
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={handleSearchChange}
-              placeholder="Search products..."
-            />
-            <FontAwesomeIcon icon={faSearch} className="search-icon" />
+        <div className="header">
+          <div className="search-container">
+            <div className="store-name" onClick={handleBack}>
+              <img src={logo} alt="Your Logo" className="shop-logo" />
+            </div>
+            <div className="search-field">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={handleSearchChange}
+                placeholder="Search products..."
+              />
+              <FontAwesomeIcon icon={faSearch} className="search-icon" />
+            </div>
+            <div className="upload-showcase-button-container">
+              <button
+                className="upload-showcase-button"
+                onClick={handleUploadShowcasePhotoClick}
+                title="Upload Showcase Photos"
+              >
+                <FontAwesomeIcon icon={faImages} /> Upload Showcase
+              </button>
+            </div>
           </div>
         </div>
         {errorMessage && <p className="error-message">{errorMessage}</p>}
@@ -325,6 +362,13 @@ const UploadProducts = () => {
           product={selectedProduct}
           onSave={handleSavePhoto}
           onClose={handleCloseModal}
+        />
+      )}
+
+      {showShowcaseUploadModal && (
+        <ShowcaseUploadModal
+          onSave={handleSaveShowcasePhotos}
+          onClose={handleCloseShowcaseUploadModal}
         />
       )}
 

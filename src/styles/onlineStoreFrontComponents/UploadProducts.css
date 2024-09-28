@@ -38,6 +38,7 @@
 #root-upload-products .store-name {
   display: flex;
   align-items: center;
+  margin-right: 20px;
 }
 
 #root-upload-products .shop-logo {
