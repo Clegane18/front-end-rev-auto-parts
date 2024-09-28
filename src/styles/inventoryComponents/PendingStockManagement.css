@@ -1,222 +1,31 @@
 #pending-stock-root {
   padding: 20px;
-  max-width: 800px;
-  margin: auto;
-  background-color: #f9f9f9;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
-
-#pending-stock-root .store-name {
-  margin-bottom: 20px;
-  font-size: 32px;
-  font-weight: bold;
-  cursor: pointer;
-  color: #1a2129;
-  font-family: "Montserrat", sans-serif;
-  text-align: center;
-}
-
-#pending-stock-root h2 {
-  color: #000000;
-  margin-bottom: 20px;
-}
-
-#pending-stock-root .pending-stock-form {
-  margin-bottom: 20px;
-  display: flex;
-  flex-direction: column;
-}
-
-#pending-stock-root .pending-stock-form h3 {
-  margin-bottom: 10px;
-  color: #000000;
-}
-
-#pending-stock-root .pending-stock-form .form-group {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
-#pending-stock-root .pending-stock-form input {
-  padding: 5px;
-  font-size: 14px;
-  flex: 1;
-  min-width: 0;
-  text-transform: none;
-}
-
-#pending-stock-root {
-  padding: 20px;
-  max-width: 800px;
-  margin: auto;
-  background-color: #f9f9f9;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
-
-#pending-stock-root .store-name {
-  margin-bottom: 20px;
-  font-size: 32px;
-  font-weight: bold;
-  cursor: pointer;
-  color: #1a2129;
-  font-family: "Montserrat", sans-serif;
-  text-align: center;
-}
-
-#pending-stock-root .pending-stock-form {
-  margin-bottom: 20px;
-  display: flex;
-  flex-direction: column;
-}
-
-#pending-stock-root .pending-stock-form .form-group {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
-#pending-stock-root .pending-stock-form input {
-  padding: 5px;
-  font-size: 14px;
-  flex: 1;
-  min-width: 0;
-  text-transform: none;
-}
-
-#pending-stock-root .pending-stock-form .form-group .quantity-textbox {
-  width: 90px;
-  padding: 5px;
-  font-size: 14px;
-  flex: none;
-}
-
-#pending-stock-root .pending-stock-form button {
-  padding: 8px 15px;
-  background-color: #d30a0a;
-  color: #ffffff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 10px;
-}
-
-#pending-stock-root .pending-stock-form button {
-  padding: 8px 15px;
-  background-color: #d30a0a;
-  color: #ffffff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 10px;
-}
-
-#pending-stock-root .pending-stock-form button.short {
-  width: 200px;
-  background-color: #d30a0a;
-}
-
-#pending-stock-root .pending-stock-form button:hover {
-  opacity: 0.75;
-}
-
-#pending-stock-root .store-name:hover {
-  color: #727272;
-}
-
-#pending-stock-root .pending-stock-list {
-  margin-top: 20px;
-  overflow-y: auto;
-}
-
-#pending-stock-root .pending-stock-header,
-#pending-stock-root .pending-stock-item {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
   font-family: "Montserrat", serif;
+  background-color: #f9f9fb;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 1200px;
+  margin: 20px auto;
 }
 
-#pending-stock-root .pending-stock-header {
-  font-weight: 600;
-  background-color: #f1f1f1;
-  border-top: 2px solid #ddd;
-  text-align: center;
-  text-transform: uppercase;
-}
-
-#pending-stock-root .pending-stock-item {
-  align-items: center;
-  text-align: center;
-}
-
-#pending-stock-root .pending-stock-item div {
+#pending-stock-root .control-panel {
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 20px;
+  justify-content: space-between;
 }
 
-#pending-stock-root .pending-stock-item .actions {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-}
-
-#pending-stock-root .pending-stock-item .actions button {
-  padding: 5px 10px;
-  background-color: #d30a0a;
-  color: #ffffff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-#pending-stock-root .pending-stock-item .actions button:hover {
-  opacity: 0.75;
-}
-
-#pending-stock-root .suggestions {
-  border: 1px solid #ddd;
-  background-color: white;
-  position: absolute;
-  z-index: 1000;
-  max-height: 150px;
-  overflow-y: auto;
-  width: 21.4%;
-  margin-top: 33px;
-}
-
-#pending-stock-root .suggestion-item {
-  padding: 8px;
-  cursor: pointer;
-  font-family: "Montserrat", serif;
-  text-transform: none;
-}
-
-#pending-stock-root .suggestion-item:hover {
-  background-color: #f0f0f0;
+#pending-stock-root .control-panel h1 {
+  font-size: 2rem;
+  color: #1a2129;
+  margin: 0;
 }
 
 #pending-stock-root .shop-logo {
-  max-height: 40px;
-  max-width: 100%;
-  padding-left: 20px;
+  max-height: 50px;
   cursor: pointer;
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 #pending-stock-root .shop-logo:hover {
@@ -224,79 +33,239 @@
   transform: scale(1.05);
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  #pending-stock-root {
-    padding: 10px;
-    max-width: 100%;
+#pending-stock-root .pending-stock-form {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+#pending-stock-root .pending-stock-form h2 {
+  margin-bottom: 15px;
+  color: #1a2129;
+  font-size: 1.5rem;
+}
+
+#pending-stock-root .form-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+#pending-stock-root .input-group {
+  position: relative;
+  flex: 1 1 300px;
+}
+
+#pending-stock-root .input-group input {
+  width: 100%;
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+
+#pending-stock-root .input-group input:focus {
+  border-color: #d30a0a;
+  outline: none;
+}
+
+#pending-stock-root .suggestions {
+  position: absolute;
+  top: 45px;
+  left: 0;
+  right: 0;
+  border: 1px solid #ddd;
+  background-color: #ffffff;
+  z-index: 1000;
+  max-height: 150px;
+  overflow-y: auto;
+  border-radius: 0 0 6px 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#pending-stock-root .suggestion-item {
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+#pending-stock-root .suggestion-item:hover {
+  background-color: #f0f0f0;
+}
+
+#pending-stock-root .quantity-textbox,
+#pending-stock-root .pending-stock-form input[type="date"] {
+  flex: 0 0 150px;
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+
+#pending-stock-root .quantity-textbox:focus,
+#pending-stock-root .pending-stock-form input[type="date"]:focus {
+  border-color: #d30a0a;
+  outline: none;
+}
+
+#pending-stock-root .primary-button,
+#pending-stock-root .secondary-button,
+#pending-stock-root .success-button,
+#pending-stock-root .danger-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#pending-stock-root .primary-button {
+  background-color: #d30a0a;
+  color: #ffffff;
+}
+
+#pending-stock-root .primary-button:hover {
+  background-color: #b00909;
+  transform: translateY(-2px);
+}
+
+#pending-stock-root .secondary-button {
+  background-color: #6c757d;
+  color: #ffffff;
+}
+
+#pending-stock-root .secondary-button:hover {
+  background-color: #5a6268;
+  transform: translateY(-2px);
+}
+
+#pending-stock-root .success-button {
+  background-color: #28a745;
+  color: #ffffff;
+}
+
+#pending-stock-root .success-button:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
+}
+
+#pending-stock-root .danger-button {
+  background-color: #dc3545;
+  color: #ffffff;
+}
+
+#pending-stock-root .danger-button:hover {
+  background-color: #c82333;
+  transform: translateY(-2px);
+}
+
+#pending-stock-root .small {
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+#pending-stock-root .pending-stock-list {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+#pending-stock-root .pending-stock-list h2 {
+  margin-bottom: 15px;
+  color: #1a2129;
+  font-size: 1.5rem;
+}
+
+#pending-stock-root .table-container {
+  overflow-x: auto;
+}
+
+#pending-stock-root table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+#pending-stock-root table th,
+#pending-stock-root table td {
+  padding: 12px 15px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+
+#pending-stock-root table th {
+  background-color: #eaecef;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+#pending-stock-root table tr:hover {
+  background-color: #f4f6f8;
+}
+
+#pending-stock-root .action-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-left: 120px;
+}
+
+@media (max-width: 992px) {
+  #pending-stock-root .form-group {
+    flex-direction: column;
   }
 
-  #pending-stock-root .store-name {
-    font-size: 20px;
+  #pending-stock-root .quantity-textbox,
+  #pending-stock-root .pending-stock-form input[type="date"],
+  #pending-stock-root .input-group {
+    flex: 1 1 100%;
   }
 
-  #pending-stock-root .pending-stock-form .form-group {
+  #pending-stock-root .action-buttons {
     flex-direction: column;
     gap: 5px;
-  }
-
-  #pending-stock-root .pending-stock-form input {
-    width: calc(100% - 18px);
-    font-size: 12px;
-  }
-
-  #pending-stock-root .pending-stock-form button {
-    padding: 6px 12px;
-    font-size: 14px;
-    margin-top: 8px;
-  }
-
-  #pending-stock-root .pending-stock-header,
-  #pending-stock-root .pending-stock-item {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  #pending-stock-root .pending-stock-item .actions {
-    flex-direction: column;
-    gap: 5px;
-  }
-
-  #pending-stock-root .pending-stock-item .actions button {
-    padding: 4px 8px;
-    font-size: 12px;
   }
 }
 
-@media (max-width: 480px) {
-  #pending-stock-root {
-    padding: 5px;
+@media (max-width: 576px) {
+  #pending-stock-root .primary-button,
+  #pending-stock-root .secondary-button,
+  #pending-stock-root .success-button,
+  #pending-stock-root .danger-button {
+    width: 100%;
+    justify-content: center;
   }
 
-  #pending-stock-root .store-name {
-    font-size: 18px;
-  }
-
-  #pending-stock-root .pending-stock-form input {
-    font-size: 10px;
-  }
-
-  #pending-stock-root .pending-stock-form button {
-    padding: 4px 8px;
+  #pending-stock-root table th,
+  #pending-stock-root table td {
+    padding: 10px;
     font-size: 12px;
   }
 
-  #pending-stock-root .pending-stock-header,
-  #pending-stock-root .pending-stock-item {
-    grid-template-columns: 1fr;
+  #pending-stock-root .shop-logo {
+    max-height: 40px;
   }
 
-  #pending-stock-root .pending-stock-item .actions {
-    flex-direction: column;
-    gap: 3px;
+  #pending-stock-root .control-panel h1 {
+    font-size: 1.5rem;
   }
 
-  #pending-stock-root .pending-stock-item .actions button {
-    padding: 4px 6px;
-    font-size: 10px;
+  #pending-stock-root .pending-stock-form h2,
+  #pending-stock-root .pending-stock-list h2 {
+    font-size: 1.25rem;
   }
 }
