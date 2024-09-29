@@ -258,3 +258,16 @@ export const getShowcaseImages = async () => {
     }
   }
 };
+
+export const deleteShowcaseImage = async (showcaseId) => {
+  try {
+    const response = await api.delete(`/delete-showcase-images/${showcaseId}`);
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error("Failed to delete showcase image. Please try again later.");
+    }
+  }
+};

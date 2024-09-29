@@ -116,7 +116,6 @@ const UploadProducts = () => {
       const imagesData = await getAllProductImagesByProductId({
         productId: product.id,
       });
-      console.log("API Response Images:", imagesData);
       setImages(imagesData || []);
       setSelectedProduct(product);
       setShowViewPicturesModal(true);

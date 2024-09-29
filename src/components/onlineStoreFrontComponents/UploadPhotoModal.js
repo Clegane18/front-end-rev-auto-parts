@@ -6,6 +6,7 @@ const UploadPhotoModal = ({ product, onClose, onSave }) => {
   const [files, setFiles] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const [isDragging, setIsDragging] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
 
   const handleFileChange = (event) => {
     const selectedFiles = Array.from(event.target.files);
@@ -32,13 +33,18 @@ const UploadPhotoModal = ({ product, onClose, onSave }) => {
     setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
   };
 
-  const handleSave = (event) => {
+  const handleSave = async (event) => {
     event.preventDefault();
     if (files.length === 0) {
       setErrorMessage("Please select at least one file to upload.");
       return;
     }
-    onSave(product, files);
+    setIsUploading(true);
+    try {
+      await onSave(product, files);
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   return (
@@ -86,7 +92,11 @@ const UploadPhotoModal = ({ product, onClose, onSave }) => {
               </div>
             )}
             <div className="button-group">
-              <button type="submit" className="upload-button">
+              <button
+                type="submit"
+                className="upload-button"
+                disabled={isUploading}
+              >
                 Upload
               </button>
               <button type="button" onClick={onClose} className="cancel-button">
