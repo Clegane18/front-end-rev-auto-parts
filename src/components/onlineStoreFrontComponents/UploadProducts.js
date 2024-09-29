@@ -55,11 +55,9 @@ const UploadProducts = () => {
         setAllProducts(response.data.data);
         setFilteredProducts(response.data.data);
       } else {
-        console.error("Unexpected data format:", response.data);
         setFilteredProducts([]);
       }
     } catch (error) {
-      console.error("Failed to fetch products:", error);
       setFilteredProducts([]);
       setErrorMessage("Failed to fetch products. Please try again later.");
     }
@@ -92,7 +90,6 @@ const UploadProducts = () => {
 
       setFilteredProducts(filtered);
     } catch (error) {
-      console.error("Failed to search products", error);
       setErrorMessage("Failed to search products. Please try again later.");
     }
   }, [searchQuery, allProducts]);
@@ -120,7 +117,6 @@ const UploadProducts = () => {
       setSelectedProduct(product);
       setShowViewPicturesModal(true);
     } catch (error) {
-      console.error("Error fetching product images:", error);
       setErrorMessage(error.message || "Failed to fetch product images.");
     } finally {
       setImagesLoading(false);
@@ -143,7 +139,6 @@ const UploadProducts = () => {
       setShowUploadModal(false);
       setSelectedProduct(null);
     } catch (error) {
-      console.error("Error uploading product photos:", error);
       setErrorMessage(
         error.response?.data?.message || "An unexpected error occurred."
       );
@@ -157,7 +152,6 @@ const UploadProducts = () => {
       setShowShowcaseUploadModal(false);
       setErrorMessage("Showcase images uploaded successfully.");
     } catch (error) {
-      console.error("Error uploading showcase photos:", error);
       setErrorMessage(
         error.response?.data?.message || "An unexpected error occurred."
       );
@@ -187,7 +181,6 @@ const UploadProducts = () => {
       setShowConfirmationModal(false);
       setSelectedProduct(null);
     } catch (error) {
-      console.error("Error handling action:", error);
       setErrorMessage(error.message || "An unexpected error occurred.");
     }
   };
@@ -210,7 +203,6 @@ const UploadProducts = () => {
       setSelectedProduct(null);
       setErrorMessage("");
     } catch (error) {
-      console.error("Error updating purchase method:", error);
       setErrorMessage(error.message || "Failed to update purchase method.");
     }
   };
@@ -256,6 +248,13 @@ const UploadProducts = () => {
                 title="Upload Showcase Photos"
               >
                 <FontAwesomeIcon icon={faImages} /> Upload Showcase
+              </button>
+              <button
+                className="view-showcase-button"
+                onClick={() => handleViewPicturesClick(selectedProduct)}
+                title="View Showcase Images"
+              >
+                <FontAwesomeIcon icon={faEye} /> View Showcase
               </button>
             </div>
           </div>

@@ -57,8 +57,8 @@
   align-items: center;
   flex: 1;
   position: relative;
-  margin-right: 680px;
-  max-width: 550px;
+  margin-right: 600px;
+  max-width: 500px;
 }
 
 #root-upload-products .search-field input {
@@ -262,4 +262,35 @@
 
 #root-upload-products .upload-photo-icon:hover {
   color: #a30707;
+}
+
+#root-upload-products .upload-showcase-button-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+#root-upload-products .upload-showcase-button,
+#root-upload-products .view-showcase-button {
+  white-space: nowrap;
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: opacity 0.3s ease;
+}
+
+#root-upload-products .upload-showcase-button {
+  background-color: #d30a0a;
+}
+
+#root-upload-products .upload-showcase-button:hover,
+#root-upload-products .view-showcase-button:hover {
+  opacity: 0.75;
 }
