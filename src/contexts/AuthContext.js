@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const logoutTimer = useRef(null);
 
-  const logout = () => {
+  const logout = useCallback(() => {
     setIsAuthenticated(false);
     setCurrentUser(null);
     setToken("");
@@ -30,14 +30,14 @@ export const AuthProvider = ({ children }) => {
       clearTimeout(logoutTimer.current);
     }
     navigate("/customer-login");
-  };
+  }, [navigate]);
 
   const handleTokenExpiration = useCallback(() => {
     setIsModalOpen(true);
     setTimeout(() => {
       logout();
     }, 3000);
-  }, []);
+  }, [logout]);
 
   const setAutoLogout = useCallback(
     (expirationTime) => {
@@ -123,7 +123,7 @@ export const AuthProvider = ({ children }) => {
   const handleModalClose = useCallback(() => {
     setIsModalOpen(false);
     logout();
-  }, []);
+  }, [logout]);
 
   return (
     <AuthContext.Provider
