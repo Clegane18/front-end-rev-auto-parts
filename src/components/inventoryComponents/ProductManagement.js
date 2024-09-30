@@ -201,7 +201,7 @@ const ProductManagement = () => {
         console.error("Failed to add product", error);
         setErrorMessage(
           error.response?.data?.error ||
-            "Failed to add product. Please try again later."
+            "Failed to add product. Check if the data is already exist."
         );
       }
     }

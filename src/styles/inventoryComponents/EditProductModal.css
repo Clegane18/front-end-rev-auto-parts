@@ -1,118 +1,200 @@
-/* Responsive design */
-#root-edit-product-modal .modal-overlay {
+#root-edit-product-modal .edit-product-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-}
-
-#root-edit-product-modal .modal-content {
-  background: #ffffff;
   padding: 20px;
-  border-radius: 8px;
-  width: 40%;
-  max-width: 90%;
-  overflow-y: auto;
-  max-height: 90%;
-  z-index: 1001;
+  animation: fadeIn 0.3s ease-out;
 }
 
-#root-edit-product-modal .modal-content h2 {
-  font-weight: 300;
+#root-edit-product-modal .edit-product-modal-content {
+  background-color: #ffffff;
+  padding: 40px 30px;
+  width: 100%;
+  max-width: 700px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
   position: relative;
-  padding-bottom: 0.5rem;
-  margin-bottom: 1rem;
+  overflow-y: auto;
+  max-height: 90vh;
+  animation: slideIn 0.3s ease-out;
 }
 
-#root-edit-product-modal .modal-overlay .modal-content h2::after {
+#root-edit-product-modal .close-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: transparent;
+  border: none;
+  font-size: 30px;
+  color: #555555;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+#root-edit-product-modal .close-button:hover {
+  color: #000000;
+}
+
+#root-edit-product-modal h2 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 30px;
+  position: relative;
+  padding-bottom: 10px;
+  color: #d30a0a;
+}
+
+#root-edit-product-modal h2::after {
   content: "";
   display: block;
-  width: 100%;
-  height: 2px;
-  background-color: #ccc;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  position: absolute;
-  bottom: 0;
-  left: 0;
+  width: 60px;
+  height: 3px;
+  background-color: #d30a0a;
+  border-radius: 2px;
+  margin-top: 8px;
 }
 
-#root-edit-product-modal .modal-content .error-message {
-  color: #eb2626;
-  padding: 10px;
-  border-radius: 5px;
-  margin-bottom: 15px;
-  text-align: center;
-  font-family: "Montserrat", sans-serif;
-}
-
-#root-edit-product-modal .modal-content form {
+#root-edit-product-modal form {
   display: flex;
   flex-direction: column;
 }
 
-#root-edit-product-modal .modal-content label {
-  margin: 10px 0;
-  color: #333333;
+#root-edit-product-modal .form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
 }
 
-#root-edit-product-modal .modal-content input,
-#root-edit-product-modal .modal-content textarea {
-  padding: 8px;
-  margin-top: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+#root-edit-product-modal .form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+#root-edit-product-modal .form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+#root-edit-product-modal label {
+  font-family: "Montserrat", sans-serif;
+  font-size: 14px;
+  color: #333333;
+  margin-bottom: 5px;
+}
+
+#root-edit-product-modal input,
+#root-edit-product-modal textarea {
   width: 100%;
-  box-sizing: border-box;
+  padding: 12px 15px;
+  border: 1px solid #dddddd;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: "Montserrat", sans-serif;
+  transition: border-color 0.2s, box-shadow 0.2s;
   text-transform: none;
 }
 
-#root-edit-product-modal .modal-content textarea {
+#root-edit-product-modal input:focus,
+#root-edit-product-modal textarea:focus {
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+  outline: none;
+}
+
+#root-edit-product-modal textarea {
   resize: vertical;
-  min-height: 80px;
+  min-height: 100px;
 }
 
-#root-edit-product-modal .modal-content .button-group {
+#root-edit-product-modal .error-message {
+  background-color: #ffe6e6;
+  color: #d8000c;
+  border: 1px solid #d8000c;
+  padding: 15px;
+  border-radius: 6px;
+  text-align: center;
+  font-family: "Montserrat", sans-serif;
+  margin: 20px 0;
+}
+
+#root-edit-product-modal .modal-actions {
   display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 25px;
 }
 
-#root-edit-product-modal .modal-content .button-group button {
-  flex: 1;
-  margin: 0 5px;
-  padding: 10px;
+#root-edit-product-modal .confirm-button,
+#root-edit-product-modal .cancel-button {
+  padding: 12px 25px;
+  font-size: 16px;
+  font-family: "Montserrat", sans-serif;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.2s;
 }
 
-#root-edit-product-modal .modal-content .button-group button[type="submit"],
-#root-edit-product-modal .modal-content .button-group button[type="button"] {
+#root-edit-product-modal .confirm-button {
   background-color: #d30a0a;
   color: #ffffff;
 }
 
-#root-edit-product-modal
-  .modal-content
-  .button-group
-  button[type="submit"]:hover,
-#root-edit-product-modal
-  .modal-content
-  .button-group
-  button[type="button"]:hover {
-  opacity: 0.75;
+#root-edit-product-modal .confirm-button:hover {
+  background-color: #b50909;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
-/* Responsive design */
+#root-edit-product-modal .cancel-button {
+  background-color: #cccccc;
+  color: #333333;
+}
+
+#root-edit-product-modal .cancel-button:hover {
+  background-color: #b3b3b3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+@media (min-width: 600px) {
+  #root-edit-product-modal .form-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  #root-edit-product-modal .form-group.full-width {
+    grid-column: 1 / -1;
+  }
+}
+
 @media (min-width: 1024px) {
-  #root-edit-product-modal .modal-content {
-    width: 30%;
+  #root-edit-product-modal .edit-product-modal-content {
+    max-width: 600px;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    background-color: rgba(0, 0, 0, 0);
+  }
+  to {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
   }
 }
