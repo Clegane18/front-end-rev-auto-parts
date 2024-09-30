@@ -32,6 +32,7 @@ import {
   faTimes,
   faFileAlt,
   faList,
+  faUserEdit,
 } from "@fortawesome/free-solid-svg-icons";
 import LogOutConfirmationModal from "./LogOutConfirmationModal";
 import { formatCurrency } from "../../utils/formatCurrency";
@@ -314,6 +315,11 @@ const DashboardPage = () => {
               <li>
                 <Link to="/archived-products">
                   <FontAwesomeIcon icon={faArchive} /> Product Archives
+                </Link>
+              </li>
+              <li>
+                <Link to="/change-credentials">
+                  <FontAwesomeIcon icon={faUserEdit} /> Edit Credentials
                 </Link>
               </li>
               <li>

@@ -101,24 +101,6 @@
   color: #999;
 }
 
-#root-login-page .additional-links {
-  font-family: "Montserrat", serif;
-  text-transform: uppercase;
-  margin-top: 15px;
-  text-align: center;
-}
-
-#root-login-page .change-link {
-  color: #f0a5a5;
-  font-size: 14px;
-  text-decoration: none;
-}
-
-#root-login-page .change-link:hover {
-  text-decoration: underline;
-  opacity: 0.85;
-}
-
 /* Responsive Design */
 @media (max-width: 600px) {
   #root-login-page .login-content {
