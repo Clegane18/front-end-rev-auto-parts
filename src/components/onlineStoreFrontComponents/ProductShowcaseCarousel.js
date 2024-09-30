@@ -21,7 +21,6 @@ const ProductShowcaseCarousel = () => {
     const fetchImages = async () => {
       try {
         const fetchedImages = await getShowcaseImages();
-        console.log("Fetched Images:", fetchedImages);
 
         if (
           fetchedImages &&
