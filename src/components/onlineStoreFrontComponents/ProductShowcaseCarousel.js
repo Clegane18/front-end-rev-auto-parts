@@ -9,6 +9,14 @@ const ProductShowcaseCarousel = () => {
   const [error, setError] = useState(null);
   const slideRef = useRef();
 
+  const buildImageUrl = (imagePath) => {
+    if (imagePath.startsWith("/")) {
+      return `http://localhost:3002${imagePath}`;
+    } else {
+      return `http://localhost:3002/${imagePath}`;
+    }
+  };
+
   useEffect(() => {
     const fetchImages = async () => {
       try {
@@ -18,9 +26,9 @@ const ProductShowcaseCarousel = () => {
         if (
           fetchedImages &&
           fetchedImages.data &&
-          Array.isArray(fetchedImages.data.imageUrls)
+          Array.isArray(fetchedImages.data.images)
         ) {
-          setImages(fetchedImages.data.imageUrls);
+          setImages(fetchedImages.data.images);
         } else {
           throw new Error("Invalid images data format.");
         }
@@ -39,8 +47,10 @@ const ProductShowcaseCarousel = () => {
   useEffect(() => {
     if (loading || error || images.length === 0) return;
 
-    slideRef.current.style.transition = "transform 0.5s ease-in-out";
-    slideRef.current.style.transform = `translateX(-${currentIndex * 100}vw)`;
+    if (slideRef.current) {
+      slideRef.current.style.transition = "transform 0.5s ease-in-out";
+      slideRef.current.style.transform = `translateX(-${currentIndex * 100}%)`;
+    }
 
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) =>
@@ -51,8 +61,6 @@ const ProductShowcaseCarousel = () => {
     return () => clearInterval(interval);
   }, [currentIndex, images.length, loading, error, images]);
 
-  const IMAGE_BASE_URL = "http://localhost:3002";
-
   if (loading) {
     return <div className="carousel-loading">Loading...</div>;
   }
@@ -62,15 +70,31 @@ const ProductShowcaseCarousel = () => {
   }
 
   return (
-    <div id="root-product-showcase-carousel">
+    <div id="root-product-showcase-carousel" className="carousel-wrapper">
       <div className="carousel-container" ref={slideRef}>
-        {images.map((imageUrl, index) => (
+        {images.map((image) => (
           <img
-            key={index}
-            src={`${IMAGE_BASE_URL}${imageUrl}`}
-            alt={`Product Showcase ${index + 1}`}
+            key={image.id}
+            src={buildImageUrl(image.imageUrl)}
+            alt={`Product Showcase ${image.id}`}
             className="carousel-image"
+            onError={(e) => {
+              e.target.src = "https://via.placeholder.com/150";
+            }}
+            loading="lazy"
           />
+        ))}
+      </div>
+      <div className="carousel-indicators">
+        {images.map((_, index) => (
+          <button
+            key={index}
+            className={`indicator-button ${
+              index === currentIndex ? "active" : ""
+            }`}
+            onClick={() => setCurrentIndex(index)}
+            aria-label={`Go to slide ${index + 1}`}
+          ></button>
         ))}
       </div>
     </div>

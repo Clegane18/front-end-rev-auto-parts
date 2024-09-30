@@ -289,7 +289,7 @@ const DashboardPage = () => {
               </li>
               <li>
                 <Link to="/upload-products">
-                  <FontAwesomeIcon icon={faList} /> Products for Upload
+                  <FontAwesomeIcon icon={faList} /> Upload Products
                 </Link>
               </li>
               <li>

@@ -13,7 +13,10 @@ import ShowcaseUploadModal from "./ShowcaseUploadModal";
 import ConfirmationModal from "./ConfirmationModal";
 import ChangePurchaseMethodModal from "./ChangePurchaseMethodModal";
 import ViewPicturesModal from "./ViewPicturesModal";
+import ShowcaseImagesModal from "./ShowcaseImagesModal";
+import SuccessModal from "../SuccessModal";
 import "../../styles/onlineStoreFrontComponents/UploadProducts.css";
+import "../../styles/onlineStoreFrontComponents/ShowcaseImagesModal.css";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -38,11 +41,14 @@ const UploadProducts = () => {
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [showChangePurchaseMethodModal, setShowChangePurchaseMethodModal] =
     useState(false);
+  const [showShowcaseImagesModal, setShowShowcaseImagesModal] = useState(false);
   const [action, setAction] = useState("");
   const [newPurchaseMethod, setNewPurchaseMethod] = useState("");
   const [images, setImages] = useState([]);
   const [showViewPicturesModal, setShowViewPicturesModal] = useState(false);
   const [imagesLoading, setImagesLoading] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
 
   const BASE_URL =
@@ -123,6 +129,10 @@ const UploadProducts = () => {
     }
   };
 
+  const handleViewShowcaseImages = () => {
+    setShowShowcaseImagesModal(true);
+  };
+
   const handleCloseModal = () => {
     setShowUploadModal(false);
     setSelectedProduct(null);
@@ -132,9 +142,13 @@ const UploadProducts = () => {
     setShowShowcaseUploadModal(false);
   };
 
+  const handleCloseShowcaseImagesModal = () => {
+    setShowShowcaseImagesModal(false);
+  };
+
   const handleSavePhoto = async (product, files) => {
     try {
-      await uploadProductImages(product.id, files);
+      await uploadProductImages({ productId: product.id, files });
       await fetchProducts();
       setShowUploadModal(false);
       setSelectedProduct(null);
@@ -150,7 +164,8 @@ const UploadProducts = () => {
       await uploadShowcaseImages(files);
       await fetchProducts();
       setShowShowcaseUploadModal(false);
-      setErrorMessage("Showcase images uploaded successfully.");
+      setSuccessMessage("Showcase images uploaded successfully.");
+      setShowSuccessModal(true);
     } catch (error) {
       setErrorMessage(
         error.response?.data?.message || "An unexpected error occurred."
@@ -224,6 +239,11 @@ const UploadProducts = () => {
     navigate("/dashboard");
   };
 
+  const handleCloseSuccessModal = () => {
+    setShowSuccessModal(false);
+    setSuccessMessage("");
+  };
+
   return (
     <div id="root-upload-products">
       <div className="container">
@@ -251,7 +271,7 @@ const UploadProducts = () => {
               </button>
               <button
                 className="view-showcase-button"
-                onClick={() => handleViewPicturesClick(selectedProduct)}
+                onClick={handleViewShowcaseImages}
                 title="View Showcase Images"
               >
                 <FontAwesomeIcon icon={faEye} /> View Showcase
@@ -370,6 +390,10 @@ const UploadProducts = () => {
         />
       )}
 
+      {showShowcaseImagesModal && (
+        <ShowcaseImagesModal onClose={handleCloseShowcaseImagesModal} />
+      )}
+
       {showConfirmationModal && (
         <ConfirmationModal
           isOpen={showConfirmationModal}
@@ -401,6 +425,13 @@ const UploadProducts = () => {
             setImages([]);
             setSelectedProduct(null);
           }}
+        />
+      )}
+
+      {showSuccessModal && (
+        <SuccessModal
+          message={successMessage}
+          onClose={handleCloseSuccessModal}
         />
       )}
     </div>

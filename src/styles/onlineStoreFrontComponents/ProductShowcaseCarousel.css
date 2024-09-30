@@ -1,14 +1,50 @@
-#root-product-showcase-carousel .carousel-container {
-  width: 400vw;
-  height: auto;
-  display: flex;
+#root-product-showcase-carousel .carousel-wrapper {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
   overflow: hidden;
   position: relative;
 }
 
+#root-product-showcase-carousel .carousel-container {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  width: 100%;
+}
+
 #root-product-showcase-carousel .carousel-image {
-  width: 100vw;
+  width: 100%;
   height: auto;
-  object-fit: cover;
+  object-fit: contain;
   flex-shrink: 0;
+  background-color: #f0f0f0;
+}
+
+#root-product-showcase-carousel .carousel-indicators {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+}
+
+#root-product-showcase-carousel .indicator-button {
+  width: 12px;
+  height: 12px;
+  border: none;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+}
+
+#root-product-showcase-carousel .indicator-button.active {
+  background-color: rgba(255, 255, 255, 1);
+}
+
+.carousel-loading,
+.carousel-error {
+  text-align: center;
+  padding: 50px 0;
+  font-size: 1.5rem;
 }
