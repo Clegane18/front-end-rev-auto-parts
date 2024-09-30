@@ -10,7 +10,7 @@
 #root-receipt .receipt-container {
   width: 100%;
   max-width: 100%;
-  margin: 40px auto 0 auto; 
+  margin: 40px auto 0 auto;
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -118,7 +118,7 @@
 #root-receipt .print-button {
   width: 150px;
   padding: 12px;
-  background-color: #0c619b;
+  background-color: #b22222;
   color: #ffffff;
   border: none;
   border-radius: 4px;
@@ -130,7 +130,7 @@
 #root-receipt .new-transaction-button {
   width: 250px;
   padding: 12px;
-  background-color: #0c619b;
+  background-color: #b22222;
   color: #ffffff;
   border: none;
   border-radius: 4px;
@@ -139,7 +139,7 @@
   text-align: center;
 }
 
-#root-receipt .print-button:hover, 
+#root-receipt .print-button:hover,
 #root-receipt .new-transaction-button:hover {
   opacity: 0.75;
 }
@@ -181,7 +181,7 @@
     font-size: 14px;
   }
 
-  #root-receipt .print-button, 
+  #root-receipt .print-button,
   #root-receipt .new-transaction-button {
     padding: 10px;
     font-size: 14px;
@@ -189,7 +189,7 @@
 }
 
 @media print {
-  #root-receipt .print-button, 
+  #root-receipt .print-button,
   #root-receipt .new-transaction-button {
     display: none;
   }
@@ -198,7 +198,6 @@
   }
 
   body {
-    margin: 1cm; 
+    margin: 1cm;
   }
-
 }

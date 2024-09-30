@@ -7,7 +7,7 @@
   border: 1px solid #ddd;
   border-radius: 8px;
   background-color: #f9f9f9;
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -92,19 +92,14 @@
   transition: background-color 0.3s, opacity 0.3s;
 }
 
-#root-checkout .payment-section button.pay-button, 
+#root-checkout .payment-section button.pay-button,
 #root-checkout .payment-section button.cancel-button {
-  background-color: #0c619b;
+  background-color: #b22222;
   color: #ffffff;
 }
 
 #root-checkout .payment-section button:hover {
   opacity: 0.75;
-}
-
-#root-checkout .payment-section button:focus {
-  outline: none;
-  box-shadow: 0 0 5px #0c619b;
 }
 
 /* Responsive Design */

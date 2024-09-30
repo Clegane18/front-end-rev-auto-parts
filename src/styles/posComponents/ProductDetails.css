@@ -81,9 +81,9 @@
   margin-bottom: 20px;
 }
 
-#root-product-details .buy-now-button,
-#root-product-details .add-to-cart-button {
-  background-color: #0c619b;
+#root-product-details .product-actions .buy-now-button,
+#root-product-details .product-actions .add-to-cart-button {
+  background-color: #b22222;
   color: #ffffff;
   border: none;
   border-radius: 4px;
@@ -119,7 +119,7 @@
 }
 
 #root-product-details .confirm-buy-now-button {
-  background-color: #28a745;
+  background-color: #ff8c00;
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -130,7 +130,7 @@
 }
 
 #root-product-details .confirm-buy-now-button:hover {
-  background-color: #218838;
+  opacity: 0.75;
 }
 
 #root-product-details .product-details-header h2 {
