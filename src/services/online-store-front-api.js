@@ -267,7 +267,28 @@ export const deleteShowcaseImage = async (showcaseId) => {
     if (error.response && error.response.data && error.response.data.message) {
       throw new Error(error.response.data.message);
     } else {
-      throw new Error("Failed to delete showcase image. Please try again later.");
+      throw new Error(
+        "Failed to delete showcase image. Please try again later."
+      );
+    }
+  }
+};
+
+export const getTopSellingProducts = async (limit = 5) => {
+  try {
+    const response = await api.get(`/products/top-sellers`, {
+      params: {
+        limit: limit,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(
+        "Failed to fetch top-selling products. Please try again later."
+      );
     }
   }
 };

@@ -3,6 +3,7 @@ import {
   getPublishedItemsByCategory,
   getAllCategoriesInOnlineStoreFront,
   getBestSellingProductsForMonth,
+  getTopSellingProducts,
 } from "../../services/online-store-front-api";
 import "../../styles/onlineStoreFrontComponents/OnlineStoreFrontItemsByCategory.css";
 import { formatCurrency } from "../../utils/formatCurrency";
@@ -27,9 +28,15 @@ const OnlineStoreFrontItemsByCategory = ({
   useEffect(() => {
     const fetchItemsAndCategories = async () => {
       try {
-        const bestSellingProductsResponse =
-          await getBestSellingProductsForMonth(5);
-        const bestSellersData = bestSellingProductsResponse.data || [];
+        let bestSellingProductsResponse = await getBestSellingProductsForMonth(
+          5
+        );
+        let bestSellersData = bestSellingProductsResponse.data || [];
+
+        if (bestSellersData.length === 0) {
+          const topSellingProductsResponse = await getTopSellingProducts(5);
+          bestSellersData = topSellingProductsResponse.data || [];
+        }
 
         setBestSellers(bestSellersData);
         setVisibleBestSellers(bestSellersData.slice(0, 3));
@@ -39,7 +46,6 @@ const OnlineStoreFrontItemsByCategory = ({
         setCategories(categoryData.categories);
 
         const productData = await getPublishedItemsByCategory();
-
         setGroupedProducts(productData.groupedProducts);
 
         setVisibleItems(
