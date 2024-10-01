@@ -32,7 +32,6 @@ const ShowcaseImagesModal = ({ onClose }) => {
     const fetchImages = async () => {
       try {
         const response = await getShowcaseImages();
-        console.log("Showcase Images Response:", response.data.images);
         setImages(response.data.images);
         setLoading(false);
       } catch (error) {

@@ -148,7 +148,7 @@ const UploadProducts = () => {
 
   const handleSavePhoto = async (product, files) => {
     try {
-      await uploadProductImages({ productId: product.id, files });
+      await uploadProductImages(product.id, files);
       await fetchProducts();
       setShowUploadModal(false);
       setSelectedProduct(null);

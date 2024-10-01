@@ -39,6 +39,7 @@ const OnlineStoreFrontItemsByCategory = ({
         setCategories(categoryData.categories);
 
         const productData = await getPublishedItemsByCategory();
+
         setGroupedProducts(productData.groupedProducts);
 
         setVisibleItems(
@@ -137,7 +138,10 @@ const OnlineStoreFrontItemsByCategory = ({
               </div>
             ))
           ) : (
-            <p>No best-selling products found.</p>
+            <p>
+              No best-selling products found at the moment. Check out our latest
+              arrivals!
+            </p>
           )}
         </div>
         {showAllBestSellers && (
