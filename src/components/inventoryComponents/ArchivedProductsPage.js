@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import {
-  fetchAllArchivedProducts,
+  autoDeleteArchivedProducts,
   restoreArchivedProductById,
   restoreMultipleArchivedProducts,
   restoreAllArchivedProducts,
@@ -51,11 +51,17 @@ const ArchivedProductsPage = () => {
   const loadArchivedProducts = useCallback(async () => {
     try {
       setLoading(true);
-      const response = await fetchAllArchivedProducts(sortOrder);
-      if (response && response.data && Array.isArray(response.data)) {
-        setArchivedProducts(response.data);
+      const response = await autoDeleteArchivedProducts();
+      if (response && response.status === 200) {
+        setArchivedProducts(response.productsWithDaysRemaining);
+        if (response.deletedCount > 0) {
+          setSuccessMessage(
+            `${response.deletedCount} product(s) have been automatically deleted.`
+          );
+          setShowSuccessModal(true);
+        }
       } else {
-        setError("Invalid data format received from server.");
+        setError("Invalid response from the server.");
         setArchivedProducts([]);
       }
       setLoading(false);
@@ -63,7 +69,7 @@ const ArchivedProductsPage = () => {
       setError(err.message);
       setLoading(false);
     }
-  }, [sortOrder]);
+  }, []);
 
   useEffect(() => {
     loadArchivedProducts();
@@ -236,13 +242,14 @@ const ArchivedProductsPage = () => {
                   <th>ID</th>
                   <th>Name</th>
                   <th>Date Archived</th>
+                  <th>Days Remaining</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {archivedProducts.length === 0 ? (
                   <tr>
-                    <td colSpan="5" style={{ textAlign: "center" }}>
+                    <td colSpan="6" style={{ textAlign: "center" }}>
                       No archived products available.
                     </td>
                   </tr>
@@ -261,6 +268,7 @@ const ArchivedProductsPage = () => {
                       <td>
                         {new Date(product.archivedAt).toLocaleDateString()}
                       </td>
+                      <td>{product.daysRemaining}</td>
                       <td>
                         <button onClick={() => handleViewDetails(product)}>
                           <FontAwesomeIcon icon={faEye} /> View
@@ -311,14 +319,18 @@ const ArchivedProductsPage = () => {
         <ConfirmDeleteAllModal
           onClose={() => setShowDeleteAllConfirmModal(false)}
           onConfirm={async () => {
-            await deleteAllArchivedProducts();
-            setSuccessMessage(
-              "All archived products have been successfully deleted."
-            );
-            setShowSuccessModal(true);
-            loadArchivedProducts();
-            setShowDeleteAllConfirmModal(false);
-            setConfirmInput("");
+            try {
+              await deleteAllArchivedProducts();
+              setSuccessMessage(
+                "All archived products have been successfully deleted."
+              );
+              setShowSuccessModal(true);
+              loadArchivedProducts();
+              setShowDeleteAllConfirmModal(false);
+              setConfirmInput("");
+            } catch (err) {
+              setErrorMessage(err.message);
+            }
           }}
           confirmInput={confirmInput}
           setConfirmInput={setConfirmInput}
