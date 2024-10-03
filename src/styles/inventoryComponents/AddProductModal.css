@@ -71,6 +71,7 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 20px;
+  margin-bottom: 10px;
 }
 
 #root-add-product-modal .form-group {

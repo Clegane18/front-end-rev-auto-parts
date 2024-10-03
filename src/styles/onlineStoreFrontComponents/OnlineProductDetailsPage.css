@@ -34,7 +34,7 @@
   width: 350px;
   height: 350px;
   border-radius: 8px;
-  object-fit: cover;
+  object-fit: contain;
   margin-bottom: 15px;
   border: 3px solid #b22222;
 }
@@ -48,7 +48,7 @@
   width: 60px;
   height: 60px;
   border-radius: 4px;
-  object-fit: cover;
+  object-fit: contain;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
   border: 2px solid #ccc;
