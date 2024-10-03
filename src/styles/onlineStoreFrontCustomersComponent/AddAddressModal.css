@@ -1,3 +1,7 @@
+#root-add-address-modal * {
+  box-sizing: border-box;
+}
+
 #root-add-address-modal {
   position: fixed;
   top: 0;
@@ -44,6 +48,7 @@
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 1rem;
+  text-transform: none;
 }
 
 #root-add-address-modal .address-selector {
@@ -51,11 +56,6 @@
   padding-bottom: 20px;
   z-index: 10;
   overflow: visible;
-}
-
-#root-add-address-modal .address-display-wrapper .modal-input-address-display {
-  text-transform: none;
-  font-size: 15px;
 }
 
 #root-add-address-modal .address-display-wrapper {
@@ -70,6 +70,9 @@
   padding-right: 30px;
   box-sizing: border-box;
   position: relative;
+  text-transform: none;
+  font-size: 15px;
+  height: 40.8px;
 }
 
 #root-add-address-modal .arrow-icon {
@@ -306,4 +309,15 @@
   align-items: center;
   font-size: 14px;
   margin: 10px 0;
+}
+
+#root-add-address-modal .save-button {
+  background-color: #d30a0a;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 4px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }

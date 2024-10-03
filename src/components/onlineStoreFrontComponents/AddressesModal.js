@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { setDefaultAddress, getAddresses } from "../../services/address-api";
+import {
+  setDefaultAddress,
+  getAddresses,
+  addAddress,
+} from "../../services/address-api";
 import { useAuth } from "../../contexts/AuthContext";
 import "../../styles/onlineStoreFrontComponents/AddressesModal.css";
+import AddAddressModal from "../onlineStoreFrontCustomersComponent/AddAddressModal";
 
 const AddressesModal = ({ isOpen, onClose, onAddressChange }) => {
   const { currentUser, token, updateUserContext } = useAuth();
   const [addresses, setAddresses] = useState([]);
   const [error, setError] = useState("");
+  const [isAddAddressModalOpen, setIsAddAddressModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchAddresses = async () => {
@@ -27,15 +33,38 @@ const AddressesModal = ({ isOpen, onClose, onAddressChange }) => {
   const handleSetDefault = async (addressId) => {
     try {
       await setDefaultAddress({ addressId, customerId: currentUser.id, token });
-
       updateUserContext({ defaultAddressId: addressId });
-
       onAddressChange();
-
       onClose();
     } catch (err) {
       setError("Failed to set default address. Please try again later.");
       console.error("Error setting default address:", err);
+    }
+  };
+
+  const openAddAddressModal = () => setIsAddAddressModalOpen(true);
+  const closeAddAddressModal = () => setIsAddAddressModalOpen(false);
+
+  const handleSaveAddress = async (formData) => {
+    try {
+      if (!currentUser || !token) {
+        throw new Error("User is not authenticated");
+      }
+      const response = await addAddress({
+        id: currentUser.id,
+        token,
+        ...formData,
+      });
+      if (response.address && response.address.isSetDefaultAddress) {
+        updateUserContext({ defaultAddressId: response.address.id });
+      }
+      setError("");
+      closeAddAddressModal();
+      const data = await getAddresses(token);
+      setAddresses(data);
+    } catch (error) {
+      console.error("Failed to add address:", error.message);
+      setError(error.message);
     }
   };
 
@@ -46,6 +75,9 @@ const AddressesModal = ({ isOpen, onClose, onAddressChange }) => {
       <div className="address-modal">
         <div className="address-modal-content">
           <h3>My Addresses</h3>
+          <button onClick={openAddAddressModal} className="add-address-button">
+            Add New Address
+          </button>
           {error && <p className="error-message">{error}</p>}
           <ul className="address-list">
             {Array.isArray(addresses) && addresses.length > 0 ? (
@@ -80,6 +112,12 @@ const AddressesModal = ({ isOpen, onClose, onAddressChange }) => {
           </button>
         </div>
       </div>
+      <AddAddressModal
+        isOpen={isAddAddressModalOpen}
+        onClose={closeAddAddressModal}
+        onSave={handleSaveAddress}
+        isFirstAddress={addresses.length === 0}
+      />
     </div>
   );
 };
