@@ -25,8 +25,15 @@
 
 #root-showcase-upload-modal h2 {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   font-weight: 300;
+}
+
+#root-showcase-upload-modal .upload-note {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+  color: #555;
 }
 
 #root-showcase-upload-modal .button-group {
@@ -57,7 +64,7 @@
 
 #root-showcase-upload-modal .file-upload-label.dragging {
   background-color: #e6f7ff;
-  border-color: #007bff;
+  border-color: #d81111;
 }
 
 #root-showcase-upload-modal .file-upload-label .upload-icon {

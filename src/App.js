@@ -69,12 +69,7 @@ const App = () => {
         path="/customer-list"
         element={adminAuthToken ? <CustomerList /> : <Navigate to="/login" />}
       />
-      <Route
-        path="/account-suspended"
-        element={
-          adminAuthToken ? <AccountSuspended /> : <Navigate to="/login" />
-        }
-      />
+      <Route path="/account-suspended" element={<AccountSuspended />} />
       <Route
         path="/upload-products"
         element={adminAuthToken ? <UploadProducts /> : <Navigate to="/login" />}

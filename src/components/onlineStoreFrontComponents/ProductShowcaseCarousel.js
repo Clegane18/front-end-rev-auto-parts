@@ -72,16 +72,17 @@ const ProductShowcaseCarousel = () => {
     <div id="root-product-showcase-carousel" className="carousel-wrapper">
       <div className="carousel-container" ref={slideRef}>
         {images.map((image) => (
-          <img
-            key={image.id}
-            src={buildImageUrl(image.imageUrl)}
-            alt={`Product Showcase ${image.id}`}
-            className="carousel-image"
-            onError={(e) => {
-              e.target.src = "https://via.placeholder.com/150";
-            }}
-            loading="lazy"
-          />
+          <div className="carousel-image-wrapper" key={image.id}>
+            <img
+              src={buildImageUrl(image.imageUrl)}
+              alt={`Product Showcase ${image.id}`}
+              className="carousel-image"
+              onError={(e) => {
+                e.target.src = "https://via.placeholder.com/150";
+              }}
+              loading="lazy"
+            />
+          </div>
         ))}
       </div>
       <div className="carousel-indicators">

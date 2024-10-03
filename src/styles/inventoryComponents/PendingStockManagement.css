@@ -13,7 +13,6 @@
   align-items: center;
   gap: 1rem;
   margin-bottom: 20px;
-  justify-content: space-between;
 }
 
 #pending-stock-root .control-panel h1 {
@@ -66,6 +65,7 @@
   border-radius: 6px;
   font-size: 14px;
   transition: border-color 0.3s ease;
+  text-transform: none;
 }
 
 #pending-stock-root .input-group input:focus {
@@ -179,6 +179,7 @@
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
 }
 
 #pending-stock-root .pending-stock-list h2 {
