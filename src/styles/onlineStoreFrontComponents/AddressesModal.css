@@ -4,40 +4,62 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
 }
 
-#root-addresses-modal .address-modal-content h3 {
-  padding-bottom: 15px;
-}
-
-#root-addresses-modal .address-details-text p {
-  text-transform: none;
-  font-size: 16px;
-  line-height: 1.5;
-}
-
 #root-addresses-modal .address-modal-content {
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.95);
   padding: 30px;
-  border-radius: 8px;
-  width: 450px;
+  border-radius: 10px;
+  width: 500px;
   max-height: 80%;
   overflow-y: auto;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  font-family: "Montserrat", sans-serif;
+}
+
+#root-addresses-modal .address-modal-content h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+#root-addresses-modal .add-address-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #bb0000;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-bottom: 20px;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+#root-addresses-modal .add-address-button:hover {
+  opacity: 0.75;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  font-family: "Montserrat", serif;
+}
+
+#root-addresses-modal .error-message {
+  color: #d8000c;
+  background-color: #ffbaba;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  text-align: center;
 }
 
 #root-addresses-modal .address-list {
   list-style: none;
   padding: 0;
   margin: 0;
-  overflow-y: auto;
-  height: 360px;
 }
 
 #root-addresses-modal .address-item {
@@ -46,45 +68,69 @@
   border-bottom: 1px solid #ddd;
 }
 
-#root-addresses-modal .address-item p {
-  margin: 0;
-  font-size: 14px;
+#root-addresses-modal .address-details-text {
+  font-size: 16px;
   color: #333;
+  margin-bottom: 10px;
 }
 
 #root-addresses-modal .default-btn {
   background-color: #f0f0f0;
   color: #333;
-  border: none;
-  padding: 8px 12px;
+  border: 2px solid #bb0000;
+  padding: 8px 16px;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: 5px;
   font-size: 14px;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 #root-addresses-modal .default-btn.active {
-  background-color: #b22222;
-  color: #ffffff;
+  background-color: #bb0000;
+  color: #fff;
   cursor: not-allowed;
 }
 
 #root-addresses-modal .default-btn:hover:not(.active) {
-  background-color: #e0e0e0;
+  opacity: 0.55;
 }
 
 #root-addresses-modal .modal-close-btn {
-  margin-top: 20px;
-  padding: 10px 20px;
+  width: 100%;
+  padding: 10px;
   background-color: #e0e0e0;
   color: #333;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
-  transition: background-color 0.3s;
+  margin-top: 20px;
+  transition: background-color 0.3s, opacity 0.3s;
 }
 
 #root-addresses-modal .modal-close-btn:hover {
+  background-color: #c0c0c0;
   opacity: 0.75;
+}
+
+@media (max-width: 600px) {
+  #root-addresses-modal .address-modal-content {
+    width: 90%;
+    padding: 20px;
+  }
+
+  #root-addresses-modal .address-modal-content h3 {
+    font-size: 20px;
+  }
+
+  #root-addresses-modal .add-address-button,
+  #root-addresses-modal .default-btn,
+  #root-addresses-modal .modal-close-btn {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  #root-addresses-modal .address-details-text {
+    font-size: 14px;
+  }
 }
