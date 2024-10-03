@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import {
-  autoDeleteArchivedProducts,
+  fetchAllArchivedProducts,
   restoreArchivedProductById,
   restoreMultipleArchivedProducts,
   restoreAllArchivedProducts,
@@ -51,15 +51,20 @@ const ArchivedProductsPage = () => {
   const loadArchivedProducts = useCallback(async () => {
     try {
       setLoading(true);
-      const response = await autoDeleteArchivedProducts();
+      const response = await fetchAllArchivedProducts(sortOrder);
       if (response && response.status === 200) {
-        setArchivedProducts(response.productsWithDaysRemaining);
-        if (response.deletedCount > 0) {
-          setSuccessMessage(
-            `${response.deletedCount} product(s) have been automatically deleted.`
-          );
-          setShowSuccessModal(true);
-        }
+        const products = response.data.map((product) => {
+          const now = new Date();
+          const deleteDate = new Date(product.archivedAt);
+          deleteDate.setFullYear(deleteDate.getFullYear() + 1);
+          const timeDiff = deleteDate - now;
+          const daysRemaining = Math.ceil(timeDiff / (1000 * 3600 * 24));
+          return {
+            ...product,
+            daysRemaining: daysRemaining > 0 ? daysRemaining : 0,
+          };
+        });
+        setArchivedProducts(products);
       } else {
         setError("Invalid response from the server.");
         setArchivedProducts([]);
@@ -69,7 +74,7 @@ const ArchivedProductsPage = () => {
       setError(err.message);
       setLoading(false);
     }
-  }, []);
+  }, [sortOrder]);
 
   useEffect(() => {
     loadArchivedProducts();
@@ -99,7 +104,7 @@ const ArchivedProductsPage = () => {
   const handleRestoreMultiple = async () => {
     try {
       await restoreMultipleArchivedProducts(selectedProducts);
-      setSuccessMessage(`Selected products successfully restored.`);
+      setSuccessMessage("Selected products successfully restored.");
       setShowSuccessModal(true);
       loadArchivedProducts();
       setSelectedProducts([]);
@@ -186,7 +191,6 @@ const ArchivedProductsPage = () => {
       setWarningMessage("There are no archived products to delete.");
       return;
     }
-
     setShowDeleteAllConfirmModal(true);
   };
 
@@ -195,167 +199,188 @@ const ArchivedProductsPage = () => {
   };
 
   return (
-    <div id="root-archived-products-page">
-      <h1>Archives</h1>
-      {loading ? (
-        <p>Loading...</p>
-      ) : error ? (
-        <p>Error: {error}</p>
-      ) : (
-        <>
-          <div className="control-panel">
-            <div className="shop-info" onClick={handleBack}>
-              <img src={logo} alt="G&F Auto Supply" className="shop-logo" />
-            </div>
-            <div className="sort-order-container">
-              <label htmlFor="sortOrder">Sort By: </label>
-              <select
-                id="sortOrder"
-                value={sortOrder}
-                onChange={(e) => setSortOrder(e.target.value)}
-              >
-                <option value="ASC">Ascending</option>
-                <option value="DESC">Descending</option>
-              </select>
-            </div>
-            <button onClick={handleRestoreAll} disabled={loading}>
-              <FontAwesomeIcon icon={faRecycle} /> Restore All
-            </button>
-            <button
-              onClick={handleRestoreMultiple}
-              disabled={!selectedProducts.length || loading}
-            >
-              <FontAwesomeIcon icon={faUndo} /> Restore Selected Products
-            </button>
-            <button
-              onClick={handleDeleteAllArchivedProducts}
-              disabled={loading}
-            >
-              <FontAwesomeIcon icon={faTrashAlt} /> Empty Archives
-            </button>
+    <div id="archived-products-root">
+      <div className="archived-products-container">
+        <div className="control-panel">
+          <div className="shop-info" onClick={handleBack}>
+            <img src={logo} alt="G&F Auto Supply" className="shop-logo" />
           </div>
-          <div className="table-container">
-            <table>
-              <thead>
-                <tr>
-                  <th>Select</th>
-                  <th>ID</th>
-                  <th>Name</th>
-                  <th>Date Archived</th>
-                  <th>Days Remaining</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {archivedProducts.length === 0 ? (
+          <h1>Archives</h1>
+        </div>
+        {loading ? (
+          <p>Loading...</p>
+        ) : error ? (
+          <p>Error: {error}</p>
+        ) : (
+          <>
+            <div className="archived-products-actions">
+              <div className="sort-order-container">
+                <label htmlFor="sortOrder">Sort By: </label>
+                <select
+                  id="sortOrder"
+                  value={sortOrder}
+                  onChange={(e) => setSortOrder(e.target.value)}
+                >
+                  <option value="ASC">Ascending</option>
+                  <option value="DESC">Descending</option>
+                </select>
+              </div>
+              <button
+                className="primary-button"
+                onClick={handleRestoreAll}
+                disabled={loading}
+              >
+                <FontAwesomeIcon icon={faRecycle} /> Restore All
+              </button>
+              <button
+                className="secondary-button"
+                onClick={handleRestoreMultiple}
+                disabled={!selectedProducts.length || loading}
+              >
+                <FontAwesomeIcon icon={faUndo} /> Restore Selected
+              </button>
+              <button
+                className="danger-button"
+                onClick={handleDeleteAllArchivedProducts}
+                disabled={loading}
+              >
+                <FontAwesomeIcon icon={faTrashAlt} /> Empty Archives
+              </button>
+            </div>
+            <div className="table-container">
+              <table>
+                <thead>
                   <tr>
-                    <td colSpan="6" style={{ textAlign: "center" }}>
-                      No archived products available.
-                    </td>
+                    <th>Select</th>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Date Archived</th>
+                    <th>Days Remaining</th>
+                    <th>Actions</th>
                   </tr>
-                ) : (
-                  archivedProducts.map((product) => (
-                    <tr key={product.id}>
-                      <td>
-                        <input
-                          type="checkbox"
-                          checked={selectedProducts.includes(product.id)}
-                          onChange={() => handleSelectProduct(product.id)}
-                        />
-                      </td>
-                      <td>{product.id}</td>
-                      <td>{product.name}</td>
-                      <td>
-                        {new Date(product.archivedAt).toLocaleDateString()}
-                      </td>
-                      <td>{product.daysRemaining}</td>
-                      <td>
-                        <button onClick={() => handleViewDetails(product)}>
-                          <FontAwesomeIcon icon={faEye} /> View
-                        </button>
-                        <button onClick={() => handleRestoreClick(product)}>
-                          <FontAwesomeIcon icon={faTrashRestore} /> Restore
-                        </button>
-                        <button onClick={() => handleDeleteProduct(product)}>
-                          <FontAwesomeIcon icon={faTrashAlt} /> Delete
-                        </button>
+                </thead>
+                <tbody>
+                  {archivedProducts.length === 0 ? (
+                    <tr>
+                      <td colSpan="6" style={{ textAlign: "center" }}>
+                        No archived products available.
                       </td>
                     </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
-        </>
-      )}
-      {warningMessage && (
-        <WarningMessage
-          message={warningMessage}
-          onClose={() => setWarningMessage("")}
-        />
-      )}
-      {showProductDetailsModal && selectedProduct && (
-        <ProductDetailsInArchivedPage
-          product={selectedProduct}
-          onClose={handleCloseModal}
-        />
-      )}
-      {deleteProduct && (
-        <ConfirmDeleteModal
-          product={deleteProduct}
-          onClose={() => setDeleteProduct(null)}
-          onConfirm={handleConfirmDelete}
-          errorMessage={errorMessage}
-          clearErrorMessage={clearErrorMessage}
-        />
-      )}
-      {showSuccessModal && (
-        <SuccessModal
-          message={successMessage}
-          onClose={handleCloseSuccessModal}
-        />
-      )}
-      {showDeleteAllConfirmModal && (
-        <ConfirmDeleteAllModal
-          onClose={() => setShowDeleteAllConfirmModal(false)}
-          onConfirm={async () => {
-            try {
-              await deleteAllArchivedProducts();
-              setSuccessMessage(
-                "All archived products have been successfully deleted."
-              );
-              setShowSuccessModal(true);
-              loadArchivedProducts();
-              setShowDeleteAllConfirmModal(false);
-              setConfirmInput("");
-            } catch (err) {
-              setErrorMessage(err.message);
-            }
-          }}
-          confirmInput={confirmInput}
-          setConfirmInput={setConfirmInput}
-          errorMessage={errorMessage}
-        />
-      )}
-      {showConfirmRestoreModal && selectedProduct && (
-        <ConfirmRestoreModal
-          product={selectedProduct}
-          onClose={() => setShowConfirmRestoreModal(false)}
-          onConfirm={handleRestoreProduct}
-          errorMessage={errorMessage}
-          clearErrorMessage={clearErrorMessage}
-        />
-      )}
-      {showRestoreAllConfirmModal && (
-        <ConfirmRestoreAllModal
-          onClose={() => setShowRestoreAllConfirmModal(false)}
-          onConfirm={confirmRestoreAll}
-          confirmInput={confirmInput}
-          setConfirmInput={setConfirmInput}
-          errorMessage={errorMessage}
-        />
-      )}
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
+                  ) : (
+                    archivedProducts.map((product) => (
+                      <tr key={product.id}>
+                        <td>
+                          <input
+                            type="checkbox"
+                            checked={selectedProducts.includes(product.id)}
+                            onChange={() => handleSelectProduct(product.id)}
+                          />
+                        </td>
+                        <td>{product.id}</td>
+                        <td>{product.name}</td>
+                        <td>
+                          {new Date(product.archivedAt).toLocaleDateString()}
+                        </td>
+                        <td>{product.daysRemaining}</td>
+                        <td>
+                          <div className="action-buttons">
+                            <button
+                              className="primary-button small"
+                              onClick={() => handleViewDetails(product)}
+                            >
+                              <FontAwesomeIcon icon={faEye} /> View
+                            </button>
+                            <button
+                              className="success-button small"
+                              onClick={() => handleRestoreClick(product)}
+                            >
+                              <FontAwesomeIcon icon={faTrashRestore} /> Restore
+                            </button>
+                            <button
+                              className="danger-button small"
+                              onClick={() => handleDeleteProduct(product)}
+                            >
+                              <FontAwesomeIcon icon={faTrashAlt} /> Delete
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </>
+        )}
+        {warningMessage && (
+          <WarningMessage
+            message={warningMessage}
+            onClose={() => setWarningMessage("")}
+          />
+        )}
+        {showProductDetailsModal && selectedProduct && (
+          <ProductDetailsInArchivedPage
+            product={selectedProduct}
+            onClose={handleCloseModal}
+          />
+        )}
+        {deleteProduct && (
+          <ConfirmDeleteModal
+            product={deleteProduct}
+            onClose={() => setDeleteProduct(null)}
+            onConfirm={handleConfirmDelete}
+            errorMessage={errorMessage}
+            clearErrorMessage={clearErrorMessage}
+          />
+        )}
+        {showSuccessModal && (
+          <SuccessModal
+            message={successMessage}
+            onClose={handleCloseSuccessModal}
+          />
+        )}
+        {showDeleteAllConfirmModal && (
+          <ConfirmDeleteAllModal
+            onClose={() => setShowDeleteAllConfirmModal(false)}
+            onConfirm={async () => {
+              try {
+                await deleteAllArchivedProducts();
+                setSuccessMessage(
+                  "All archived products have been successfully deleted."
+                );
+                setShowSuccessModal(true);
+                loadArchivedProducts();
+                setShowDeleteAllConfirmModal(false);
+                setConfirmInput("");
+              } catch (err) {
+                setErrorMessage(err.message);
+              }
+            }}
+            confirmInput={confirmInput}
+            setConfirmInput={setConfirmInput}
+            errorMessage={errorMessage}
+          />
+        )}
+        {showConfirmRestoreModal && selectedProduct && (
+          <ConfirmRestoreModal
+            product={selectedProduct}
+            onClose={() => setShowConfirmRestoreModal(false)}
+            onConfirm={handleRestoreProduct}
+            errorMessage={errorMessage}
+            clearErrorMessage={clearErrorMessage}
+          />
+        )}
+        {showRestoreAllConfirmModal && (
+          <ConfirmRestoreAllModal
+            onClose={() => setShowRestoreAllConfirmModal(false)}
+            onConfirm={confirmRestoreAll}
+            confirmInput={confirmInput}
+            setConfirmInput={setConfirmInput}
+            errorMessage={errorMessage}
+          />
+        )}
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
+      </div>
     </div>
   );
 };

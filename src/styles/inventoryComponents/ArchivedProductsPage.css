@@ -1,73 +1,57 @@
-#root-archived-products-page {
+#archived-products-root {
   padding: 20px;
   font-family: "Montserrat", serif;
   background-color: #f9f9fb;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-height: 80vh;
-  overflow-y: auto;
+  max-width: 1200px;
+  margin: 20px auto;
 }
 
-#root-archived-products-page button {
-  padding: 10px 15px;
-  margin-right: 12px;
-  border: none;
-  background-color: #d30a0a;
-  color: white;
-  cursor: pointer;
-  border-radius: 6px;
-  text-transform: uppercase;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+#archived-products-root .archived-products-container {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
 }
 
-#root-archived-products-page button:last-child {
-  margin-right: 0;
-}
-
-#root-archived-products-page button:disabled {
-  background-color: #ccc;
-  color: #666;
-  cursor: not-allowed;
-}
-
-#root-archived-products-page button:hover:not(:disabled) {
-  opacity: 0.75;
-  transform: translateY(-2px);
-}
-
-#root-archived-products-page table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-  background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-#root-archived-products-page table th,
-#root-archived-products-page table td {
-  padding: 14px;
-  text-align: left;
-  border-bottom: 1px solid #eee;
-}
-
-#root-archived-products-page table th {
-  background-color: #eaecef;
-  font-size: 16px;
-  text-transform: uppercase;
-}
-
-#root-archived-products-page table tr:hover {
-  background-color: #f4f6f8;
-}
-
-.sort-order-container {
+#archived-products-root .control-panel {
   display: flex;
   align-items: center;
-  margin-right: 20px;
-  margin-left: 20px;
+  gap: 1rem;
+  margin-bottom: 20px;
 }
 
-#root-archived-products-page .sort-order-container label {
+#archived-products-root .control-panel h1 {
+  font-size: 2rem;
+  color: #1a2129;
+  margin: 0;
+}
+
+#archived-products-root .shop-logo {
+  max-height: 50px;
+  cursor: pointer;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#archived-products-root .shop-logo:hover {
+  opacity: 0.85;
+  transform: scale(1.05);
+}
+
+#archived-products-root .archived-products-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+#archived-products-root .sort-order-container {
+  display: flex;
+  align-items: center;
+}
+
+#archived-products-root .sort-order-container label {
   margin-right: 10px;
   font-size: 16px;
   color: #333;
@@ -89,7 +73,7 @@
 }
 
 #sortOrder:hover {
-  border-color: #d30a0a;
+  opacity: 0.75;
 }
 
 #sortOrder:focus {
@@ -97,50 +81,146 @@
   border-color: #d30a0a;
 }
 
-#root-archived-products-page .control-panel {
-  display: flex;
-  align-items: center;
-  padding: 10px 0;
-  margin-bottom: 20px;
-}
-
-#root-archived-products-page .shop-logo {
-  max-height: 40px;
-  max-width: 100%;
-  padding-left: 20px;
+#archived-products-root .primary-button,
+#archived-products-root .secondary-button,
+#archived-products-root .success-button,
+#archived-products-root .danger-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
-}
-
-#root-archived-products-page .shop-logo:hover {
-  opacity: 0.85;
-  transform: scale(1.05);
-}
-
-#root-archived-products-page .control-panel {
+  text-transform: uppercase;
+  font-size: 14px;
   display: flex;
-  gap: 1rem;
   align-items: center;
+  gap: 8px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#archived-products-root .primary-button {
+  background-color: #d30a0a;
+  color: #ffffff;
+}
+
+#archived-products-root .primary-button:hover {
+  opacity: 0.75;
+  transform: translateY(-2px);
+}
+
+#archived-products-root .secondary-button {
+  background-color: #28a745;
+  color: #ffffff;
+}
+
+#archived-products-root .secondary-button:hover {
+  opacity: 0.75;
+  transform: translateY(-2px);
+}
+
+#archived-products-root .success-button {
+  background-color: #28a745;
+  color: #ffffff;
+}
+
+#archived-products-root .success-button:hover {
+  opacity: 0.75;
+  transform: translateY(-2px);
+}
+
+#archived-products-root .danger-button {
+  background-color: #dc3545;
+  color: #ffffff;
+}
+
+#archived-products-root .danger-button:hover {
+  opacity: 0.75;
+  transform: translateY(-2px);
+}
+
+#archived-products-root .primary-button:disabled,
+#archived-products-root .secondary-button:disabled,
+#archived-products-root .success-button:disabled,
+#archived-products-root .danger-button:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
+#archived-products-root .small {
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+#archived-products-root .table-container {
+  overflow-x: auto;
+}
+
+#archived-products-root table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+#archived-products-root table th,
+#archived-products-root table td {
+  padding: 12px 15px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+
+#archived-products-root table th {
+  background-color: #eaecef;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+#archived-products-root table tr:hover {
+  background-color: #f4f6f8;
+}
+
+#archived-products-root .action-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
   flex-wrap: wrap;
-  background-color: #ffffff;
-  padding: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
 }
 
-#root-archived-products-page .table-container {
-  overflow-y: auto;
-  background-color: #ffffff;
-  padding: 0 1rem 1rem 1rem;
-  border-radius: 8px;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+#archived-products-root .error-message {
+  color: red;
+  text-align: center;
+  margin-top: 15px;
 }
 
-#root-archived-products-page h1 {
-  font-size: 2rem;
-  color: #1a2129;
-  text-align: left;
-  padding: 20px 0;
-  margin: 0;
-  border-bottom: 2px solid #ccc;
-  padding-left: 20px;
+@media (max-width: 992px) {
+  #archived-products-root .archived-products-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 576px) {
+  #archived-products-root .control-panel h1 {
+    font-size: 1.5rem;
+  }
+
+  #archived-products-root .primary-button,
+  #archived-products-root .secondary-button,
+  #archived-products-root .success-button,
+  #archived-products-root .danger-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  #archived-products-root table th,
+  #archived-products-root table td {
+    padding: 10px;
+    font-size: 12px;
+  }
+
+  #archived-products-root .shop-logo {
+    max-height: 40px;
+  }
 }
