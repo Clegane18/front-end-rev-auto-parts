@@ -6,7 +6,7 @@
   text-align: center;
   font-size: 24px;
   margin-bottom: 20px;
-  color: #3D4246;
+  color: #3d4246;
 }
 
 #root-cart .empty-cart {
@@ -29,7 +29,8 @@
   margin-top: 10px;
   width: fit-content;
   align-self: center;
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease;
 }
 
 #root-cart .empty-cart .back-to-pos-button:hover {
@@ -45,7 +46,7 @@
 }
 
 #root-cart .cart-header {
-  font-family: 'Montserrat', serif;
+  font-family: "Montserrat", serif;
   text-transform: none;
   display: flex;
   justify-content: space-between;
@@ -81,7 +82,7 @@
 }
 
 #root-cart .item-name {
-  font-family: 'Montserrat', serif;
+  font-family: "Montserrat", serif;
   text-transform: none;
   font-size: 16px;
   color: #333;
@@ -98,7 +99,8 @@
   margin-top: 5px;
   width: fit-content;
   align-self: center;
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease;
 }
 
 #root-cart .remove-button:hover {
@@ -107,8 +109,10 @@
   border-color: #bbb;
 }
 
-#root-cart .item-price, #root-cart .item-total {
+#root-cart .item-price,
+#root-cart .item-total {
   font-size: 16px;
+  font-family: "Montserrat", serif;
   color: #333;
   flex: 1;
   text-align: center;
@@ -138,7 +142,7 @@
 }
 
 #root-cart .cart-summary .subtotal-label {
-  font-family: 'Montserrat', serif;
+  font-family: "Montserrat", serif;
   text-transform: none;
   flex: 3;
   text-align: right;
@@ -148,7 +152,8 @@
 #root-cart .cart-summary .subtotal-value {
   flex: 1;
   text-align: center;
-  padding-right: 50px; 
+  padding-right: 50px;
+  font-family: "Montserrat", serif;
 }
 
 #root-cart .cart-summary-buttons {
@@ -166,11 +171,12 @@
   border: 1px solid #d4d4d8;
   border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease;
 }
 
 #root-cart .cart-summary-buttons .pay-button {
-  background-color: #B22222;
+  background-color: #b22222;
   color: #ffffff;
 }
 
@@ -279,4 +285,3 @@
     font-size: 12px;
   }
 }
- 

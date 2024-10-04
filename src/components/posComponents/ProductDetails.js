@@ -87,7 +87,11 @@ const ProductDetails = ({ product, onAddToCart, onClose }) => {
             <p className="product-item-code">ITEM CODE: {product.itemCode}</p>
           </div>
           <div className="product-description">
-            <p>• {product.description.split("\n").join("</p><p>• ")}</p>{" "}
+            <p
+              dangerouslySetInnerHTML={{
+                __html: `• ${product.description.split("\n").join("<br/> ")}`,
+              }}
+            />
           </div>
           <div className="product-actions">
             <button onClick={handleBuyNowClick} className="buy-now-button">
