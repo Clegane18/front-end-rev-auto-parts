@@ -17,6 +17,8 @@ import {
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import logo from "../../assets/g&f-logo.png";
+import AddPendingStockModal from "./AddPendingStockModal";
+import ConfirmCancelModal from "./ConfirmCancelModal";
 
 const PendingStockManagement = () => {
   const [pendingStocks, setPendingStocks] = useState([]);
@@ -31,6 +33,10 @@ const PendingStockManagement = () => {
   const [newDate, setNewDate] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedTerm, setDebouncedTerm] = useState("");
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showCancelModal, setShowCancelModal] = useState(false);
+  const [selectedStock, setSelectedStock] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
 
@@ -88,7 +94,7 @@ const PendingStockManagement = () => {
     const { productName, quantity, arrivalDate } = newPendingStock;
 
     if (!productName || !quantity || !arrivalDate) {
-      alert("Please fill in all fields.");
+      setShowAddModal(true);
       return;
     }
 
@@ -119,12 +125,20 @@ const PendingStockManagement = () => {
     }
   };
 
-  const handleCancelStock = async (id) => {
-    if (window.confirm("Are you sure you want to cancel this stock?")) {
+  const handleCancelStock = (stock) => {
+    setSelectedStock(stock);
+    setShowCancelModal(true);
+  };
+
+  const confirmCancelStock = async () => {
+    if (selectedStock) {
       try {
-        await cancelPendingStock(id);
+        await cancelPendingStock(selectedStock.id);
         fetchPendingStocks();
+        setShowCancelModal(false);
+        setSelectedStock(null);
       } catch (error) {
+        setErrorMessage("Failed to cancel stock.");
         console.error("Failed to cancel stock", error);
       }
     }
@@ -292,7 +306,7 @@ const PendingStockManagement = () => {
                           </button>
                           <button
                             className="danger-button small"
-                            onClick={() => handleCancelStock(stock.id)}
+                            onClick={() => handleCancelStock(stock)}
                           >
                             <FontAwesomeIcon icon={faTimes} /> Cancel
                           </button>
@@ -306,6 +320,20 @@ const PendingStockManagement = () => {
           </div>
         </div>
       </div>
+      {showAddModal && (
+        <AddPendingStockModal onClose={() => setShowAddModal(false)} />
+      )}
+      {showCancelModal && (
+        <ConfirmCancelModal
+          onClose={() => {
+            setShowCancelModal(false);
+            setErrorMessage("");
+            setSelectedStock(null);
+          }}
+          onConfirm={confirmCancelStock}
+          errorMessage={errorMessage}
+        />
+      )}
     </div>
   );
 };

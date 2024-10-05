@@ -1,0 +1,118 @@
+#confirm-cancel-modal .modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease-in-out;
+  z-index: 1001;
+}
+
+#confirm-cancel-modal .modal-content {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  width: 450px;
+  max-width: 90%;
+  max-height: 90%;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  animation: slideIn 0.4s ease-out;
+}
+
+#confirm-cancel-modal .warning-icon {
+  font-size: 48px;
+  color: #ff6347;
+  margin-bottom: 20px;
+}
+
+#confirm-cancel-modal .modal-content h2 {
+  margin-top: 0;
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+#confirm-cancel-modal .modal-content p {
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+#confirm-cancel-modal .modal-content .button-group {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+#confirm-cancel-modal .modal-content .button-group .danger-button {
+  background-color: #bb0000;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s, transform 0.2s;
+  margin: 0 10px;
+}
+
+#confirm-cancel-modal .modal-content .button-group .danger-button:hover {
+  opacity: 0.75;
+  transform: scale(1.05);
+}
+
+#confirm-cancel-modal .modal-content .button-group .cancel-button {
+  background-color: #e0e0e0;
+  color: #333;
+  border: 1px solid #ccc;
+  padding: 12px 25px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s, transform 0.2s;
+  margin: 0 10px;
+}
+
+#confirm-cancel-modal .modal-content .button-group .cancel-button:hover {
+  background-color: #a8a8a8;
+  transform: scale(1.05);
+  opacity: 0.75;
+}
+
+#confirm-cancel-modal .modal-content .error-text {
+  color: #eb2626;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  text-align: center;
+  font-family: "Montserrat", sans-serif;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@media (min-width: 1024px) {
+  #confirm-cancel-modal .modal-content {
+    width: 35%;
+  }
+}
