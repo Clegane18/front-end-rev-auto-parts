@@ -166,3 +166,10 @@
 #root-customer-profile-page .customer-profile-content p {
   color: #b9b8b8;
 }
+
+#root-customer-profile-page .error-message {
+  color: red;
+  font-family: "Montserrat", serif;
+  margin-bottom: 10px;
+  font-weight: bold;
+}

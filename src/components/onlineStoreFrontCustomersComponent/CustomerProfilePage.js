@@ -79,6 +79,11 @@ const CustomerProfilePage = () => {
   }, [currentUser, token]);
 
   const handleSave = async () => {
+    if (!/^\+?\d+$/.test(profile.phoneNumber)) {
+      setError("Phone number must be a valid number.");
+      return;
+    }
+
     try {
       const payload = {
         customerId: currentUser.id,
@@ -96,13 +101,13 @@ const CustomerProfilePage = () => {
 
       await updateCustomer(payload);
       setShowSuccessModal(true);
+      setError(null);
     } catch (err) {
       setError(err.message);
     }
   };
 
   if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
 
   return (
     <div id="root-customer-profile-page">
@@ -121,6 +126,7 @@ const CustomerProfilePage = () => {
           {selectedMenu === "Profile" && (
             <>
               <h1>My Profile</h1>
+              {error && <div className="error-message">{error}</div>}
               <div className="profile-form">
                 <div>
                   <label>Username</label>
