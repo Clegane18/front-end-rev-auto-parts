@@ -2,7 +2,7 @@ services:
   - type: web
     name: geartrack-frontend
     env: node
-    buildCommand: npm install
-    startCommand: npm run serve
+    buildCommand: npm run build
+    startCommand: serve -s build
     node:
-      version: 20.17.0
+      version: "20.17.0"
