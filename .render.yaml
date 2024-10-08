@@ -1,0 +1,8 @@
+services:
+  - type: web
+    name: geartrack-frontend
+    env: node
+    buildCommand: npm install
+    startCommand: npm run serve
+    node:
+      version: 20.17.0
