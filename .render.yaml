@@ -5,4 +5,4 @@ services:
     buildCommand: npm run build
     startCommand: serve -s build
     node:
-      version: "20.17.0"
+      version: "20.x"
