@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:3002/api";
+const BASE_URL = "https://rev-auto-parts.onrender.com/api";
 
 export const searchProducts = async (query) => {
   try {
