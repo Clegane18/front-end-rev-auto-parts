@@ -7,7 +7,7 @@ export const WebSocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const newSocket = socketIOClient("http://localhost:3002");
+    const newSocket = socketIOClient("https://rev-auto-parts.onrender.com");
     setSocket(newSocket);
 
     return () => {
