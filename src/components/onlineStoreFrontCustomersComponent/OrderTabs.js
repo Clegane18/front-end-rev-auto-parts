@@ -179,7 +179,7 @@ const OrderTabs = ({ initialTab = "All" }) => {
                         <div className="item-image-container">
                           {item.productImage ? (
                             <img
-                              src={`http://localhost:3002/${encodeURL(
+                              src={`https://rev-auto-parts.onrender.com/${encodeURL(
                                 item.productImage.replace(/\\/g, "/")
                               )}`}
                               alt={item.productName}

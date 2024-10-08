@@ -12,9 +12,9 @@ const encodeURL = (url) => (url ? url.replace(/\\/g, "/") : "");
 
 const buildImageUrl = (imagePath) => {
   if (imagePath.startsWith("/")) {
-    return `http://localhost:3002${imagePath}`;
+    return `https://rev-auto-parts.onrender.com${imagePath}`;
   } else {
-    return `http://localhost:3002/${imagePath}`;
+    return `https://rev-auto-parts.onrender.com/${imagePath}`;
   }
 };
 

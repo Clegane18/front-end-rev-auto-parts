@@ -129,7 +129,7 @@ const OnlineStoreFrontItemsByCategory = ({
               >
                 <div className="product-image-container">
                   <img
-                    src={`http://localhost:3002/${encodeURL(
+                    src={`https://rev-auto-parts.onrender.com/${encodeURL(
                       product.imageUrl.replace(/\\/g, "/")
                     )}`}
                     alt={product.productName}
@@ -181,7 +181,7 @@ const OnlineStoreFrontItemsByCategory = ({
                 >
                   <div className="product-image-container">
                     <img
-                      src={`http://localhost:3002/${encodeURL(
+                      src={`https://rev-auto-parts.onrender.com/${encodeURL(
                         item.images?.[0]?.imageUrl.replace(/\\/g, "/") ||
                           "default-image.jpg"
                       )}`}

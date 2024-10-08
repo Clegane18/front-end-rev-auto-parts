@@ -51,7 +51,7 @@ const UploadProducts = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
 
-  const BASE_URL = "http://localhost:3002/";
+  const BASE_URL = "https://rev-auto-parts.onrender.com/";
 
   const fetchProducts = async () => {
     try {

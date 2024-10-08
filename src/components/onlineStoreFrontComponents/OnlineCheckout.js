@@ -368,7 +368,7 @@ const OnlineCheckout = () => {
                     <img
                       src={
                         item.Product?.images?.[0]?.imageUrl
-                          ? `http://localhost:3002/${encodeURL(
+                          ? `https://rev-auto-parts.onrender.com/${encodeURL(
                               item.Product.images[0].imageUrl.replace(
                                 /\\/g,
                                 "/"

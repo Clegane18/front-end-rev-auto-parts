@@ -87,7 +87,8 @@ const CustomerLoginPage = () => {
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = "http://localhost:3002/api/auth/google/callback";
+    window.location.href =
+      "https://rev-auto-parts.onrender.com/api/auth/google/callback";
   };
 
   const togglePasswordVisibility = () => {

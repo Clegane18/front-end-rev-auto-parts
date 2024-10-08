@@ -176,7 +176,7 @@ const OnlineCart = () => {
                       className="cart-item-checkbox"
                     />
                     <img
-                      src={`http://localhost:3002/${encodeURL(
+                      src={`https://rev-auto-parts.onrender.com/${encodeURL(
                         item.Product.images?.[0]?.imageUrl.replace(
                           /\\/g,
                           "/"
