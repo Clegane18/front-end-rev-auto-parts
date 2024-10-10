@@ -21,7 +21,6 @@ const AddAddressModal = ({ isOpen, onClose, onSave, isFirstAddress }) => {
     province: "",
     city: "",
     barangay: "",
-    addressLine: "",
     label: "",
     isDefault: isFirstAddress,
     postalCode: "",

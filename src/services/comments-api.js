@@ -1,7 +1,10 @@
 import axios from "axios";
 
+// const api = axios.create({
+//   baseURL: "https://rev-auto-parts.onrender.com/api/comments",
+// });
 const api = axios.create({
-  baseURL: "https://rev-auto-parts.onrender.com/api/comments",
+  baseURL: "http://localhost:3002/api/comments",
 });
 
 export const createComment = async (formData, token, productId) => {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../../styles/onlineStoreFrontComponents/GCashPaymentModal.css";
 import qrCode from "../../assets/gcash-qr.jpg";
 import { formatCurrency } from "../../utils/formatCurrency";
-// luma
+
 const GCashPaymentModal = ({ isOpen, onClose, onConfirm, amountToPay }) => {
   const [referenceNumber, setReferenceNumber] = useState("");
 

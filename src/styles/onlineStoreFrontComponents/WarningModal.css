@@ -12,7 +12,7 @@
 }
 
 #root-warning-match-ref-no-modal .warning-modal-content {
-  background-color: #fdecea;
+  background-color: #ffffff;
   padding: 20px;
   width: 90%;
   max-width: 400px;
@@ -25,7 +25,7 @@
   color: #d32f2f;
   font-weight: bold;
   margin-top: 10px;
-  background-color: #fdecea;
+  background-color: #ffffff;
   padding: 10px;
   border-radius: 3px;
   font-size: 14px;

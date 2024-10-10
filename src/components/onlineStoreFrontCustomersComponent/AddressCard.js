@@ -58,9 +58,11 @@ const AddressCard = () => {
         ...formData,
       });
 
+      console.log("Response from addAddress:", response);
+
       setModalOpen(false);
       setError(null);
-
+      console.log("THISI S THE ADDRESS IN REPOSNSE", response.address.id);
       if (response.address && response.address.isSetDefaultAddress) {
         updateUserContext({ defaultAddressId: response.address.id });
       }

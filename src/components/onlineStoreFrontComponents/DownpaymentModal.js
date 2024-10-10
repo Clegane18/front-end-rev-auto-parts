@@ -9,7 +9,6 @@ const DownpaymentModal = ({
   onConfirm,
 }) => {
   if (!isOpen) return null;
-  // luma
   return (
     <div id="root-downpayment-modal" role="dialog" aria-modal="true">
       <div className="downpayment-modal-content">

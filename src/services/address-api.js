@@ -1,7 +1,10 @@
 import axios from "axios";
 
+// const api = axios.create({
+//   baseURL: "https://rev-auto-parts.onrender.com/api/address",
+// });
 const api = axios.create({
-  baseURL: "https://rev-auto-parts.onrender.com/api/address",
+  baseURL: "http://localhost:3002/api/address",
 });
 
 export const addAddress = async ({

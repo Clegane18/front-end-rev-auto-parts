@@ -1,7 +1,10 @@
 import axios from "axios";
 
+// const api = axios.create({
+//   baseURL: "https://rev-auto-parts.onrender.com/api/order",
+// });
 const api = axios.create({
-  baseURL: "https://rev-auto-parts.onrender.com/api/order",
+  baseURL: "http://localhost:3002/api/order",
 });
 
 export const calculateShippingFee = async ({ addressId, token }) => {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { createOrder, calculateShippingFee } from "../../services/order-api";
 import { useNavigate, useLocation } from "react-router-dom";
-import { getAddressById, createAddress } from "../../services/address-api";
+import { getAddressById } from "../../services/address-api";
 import { useAuth } from "../../contexts/AuthContext";
 import "../../styles/onlineStoreFrontComponents/OnlineCheckout.css";
 import logo from "../../assets/g&f-logo.png";
@@ -10,7 +10,7 @@ import {
   faMapMarkerAlt,
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
-import AddAddressModal from "../onlineStoreFrontCustomersComponent/AddAddressModal";
+import AddressModal from "./AddressesModal";
 import DownpaymentModal from "./DownpaymentModal";
 import GCashPaymentModal from "./GCashPaymentModal";
 import WarningModal from "./WarningModal";
@@ -23,7 +23,6 @@ const OnlineCheckout = () => {
   const [addressDetails, setAddressDetails] = useState(null);
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const [isAddAddressModalOpen, setIsAddAddressModalOpen] = useState(false);
   const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
   const [isPaymentDropdownOpen, setIsPaymentDropdownOpen] = useState(false);
   const [shippingFee, setShippingFee] = useState(0);
@@ -35,6 +34,7 @@ const OnlineCheckout = () => {
   const [gcashAmountToPay, setGcashAmountToPay] = useState(0);
   const [isWarningModalOpen, setIsWarningModalOpen] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isNoAddressModalOpen, setIsNoAddressModalOpen] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -87,9 +87,11 @@ const OnlineCheckout = () => {
     if (currentUser) {
       setCustomerId(currentUser.id);
       const validAddressId = Number(currentUser.defaultAddressId);
-      if (!isNaN(validAddressId)) {
+      if (!isNaN(validAddressId) && validAddressId !== 0) {
         setAddressId(validAddressId);
         fetchAddressDetails(validAddressId);
+      } else {
+        setAddressDetails(null);
       }
     }
   }, [currentUser, fetchAddressDetails]);
@@ -228,6 +230,11 @@ const OnlineCheckout = () => {
   ) => {
     setIsProcessing(true);
     try {
+      if (!addressDetails) {
+        setIsNoAddressModalOpen(true);
+        return;
+      }
+
       if (requiresDownpayment(paymentMethodParam, gcashRefNumber)) {
         const downpayment = calculateDownpayment(inStorePickupItems);
         setDownpaymentAmount(downpayment);
@@ -252,18 +259,11 @@ const OnlineCheckout = () => {
   };
 
   const handleCheckout = () => {
-    if (!addressDetails) {
-      setIsAddAddressModalOpen(true);
-    } else {
-      processCheckout();
-    }
+    processCheckout();
   };
 
   const openAddressModal = () => setIsAddressModalOpen(true);
   const closeAddressModal = () => setIsAddressModalOpen(false);
-
-  const openAddAddressModal = () => setIsAddAddressModalOpen(true);
-  const closeAddAddressModal = () => setIsAddAddressModalOpen(false);
 
   const togglePaymentDropdown = () => {
     if (!hasInStorePickup) {
@@ -315,48 +315,13 @@ const OnlineCheckout = () => {
   const encodeURL = (url) =>
     encodeURIComponent(url).replace(/%2F/g, "/").replace(/%3A/g, ":");
 
-  const handleAddAddressSave = async (newAddress) => {
-    try {
-      const payload = {
-        fullName: newAddress.fullName,
-        phoneNumber: newAddress.phoneNumber,
-        region: newAddress.region,
-        province: newAddress.province,
-        city: newAddress.city,
-        barangay: newAddress.barangay,
-        addressLine: newAddress.addressLine,
-        postalCode: newAddress.postalCode,
-        label: newAddress.label,
-        isDefault: newAddress.isDefault,
-      };
-      const response = await createAddress(payload, token);
-      const createdAddress = response.data;
+  const closeNoAddressModal = () => {
+    setIsNoAddressModalOpen(false);
+  };
 
-      if (createdAddress) {
-        setAddressDetails(createdAddress);
-        setAddressId(createdAddress.id);
-
-        if (createdAddress.isWithinMetroManila) {
-          setIsFreeShipping(true);
-          setShippingFee(0);
-        } else {
-          const shippingResponse = await calculateShippingFee({
-            addressId: createdAddress.id,
-            token,
-          });
-          const fee = shippingResponse.data?.data?.shippingFee || 0;
-          setShippingFee(fee);
-          setIsFreeShipping(false);
-        }
-
-        closeAddAddressModal();
-        processCheckout();
-      } else {
-        setError("Failed to create address. Please try again.");
-      }
-    } catch (err) {
-      setError(err.message || "Failed to create address.");
-    }
+  const handleAddAddressClick = () => {
+    setIsNoAddressModalOpen(false);
+    setIsAddressModalOpen(true);
   };
 
   return (
@@ -400,7 +365,15 @@ const OnlineCheckout = () => {
               </button>
             </p>
           ) : (
-            <p>No address found. Please add an address.</p>
+            <p>
+              No address available.{" "}
+              <button
+                onClick={openAddressModal}
+                className="change-address-link"
+              >
+                Add Address
+              </button>
+            </p>
           )}
         </div>
         <div className="products-ordered-section">
@@ -515,11 +488,10 @@ const OnlineCheckout = () => {
             {isProcessing ? "Processing..." : "Place Order"}
           </button>
         </div>
-        <AddAddressModal
-          isOpen={isAddAddressModalOpen}
-          onClose={closeAddAddressModal}
-          onSave={handleAddAddressSave}
-          isFirstAddress={!addressDetails}
+        <AddressModal
+          isOpen={isAddressModalOpen}
+          onClose={closeAddressModal}
+          onAddressChange={handleAddressChange}
         />
         <DownpaymentModal
           isOpen={isDownpaymentModalOpen}
@@ -537,6 +509,32 @@ const OnlineCheckout = () => {
           isOpen={isWarningModalOpen}
           onClose={() => setIsWarningModalOpen(false)}
         />
+        {isNoAddressModalOpen && (
+          <div id="root-warning-match-ref-no-modal">
+            <div className="warning-modal-overlay">
+              <div className="warning-modal-content">
+                <h2>Please create an address</h2>
+                <p className="warning-note">
+                  Please create an address first before placing an order.
+                </p>
+                <div className="modal-actions">
+                  <button
+                    onClick={handleAddAddressClick}
+                    className="add-address-button"
+                  >
+                    Add Address
+                  </button>
+                  <button
+                    onClick={closeNoAddressModal}
+                    className="close-button"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
