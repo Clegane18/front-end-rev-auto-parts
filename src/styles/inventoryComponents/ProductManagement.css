@@ -79,7 +79,7 @@
 
 #root-product-management .table-container {
   overflow-y: auto;
-  max-height: 550px;
+  max-height: 80vh;
   background-color: #ffffff;
   padding: 0 1rem 1rem 1rem;
   border-radius: 8px;

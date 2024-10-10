@@ -513,6 +513,7 @@ const ProductManagement = () => {
                   <th>Description</th>
                   <th>Supplier Name</th>
                   <th>Price</th>
+                  <th>Supplier Cost</th>
                   <th>Stock</th>
                   <th>Added Date</th>
                   <th className="print-hide">Actions</th>
@@ -530,6 +531,7 @@ const ProductManagement = () => {
                       <td>{product.description}</td>
                       <td>{product.supplierName}</td>
                       <td>{formatCurrency(product.price)}</td>
+                      <td>{formatCurrency(product.supplierCost)}</td>
                       <td>{product.stock}</td>
                       <td>
                         {new Date(product.dateAdded).toLocaleDateString()}
