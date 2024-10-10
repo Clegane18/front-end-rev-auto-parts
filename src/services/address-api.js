@@ -49,7 +49,7 @@ export const addAddress = async ({
       error.response ? error.response.data : error.message
     );
     if (error.response && error.response.data) {
-      throw new Error(error.response.data.message);
+      throw new Error(error.response.data.error || error.response.data.message);
     } else {
       throw new Error("Failed to add address. Please try again later.");
     }

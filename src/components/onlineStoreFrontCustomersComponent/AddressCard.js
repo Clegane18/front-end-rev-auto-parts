@@ -58,11 +58,8 @@ const AddressCard = () => {
         ...formData,
       });
 
-      console.log("Response from addAddress:", response);
-
       setModalOpen(false);
       setError(null);
-      console.log("THISI S THE ADDRESS IN REPOSNSE", response.address.id);
       if (response.address && response.address.isSetDefaultAddress) {
         updateUserContext({ defaultAddressId: response.address.id });
       }
@@ -225,9 +222,13 @@ const AddressCard = () => {
           : !error && <p>No addresses available.</p>}
         <AddAddressModal
           isOpen={isModalOpen}
-          onClose={() => setModalOpen(false)}
+          onClose={() => {
+            setModalOpen(false);
+            setError(null);
+          }}
           onSave={handleSaveAddress}
           isFirstAddress={addresses.length === 0}
+          errorMessage={error}
         />
         <UpdateAddressModal
           isOpen={isUpdateModalOpen}

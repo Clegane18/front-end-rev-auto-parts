@@ -13,7 +13,13 @@ import {
   FaSpinner,
 } from "react-icons/fa";
 
-const AddAddressModal = ({ isOpen, onClose, onSave, isFirstAddress }) => {
+const AddAddressModal = ({
+  isOpen,
+  onClose,
+  onSave,
+  isFirstAddress,
+  errorMessage,
+}) => {
   const [formData, setFormData] = useState({
     fullName: "",
     phoneNumber: "",
@@ -24,6 +30,7 @@ const AddAddressModal = ({ isOpen, onClose, onSave, isFirstAddress }) => {
     label: "",
     isDefault: isFirstAddress,
     postalCode: "",
+    addressLine: "",
   });
 
   const [selectedNames, setSelectedNames] = useState({
@@ -40,6 +47,7 @@ const AddAddressModal = ({ isOpen, onClose, onSave, isFirstAddress }) => {
   const [activeTab, setActiveTab] = useState("Region");
   const [isTabVisible, setIsTabVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -187,8 +195,9 @@ const AddAddressModal = ({ isOpen, onClose, onSave, isFirstAddress }) => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
     const formDataWithNames = {
       ...formData,
       region: selectedNames.regionName,
@@ -197,8 +206,11 @@ const AddAddressModal = ({ isOpen, onClose, onSave, isFirstAddress }) => {
       barangay: selectedNames.barangayName,
       isSetDefaultAddress: formData.isDefault,
     };
-
-    onSave(formDataWithNames);
+    try {
+      await onSave(formDataWithNames);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const toggleTabVisibility = () => {
@@ -237,6 +249,7 @@ const AddAddressModal = ({ isOpen, onClose, onSave, isFirstAddress }) => {
       <div className="modal-overlay">
         <div className="modal-content">
           <h2 className="modal-title">New Address</h2>
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
           <form onSubmit={handleSubmit}>
             <div className="input-group">
               <input
@@ -500,8 +513,18 @@ const AddAddressModal = ({ isOpen, onClose, onSave, isFirstAddress }) => {
               <button type="button" onClick={onClose} className="cancel-button">
                 Cancel
               </button>
-              <button type="submit" className="save-button">
-                Save
+              <button
+                type="submit"
+                className="save-button"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  <>
+                    Saving <FaSpinner className="loading-icon" />
+                  </>
+                ) : (
+                  "Save"
+                )}
               </button>
             </div>
           </form>
