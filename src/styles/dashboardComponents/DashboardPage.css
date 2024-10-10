@@ -206,7 +206,8 @@ body {
 #root-dashboard-page .bottom-section {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: 0px;
+  margin-bottom: 20px;
 }
 
 #root-dashboard-page .transaction-overview,
@@ -308,7 +309,8 @@ body {
 #root-dashboard-page .total-income-item p:hover,
 #root-dashboard-page .transaction-details-total p:hover,
 #root-dashboard-page .transaction-details-pos p:hover,
-#root-dashboard-page .transaction-details-online p:hover {
+#root-dashboard-page .transaction-details-online p:hover,
+#root-dashboard-page .income-details-item p:hover {
   transform: scale(1.05);
   background-color: #e9ecef;
 }

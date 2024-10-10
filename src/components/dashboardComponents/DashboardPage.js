@@ -377,150 +377,146 @@ const DashboardPage = () => {
                 <SalesChart data={monthlyIncome} />
               </div>
             </div>
-            <section className="bottom-section">
-              <div
-                id="stock-reminder-low-stock-reminder"
-                className={`stock-reminder-low-stock-reminder ${
-                  isReportMode ? "wiggle hoverable" : ""
-                } ${
-                  selectedReports.includes("stock-reminder-low-stock-reminder")
-                    ? "selected"
-                    : ""
-                }`}
-                onClick={() =>
-                  isReportMode &&
-                  handleReportSelection("stock-reminder-low-stock-reminder")
-                }
-                ref={stockReminderRef}
-              >
-                <h3>Stock Reminder</h3>
-                {isReportMode && (
-                  <input
-                    type="checkbox"
-                    className="report-checkbox"
-                    checked={selectedReports.includes(
-                      "stock-reminder-low-stock-reminder"
-                    )}
-                    readOnly
-                  />
-                )}
-                <div className="low-stock-list">
-                  <div className="low-stock-list-item in-stock">
-                    <span className="no-print">
-                      <FontAwesomeIcon icon={faCheckCircle} />
-                    </span>
-                    In Stock: {formatCurrency(totalStock)}
-                  </div>
-                  <div className="low-stock-list-item total-items">
-                    <span className="no-print">
-                      <FontAwesomeIcon icon={faArchive} />
-                    </span>
-                    Total Items: {totalItems}
-                  </div>
-                  <div className="low-stock-list-item low-stock">
-                    <span className="no-print">
-                      <FontAwesomeIcon icon={faExclamationTriangle} />
-                    </span>
-                    Low Stock:{" "}
-                    {lowStockProducts.length > 0 ? (
-                      lowStockProducts.map((product, index) => (
-                        <span className="product-name" key={index}>
-                          {product.name} ({product.stock})
-                          {index < lowStockProducts.length - 1 ? ", " : ""}
-                        </span>
-                      ))
-                    ) : (
-                      <span className="no-low-stock">
-                        No low stock products
+          </section>
+          <section className="bottom-section">
+            <div
+              id="stock-reminder-low-stock-reminder"
+              className={`stock-reminder-low-stock-reminder ${
+                isReportMode ? "wiggle hoverable" : ""
+              } ${
+                selectedReports.includes("stock-reminder-low-stock-reminder")
+                  ? "selected"
+                  : ""
+              }`}
+              onClick={() =>
+                isReportMode &&
+                handleReportSelection("stock-reminder-low-stock-reminder")
+              }
+              ref={stockReminderRef}
+            >
+              <h3>Stock Reminder</h3>
+              {isReportMode && (
+                <input
+                  type="checkbox"
+                  className="report-checkbox"
+                  checked={selectedReports.includes(
+                    "stock-reminder-low-stock-reminder"
+                  )}
+                  readOnly
+                />
+              )}
+              <div className="low-stock-list">
+                <div className="low-stock-list-item in-stock">
+                  <span className="no-print">
+                    <FontAwesomeIcon icon={faCheckCircle} />
+                  </span>
+                  In Stock: {totalStock.toLocaleString()}
+                </div>
+                <div className="low-stock-list-item total-items">
+                  <span className="no-print">
+                    <FontAwesomeIcon icon={faArchive} />
+                  </span>
+                  Total Items: {totalItems}
+                </div>
+                <div className="low-stock-list-item low-stock">
+                  <span className="no-print">
+                    <FontAwesomeIcon icon={faExclamationTriangle} />
+                  </span>
+                  Low Stock:{" "}
+                  {lowStockProducts.length > 0 ? (
+                    lowStockProducts.map((product, index) => (
+                      <span className="product-name" key={index}>
+                        {product.name} ({product.stock})
+                        {index < lowStockProducts.length - 1 ? ", " : ""}
                       </span>
-                    )}
-                  </div>
+                    ))
+                  ) : (
+                    <span className="no-low-stock">No low stock products</span>
+                  )}
                 </div>
               </div>
-              <div
-                id="transaction-overview"
-                className={`transaction-overview ${
-                  isReportMode ? "wiggle hoverable" : ""
-                } ${
-                  selectedReports.includes("transaction-overview")
-                    ? "selected"
-                    : ""
-                }`}
-                onClick={() =>
-                  isReportMode && handleReportSelection("transaction-overview")
-                }
-              >
-                <h3>Today's Transactions Overview</h3>
-                {isReportMode && (
-                  <input
-                    type="checkbox"
-                    className="report-checkbox"
-                    checked={selectedReports.includes("transaction-overview")}
-                    readOnly
-                  />
-                )}
-                <div className="transactions-details">
-                  <div className="transaction-details-total">
-                    <p>
-                      Total:{" "}
-                      {totalTransactions !== null ? totalTransactions : "0"}
-                    </p>
-                  </div>
-                  <div className="transaction-details-pos">
-                    <p>
-                      Point of Sale:{" "}
-                      {posTransactions !== null ? posTransactions : "0"}
-                    </p>
-                  </div>
-                  <div className="transaction-details-online">
-                    <p>
-                      Online Store Front:{" "}
-                      {onlineTransactions !== null ? onlineTransactions : "0"}
-                    </p>
-                  </div>
+            </div>
+            <div
+              id="transaction-overview"
+              className={`transaction-overview ${
+                isReportMode ? "wiggle hoverable" : ""
+              } ${
+                selectedReports.includes("transaction-overview")
+                  ? "selected"
+                  : ""
+              }`}
+              onClick={() =>
+                isReportMode && handleReportSelection("transaction-overview")
+              }
+            >
+              <h3>Today's Transactions Overview</h3>
+              {isReportMode && (
+                <input
+                  type="checkbox"
+                  className="report-checkbox"
+                  checked={selectedReports.includes("transaction-overview")}
+                  readOnly
+                />
+              )}
+              <div className="transactions-details">
+                <div className="transaction-details-total">
+                  <p>
+                    Total:{" "}
+                    {totalTransactions !== null ? totalTransactions : "0"}
+                  </p>
+                </div>
+                <div className="transaction-details-pos">
+                  <p>
+                    Point of Sale:{" "}
+                    {posTransactions !== null ? posTransactions : "0"}
+                  </p>
+                </div>
+                <div className="transaction-details-online">
+                  <p>
+                    Online Store Front:{" "}
+                    {onlineTransactions !== null ? onlineTransactions : "0"}
+                  </p>
                 </div>
               </div>
-              <div
-                id="total-income"
-                className={`total-income ${
-                  isReportMode ? "wiggle hoverable" : ""
-                } ${
-                  selectedReports.includes("total-income") ? "selected" : ""
-                }`}
-                onClick={() =>
-                  isReportMode && handleReportSelection("total-income")
-                }
-              >
-                <h3>Total Income</h3>
-                {isReportMode && (
-                  <input
-                    type="checkbox"
-                    className="report-checkbox"
-                    checked={selectedReports.includes("total-income")}
-                    readOnly
-                  />
-                )}
-                {totalIncome ? (
-                  <div className="income-details">
-                    <div className="income-item">
-                      <div className="income-details-item">
-                        <p>
-                          Gross Income: ₱
-                          {totalIncome.grossIncome.toLocaleString()}
-                        </p>
-                      </div>
-                      <div className="income-details-item">
-                        <p>
-                          Net Income: ₱{totalIncome.netIncome.toLocaleString()}
-                        </p>
-                      </div>
+            </div>
+            <div
+              id="total-income"
+              className={`total-income ${
+                isReportMode ? "wiggle hoverable" : ""
+              } ${selectedReports.includes("total-income") ? "selected" : ""}`}
+              onClick={() =>
+                isReportMode && handleReportSelection("total-income")
+              }
+            >
+              <h3>Total Income</h3>
+              {isReportMode && (
+                <input
+                  type="checkbox"
+                  className="report-checkbox"
+                  checked={selectedReports.includes("total-income")}
+                  readOnly
+                />
+              )}
+              {totalIncome ? (
+                <div className="income-details">
+                  <div className="income-item">
+                    <div className="income-details-item">
+                      <p>
+                        Gross Income: ₱
+                        {totalIncome.grossIncome.toLocaleString()}
+                      </p>
+                    </div>
+                    <div className="income-details-item">
+                      <p>
+                        Net Income: ₱{totalIncome.netIncome.toLocaleString()}
+                      </p>
                     </div>
                   </div>
-                ) : (
-                  <p>No income data available</p>
-                )}
-              </div>
-            </section>
+                </div>
+              ) : (
+                <p>No income data available</p>
+              )}
+            </div>
           </section>
           <section
             id="todays-transactions-section"
