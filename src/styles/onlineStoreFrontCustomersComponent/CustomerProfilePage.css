@@ -53,6 +53,7 @@
 
 #root-customer-profile-page .dob {
   display: flex;
+  font-family: "Montserrat", serif;
   gap: 10px;
 }
 
@@ -161,6 +162,7 @@
 #root-customer-profile-page .toggle-label {
   margin-left: 10px;
   vertical-align: middle;
+  font-family: "Montserrat", serif;
 }
 
 #root-customer-profile-page .customer-profile-content p {

@@ -30,6 +30,7 @@ const CustomerProfilePage = () => {
     },
   });
   const [error, setError] = useState(null);
+  const [phoneNumberError, setPhoneNumberError] = useState("");
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -81,6 +82,13 @@ const CustomerProfilePage = () => {
   const handleSave = async () => {
     if (!/^\+?\d+$/.test(profile.phoneNumber)) {
       setError("Phone number must be a valid number.");
+      return;
+    }
+
+    if (profile.phoneNumber.length > 12) {
+      setError(
+        "Phone number must not exceed 12 characters including the country code (+63)."
+      );
       return;
     }
 
@@ -145,11 +153,22 @@ const CustomerProfilePage = () => {
                   <input
                     type="text"
                     value={profile.phoneNumber ? profile.phoneNumber : "+63"}
-                    onChange={(e) =>
-                      setProfile({ ...profile, phoneNumber: e.target.value })
-                    }
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (value.length > 12) {
+                        setPhoneNumberError(
+                          "Phone number must not exceed 12 characters including the country code (+63)."
+                        );
+                      } else {
+                        setPhoneNumberError("");
+                      }
+                      setProfile({ ...profile, phoneNumber: value });
+                    }}
                     placeholder="+63"
                   />
+                  {phoneNumberError && (
+                    <div className="error-message">{phoneNumberError}</div>
+                  )}
                 </div>
                 <div>
                   <label>Gender</label>
