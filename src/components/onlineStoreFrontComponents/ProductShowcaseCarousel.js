@@ -10,18 +10,15 @@ const ProductShowcaseCarousel = () => {
   const slideRef = useRef();
 
   const buildImageUrl = (imagePath) => {
-    if (imagePath.startsWith("/")) {
-      return `https://rev-auto-parts.onrender.com${imagePath}`;
-    } else {
-      return `https://rev-auto-parts.onrender.com/${imagePath}`;
-    }
+    return imagePath.startsWith("/")
+      ? `https://rev-auto-parts.onrender.com${imagePath}`
+      : `https://rev-auto-parts.onrender.com/${imagePath}`;
   };
 
   useEffect(() => {
     const fetchImages = async () => {
       try {
         const fetchedImages = await getShowcaseImages();
-
         if (
           fetchedImages &&
           fetchedImages.data &&
@@ -31,7 +28,6 @@ const ProductShowcaseCarousel = () => {
         } else {
           throw new Error("Invalid images data format.");
         }
-
         setLoading(false);
       } catch (err) {
         console.error("Error fetching images:", err);
@@ -39,24 +35,20 @@ const ProductShowcaseCarousel = () => {
         setLoading(false);
       }
     };
-
     fetchImages();
   }, []);
 
   useEffect(() => {
     if (loading || error || images.length === 0) return;
-
     if (slideRef.current) {
       slideRef.current.style.transition = "transform 0.5s ease-in-out";
       slideRef.current.style.transform = `translateX(-${currentIndex * 100}%)`;
     }
-
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) =>
         prevIndex === images.length - 1 ? 0 : prevIndex + 1
       );
     }, 3000);
-
     return () => clearInterval(interval);
   }, [currentIndex, images.length, loading, error, images]);
 

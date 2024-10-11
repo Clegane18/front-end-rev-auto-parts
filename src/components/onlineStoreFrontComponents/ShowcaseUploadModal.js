@@ -47,8 +47,8 @@ const ShowcaseUploadModal = ({ onClose, onSave }) => {
         <div className="modal-content">
           <h2>Upload Showcase Photos</h2>
           <p className="upload-note">
-            For best results, please upload images with a consistent aspect
-            ratio.
+            For best results, please upload images with a consistent size of{" "}
+            <strong>1727px</strong> by <strong>595px</strong>.
           </p>
           {errorMessage && <div className="error-message">{errorMessage}</div>}
           <form onSubmit={handleSave}>
