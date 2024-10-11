@@ -1,13 +1,14 @@
 #root-online-checkout .checkout-container {
-  max-width: 1000px;
+  max-width: 90%;
   margin: 0 auto;
   padding: 20px;
   background-color: #ffffff;
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow-y: hidden;
+  height: 100vh;
 }
-
 #root-online-checkout .checkout-header {
   background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
     url("../../assets/header-bg.png");
@@ -296,7 +297,7 @@
 
 #root-online-checkout .checkout-actions {
   text-align: right;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 #root-online-checkout .checkout-button {

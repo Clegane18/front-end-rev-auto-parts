@@ -27,8 +27,11 @@ const OnlineCheckout = () => {
   const [isPaymentDropdownOpen, setIsPaymentDropdownOpen] = useState(false);
   const [shippingFee, setShippingFee] = useState(0);
   const [isFreeShipping, setIsFreeShipping] = useState(false);
-  const [isDownpaymentModalOpen, setIsDownpaymentModalOpen] = useState(false);
-  const [downpaymentAmount, setDownpaymentAmount] = useState(0);
+  const [downpaymentModal, setDownpaymentModal] = useState({
+    isOpen: false,
+    downpaymentAmount: 0,
+    remainingBalance: 0,
+  });
   const [paymentMethod, setPaymentMethod] = useState("Cash on Delivery");
   const [isGCashModalOpen, setIsGCashModalOpen] = useState(false);
   const [gcashAmountToPay, setGcashAmountToPay] = useState(0);
@@ -58,29 +61,48 @@ const OnlineCheckout = () => {
     );
   }, [cartItems]);
 
+  const inStorePickupSubtotal = useMemo(() => {
+    return inStorePickupItems.reduce(
+      (acc, item) => acc + (item.Product.price || 0) * item.quantity,
+      0
+    );
+  }, [inStorePickupItems]);
+
+  const regularItemsSubtotal = useMemo(() => {
+    return regularItems.reduce(
+      (acc, item) => acc + (item.Product.price || 0) * item.quantity,
+      0
+    );
+  }, [regularItems]);
+
   const fetchAddressDetails = useCallback(
     async (id) => {
       try {
         const response = await getAddressById({ addressId: id, token });
         setAddressDetails(response.data);
 
-        if (response.data.isWithinMetroManila) {
+        if (regularItems.length > 0) {
+          if (response.data.isWithinMetroManila) {
+            setShippingFee(0);
+            setIsFreeShipping(true);
+          } else {
+            const shippingResponse = await calculateShippingFee({
+              addressId: id,
+              token,
+            });
+            const fee = shippingResponse.data?.data?.shippingFee || 0;
+            setShippingFee(fee);
+            setIsFreeShipping(false);
+          }
+        } else {
           setShippingFee(0);
           setIsFreeShipping(true);
-        } else {
-          const shippingResponse = await calculateShippingFee({
-            addressId: id,
-            token,
-          });
-          const fee = shippingResponse.data?.data?.shippingFee || 0;
-          setShippingFee(fee);
-          setIsFreeShipping(false);
         }
       } catch (err) {
         setError(err.message || "Failed to fetch address details.");
       }
     },
-    [token]
+    [token, regularItems.length]
   );
 
   useEffect(() => {
@@ -92,20 +114,28 @@ const OnlineCheckout = () => {
         fetchAddressDetails(validAddressId);
       } else {
         setAddressDetails(null);
+        setShippingFee(0);
+        setIsFreeShipping(true);
       }
     }
   }, [currentUser, fetchAddressDetails]);
 
   const merchandiseSubtotal = useMemo(() => {
-    return cartItems.reduce(
-      (acc, item) => acc + (item.Product.price || 0) * item.quantity,
-      0
-    );
-  }, [cartItems]);
+    return regularItemsSubtotal;
+  }, [regularItemsSubtotal]);
 
   const totalPayment = useMemo(() => {
-    return merchandiseSubtotal + (isFreeShipping ? 0 : shippingFee || 0);
-  }, [merchandiseSubtotal, isFreeShipping, shippingFee]);
+    return (
+      downpaymentModal.downpaymentAmount +
+      merchandiseSubtotal +
+      (isFreeShipping ? 0 : shippingFee || 0)
+    );
+  }, [
+    downpaymentModal.downpaymentAmount,
+    merchandiseSubtotal,
+    isFreeShipping,
+    shippingFee,
+  ]);
 
   useEffect(() => {
     if (hasInStorePickup) {
@@ -122,19 +152,22 @@ const OnlineCheckout = () => {
     );
   };
 
+  const calculateRemainingBalance = (items) => {
+    return items.reduce(
+      (acc, item) => acc + item.Product.price * item.quantity * 0.8,
+      0
+    );
+  };
+
   const calculateAmountToPay = () => {
     let amount = 0;
 
-    if (hasInStorePickup) {
+    if (inStorePickupSubtotal > 0) {
       amount += calculateDownpayment(inStorePickupItems);
     }
 
-    if (regularItems.length > 0) {
-      const regularTotal = regularItems.reduce(
-        (acc, item) => acc + item.Product.price * item.quantity,
-        0
-      );
-      amount += regularTotal + (isFreeShipping ? 0 : shippingFee || 0);
+    if (regularItemsSubtotal > 0) {
+      amount += regularItemsSubtotal + (isFreeShipping ? 0 : shippingFee || 0);
     }
 
     return amount;
@@ -153,7 +186,10 @@ const OnlineCheckout = () => {
   };
 
   const handleDownpaymentConfirm = () => {
-    setIsDownpaymentModalOpen(false);
+    setDownpaymentModal((prevState) => ({
+      ...prevState,
+      isOpen: false,
+    }));
 
     const amountToPay = calculateAmountToPay();
     setGcashAmountToPay(amountToPay);
@@ -201,6 +237,8 @@ const OnlineCheckout = () => {
         shippingFee,
         paymentMethod: paymentMethodParam,
         gcashReferenceNumber: gcashRefNumber,
+        downpaymentAmount: downpaymentModal.downpaymentAmount,
+        remainingBalance: downpaymentModal.remainingBalance,
       };
 
       const response = await createOrder(payload);
@@ -209,7 +247,11 @@ const OnlineCheckout = () => {
       if (order) {
         setShippingFee(order.shippingFee || 0);
         setSuccessMessage(order.message);
-        setIsDownpaymentModalOpen(false);
+        setDownpaymentModal({
+          isOpen: false,
+          downpaymentAmount: 0,
+          remainingBalance: 0,
+        });
         setIsGCashModalOpen(false);
         setIsWarningModalOpen(false);
 
@@ -237,8 +279,13 @@ const OnlineCheckout = () => {
 
       if (requiresDownpayment(paymentMethodParam, gcashRefNumber)) {
         const downpayment = calculateDownpayment(inStorePickupItems);
-        setDownpaymentAmount(downpayment);
-        setIsDownpaymentModalOpen(true);
+        const remaining = calculateRemainingBalance(inStorePickupItems);
+
+        setDownpaymentModal({
+          isOpen: true,
+          downpaymentAmount: downpayment,
+          remainingBalance: remaining,
+        });
         return;
       }
 
@@ -288,17 +335,22 @@ const OnlineCheckout = () => {
         setAddressDetails(response.data);
         setAddressId(newDefaultAddressId);
 
-        if (response.data.isWithinMetroManila) {
+        if (regularItems.length > 0) {
+          if (response.data.isWithinMetroManila) {
+            setIsFreeShipping(true);
+            setShippingFee(0);
+          } else {
+            setIsFreeShipping(false);
+            const shippingResponse = await calculateShippingFee({
+              addressId: newDefaultAddressId,
+              token,
+            });
+            const fee = shippingResponse.data?.data?.shippingFee || 0;
+            setShippingFee(fee);
+          }
+        } else {
           setIsFreeShipping(true);
           setShippingFee(0);
-        } else {
-          setIsFreeShipping(false);
-          const shippingResponse = await calculateShippingFee({
-            addressId: newDefaultAddressId,
-            token,
-          });
-          const fee = shippingResponse.data?.data?.shippingFee || 0;
-          setShippingFee(fee);
         }
       } else {
         setError("Failed to fetch the updated default address.");
@@ -461,18 +513,28 @@ const OnlineCheckout = () => {
             </div>
           )}
           <div className="payment-summary">
-            <div className="payment-row">
-              <span>Merchandise Subtotal:</span>
-              <span>{formatCurrency(merchandiseSubtotal)}</span>
-            </div>
-            <div className="payment-row">
-              <span>Shipping Total:</span>
-              <span>
-                {isFreeShipping
-                  ? "Free Shipping Fee"
-                  : formatCurrency(shippingFee || 0)}
-              </span>
-            </div>
+            {inStorePickupSubtotal > 0 && (
+              <div className="payment-row">
+                <span>In-Store Pickup Subtotal (80%):</span>
+                <span>{formatCurrency(downpaymentModal.remainingBalance)}</span>
+              </div>
+            )}
+            {regularItemsSubtotal > 0 && (
+              <div className="payment-row">
+                <span>Regular Items Subtotal:</span>
+                <span>{formatCurrency(regularItemsSubtotal)}</span>
+              </div>
+            )}
+            {regularItems.length > 0 && (
+              <div className="payment-row">
+                <span>Shipping Total:</span>
+                <span>
+                  {isFreeShipping
+                    ? "Free Shipping Fee"
+                    : formatCurrency(shippingFee || 0)}
+                </span>
+              </div>
+            )}
             <div className="payment-row total-payment">
               <span>Total Payment:</span>
               <span>{formatCurrency(totalPayment)}</span>
@@ -494,9 +556,15 @@ const OnlineCheckout = () => {
           onAddressChange={handleAddressChange}
         />
         <DownpaymentModal
-          isOpen={isDownpaymentModalOpen}
-          onClose={() => setIsDownpaymentModalOpen(false)}
-          downpaymentAmount={downpaymentAmount}
+          isOpen={downpaymentModal.isOpen}
+          onClose={() =>
+            setDownpaymentModal((prevState) => ({
+              ...prevState,
+              isOpen: false,
+            }))
+          }
+          downpaymentAmount={downpaymentModal.downpaymentAmount}
+          remainingBalance={downpaymentModal.remainingBalance}
           onConfirm={handleDownpaymentConfirm}
         />
         <GCashPaymentModal

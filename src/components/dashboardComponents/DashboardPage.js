@@ -20,7 +20,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faListAlt,
   faCashRegister,
-  faStoreAlt,
   faUsers,
   faClipboardList,
   faBox,
@@ -290,11 +289,6 @@ const DashboardPage = () => {
               <li>
                 <Link to="/upload-products">
                   <FontAwesomeIcon icon={faList} /> Upload Products
-                </Link>
-              </li>
-              <li>
-                <Link to="/">
-                  <FontAwesomeIcon icon={faStoreAlt} /> Online Store Front
                 </Link>
               </li>
               <li>

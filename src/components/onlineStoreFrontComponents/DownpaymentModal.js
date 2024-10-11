@@ -6,9 +6,11 @@ const DownpaymentModal = ({
   isOpen,
   onClose,
   downpaymentAmount,
+  remainingBalance,
   onConfirm,
 }) => {
   if (!isOpen) return null;
+
   return (
     <div id="root-downpayment-modal" role="dialog" aria-modal="true">
       <div className="downpayment-modal-content">
@@ -17,6 +19,11 @@ const DownpaymentModal = ({
           For in-store pickup, a 20% non-refundable downpayment of{" "}
           <strong>{formatCurrency(downpaymentAmount)}</strong> is required to
           reserve your item.
+        </p>
+        <p>
+          The remaining balance of{" "}
+          <strong>{formatCurrency(remainingBalance)}</strong> will need to be
+          settled upon picking up your item in-store.
         </p>
         <p>
           The payment will be processed via <strong>GCash</strong>.
