@@ -58,6 +58,7 @@ const OnlineProductDetailsPage = () => {
     images: [],
     currentIndex: 0,
   });
+  const [hasUserCommented, setHasUserCommented] = useState(false);
 
   useEffect(() => {
     const fetchProductAndComments = async () => {
@@ -111,6 +112,7 @@ const OnlineProductDetailsPage = () => {
             images: comment.images
               ? comment.images.map((image) => encodeURL(image))
               : [],
+            customerId: comment.customerId,
           }))
         );
 
@@ -125,6 +127,13 @@ const OnlineProductDetailsPage = () => {
           average: average,
           count: count,
         });
+
+        if (currentUser) {
+          const userHasCommented = fetchedComments.some(
+            (comment) => comment.customerId === currentUser.id
+          );
+          setHasUserCommented(userHasCommented);
+        }
 
         setLoading(false);
 
@@ -331,6 +340,7 @@ const OnlineProductDetailsPage = () => {
         images: createdComment.data.images
           ? createdComment.data.images.map((image) => encodeURL(image))
           : [],
+        customerId: currentUser.id,
       };
 
       setComments((prevComments) => [mappedComment, ...prevComments]);
@@ -348,6 +358,7 @@ const OnlineProductDetailsPage = () => {
       setNewRating(5);
       setNewCommentText("");
       setNewImages([]);
+      setHasUserCommented(true);
     } catch (err) {
       console.error("Error submitting comment:", err.message);
       setSubmissionError(
@@ -542,91 +553,100 @@ const OnlineProductDetailsPage = () => {
           {submissionError && (
             <p className="error-message">{submissionError}</p>
           )}
-          <form onSubmit={handleSubmitComment} className="comment-form">
-            <label className="form-label">
-              Rating:
-              <div className="star-rating">
-                {[...Array(5)].map((star, index) => {
-                  const ratingValue = index + 1;
-                  return (
-                    <label key={index}>
-                      <input
-                        type="radio"
-                        name="rating"
-                        value={ratingValue}
-                        onClick={() => handleRatingChange(ratingValue)}
-                        style={{ display: "none" }}
+          {canSubmitReview && !hasUserCommented ? (
+            <form onSubmit={handleSubmitComment} className="comment-form">
+              <label className="form-label">
+                Rating:
+                <div className="star-rating">
+                  {[...Array(5)].map((star, index) => {
+                    const ratingValue = index + 1;
+                    return (
+                      <label key={index}>
+                        <input
+                          type="radio"
+                          name="rating"
+                          value={ratingValue}
+                          onClick={() => handleRatingChange(ratingValue)}
+                          style={{ display: "none" }}
+                        />
+                        <FaStar
+                          className="star"
+                          color={ratingValue <= newRating ? "#FFD700" : "#ccc"}
+                          size={24}
+                          onMouseOver={() => setNewRating(ratingValue)}
+                          onMouseLeave={() => setNewRating(newRating)}
+                          style={{ cursor: "pointer" }}
+                        />
+                      </label>
+                    );
+                  })}
+                </div>
+              </label>
+              <label className="form-label">
+                Comment:
+                <textarea
+                  value={newCommentText}
+                  onChange={handleCommentTextChange}
+                  className="form-textarea"
+                  rows="4"
+                  placeholder="Write your review here..."
+                ></textarea>
+              </label>
+              <label className="form-label">
+                Upload Images (optional):
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  onChange={handleImagesChange}
+                  className="form-input"
+                />
+              </label>
+
+              {newImages.length > 0 && (
+                <div className="image-previews">
+                  {newImages.map((image, index) => (
+                    <div key={index} className="image-preview">
+                      <img
+                        src={URL.createObjectURL(image)}
+                        alt={`Preview ${index + 1}`}
+                        className="preview-image"
                       />
-                      <FaStar
-                        className="star"
-                        color={ratingValue <= newRating ? "#FFD700" : "#ccc"}
-                        size={24}
-                        onMouseOver={() => setNewRating(ratingValue)}
-                        onMouseLeave={() => setNewRating(newRating)}
-                        style={{ cursor: "pointer" }}
-                      />
-                    </label>
-                  );
-                })}
-              </div>
-            </label>
-            <label className="form-label">
-              Comment:
-              <textarea
-                value={newCommentText}
-                onChange={handleCommentTextChange}
-                className="form-textarea"
-                rows="4"
-                placeholder="Write your review here..."
-              ></textarea>
-            </label>
-            <label className="form-label">
-              Upload Images (optional):
-              <input
-                type="file"
-                accept="image/*"
-                multiple
-                onChange={handleImagesChange}
-                className="form-input"
-              />
-            </label>
+                      <button
+                        type="button"
+                        className="remove-image-button"
+                        onClick={() => handleRemoveImage(index)}
+                        aria-label={`Remove image ${index + 1}`}
+                      >
+                        &times;
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
 
-            {newImages.length > 0 && (
-              <div className="image-previews">
-                {newImages.map((image, index) => (
-                  <div key={index} className="image-preview">
-                    <img
-                      src={URL.createObjectURL(image)}
-                      alt={`Preview ${index + 1}`}
-                      className="preview-image"
-                    />
-                    <button
-                      type="button"
-                      className="remove-image-button"
-                      onClick={() => handleRemoveImage(index)}
-                      aria-label={`Remove image ${index + 1}`}
-                    >
-                      &times;
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
+              <button
+                type="submit"
+                className="submit-comment-button"
+                disabled={!canSubmitReview || isSubmitting}
+              >
+                {isSubmitting ? "Submitting..." : "Submit Review"}
+              </button>
 
-            <button
-              type="submit"
-              className="submit-comment-button"
-              disabled={!canSubmitReview || isSubmitting}
-            >
-              {isSubmitting ? "Submitting..." : "Submit Review"}
-            </button>
-
-            {!canSubmitReview && (
-              <p className="error-message">
-                You can only submit a review if you have purchased this product.
-              </p>
-            )}
-          </form>
+              {!canSubmitReview && (
+                <p className="error-message">
+                  You can only submit a review if you have purchased this
+                  product.
+                </p>
+              )}
+            </form>
+          ) : (
+            <p className="info-message">
+              {hasUserCommented
+                ? "You have already submitted a review for this product."
+                : "You can only submit a review if you have purchased this product."}
+            </p>
+          )}
         </div>
       </div>
 

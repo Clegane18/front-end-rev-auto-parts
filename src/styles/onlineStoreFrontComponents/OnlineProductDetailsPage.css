@@ -507,6 +507,11 @@
   background-color: rgba(0, 0, 0, 0.8);
 }
 
+#root-product-details-page .info-message {
+  text-transform: none;
+  color: gray;
+}
+
 @media (max-width: 768px) {
   #root-product-details-page .image-modal-content {
     width: 95%;
