@@ -89,7 +89,6 @@ const OrdersList = () => {
   const handleStatusChange = async (orderId, newStatus) => {
     try {
       await updateOrderStatus(orderId, newStatus);
-
       setOrders((prevOrders) =>
         prevOrders.map((order) =>
           order.id === orderId ? { ...order, status: newStatus } : order
@@ -104,7 +103,6 @@ const OrdersList = () => {
   const handlePaymentStatusChange = async (orderId, newPaymentStatus) => {
     try {
       await updateOrderPaymentStatus(orderId, newPaymentStatus);
-
       setOrders((prevOrders) =>
         prevOrders.map((order) =>
           order.id === orderId
@@ -151,7 +149,6 @@ const OrdersList = () => {
         const order = orders[currentIndex];
         printWaybill(order, formatCurrency);
         currentIndex++;
-
         setTimeout(printNextWaybill, 1000);
       }
     };

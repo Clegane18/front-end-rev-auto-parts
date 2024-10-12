@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import "../../styles/dashboardComponents/OrderDetailsModal.css";
 import { formatCurrency } from "../../utils/formatCurrency";
+import { calculateRemainingBalance } from "../../utils/calculateRemainingBalance";
 
 const OrderDetailsModal = ({ order, onClose }) => {
+  const remainingBalance = useMemo(() => {
+    if (order.paymentStatus === "Paid") {
+      return 0;
+    }
+    return calculateRemainingBalance(order.items);
+  }, [order.items, order.paymentStatus]);
+
   const handleClickOutside = (e) => {
     if (e.target.className === "modal") {
       onClose();
@@ -37,14 +45,26 @@ const OrderDetailsModal = ({ order, onClose }) => {
               </span>
             </div>
             <div className="pricing-details">
-              <p className="merchandise-sub-total-padding-right">
+              <p className="merchandise-subtotal">
                 Merchandise Subtotal:{" "}
                 <strong>{formatCurrency(order.merchandiseSubtotal)}</strong>
               </p>
-              <p>
+              <p className="shipping-fee">
                 Shipping Fee:{" "}
                 <strong>{formatCurrency(order.shippingFee)}</strong>
               </p>
+              {order.paymentStatus === "Paid" ? (
+                <p className="remaining-balance">
+                  Remaining Balance: <strong>Settled</strong>
+                </p>
+              ) : (
+                remainingBalance > 0 && (
+                  <p className="remaining-balance">
+                    Remaining Balance:{" "}
+                    <strong>{formatCurrency(remainingBalance)}</strong>
+                  </p>
+                )
+              )}
             </div>
           </div>
 
@@ -55,10 +75,21 @@ const OrderDetailsModal = ({ order, onClose }) => {
                 <div className="item-details">
                   <span className="item-name">{item.productName}</span>
                   <span className="item-quantity">Qty: {item.quantity}</span>
+                  <span className="item-purchase-method">
+                    {item.purchaseMethod === "in-store-pickup"
+                      ? "In-Store Pickup"
+                      : "Regular"}
+                  </span>
+                </div>
+                <div className="item-pricing">
+                  <span className="item-price">
+                    {formatCurrency(item.price)}
+                  </span>
                 </div>
               </div>
             ))}
           </div>
+
           <div className="customer-shipping-section">
             <div className="customer-details">
               <h3>Customer Details</h3>
