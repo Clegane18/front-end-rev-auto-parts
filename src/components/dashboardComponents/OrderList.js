@@ -24,7 +24,6 @@ import {
   Print as PrintIcon,
   FactCheck as FactCheckIcon,
 } from "@mui/icons-material";
-import { printWaybill } from "../../utils/printWaybill";
 
 const OrdersList = () => {
   const [orders, setOrders] = useState([]);
@@ -142,18 +141,61 @@ const OrdersList = () => {
   };
 
   const handlePrintAllWaybills = () => {
-    let currentIndex = 0;
+    const printWindow = window.open("", "_blank");
+    const style = `
+      <style>
+        @page {
+          size: A4;
+          margin: 10mm;
+        }
+        body {
+          font-family: Arial, sans-serif;
+          margin: 0;
+          padding: 0;
+        }
+        .waybill {
+          page-break-inside: avoid;
+          margin-bottom: 20px;
+        }
+        .waybill h2 {
+          margin-bottom: 10px;
+        }
+        .waybill p {
+          margin: 5px 0;
+        }
+      </style>
+    `;
 
-    const printNextWaybill = () => {
-      if (currentIndex < orders.length) {
-        const order = orders[currentIndex];
-        printWaybill(order, formatCurrency);
-        currentIndex++;
-        setTimeout(printNextWaybill, 1000);
-      }
-    };
+    let printContent = `<html><head><title>All Waybills</title>${style}</head><body>`;
 
-    printNextWaybill();
+    orders.forEach((order, index) => {
+      printContent += `
+        <div class="waybill">
+          <h2>Waybill for Order ${order.orderNumber}</h2>
+          <p><strong>Date:</strong> ${new Date(
+            order.createdAt
+          ).toLocaleDateString()}</p>
+          <p><strong>Customer:</strong> ${order.customer.username}</p>
+          <p><strong>Status:</strong> ${order.status}</p>
+          <p><strong>Total:</strong> ${formatCurrency(order.totalAmount)}</p>
+          <p><strong>Items:</strong> ${order.items.length} items</p>
+          <p><strong>Payment Status:</strong> ${order.paymentStatus}</p>
+          <p><strong>Payment Method:</strong> ${order.paymentMethod}</p>
+          <p><strong>GCash Ref No.:</strong> ${
+            order.gcashReferenceNumber || "N/A"
+          }</p>
+        </div>
+      `;
+    });
+
+    printContent += "</body></html>";
+
+    printWindow.document.open();
+    printWindow.document.write(printContent);
+    printWindow.document.close();
+    printWindow.focus();
+    printWindow.print();
+    printWindow.close();
   };
 
   const openCompareModal = (order) => {
@@ -292,7 +334,71 @@ const OrdersList = () => {
                         <Tooltip title="Print Waybill">
                           <IconButton
                             color="default"
-                            onClick={() => printWaybill(order, formatCurrency)}
+                            onClick={() => {
+                              const printWindow = window.open("", "_blank");
+                              const style = `
+                                <style>
+                                  @page {
+                                    size: A4;
+                                    margin: 10mm;
+                                  }
+                                  body { font-family: Arial, sans-serif; }
+                                  .waybill { 
+                                    page-break-inside: avoid; 
+                                    margin-bottom: 20px; 
+                                  }
+                                  .waybill h2 { margin-bottom: 10px; }
+                                  .waybill p { margin: 5px 0; }
+                                </style>
+                              `;
+                              const printContent = `
+                                <html>
+                                  <head>
+                                    <title>Waybill for Order ${
+                                      order.orderNumber
+                                    }</title>
+                                    ${style}
+                                  </head>
+                                  <body>
+                                    <div class="waybill">
+                                      <h2>Waybill for Order ${
+                                        order.orderNumber
+                                      }</h2>
+                                      <p><strong>Date:</strong> ${new Date(
+                                        order.createdAt
+                                      ).toLocaleDateString()}</p>
+                                      <p><strong>Customer:</strong> ${
+                                        order.customer.username
+                                      }</p>
+                                      <p><strong>Status:</strong> ${
+                                        order.status
+                                      }</p>
+                                      <p><strong>Total:</strong> ${formatCurrency(
+                                        order.totalAmount
+                                      )}</p>
+                                      <p><strong>Items:</strong> ${
+                                        order.items.length
+                                      } items</p>
+                                      <p><strong>Payment Status:</strong> ${
+                                        order.paymentStatus
+                                      }</p>
+                                      <p><strong>Payment Method:</strong> ${
+                                        order.paymentMethod
+                                      }</p>
+                                      <p><strong>GCash Ref No.:</strong> ${
+                                        order.gcashReferenceNumber || "N/A"
+                                      }</p>
+                                    </div>
+                                  </body>
+                                </html>
+                              `;
+                              printWindow.document.open();
+                              printWindow.document.write(printContent);
+                              printWindow.document.close();
+                              printWindow.focus();
+                              printWindow.print();
+                              printWindow.close();
+                            }}
                           >
                             <PrintIcon />
                           </IconButton>

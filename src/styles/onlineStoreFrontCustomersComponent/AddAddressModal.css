@@ -20,7 +20,7 @@
   background: #fff;
   padding: 30px;
   width: 517px;
-  height: 88vh;
+  height: 90vh;
   border-radius: 12px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
   z-index: 1001;
@@ -29,7 +29,7 @@
 
 #root-add-address-modal .modal-overlay .modal-content .modal-title {
   font-size: 1.75rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 5px;
   text-align: center;
   font-weight: 300;
   text-transform: none;
@@ -289,6 +289,7 @@
 
 #root-add-address-modal .modal-content .error-message {
   color: red;
+  padding: 0px;
 }
 
 @keyframes spin {
