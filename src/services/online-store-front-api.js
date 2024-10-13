@@ -138,10 +138,10 @@ export const sendContactUsEmail = async ({ name, email, phone, message }) => {
       message,
     });
 
-    return response.data.message;
+    return response.data;
   } catch (error) {
-    if (error.response && error.response.data) {
-      throw new Error(error.response.data.message);
+    if (error.response && error.response.data && error.response.data.error) {
+      throw new Error(error.response.data.error);
     } else {
       throw new Error("Failed to send email. Please try again later.");
     }

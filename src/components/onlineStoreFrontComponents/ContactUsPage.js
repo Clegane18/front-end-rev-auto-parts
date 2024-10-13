@@ -33,11 +33,7 @@ const ContactUsPage = () => {
       setFormData({ name: "", email: "", phone: "", message: "" });
       setIsModalOpen(true);
     } catch (error) {
-      if (error.response && error.response.data && error.response.data.error) {
-        setError(error.response.data.error);
-      } else {
-        setError("An unexpected error occurred.");
-      }
+      setError(error.message);
     } finally {
       setIsLoading(false);
     }
