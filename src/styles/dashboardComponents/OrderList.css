@@ -2,6 +2,8 @@
   font-family: "Montserrat", serif;
   color: #333;
   width: 100%;
+  height: 100vh;
+  overflow: hidden;
   margin: auto;
 }
 
@@ -11,7 +13,10 @@
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
   padding: 20px;
   max-width: 95%;
+  height: 95vh;
   margin: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 #root-order-list .header {
@@ -51,29 +56,6 @@
   align-items: center;
 }
 
-#root-order-list .refresh-button {
-  background-color: #d30a0a;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  margin-right: 10px;
-}
-
-#root-order-list .refresh-button:hover,
-#root-order-list .print-all-button:hover {
-  opacity: 0.65;
-}
-
-#root-order-list .print-all-button svg,
-#root-order-list .refresh-button svg {
-  margin-right: 5px;
-}
-
 #root-order-list .print-all-button {
   padding: 10px;
   font-size: 16px;
@@ -88,8 +70,72 @@
   font-size: 12px;
 }
 
+#root-order-list .print-all-button svg {
+  margin-right: 5px;
+}
+
+#root-order-list .refresh-button {
+  background-color: #d30a0a;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
+#root-order-list .refresh-button svg {
+  margin-right: 5px;
+}
+
+#root-order-list .print-all-button:hover,
+#root-order-list .refresh-button:hover {
+  opacity: 0.65;
+}
+
+#root-order-list .filter-container {
+  display: flex;
+  justify-content: flex-start;
+  gap: 20px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+#root-order-list .filter-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#root-order-list .filter-group label {
+  font-weight: 500;
+  color: #1e2633;
+}
+
+#root-order-list .loading-spinner {
+  text-align: center;
+  padding: 50px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#root-order-list .error-message {
+  text-align: center;
+  color: #d30a0a;
+  font-weight: bold;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 #root-order-list .table-container {
-  max-height: 600px;
+  flex: 1;
   overflow-y: auto;
   border-radius: 8px;
 }
@@ -140,17 +186,6 @@
   opacity: 0.65;
 }
 
-#root-order-list .loading-spinner {
-  text-align: center;
-  padding: 50px;
-}
-
-#root-order-list .error-message {
-  text-align: center;
-  color: #d30a0a;
-  font-weight: bold;
-}
-
 #root-order-list select {
   padding: 5px 10px;
   border: 1px solid #d32f2f;
@@ -163,4 +198,26 @@
 
 #root-order-list select:hover {
   border-color: #a00;
+}
+
+#root-order-list .disabled-order {
+  background-color: #a7a7a7;
+  color: #ffffff;
+  opacity: 0.9;
+  cursor: not-allowed;
+}
+
+#root-order-list .disabled-order select {
+  background-color: #a7a7a7;
+  color: #ffffff;
+  cursor: not-allowed;
+  opacity: 0.9;
+}
+
+#root-order-list .disabled-order select:hover {
+  cursor: not-allowed;
+}
+
+#root-order-list tbody tr.disabled-order:hover {
+  background-color: #a7a7a7;
 }

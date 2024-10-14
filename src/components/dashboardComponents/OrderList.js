@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   getAllOrders,
+  getAllOrdersByStatus,
+  getAllOrdersByPaymentStatus,
   updateOrderStatus,
   updateOrderPaymentStatus,
   deleteOrderById,
@@ -37,25 +39,41 @@ const OrdersList = () => {
   const [paymentMethod, setPaymentMethod] = useState("");
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
+  const [filterStatus, setFilterStatus] = useState("All");
+  const [filterPaymentStatus, setFilterPaymentStatus] = useState("All");
   const socket = useWebSocket();
   const navigate = useNavigate();
 
-  const fetchOrders = async () => {
+  const fetchOrders = useCallback(async () => {
     try {
       setLoading(true);
-      const response = await getAllOrders();
+      setError(null);
+      let response;
+      if (filterStatus === "All" && filterPaymentStatus === "All") {
+        response = await getAllOrders();
+      } else if (filterStatus !== "All" && filterPaymentStatus === "All") {
+        response = await getAllOrdersByStatus(filterStatus);
+      } else if (filterStatus === "All" && filterPaymentStatus !== "All") {
+        response = await getAllOrdersByPaymentStatus(filterPaymentStatus);
+      } else {
+        const statusResponse = await getAllOrdersByStatus(filterStatus);
+        const paymentFiltered = statusResponse.data.filter(
+          (order) => order.paymentStatus === filterPaymentStatus
+        );
+        response = { status: 200, data: paymentFiltered };
+      }
       if (response.status === 200 && Array.isArray(response.data)) {
         setOrders(response.data);
       } else {
-        throw new Error("Data is not an array or bad API response");
+        throw new Error("Unexpected response format.");
       }
       setLoading(false);
     } catch (err) {
-      console.error("Fetching orders failed:", err);
-      setError(err.toString());
+      console.error("Error fetching orders:", err);
+      setError(err.message || "An unexpected error occurred.");
       setLoading(false);
     }
-  };
+  }, [filterStatus, filterPaymentStatus]);
 
   useEffect(() => {
     fetchOrders();
@@ -75,7 +93,7 @@ const OrdersList = () => {
         socket.off("orderStatusUpdated");
       }
     };
-  }, [socket]);
+  }, [socket, fetchOrders]);
 
   const viewOrderDetails = (order) => {
     setSelectedOrder(order);
@@ -168,7 +186,7 @@ const OrdersList = () => {
 
     let printContent = `<html><head><title>All Waybills</title>${style}</head><body>`;
 
-    orders.forEach((order, index) => {
+    orders.forEach((order) => {
       printContent += `
         <div class="waybill">
           <h2>Waybill for Order ${order.orderNumber}</h2>
@@ -213,6 +231,14 @@ const OrdersList = () => {
     setIsSuccessModalOpen(true);
   };
 
+  const handleFilterStatusChange = (e) => {
+    setFilterStatus(e.target.value);
+  };
+
+  const handleFilterPaymentStatusChange = (e) => {
+    setFilterPaymentStatus(e.target.value);
+  };
+
   return (
     <div id="root-order-list">
       <div className="order-list-container">
@@ -236,6 +262,36 @@ const OrdersList = () => {
             <button className="refresh-button" onClick={fetchOrders}>
               <FontAwesomeIcon icon={faSync} /> Refresh
             </button>
+          </div>
+        </div>
+
+        <div className="filter-container">
+          <div className="filter-group">
+            <label htmlFor="statusFilter">Order Status:</label>
+            <select
+              id="statusFilter"
+              value={filterStatus}
+              onChange={handleFilterStatusChange}
+            >
+              <option value="All">All</option>
+              <option value="To Pay">To Pay</option>
+              <option value="To Ship">To Ship</option>
+              <option value="To Receive">To Receive</option>
+              <option value="Completed">Completed</option>
+              <option value="Cancelled">Cancelled</option>
+            </select>
+          </div>
+          <div className="filter-group">
+            <label htmlFor="paymentStatusFilter">Payment Status:</label>
+            <select
+              id="paymentStatusFilter"
+              value={filterPaymentStatus}
+              onChange={handleFilterPaymentStatusChange}
+            >
+              <option value="All">All</option>
+              <option value="Pending">Pending</option>
+              <option value="Paid">Paid</option>
+            </select>
           </div>
         </div>
 
@@ -270,12 +326,18 @@ const OrdersList = () => {
                         .replace(/[^a-z0-9]/g, "")
                     : "";
 
+                  const isFinalized = ["Completed", "Cancelled"].includes(
+                    order.status
+                  );
+
                   return (
                     <tr
                       key={order.id}
                       className={`status-${order.status
                         .toLowerCase()
-                        .replace(" ", "-")}`}
+                        .replace(" ", "-")} ${
+                        isFinalized ? "disabled-order" : ""
+                      }`}
                     >
                       <td>{order.orderNumber}</td>
                       <td>{new Date(order.createdAt).toLocaleDateString()}</td>
@@ -286,6 +348,7 @@ const OrdersList = () => {
                           onChange={(e) =>
                             handleStatusChange(order.id, e.target.value)
                           }
+                          disabled={isFinalized}
                         >
                           <option value="To Pay">To Pay</option>
                           <option value="To Ship">To Ship</option>
@@ -302,6 +365,7 @@ const OrdersList = () => {
                           onChange={(e) =>
                             handlePaymentStatusChange(order.id, e.target.value)
                           }
+                          disabled={isFinalized}
                         >
                           <option value="Pending">Pending</option>
                           <option value="Paid">Paid</option>

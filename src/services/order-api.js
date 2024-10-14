@@ -170,3 +170,53 @@ export const updateOrderPaymentStatus = async (orderId, newPaymentStatus) => {
     }
   }
 };
+
+export const getAllOrdersByStatus = async (status) => {
+  if (!status) {
+    throw new Error("Order status is required to fetch orders.");
+  }
+
+  try {
+    const response = await api.get("/orders-list/status", {
+      params: { status },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching orders by status:", error);
+
+    if (error.response && error.response.data && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    } else if (error.message) {
+      throw new Error(error.message);
+    } else {
+      throw new Error(
+        "Failed to fetch all orders by status. Please try again later."
+      );
+    }
+  }
+};
+
+export const getAllOrdersByPaymentStatus = async (paymentStatus) => {
+  if (!paymentStatus) {
+    throw new Error("Order payment status is required to fetch orders.");
+  }
+
+  try {
+    const response = await api.get("/orders-list/payment-status", {
+      params: { paymentStatus },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching orders by payment status:", error);
+
+    if (error.response && error.response.data && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    } else if (error.message) {
+      throw new Error(error.message);
+    } else {
+      throw new Error(
+        "Failed to fetch all orders by payment status. Please try again later."
+      );
+    }
+  }
+};
