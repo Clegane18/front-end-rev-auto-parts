@@ -5,6 +5,8 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useWebSocket } from "../../contexts/WebSocketContext";
 import "../../styles/onlineStoreFrontCustomersComponent/OrderTabs.css";
 import { formatCurrency } from "../../utils/formatCurrency";
+import RatingModal from "./RatingModal";
+import SuccessModal from "../SuccessModal";
 
 const OrderTabs = ({ initialTab = "All" }) => {
   const [activeTab, setActiveTab] = useState(initialTab);
@@ -19,6 +21,12 @@ const OrderTabs = ({ initialTab = "All" }) => {
   const [error, setError] = useState(null);
   const { currentUser, token } = useAuth();
   const socket = useWebSocket();
+
+  const [isRatingModalOpen, setIsRatingModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
 
   const tabs = [
     "All",
@@ -122,6 +130,26 @@ const OrderTabs = ({ initialTab = "All" }) => {
     }
   };
 
+  const openRatingModal = (product) => {
+    setSelectedProduct(product);
+    setIsRatingModalOpen(true);
+  };
+
+  const closeRatingModal = () => {
+    setSelectedProduct(null);
+    setIsRatingModalOpen(false);
+  };
+
+  const handleRatingSubmit = (newCommentData) => {
+    setSuccessMessage("Review submitted successfully!");
+    setIsSuccessModalOpen(true);
+  };
+
+  const closeSuccessModal = () => {
+    setIsSuccessModalOpen(false);
+    setSuccessMessage("");
+  };
+
   if (!currentUser) {
     return <div>Loading user information...</div>;
   }
@@ -197,6 +225,21 @@ const OrderTabs = ({ initialTab = "All" }) => {
                             Quantity: {item.quantity}
                           </p>
                         </div>
+                        {activeTab === "Completed" && (
+                          <div className="rate-product-container">
+                            <button
+                              className="rate-product-button"
+                              onClick={() =>
+                                openRatingModal({
+                                  productId: item.productId,
+                                  productName: item.productName,
+                                })
+                              }
+                            >
+                              Rate Product
+                            </button>
+                          </div>
+                        )}
                       </div>
                     ))}
                   </div>
@@ -222,6 +265,19 @@ const OrderTabs = ({ initialTab = "All" }) => {
           )}
         </div>
       </div>
+
+      {selectedProduct && (
+        <RatingModal
+          isOpen={isRatingModalOpen}
+          onClose={closeRatingModal}
+          product={selectedProduct}
+          onSubmit={handleRatingSubmit}
+        />
+      )}
+
+      {isSuccessModalOpen && (
+        <SuccessModal message={successMessage} onClose={closeSuccessModal} />
+      )}
     </div>
   );
 };

@@ -198,6 +198,25 @@
   color: #555555;
 }
 
+.rate-product-container {
+  margin-top: 10px;
+}
+
+.rate-product-button {
+  padding: 8px 16px;
+  background-color: #1a2129;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.rate-product-button:hover {
+  background-color: #14181f;
+}
+
 @media (max-width: 768px) {
   #root-order-tabs .order-tabs {
     flex-wrap: wrap;

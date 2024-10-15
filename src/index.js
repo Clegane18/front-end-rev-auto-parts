@@ -8,7 +8,7 @@ import { AdminAuthProvider } from "./contexts/AdminAuthContext";
 import { CartProvider } from "./components/posComponents/CartContext";
 import { OnlineCartProvider } from "./components/onlineStoreFrontComponents/OnlineCartContext";
 import { WebSocketProvider } from "./contexts/WebSocketContext";
-
+import { CommentProvider } from "./contexts/CommentContext";
 import ErrorBoundary from "./ErrorBoundary";
 
 const container = document.getElementById("root");
@@ -23,7 +23,9 @@ root.render(
             <CartProvider>
               <OnlineCartProvider>
                 <WebSocketProvider>
-                  <App />
+                  <CommentProvider>
+                    <App />
+                  </CommentProvider>
                 </WebSocketProvider>
               </OnlineCartProvider>
             </CartProvider>

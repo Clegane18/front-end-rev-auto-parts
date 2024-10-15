@@ -1,0 +1,168 @@
+#root-rating-modal .rating-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  padding: 20px;
+}
+
+#root-rating-modal .rating-modal-content {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.3);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+#root-rating-modal .rating-modal-close-icon {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #555;
+}
+
+#root-rating-modal .rating-modal-close-icon:hover {
+  color: #000;
+}
+
+#root-rating-modal .modal-title {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #1a2129;
+  text-align: center;
+}
+
+#root-rating-modal .rating-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+#root-rating-modal .error-message {
+  color: #b22222;
+  margin-bottom: 10px;
+}
+
+#root-rating-modal .form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+#root-rating-modal .form-label {
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #1a2129;
+}
+
+#root-rating-modal .form-textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  resize: vertical;
+}
+
+#root-rating-modal .form-textarea:focus {
+  border-color: #1a2129;
+  outline: none;
+}
+
+#root-rating-modal .form-input {
+  font-size: 16px;
+}
+
+#root-rating-modal .star-rating {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+
+#root-rating-modal .star-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 32px;
+  color: #ccc;
+  transition: color 0.2s;
+}
+
+#root-rating-modal .star-button.star-selected,
+#root-rating-modal .star-button:hover,
+#root-rating-modal .star-button:focus {
+  color: #ffd700;
+}
+
+#root-rating-modal .image-previews {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+#root-rating-modal .image-preview {
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+#root-rating-modal .preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+#root-rating-modal .remove-image-button {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: rgba(26, 33, 41, 0.8);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 22px;
+  text-align: center;
+}
+
+#root-rating-modal .remove-image-button:hover {
+  background-color: rgba(26, 33, 41, 1);
+}
+
+#root-rating-modal .submit-comment-button {
+  align-self: center;
+  padding: 12px 30px;
+  background-color: #1a2129;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.3s ease;
+}
+
+#root-rating-modal .submit-comment-button:hover {
+  background-color: #14181f;
+}
+
+#root-rating-modal .submit-comment-button:disabled {
+  background-color: #888;
+  cursor: not-allowed;
+}
