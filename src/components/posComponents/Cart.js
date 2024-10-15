@@ -4,10 +4,12 @@ import { CartContext } from "./CartContext";
 import InsufficientStockModal from "./InsufficientStockModal";
 import "../../styles/posComponents/Cart.css";
 import { formatCurrency } from "../../utils/formatCurrency";
+import { useLoading } from "../../contexts/LoadingContext";
 
 const Cart = () => {
   const { cartItems, removeFromCart, updateQuantity } = useContext(CartContext);
   const navigate = useNavigate();
+  const { setIsLoading } = useLoading();
 
   const [modalInfo, setModalInfo] = useState({
     isOpen: false,
@@ -15,13 +17,27 @@ const Cart = () => {
     stock: 0,
   });
 
-  const handlePay = () => {
-    const validItems = cartItems.filter((item) => item.quantity > 0);
-    navigate("/checkout", { state: { items: validItems } });
+  const handlePay = async () => {
+    setIsLoading(true);
+    try {
+      const validItems = cartItems.filter((item) => item.quantity > 0);
+      navigate("/checkout", { state: { items: validItems } });
+    } catch (error) {
+      console.error("Error in handlePay:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleGoToPOS = () => {
-    navigate("/pos");
+  const handleGoToPOS = async () => {
+    setIsLoading(true);
+    try {
+      navigate("/pos");
+    } catch (error) {
+      console.error("Error in handleGoToPOS:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const calculateSubtotal = () => {
@@ -31,7 +47,7 @@ const Cart = () => {
       .toFixed(2);
   };
 
-  const handleQuantityChange = (index, newQuantity) => {
+  const handleQuantityChange = async (index, newQuantity) => {
     const item = cartItems[index];
     if (newQuantity > item.stock) {
       setModalInfo({
@@ -41,7 +57,25 @@ const Cart = () => {
       });
       return;
     }
-    updateQuantity(index, newQuantity);
+    setIsLoading(true);
+    try {
+      await updateQuantity(index, newQuantity);
+    } catch (error) {
+      console.error("Error in handleQuantityChange:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleRemoveFromCart = async (index) => {
+    setIsLoading(true);
+    try {
+      await removeFromCart(index);
+    } catch (error) {
+      console.error("Error in handleRemoveFromCart:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const closeModal = () => {
@@ -79,7 +113,7 @@ const Cart = () => {
                       </span>
                       <button
                         className="remove-button"
-                        onClick={() => removeFromCart(index)}
+                        onClick={() => handleRemoveFromCart(index)}
                       >
                         Remove
                       </button>

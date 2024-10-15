@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import InsufficientStockModal from "./InsufficientStockModal";
 import "../../styles/posComponents/ProductDetails.css";
 import { formatCurrency } from "../../utils/formatCurrency";
+import { useLoading } from "../../contexts/LoadingContext";
 
 const ProductDetails = ({ product, onAddToCart, onClose }) => {
   const [showBuyNow, setShowBuyNow] = useState(false);
@@ -13,12 +14,13 @@ const ProductDetails = ({ product, onAddToCart, onClose }) => {
     stock: 0,
   });
   const navigate = useNavigate();
+  const { setIsLoading } = useLoading();
 
   const handleBuyNowClick = () => {
     setShowBuyNow(true);
   };
 
-  const handleConfirmPurchaseClick = () => {
+  const handleConfirmPurchaseClick = async () => {
     if (quantity > product.stock) {
       setModalInfo({
         isOpen: true,
@@ -34,10 +36,18 @@ const ProductDetails = ({ product, onAddToCart, onClose }) => {
       unitPrice: product.price,
       subtotalAmount: quantity * product.price,
     };
-    navigate("/checkout", { state: { items: [productWithQuantity] } });
+
+    setIsLoading(true);
+    try {
+      navigate("/checkout", { state: { items: [productWithQuantity] } });
+    } catch (error) {
+      console.error("Error in handleConfirmPurchaseClick:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleAddToCartClick = () => {
+  const handleAddToCartClick = async () => {
     if (quantity > product.stock) {
       setModalInfo({
         isOpen: true,
@@ -53,7 +63,16 @@ const ProductDetails = ({ product, onAddToCart, onClose }) => {
       unitPrice: product.price,
       subtotalAmount: quantity * product.price,
     };
-    onAddToCart(productWithQuantity);
+
+    setIsLoading(true);
+    try {
+      await onAddToCart(productWithQuantity);
+      onClose();
+    } catch (error) {
+      console.error("Error in handleAddToCartClick:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleQuantityChange = (e) => {

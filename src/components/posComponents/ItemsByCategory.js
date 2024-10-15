@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { getAllItemsByCategory } from "../../services/inventory-api";
 import "../../styles/posComponents/ItemsByCategory.css";
+import { useLoading } from "../../contexts/LoadingContext";
 
 const ItemsByCategory = ({ onSelectProduct }) => {
   const [groupedProducts, setGroupedProducts] = useState({});
   const [visibleItems, setVisibleItems] = useState({});
   const [showAll, setShowAll] = useState({});
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { setIsLoading } = useLoading();
 
   useEffect(() => {
     const fetchItems = async () => {
+      setIsLoading(true);
       try {
         const data = await getAllItemsByCategory();
         setGroupedProducts(data.groupedProducts);
@@ -26,30 +28,33 @@ const ItemsByCategory = ({ onSelectProduct }) => {
             return acc;
           }, {})
         );
-        setLoading(false);
       } catch (error) {
         setError(error.message);
-        setLoading(false);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchItems();
-  }, []);
+  }, [setIsLoading]);
 
   const handleViewAll = (category) => {
-    setVisibleItems((prev) => ({
-      ...prev,
-      [category]: groupedProducts[category],
-    }));
-    setShowAll((prev) => ({
-      ...prev,
-      [category]: false,
-    }));
+    setIsLoading(true);
+    try {
+      setVisibleItems((prev) => ({
+        ...prev,
+        [category]: groupedProducts[category],
+      }));
+      setShowAll((prev) => ({
+        ...prev,
+        [category]: false,
+      }));
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
-
-  if (loading) {
-    return <p>Loading...</p>;
-  }
 
   if (error) {
     return <p>{error}</p>;

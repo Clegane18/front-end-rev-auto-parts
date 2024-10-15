@@ -2,11 +2,13 @@ import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Cart from "./Cart";
 import { buyProductsOnPhysicalStore } from "../../services/pos-api";
+import { useLoading } from "../../contexts/LoadingContext";
 
 const CartPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { checkoutItems } = location.state || { checkoutItems: [] };
+  const { setIsLoading } = useLoading();
 
   const handlePay = async (items, paymentAmount) => {
     const payload = {
@@ -17,6 +19,7 @@ const CartPage = () => {
       paymentAmount,
     };
 
+    setIsLoading(true);
     try {
       const response = await buyProductsOnPhysicalStore(payload);
       navigate("/receipt", { state: { receipt: response.receipt } });
@@ -25,6 +28,8 @@ const CartPage = () => {
       alert(
         `Payment failed: ${error.response?.data?.message || error.message}`
       );
+    } finally {
+      setIsLoading(false);
     }
   };
 

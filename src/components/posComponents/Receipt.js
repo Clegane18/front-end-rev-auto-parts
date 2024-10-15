@@ -2,29 +2,31 @@ import React, { useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { CartContext } from "./CartContext";
 import "../../styles/posComponents/Receipt.css";
+import { formatCurrency } from "../../utils/formatCurrency";
+import { useLoading } from "../../contexts/LoadingContext";
 
 const Receipt = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { receipt } = location.state || {};
   const { clearCart } = useContext(CartContext);
+  const { setIsLoading } = useLoading();
 
   if (!receipt) {
     return <div>No receipt data available.</div>;
   }
 
-  const formatCurrency = (value) => {
-    const number = Number(value);
-    return isNaN(number) ? value : number.toFixed(2);
-  };
-
   const handlePrint = () => {
+    setIsLoading(true);
     window.print();
+    setIsLoading(false);
   };
 
   const handleNewTransaction = () => {
+    setIsLoading(true);
     clearCart();
     navigate("/pos");
+    setIsLoading(false);
   };
 
   return (

@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { buyProductsOnPhysicalStore } from "../../services/pos-api";
 import InsufficientModal from "./InsufficientModal";
 import "../../styles/posComponents/Checkout.css";
+import { useLoading } from "../../contexts/LoadingContext";
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -11,6 +12,7 @@ const Checkout = () => {
   const [paymentAmount, setPaymentAmount] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { setIsLoading } = useLoading();
 
   useEffect(() => {
     const total = items.reduce(
@@ -38,6 +40,7 @@ const Checkout = () => {
       paymentAmount,
     };
 
+    setIsLoading(true);
     try {
       const response = await buyProductsOnPhysicalStore(payload);
       if (response.receipt) {
@@ -50,11 +53,15 @@ const Checkout = () => {
       alert(
         `Payment failed: ${error.response?.data?.message || error.message}`
       );
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleCancel = () => {
+    setIsLoading(true);
     navigate("/pos");
+    setIsLoading(false);
   };
 
   const handleCloseModal = () => {

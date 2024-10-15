@@ -7,19 +7,28 @@ import ItemsByCategory from "./ItemsByCategory";
 import { CartContext } from "./CartContext";
 import "../../styles/posComponents/POSPage.css";
 import logo from "../../assets/g&f-logo.png";
+import { useLoading } from "../../contexts/LoadingContext";
 
 const POSPage = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const { addToCart, cartItems } = useContext(CartContext);
   const navigate = useNavigate();
+  const { setIsLoading } = useLoading();
 
   const handleSelectProduct = (product) => {
     setSelectedProduct(product);
   };
 
-  const handleAddToCart = (product) => {
-    addToCart(product);
-    setSelectedProduct(null);
+  const handleAddToCart = async (product) => {
+    setIsLoading(true);
+    try {
+      await addToCart(product);
+      setSelectedProduct(null);
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleBack = () => {
