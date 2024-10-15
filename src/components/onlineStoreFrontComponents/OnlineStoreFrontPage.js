@@ -6,19 +6,26 @@ import OnlineStoreFrontFooter from "./OnlineStoreFrontFooter";
 import ProductShowcaseCarousel from "./ProductShowcaseCarousel";
 import "../../styles/onlineStoreFrontComponents/OnlineStoreFrontPage.css";
 import useRequireAuth from "../../utils/useRequireAuth";
+import { useLoading } from "../../contexts/LoadingContext";
 
 const OnlineStoreFrontPage = () => {
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const checkAuth = useRequireAuth();
   const navigate = useNavigate();
+  const { setIsLoading } = useLoading();
 
   const scrollToCategoryRef = useRef(null);
+  const keySequenceRef = useRef("");
+  const secretCode = "gfautobigboss";
+  const secretCodeLength = secretCode.length;
 
   const handleSelectProduct = (product) => {
+    setIsLoading(true);
     if (checkAuth("/")) {
       navigate(`/product/${product.id}`, { state: { product } });
     }
+    setIsLoading(false);
   };
 
   const handleSearch = (searchedProducts) => {
@@ -29,10 +36,6 @@ const OnlineStoreFrontPage = () => {
     setSearchTerm(term);
   };
 
-  const keySequenceRef = useRef("");
-  const secretCode = "gfautobigboss";
-  const secretCodeLength = secretCode.length;
-
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key.length === 1) {
@@ -40,8 +43,8 @@ const OnlineStoreFrontPage = () => {
           -secretCodeLength
         );
         if (keySequenceRef.current === secretCode) {
+          setIsLoading(true);
           navigate("/login");
-          keySequenceRef.current = "";
         }
       }
     };
@@ -50,7 +53,7 @@ const OnlineStoreFrontPage = () => {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [navigate, secretCodeLength]);
+  }, [navigate, secretCodeLength, setIsLoading]);
 
   return (
     <div id="root-online-store-front-page">

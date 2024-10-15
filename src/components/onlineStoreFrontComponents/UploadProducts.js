@@ -29,6 +29,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import logo from "../../assets/g&f-logo.png";
 import { useNavigate } from "react-router-dom";
+import { useLoading } from "../../contexts/LoadingContext";
 
 const UploadProducts = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -50,10 +51,12 @@ const UploadProducts = () => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
+  const { setIsLoading } = useLoading();
 
   const BASE_URL = "https://rev-auto-parts.onrender.com/";
 
   const fetchProducts = async () => {
+    setIsLoading(true);
     try {
       const response = await getAllProducts();
       if (response.data?.data) {
@@ -66,6 +69,7 @@ const UploadProducts = () => {
       setFilteredProducts([]);
       setErrorMessage("Failed to fetch products. Please try again later.");
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -113,6 +117,7 @@ const UploadProducts = () => {
   };
 
   const handleViewPicturesClick = async (product) => {
+    setIsLoading(true);
     try {
       setImagesLoading(true);
       const imagesData = await getAllProductImagesByProductId({
@@ -125,6 +130,7 @@ const UploadProducts = () => {
       setErrorMessage(error.message || "Failed to fetch product images.");
     } finally {
       setImagesLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -146,6 +152,7 @@ const UploadProducts = () => {
   };
 
   const handleSavePhoto = async (product, files) => {
+    setIsLoading(true);
     try {
       await uploadProductImages(product.id, files);
       await fetchProducts();
@@ -156,9 +163,11 @@ const UploadProducts = () => {
         error.response?.data?.message || "An unexpected error occurred."
       );
     }
+    setIsLoading(false);
   };
 
   const handleSaveShowcasePhotos = async (files) => {
+    setIsLoading(true);
     try {
       await uploadShowcaseImages(files);
       await fetchProducts();
@@ -170,6 +179,7 @@ const UploadProducts = () => {
         error.response?.data?.message || "An unexpected error occurred."
       );
     }
+    setIsLoading(false);
   };
 
   const handlePublishClick = (productId) => {
@@ -185,6 +195,7 @@ const UploadProducts = () => {
   };
 
   const handleConfirm = async () => {
+    setIsLoading(true);
     try {
       if (action === "publish") {
         await getProductByIdAndPublish(selectedProduct.id);
@@ -197,6 +208,7 @@ const UploadProducts = () => {
     } catch (error) {
       setErrorMessage(error.message || "An unexpected error occurred.");
     }
+    setIsLoading(false);
   };
 
   const handlePurchaseMethodChange = (productId, newMethod) => {
@@ -207,6 +219,7 @@ const UploadProducts = () => {
   };
 
   const handleConfirmPurchaseMethodChange = async () => {
+    setIsLoading(true);
     try {
       await updateProductPurchaseMethod({
         productId: selectedProduct.id,
@@ -219,6 +232,7 @@ const UploadProducts = () => {
     } catch (error) {
       setErrorMessage(error.message || "Failed to update purchase method.");
     }
+    setIsLoading(false);
   };
 
   const getStatusClassName = (status) => {

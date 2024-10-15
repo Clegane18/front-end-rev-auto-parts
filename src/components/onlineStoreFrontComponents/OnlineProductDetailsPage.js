@@ -15,6 +15,7 @@ import {
 import OnlineStoreFrontHeader from "./OnlineStoreFrontHeader";
 import OnlineStoreFrontFooter from "./OnlineStoreFrontFooter";
 import { FaStar, FaTimes, FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { useLoading } from "../../contexts/LoadingContext";
 
 const encodeURL = (url) => url.replace(/\\/g, "/");
 
@@ -59,30 +60,26 @@ const OnlineProductDetailsPage = () => {
     currentIndex: 0,
   });
   const [hasUserCommented, setHasUserCommented] = useState(false);
+  const { setIsLoading } = useLoading();
 
   useEffect(() => {
     const fetchProductAndComments = async () => {
       try {
+        setIsLoading(true);
         if (!productId) {
           throw new Error("Product ID is missing.");
         }
-
         const productResponse = await getProductById(productId);
-
         if (productResponse.status !== 200) {
           throw new Error(
             productResponse.message || "Failed to fetch product details."
           );
         }
-
         const productData = productResponse.data;
-
         if (!productData.data || !productData.data.id) {
           throw new Error("Product data is incomplete.");
         }
-
         setProduct(productData.data);
-
         const primaryImage = productData.data.images.find(
           (img) => img.isPrimary
         );
@@ -91,17 +88,13 @@ const OnlineProductDetailsPage = () => {
             ? buildImageUrl(encodeURL(primaryImage.imageUrl))
             : "http://localhost:3002/default-image.jpg"
         );
-
         const commentsResponse = await getAllComments({ productId });
-
         if (commentsResponse.status !== 200) {
           throw new Error(
             commentsResponse.message || "Failed to fetch comments."
           );
         }
-
         const fetchedComments = commentsResponse.data;
-
         setComments(
           fetchedComments.map((comment) => ({
             id: comment.commentId,
@@ -115,28 +108,23 @@ const OnlineProductDetailsPage = () => {
             customerId: comment.customerId,
           }))
         );
-
         const totalRatings = fetchedComments.reduce(
           (acc, curr) => acc + curr.rating,
           0
         );
         const count = fetchedComments.length;
         const average = count > 0 ? totalRatings / count : 0;
-
         setRatings({
           average: average,
           count: count,
         });
-
         if (currentUser) {
           const userHasCommented = fetchedComments.some(
             (comment) => comment.customerId === currentUser.id
           );
           setHasUserCommented(userHasCommented);
         }
-
         setLoading(false);
-
         if (currentUser) {
           const response = await verifyCustomerProductPurchase(
             { customerId: currentUser.id, productId },
@@ -147,14 +135,15 @@ const OnlineProductDetailsPage = () => {
           }
         }
       } catch (err) {
-        console.error("Error fetching product and comments:", err.message);
         setError(err.message);
         setLoading(false);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchProductAndComments();
-  }, [productId, currentUser, token]);
+  }, [productId, currentUser, token, setIsLoading]);
 
   const handleBuyNowClick = () => {
     if (checkAuth("/online-store")) {
@@ -172,7 +161,6 @@ const OnlineProductDetailsPage = () => {
       });
       return;
     }
-
     const productWithQuantity = {
       Product: { ...product },
       quantity,
@@ -184,12 +172,10 @@ const OnlineProductDetailsPage = () => {
 
   const handleAddToCartClick = useCallback(async () => {
     if (!checkAuth("/online-store")) return;
-
     if (!currentUser || !currentUser.id) {
       setError("User not authenticated. Please log in.");
       return;
     }
-
     if (quantity > product.stock) {
       setModalInfo({
         isOpen: true,
@@ -198,21 +184,29 @@ const OnlineProductDetailsPage = () => {
       });
       return;
     }
-
     try {
+      setIsLoading(true);
       await addProductToCart({
         customerId: currentUser.id,
         productId: product.id,
         token,
         quantity,
       });
-
+      setIsLoading(false);
       navigate(-1);
     } catch (error) {
-      console.error(error.message);
+      setIsLoading(false);
       setError("Failed to add product to cart. Please try again.");
     }
-  }, [checkAuth, quantity, product, currentUser, token, navigate]);
+  }, [
+    checkAuth,
+    quantity,
+    product,
+    currentUser,
+    token,
+    navigate,
+    setIsLoading,
+  ]);
 
   const handleQuantityChange = (e) => {
     const newQuantity = Number(e.target.value);
@@ -301,34 +295,29 @@ const OnlineProductDetailsPage = () => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmissionError(null);
-
     if (!currentUser || !currentUser.id) {
       setSubmissionError("You must be logged in to submit a review.");
       setIsSubmitting(false);
       return;
     }
-
     if (!product || !product.id) {
       setSubmissionError("Product ID is missing or invalid.");
       setIsSubmitting(false);
       return;
     }
-
     try {
+      setIsLoading(true);
       const formData = new FormData();
       formData.append("rating", newRating);
       formData.append("commentText", newCommentText);
-
       newImages.forEach((image) => {
         formData.append("images", image);
       });
-
       const createdComment = await createComment(
         formData,
         token,
         Number(product.id)
       );
-
       const mappedComment = {
         id: createdComment.data.commentId,
         username: currentUser.username || "Anonymous",
@@ -342,9 +331,7 @@ const OnlineProductDetailsPage = () => {
           : [],
         customerId: currentUser.id,
       };
-
       setComments((prevComments) => [mappedComment, ...prevComments]);
-
       setRatings((prevRatings) => {
         const totalRating =
           prevRatings.average * prevRatings.count + createdComment.data.rating;
@@ -354,13 +341,13 @@ const OnlineProductDetailsPage = () => {
           count: newCount,
         };
       });
-
       setNewRating(5);
       setNewCommentText("");
       setNewImages([]);
       setHasUserCommented(true);
+      setIsLoading(false);
     } catch (err) {
-      console.error("Error submitting comment:", err.message);
+      setIsLoading(false);
       setSubmissionError(
         err.response?.data?.message ||
           "Failed to submit comment. Please try again."
@@ -411,9 +398,7 @@ const OnlineProductDetailsPage = () => {
                 if (!formattedImageUrl.startsWith("/")) {
                   formattedImageUrl = `/${formattedImageUrl}`;
                 }
-
                 const fullImageUrl = buildImageUrl(formattedImageUrl);
-
                 return (
                   <img
                     key={index}
@@ -499,7 +484,7 @@ const OnlineProductDetailsPage = () => {
         <div className="comments-section">
           <h3>Reviews</h3>
           {comments.length > 0 ? (
-            comments.map((comment, idx) => (
+            comments.map((comment) => (
               <div key={comment.id} className="comment">
                 <div className="comment-header">
                   <span className="comment-username">{comment.username}</span>
@@ -516,9 +501,7 @@ const OnlineProductDetailsPage = () => {
                     ))}
                   </div>
                 </div>
-
                 <p className="comment-text">{comment.comment}</p>
-
                 {comment?.images?.length > 0 && (
                   <div className="comment-images">
                     {comment.images.map((image, imgIdx) => (
@@ -601,7 +584,6 @@ const OnlineProductDetailsPage = () => {
                   className="form-input"
                 />
               </label>
-
               {newImages.length > 0 && (
                 <div className="image-previews">
                   {newImages.map((image, index) => (
@@ -623,7 +605,6 @@ const OnlineProductDetailsPage = () => {
                   ))}
                 </div>
               )}
-
               <button
                 type="submit"
                 className="submit-comment-button"
@@ -631,7 +612,6 @@ const OnlineProductDetailsPage = () => {
               >
                 {isSubmitting ? "Submitting..." : "Submit Review"}
               </button>
-
               {!canSubmitReview && (
                 <p className="error-message">
                   You can only submit a review if you have purchased this

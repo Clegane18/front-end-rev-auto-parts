@@ -7,6 +7,7 @@ import {
 } from "../../services/online-store-front-api";
 import "../../styles/onlineStoreFrontComponents/OnlineStoreFrontItemsByCategory.css";
 import { formatCurrency } from "../../utils/formatCurrency";
+import { useLoading } from "../../contexts/LoadingContext";
 
 const encodeURL = (url) =>
   encodeURIComponent(url).replace(/%2F/g, "/").replace(/%3A/g, ":");
@@ -19,14 +20,15 @@ const OnlineStoreFrontItemsByCategory = ({
   const [categories, setCategories] = useState([]);
   const [visibleItems, setVisibleItems] = useState({});
   const [showAll, setShowAll] = useState({});
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [bestSellers, setBestSellers] = useState([]);
   const [visibleBestSellers, setVisibleBestSellers] = useState([]);
   const [showAllBestSellers, setShowAllBestSellers] = useState(false);
+  const { setIsLoading } = useLoading();
 
   useEffect(() => {
     const fetchItemsAndCategories = async () => {
+      setIsLoading(true);
       try {
         let bestSellingProductsResponse = await getBestSellingProductsForMonth(
           5
@@ -62,16 +64,16 @@ const OnlineStoreFrontItemsByCategory = ({
           }, {})
         );
 
-        setLoading(false);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching items or categories:", error);
         setError(error.message);
-        setLoading(false);
+        setIsLoading(false);
       }
     };
 
     fetchItemsAndCategories();
-  }, []);
+  }, [setIsLoading]);
 
   const handleViewAll = (category) => {
     setVisibleItems((prev) => ({
@@ -104,10 +106,6 @@ const OnlineStoreFrontItemsByCategory = ({
       exposeScrollFunction(scrollToCategory);
     }
   }, [exposeScrollFunction]);
-
-  if (loading) {
-    return <p className="loading">Loading...</p>;
-  }
 
   if (error) {
     return <p className="error">{error}</p>;

@@ -15,6 +15,7 @@ import DownpaymentModal from "./DownpaymentModal";
 import GCashPaymentModal from "./GCashPaymentModal";
 import WarningModal from "./WarningModal";
 import { formatCurrency } from "../../utils/formatCurrency";
+import { useLoading } from "../../contexts/LoadingContext";
 
 const OnlineCheckout = () => {
   const { currentUser, token } = useAuth();
@@ -42,6 +43,8 @@ const OnlineCheckout = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { items: cartItems } = location.state || { items: [] };
+
+  const { setIsLoading } = useLoading();
 
   const hasInStorePickup = useMemo(() => {
     return cartItems.some(
@@ -78,6 +81,7 @@ const OnlineCheckout = () => {
   const fetchAddressDetails = useCallback(
     async (id) => {
       try {
+        setIsLoading(true);
         const response = await getAddressById({ addressId: id, token });
         setAddressDetails(response.data);
 
@@ -100,9 +104,11 @@ const OnlineCheckout = () => {
         }
       } catch (err) {
         setError(err.message || "Failed to fetch address details.");
+      } finally {
+        setIsLoading(false);
       }
     },
-    [token, regularItems.length]
+    [token, regularItems.length, setIsLoading]
   );
 
   useEffect(() => {
@@ -241,7 +247,10 @@ const OnlineCheckout = () => {
         remainingBalance: downpaymentModal.remainingBalance,
       };
 
+      setIsLoading(true);
       const response = await createOrder(payload);
+      setIsLoading(false);
+
       const order = response.data;
 
       if (order) {
@@ -262,6 +271,7 @@ const OnlineCheckout = () => {
         setError("Failed to retrieve order details. Please try again.");
       }
     } catch (err) {
+      setIsLoading(false);
       handleError(err);
     }
   };
@@ -325,6 +335,7 @@ const OnlineCheckout = () => {
 
   const handleAddressChange = async () => {
     try {
+      setIsLoading(true);
       const newDefaultAddressId = currentUser.defaultAddressId;
       const response = await getAddressById({
         addressId: newDefaultAddressId,
@@ -357,6 +368,8 @@ const OnlineCheckout = () => {
       }
     } catch (err) {
       setError("Failed to update address. Please try again later.");
+    } finally {
+      setIsLoading(false);
     }
   };
 

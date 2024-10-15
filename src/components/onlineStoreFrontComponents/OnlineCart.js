@@ -11,6 +11,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { formatCurrency } from "../../utils/formatCurrency";
 import OnlineStoreFrontHeader from "./OnlineStoreFrontHeader";
 import OnlineStoreFrontFooter from "./OnlineStoreFrontFooter";
+import { useLoading } from "../../contexts/LoadingContext";
 
 const OnlineCart = () => {
   const { token } = useAuth();
@@ -22,20 +23,24 @@ const OnlineCart = () => {
     stock: 0,
   });
   const navigate = useNavigate();
+  const { setIsLoading } = useLoading();
 
   useEffect(() => {
     const fetchCart = async () => {
       try {
+        setIsLoading(true);
         const response = await getCartItems({ token });
         setCartItems(response.data.CartItems);
       } catch (error) {
         console.error("Error fetching cart:", error.message);
+      } finally {
+        setIsLoading(false);
       }
     };
     if (token) {
       fetchCart();
     }
-  }, [token]);
+  }, [token, setIsLoading]);
 
   useEffect(() => {
     const savedSelectedItems =
@@ -64,6 +69,7 @@ const OnlineCart = () => {
     const value = Math.abs(newQuantity - item.quantity);
 
     try {
+      setIsLoading(true);
       await updateCartItemQuantity({
         productId: item.Product.id,
         action,
@@ -78,6 +84,8 @@ const OnlineCart = () => {
       setCartItems(updatedItems);
     } catch (error) {
       console.error("Error updating quantity:", error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -85,6 +93,7 @@ const OnlineCart = () => {
     const item = cartItems[index];
 
     try {
+      setIsLoading(true);
       await removeProductFromCart({
         productId: item.Product.id,
         token,
@@ -92,8 +101,11 @@ const OnlineCart = () => {
 
       const updatedItems = cartItems.filter((_, i) => i !== index);
       setCartItems(updatedItems);
+      setSelectedItems(selectedItems.filter((id) => id !== item.id));
     } catch (error) {
       console.error("Error removing item:", error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 

@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../../styles/onlineStoreFrontComponents/ProductShowcaseCarousel.css";
 import { getShowcaseImages } from "../../services/online-store-front-api";
+import { useLoading } from "../../contexts/LoadingContext";
 
 const ProductShowcaseCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [images, setImages] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const slideRef = useRef();
+  const { setIsLoading } = useLoading();
 
   const buildImageUrl = (imagePath) => {
     return imagePath.startsWith("/")
@@ -17,6 +18,7 @@ const ProductShowcaseCarousel = () => {
 
   useEffect(() => {
     const fetchImages = async () => {
+      setIsLoading(true);
       try {
         const fetchedImages = await getShowcaseImages();
         if (
@@ -28,18 +30,17 @@ const ProductShowcaseCarousel = () => {
         } else {
           throw new Error("Invalid images data format.");
         }
-        setLoading(false);
       } catch (err) {
         console.error("Error fetching images:", err);
         setError(err.message || "An error occurred while fetching images.");
-        setLoading(false);
       }
+      setIsLoading(false);
     };
     fetchImages();
-  }, []);
+  }, [setIsLoading]);
 
   useEffect(() => {
-    if (loading || error || images.length === 0) return;
+    if (error || images.length === 0) return;
     if (slideRef.current) {
       slideRef.current.style.transition = "transform 0.5s ease-in-out";
       slideRef.current.style.transform = `translateX(-${currentIndex * 100}%)`;
@@ -50,11 +51,7 @@ const ProductShowcaseCarousel = () => {
       );
     }, 3000);
     return () => clearInterval(interval);
-  }, [currentIndex, images.length, loading, error, images]);
-
-  if (loading) {
-    return <div className="carousel-loading">Loading...</div>;
-  }
+  }, [currentIndex, images.length, images, error]);
 
   if (error) {
     return <div className="carousel-error">{error}</div>;
