@@ -18,35 +18,38 @@ import {
 import PurchaseHistoryModal from "./PurchaseHistoryModal";
 import ConfirmDeleteCustomerModal from "./ConfirmDeleteCustomerModal";
 import ConfirmToggleStatusModal from "./ConfirmToggleStatusModal";
+import { useLoading } from "../../contexts/LoadingContext";
 
 const CustomerList = () => {
   const [customers, setCustomers] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedCustomerId, setSelectedCustomerId] = useState(null);
   const [customerToDelete, setCustomerToDelete] = useState(null);
   const [customerToToggle, setCustomerToToggle] = useState(null);
 
   const navigate = useNavigate();
+  const { setIsLoading } = useLoading();
 
   useEffect(() => {
     const fetchCustomers = async () => {
       try {
+        setIsLoading(true);
         const response = await getAllCustomers();
         setCustomers(response.data);
-        setLoading(false);
       } catch (error) {
         console.error("Error fetching customers:", error);
         setError(error.message);
-        setLoading(false);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchCustomers();
-  }, []);
+  }, [setIsLoading]);
 
   const handleToggleStatus = async (customerId, currentStatus) => {
     try {
+      setIsLoading(true);
       const updatedCustomer = await toggleCustomerStatus(
         customerId,
         currentStatus
@@ -59,10 +62,10 @@ const CustomerList = () => {
             : customer
         )
       );
-
-      setCustomerToToggle(null);
     } catch (err) {
       console.error("Error updating status:", err.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -92,6 +95,7 @@ const CustomerList = () => {
 
   const handleDeleteCustomer = async (customerId) => {
     try {
+      setIsLoading(true);
       await deleteCustomerById(customerId);
       setCustomers((prevCustomers) =>
         prevCustomers.filter((customer) => customer.id !== customerId)
@@ -99,15 +103,13 @@ const CustomerList = () => {
       handleCloseDeleteModal();
     } catch (error) {
       console.error("Error deleting customer:", error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  if (loading) {
-    return <div>Loading customers...</div>;
-  }
-
   if (error) {
-    return <div>Error: {error}</div>;
+    return <div className="error-message">Error: {error}</div>;
   }
 
   return (

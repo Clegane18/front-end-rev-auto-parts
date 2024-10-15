@@ -36,6 +36,7 @@ import {
 import LogOutConfirmationModal from "./LogOutConfirmationModal";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { useAdminAuth } from "../../contexts/AdminAuthContext";
+import { useLoading } from "../../contexts/LoadingContext";
 
 const DashboardPage = () => {
   const [monthlyIncome, setMonthlyIncome] = useState([]);
@@ -54,86 +55,74 @@ const DashboardPage = () => {
   const [isAllSelected, setIsAllSelected] = useState(false);
   const stockReminderRef = useRef();
   const { logout } = useAdminAuth();
-
   const navigate = useNavigate();
+  const { setIsLoading } = useLoading();
 
   useEffect(() => {
-    const fetchIncomeData = async () => {
+    const fetchData = async () => {
       try {
-        const monthlyIncomeData = await calculateTotalIncomeByMonth();
+        setIsLoading(true);
+        const fetchIncomeData = calculateTotalIncomeByMonth();
+        const fetchTotalIncome = calculateTotalIncome();
+        const fetchBestSellers = getTopBestSellerItems();
+        const fetchStockData = Promise.all([
+          getTotalStock(),
+          getTotalItems(),
+          getLowStockProducts(),
+        ]);
+        const fetchTransactionData = Promise.all([
+          getTotalNumberTransactions(),
+          getTotalCountOfTransactionsFromPOS(),
+          getTotalCountOfTransactionsFromOnline(),
+          getTodaysTransactions(),
+        ]);
+
+        const [
+          incomeData,
+          totalIncomeData,
+          bestSellersData,
+          stockData,
+          transactionData,
+        ] = await Promise.all([
+          fetchIncomeData,
+          fetchTotalIncome,
+          fetchBestSellers,
+          fetchStockData,
+          fetchTransactionData,
+        ]);
+
         setMonthlyIncome(
-          Object.entries(monthlyIncomeData.data).map(([key, value]) => ({
+          Object.entries(incomeData.data).map(([key, value]) => ({
             month: key,
             grossIncome: parseFloat(value.totalGrossIncome.replace(/,/g, "")),
             netIncome: parseFloat(value.totalNetIncome.replace(/,/g, "")),
           }))
         );
-      } catch (error) {
-        console.error("Error fetching income data:", error);
-      }
-    };
-    const fetchTotalIncome = async () => {
-      try {
-        const { data } = await calculateTotalIncome();
+
         setTotalIncome({
-          grossIncome: data.totalGrossIncome,
-          netIncome: data.totalNetIncome,
+          grossIncome: totalIncomeData.data.totalGrossIncome,
+          netIncome: totalIncomeData.data.totalNetIncome,
         });
-      } catch (error) {
-        console.error("Error calculating total income:", error);
-      }
-    };
-    const fetchBestSellers = async () => {
-      try {
-        const bestSellersData = await getTopBestSellerItems();
+
         setBestSellers(bestSellersData.data);
+
+        setTotalStock(stockData[0].totalStocks);
+        setTotalItems(stockData[1].totalItems);
+        setLowStockProducts(stockData[2].data);
+
+        setTotalTransactions(transactionData[0].TotalTransactions || 0);
+        setPosTransactions(transactionData[1].TotalCountOfTransactions || 0);
+        setOnlineTransactions(transactionData[2].TotalCountOfTransactions || 0);
+        setTodaysTransactions(transactionData[3].TodaysTransactions);
       } catch (error) {
-        console.error("Error fetching best seller items:", error);
+        console.error("Error fetching data:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
-    const fetchStockData = async () => {
-      try {
-        const totalStockData = await getTotalStock();
-        setTotalStock(totalStockData.totalStocks);
-
-        const totalItemsData = await getTotalItems();
-        setTotalItems(totalItemsData.totalItems);
-
-        const lowStockProductsData = await getLowStockProducts();
-        setLowStockProducts(lowStockProductsData.data);
-      } catch (error) {
-        console.error("Error fetching stock data:", error);
-      }
-    };
-
-    const fetchTransactionData = async () => {
-      try {
-        const totalTransactionsData = await getTotalNumberTransactions();
-        setTotalTransactions(totalTransactionsData.TotalTransactions || 0);
-
-        const posTransactionsData = await getTotalCountOfTransactionsFromPOS();
-        setPosTransactions(posTransactionsData.TotalCountOfTransactions || 0);
-
-        const onlineTransactionsData =
-          await getTotalCountOfTransactionsFromOnline();
-        setOnlineTransactions(
-          onlineTransactionsData.TotalCountOfTransactions || 0
-        );
-
-        const todaysTransactionsData = await getTodaysTransactions();
-        setTodaysTransactions(todaysTransactionsData.TodaysTransactions);
-      } catch (error) {
-        console.error("Error fetching transaction data:", error);
-      }
-    };
-
-    fetchIncomeData();
-    fetchTotalIncome();
-    fetchBestSellers();
-    fetchStockData();
-    fetchTransactionData();
-  }, []);
+    fetchData();
+  }, [setIsLoading]);
 
   const openLogoutModal = () => {
     setIsLogoutModalOpen(true);
@@ -194,75 +183,75 @@ const DashboardPage = () => {
     const issuanceDate = new Date().toLocaleString();
     const newWindow = window.open();
     newWindow.document.write(`
-        <html>
-          <head>
-            <title>Reports</title>
-            <style>
-              body {
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                margin: 20px;
-                color: #333;
-              }
-              header {
-                text-align: center;
-                margin-bottom: 40px;
-                border-bottom: 2px solid #DF2028;
-                padding-bottom: 10px;
-              }
-              h1 {
-                margin: 0;
-                font-size: 28px;
-                font-weight: bold;
-                color: #DF2028;
-              }
-              p {
-                margin: 5px 0;
-                font-size: 16px;
-              }
-              table {
-                width: 100%;
-                border-collapse: collapse;
-                margin-bottom: 20px;
-              }
-              th, td {
-                border: 1px solid #ccc;
-                padding: 10px;
-                text-align: left;
-                font-size: 14px;
-              }
-              th {
-                background-color: #f2f2f2;
-                font-weight: bold;
-              }
-              tr:nth-child(even) {
-                background-color: #f9f9f9;
-              }
-              @media print {
-                @page {
-                  margin: 0;
-                }
-                body {
-                  margin: 1cm;
-                }
-                .no-print {
-                  display: none;
-                }
-                input[type=checkbox] {
-                  display: none;
-                }
-              }
-            </style>
-          </head>
-          <body>
-            <header>
-              <h1>${storeName}</h1>
-              <p>Reports</p>
-              <p>Issuance Date: ${issuanceDate}</p>
-            </header>
-            ${printableContent}
-          </body>
-        </html>
-      `);
+            <html>
+              <head>
+                <title>Reports</title>
+                <style>
+                  body {
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    margin: 20px;
+                    color: #333;
+                  }
+                  header {
+                    text-align: center;
+                    margin-bottom: 40px;
+                    border-bottom: 2px solid #DF2028;
+                    padding-bottom: 10px;
+                  }
+                  h1 {
+                    margin: 0;
+                    font-size: 28px;
+                    font-weight: bold;
+                    color: #DF2028;
+                  }
+                  p {
+                    margin: 5px 0;
+                    font-size: 16px;
+                  }
+                  table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-bottom: 20px;
+                  }
+                  th, td {
+                    border: 1px solid #ccc;
+                    padding: 10px;
+                    text-align: left;
+                    font-size: 14px;
+                  }
+                  th {
+                    background-color: #f2f2f2;
+                    font-weight: bold;
+                  }
+                  tr:nth-child(even) {
+                    background-color: #f9f9f9;
+                  }
+                  @media print {
+                    @page {
+                      margin: 0;
+                    }
+                    body {
+                      margin: 1cm;
+                    }
+                    .no-print {
+                      display: none;
+                    }
+                    input[type=checkbox] {
+                      display: none;
+                    }
+                  }
+                </style>
+              </head>
+              <body>
+                <header>
+                  <h1>${storeName}</h1>
+                  <p>Reports</p>
+                  <p>Issuance Date: ${issuanceDate}</p>
+                </header>
+                ${printableContent}
+              </body>
+            </html>
+          `);
     newWindow.document.close();
     newWindow.print();
   };
