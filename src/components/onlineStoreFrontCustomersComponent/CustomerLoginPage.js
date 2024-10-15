@@ -14,6 +14,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { jwtDecode } from "jwt-decode";
 import LoginHeader from "./LoginHeader";
+import { useLoading } from "../../contexts/LoadingContext";
 
 const CustomerLoginPage = () => {
   const [email, setEmail] = useState("");
@@ -24,6 +25,7 @@ const CustomerLoginPage = () => {
   const location = useLocation();
   const { login: loginUser, isAuthenticated } = useAuth();
   const checkAuth = useRequireAuth();
+  const { setIsLoading } = useLoading();
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -33,6 +35,7 @@ const CustomerLoginPage = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault();
+    setIsLoading(true);
     try {
       const result = await login({ email, password });
 
@@ -75,6 +78,8 @@ const CustomerLoginPage = () => {
     } catch (error) {
       console.error("Login error:", error);
       setError(error.message || "An unexpected error occurred.");
+    } finally {
+      setIsLoading(false);
     }
   };
 

@@ -7,6 +7,7 @@ import "../../styles/onlineStoreFrontCustomersComponent/OrderTabs.css";
 import { formatCurrency } from "../../utils/formatCurrency";
 import RatingModal from "./RatingModal";
 import SuccessModal from "../SuccessModal";
+import { useLoading } from "../../contexts/LoadingContext";
 
 const OrderTabs = ({ initialTab = "All" }) => {
   const [activeTab, setActiveTab] = useState(initialTab);
@@ -17,10 +18,10 @@ const OrderTabs = ({ initialTab = "All" }) => {
   const [toReceiveCount, setToReceiveCount] = useState(0);
   const [completedCount, setCompletedCount] = useState(0);
   const [cancelledCount, setCancelledCount] = useState(0);
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const { currentUser, token } = useAuth();
   const socket = useWebSocket();
+  const { setIsLoading } = useLoading();
 
   const [isRatingModalOpen, setIsRatingModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -62,7 +63,7 @@ const OrderTabs = ({ initialTab = "All" }) => {
         return;
       }
 
-      setLoading(true);
+      setIsLoading(true);
       setError(null);
 
       try {
@@ -82,7 +83,7 @@ const OrderTabs = ({ initialTab = "All" }) => {
       } catch (err) {
         setError(err.message);
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     };
 
@@ -105,10 +106,10 @@ const OrderTabs = ({ initialTab = "All" }) => {
         socket.off("orderStatusUpdated");
       }
     };
-  }, [activeTab, currentUser, token, socket]);
+  }, [activeTab, currentUser, token, socket, setIsLoading]);
 
   const onCancelOrder = async (orderId) => {
-    setLoading(true);
+    setIsLoading(true);
     setError(null);
 
     try {
@@ -126,7 +127,7 @@ const OrderTabs = ({ initialTab = "All" }) => {
         err.message || "Failed to cancel order. Please try again later."
       );
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -182,12 +183,9 @@ const OrderTabs = ({ initialTab = "All" }) => {
           })}
         </ul>
         <div className="tab-content">
-          {loading && <div>Loading...</div>}
           {error && <div className="error-message">{error}</div>}
-          {!loading && !error && orders.length === 0 && (
-            <div>No Orders Yet</div>
-          )}
-          {!loading && !error && orders.length > 0 && (
+          {!error && orders.length === 0 && <div>No Orders Yet</div>}
+          {!error && orders.length > 0 && (
             <>
               {orders.map((order) => (
                 <div key={order.orderId} className="order-item">

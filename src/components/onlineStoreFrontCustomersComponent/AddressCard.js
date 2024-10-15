@@ -13,6 +13,7 @@ import {
   getAddressById,
 } from "../../services/address-api";
 import { useAuth } from "../../contexts/AuthContext";
+import { useLoading } from "../../contexts/LoadingContext";
 
 const AddressCard = () => {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -23,9 +24,11 @@ const AddressCard = () => {
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [error, setError] = useState(null);
   const { currentUser, token, updateUserContext } = useAuth();
+  const { setIsLoading } = useLoading();
   const userId = currentUser ? currentUser.id : null;
 
   const fetchAddresses = useCallback(async () => {
+    setIsLoading(true);
     try {
       if (token) {
         const addressesData = await getAddresses(token);
@@ -35,9 +38,9 @@ const AddressCard = () => {
     } catch (error) {
       setError(error.message);
       setAddresses([]);
-      console.error("Failed to fetch addresses:", error.message);
     }
-  }, [token]);
+    setIsLoading(false);
+  }, [token, setIsLoading]);
 
   useEffect(() => {
     fetchAddresses();
@@ -48,6 +51,7 @@ const AddressCard = () => {
   };
 
   const handleSaveAddress = async (formData) => {
+    setIsLoading(true);
     try {
       if (!userId || !token) {
         throw new Error("User ID or token is not available");
@@ -66,12 +70,13 @@ const AddressCard = () => {
 
       fetchAddresses();
     } catch (error) {
-      console.error("Failed to add address:", error.message);
       setError(error.message);
     }
+    setIsLoading(false);
   };
 
   const handleUpdateAddress = async (formData) => {
+    setIsLoading(true);
     try {
       if (!userId || !token || !selectedAddressId) {
         throw new Error("User ID, token, or address ID is not available");
@@ -97,12 +102,13 @@ const AddressCard = () => {
 
       fetchAddresses();
     } catch (error) {
-      console.error("Failed to update address:", error.message);
       setError(error.message);
     }
+    setIsLoading(false);
   };
 
   const handleSetAsDefault = async (id) => {
+    setIsLoading(true);
     try {
       await setDefaultAddress({ addressId: id, customerId: userId, token });
       const updatedDefaultAddress = await getAddressById({
@@ -113,8 +119,9 @@ const AddressCard = () => {
 
       fetchAddresses();
     } catch (error) {
-      console.error("Failed to set default address:", error.message);
+      setError(error.message);
     }
+    setIsLoading(false);
   };
 
   const handleEditAddress = (id) => {
@@ -130,6 +137,7 @@ const AddressCard = () => {
   };
 
   const handleConfirmDelete = async () => {
+    setIsLoading(true);
     try {
       if (!userId || !token || !selectedAddressId) {
         throw new Error("User ID, token, or address ID is not available");
@@ -146,9 +154,9 @@ const AddressCard = () => {
       setError(null);
       fetchAddresses();
     } catch (error) {
-      console.error("Failed to delete address:", error.message);
       setError(error.message);
     }
+    setIsLoading(false);
   };
 
   return (

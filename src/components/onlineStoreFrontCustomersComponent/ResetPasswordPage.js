@@ -5,6 +5,7 @@ import { resetPassword } from "../../services/online-store-front-customer-api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import LoginHeader from "./LoginHeader";
+import { useLoading } from "../../contexts/LoadingContext";
 
 const ResetPasswordPage = () => {
   const [newPassword, setNewPassword] = useState("");
@@ -14,18 +15,20 @@ const ResetPasswordPage = () => {
   const [message, setMessage] = useState("");
   const { token } = useParams();
   const navigate = useNavigate();
+  const { setIsLoading } = useLoading();
 
   const handleResetPassword = async (event) => {
     event.preventDefault();
-
+    setIsLoading(true);
     try {
       const response = await resetPassword(token, newPassword, confirmPassword);
       setMessage(response.message);
-      console.log("Response:", response);
       navigate("/customer-login");
     } catch (error) {
       console.error("Error in handleResetPassword:", error);
       setMessage(error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 

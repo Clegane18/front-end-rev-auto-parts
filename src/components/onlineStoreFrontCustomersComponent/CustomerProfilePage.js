@@ -14,10 +14,12 @@ import "../../styles/onlineStoreFrontCustomersComponent/CustomerProfilePage.css"
 import { months, days, years } from "../../utils/dates";
 import SuccessModal from "../SuccessModal";
 import AddressCard from "./AddressCard";
+import { useLoading } from "../../contexts/LoadingContext";
 
 const CustomerProfilePage = () => {
   const { currentUser, token } = useAuth();
   const location = useLocation();
+  const { setIsLoading } = useLoading();
 
   const [profile, setProfile] = useState({
     username: "",
@@ -31,7 +33,6 @@ const CustomerProfilePage = () => {
   });
   const [error, setError] = useState(null);
   const [phoneNumberError, setPhoneNumberError] = useState("");
-  const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -45,6 +46,7 @@ const CustomerProfilePage = () => {
   useEffect(() => {
     if (currentUser && token) {
       const fetchProfile = async () => {
+        setIsLoading(true);
         try {
           const result = await getCustomerProfile(currentUser.id, token);
           if (result && result.data) {
@@ -69,15 +71,13 @@ const CustomerProfilePage = () => {
         } catch (err) {
           setError(err.message);
         } finally {
-          setLoading(false);
+          setIsLoading(false);
         }
       };
 
       fetchProfile();
-    } else {
-      setLoading(false);
     }
-  }, [currentUser, token]);
+  }, [currentUser, token, setIsLoading]);
 
   const handleSave = async () => {
     if (!/^\+?\d+$/.test(profile.phoneNumber)) {
@@ -92,6 +92,7 @@ const CustomerProfilePage = () => {
       return;
     }
 
+    setIsLoading(true);
     try {
       const payload = {
         customerId: currentUser.id,
@@ -112,10 +113,10 @@ const CustomerProfilePage = () => {
       setError(null);
     } catch (err) {
       setError(err.message);
+    } finally {
+      setIsLoading(false);
     }
   };
-
-  if (loading) return <div>Loading...</div>;
 
   return (
     <div id="root-customer-profile-page">

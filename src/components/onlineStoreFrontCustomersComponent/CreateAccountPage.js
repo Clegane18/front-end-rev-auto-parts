@@ -13,6 +13,7 @@ import {
   faEyeSlash,
 } from "@fortawesome/free-solid-svg-icons";
 import TermsAndConditionsModal from "./TermsAndConditionsModal";
+import { useLoading } from "../../contexts/LoadingContext";
 
 const CreateAccountPage = () => {
   const [username, setUsername] = useState("");
@@ -25,6 +26,7 @@ const CreateAccountPage = () => {
   const [isTermsAgreed, setIsTermsAgreed] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const { login } = useAuth();
+  const { setIsLoading } = useLoading();
   const navigate = useNavigate();
 
   const handleCreateAccount = async (event) => {
@@ -40,15 +42,15 @@ const CreateAccountPage = () => {
       return;
     }
 
+    setIsLoading(true);
     try {
       const result = await signUp({ username, email, password });
-
       login(result.accountInfo, result.token);
-
       navigate("/");
     } catch (error) {
       setError(error.message);
     }
+    setIsLoading(false);
   };
 
   const togglePasswordVisibility = () => {

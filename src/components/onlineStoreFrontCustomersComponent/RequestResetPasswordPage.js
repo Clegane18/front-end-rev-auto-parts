@@ -5,21 +5,25 @@ import { requestResetPassword } from "../../services/online-store-front-customer
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import LoginHeader from "./LoginHeader";
+import { useLoading } from "../../contexts/LoadingContext";
 
 const RequestResetPasswordPage = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
+  const { setIsLoading } = useLoading();
 
   const handleRequestResetPassword = async (event) => {
     event.preventDefault();
-
+    setIsLoading(true);
     try {
       const response = await requestResetPassword(email);
       setMessage(response.message);
     } catch (error) {
       console.error("Error in handleRequestResetPassword:", error);
       setMessage(error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
