@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faLock } from "@fortawesome/free-solid-svg-icons";
 import { EyeIcon, EyeOffIcon } from "@heroicons/react/outline";
 import { useAdminAuth } from "../../contexts/AdminAuthContext";
+import { useLoading } from "../../contexts/LoadingContext";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -15,16 +16,17 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const { login } = useAdminAuth();
+  const { setIsLoading } = useLoading();
 
   const handleLogin = async (event) => {
     event.preventDefault();
     setEmailError("");
     setPasswordError("");
     setGeneralError("");
+    setIsLoading(true);
 
     try {
       const response = await adminLogIn({ email, password });
-
       login(response.token);
     } catch (error) {
       const message = error.message || "An unexpected error occurred.";
@@ -38,6 +40,8 @@ const LoginPage = () => {
       } else {
         setGeneralError(message);
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 

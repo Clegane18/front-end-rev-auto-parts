@@ -14,6 +14,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import SuccessModal from "../SuccessModal";
 import "../../styles/LoginComponents/ChangeCredentialsPage.css";
+import { useLoading } from "../../contexts/LoadingContext";
 
 const ChangeCredentialsPage = () => {
   const { currentAdmin, authToken, updateAdminContext } = useAdminAuth();
@@ -26,10 +27,12 @@ const ChangeCredentialsPage = () => {
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const navigate = useNavigate();
+  const { setIsLoading } = useLoading();
 
   const handleEmailChange = async (e) => {
     e.preventDefault();
     setError("");
+    setIsLoading(true);
     try {
       await updateAdminEmail(currentAdmin.id, newEmail, authToken);
       updateAdminContext({ email: newEmail });
@@ -37,12 +40,15 @@ const ChangeCredentialsPage = () => {
       setShowModal(true);
     } catch (err) {
       setError(err.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handlePasswordChange = async (e) => {
     e.preventDefault();
     setError("");
+    setIsLoading(true);
     try {
       await updateAdminPassword(
         currentAdmin.id,
@@ -54,6 +60,8 @@ const ChangeCredentialsPage = () => {
       setShowModal(true);
     } catch (err) {
       setError(err.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
