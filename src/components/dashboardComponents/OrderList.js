@@ -12,6 +12,7 @@ import OrderDetailsModal from "./OrderDetailsModal";
 import ConfirmDeleteOrderModal from "./ConfirmDeleteOrderModal";
 import CompareGCashModal from "./CompareGCashModal";
 import SuccessModal from "../SuccessModal";
+import ConfirmStatusChangeModal from "./ConfirmStatusChangeModal";
 import { useWebSocket } from "../../contexts/WebSocketContext";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -41,6 +42,8 @@ const OrdersList = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const [filterStatus, setFilterStatus] = useState("All");
   const [filterPaymentStatus, setFilterPaymentStatus] = useState("All");
+  const [statusChangeOrder, setStatusChangeOrder] = useState(null);
+  const [newStatus, setNewStatus] = useState("");
   const socket = useWebSocket();
   const navigate = useNavigate();
 
@@ -103,14 +106,41 @@ const OrdersList = () => {
     setSelectedOrder(null);
   };
 
-  const handleStatusChange = async (orderId, newStatus) => {
+  const handleStatusChange = (orderId, status) => {
+    const order = orders.find((o) => o.id === orderId);
+    if (["Cancelled", "Completed"].includes(status)) {
+      setStatusChangeOrder(order);
+      setNewStatus(status);
+    } else {
+      updateStatus(orderId, status);
+    }
+  };
+
+  const updateStatus = async (orderId, status) => {
     try {
-      await updateOrderStatus(orderId, newStatus);
+      await updateOrderStatus(orderId, status);
       setOrders((prevOrders) =>
         prevOrders.map((order) =>
-          order.id === orderId ? { ...order, status: newStatus } : order
+          order.id === orderId ? { ...order, status } : order
         )
       );
+    } catch (err) {
+      console.error("Failed to update order status:", err);
+      setError("Failed to update order status.");
+    }
+  };
+
+  const confirmStatusChange = async (orderId, status) => {
+    try {
+      await updateOrderStatus(orderId, status);
+      setOrders((prevOrders) =>
+        prevOrders.map((order) =>
+          order.id === orderId ? { ...order, status } : order
+        )
+      );
+      setStatusChangeOrder(null);
+      setSuccessMessage("Order status updated successfully.");
+      setIsSuccessModalOpen(true);
     } catch (err) {
       console.error("Failed to update order status:", err);
       setError("Failed to update order status.");
@@ -495,6 +525,14 @@ const OrdersList = () => {
             onClose={closeDeleteModal}
             onConfirm={handleDeleteOrder}
             errorMessage={deleteError}
+          />
+        )}
+        {statusChangeOrder && (
+          <ConfirmStatusChangeModal
+            order={statusChangeOrder}
+            newStatus={newStatus}
+            onClose={() => setStatusChangeOrder(null)}
+            onConfirm={confirmStatusChange}
           />
         )}
         {isCompareModalOpen && (
