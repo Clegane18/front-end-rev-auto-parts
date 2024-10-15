@@ -19,6 +19,7 @@ import {
 import logo from "../../assets/g&f-logo.png";
 import AddPendingStockModal from "./AddPendingStockModal";
 import ConfirmCancelModal from "./ConfirmCancelModal";
+import { useLoading } from "../../contexts/LoadingContext";
 
 const PendingStockManagement = () => {
   const [pendingStocks, setPendingStocks] = useState([]);
@@ -39,9 +40,11 @@ const PendingStockManagement = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
+  const { setIsLoading } = useLoading();
 
   const fetchProducts = useCallback(async () => {
     try {
+      setIsLoading(true);
       const response = await getAllProducts();
       if (response.data && Array.isArray(response.data.data)) {
         setProducts(response.data.data);
@@ -52,17 +55,22 @@ const PendingStockManagement = () => {
     } catch (error) {
       console.error("Failed to fetch products", error);
       setProducts([]);
+    } finally {
+      setIsLoading(false);
     }
-  }, []);
+  }, [setIsLoading]);
 
   const fetchPendingStocks = useCallback(async () => {
     try {
+      setIsLoading(true);
       const response = await getAllPendingStocks();
       setPendingStocks(response.data.pendingStocks || []);
     } catch (error) {
       console.error("Failed to fetch pending stocks", error);
+    } finally {
+      setIsLoading(false);
     }
-  }, []);
+  }, [setIsLoading]);
 
   useEffect(() => {
     fetchPendingStocks();
@@ -105,23 +113,29 @@ const PendingStockManagement = () => {
     };
 
     try {
+      setIsLoading(true);
       await addPendingStock(updatedPendingStock);
-      fetchPendingStocks();
+      await fetchPendingStocks();
       setNewPendingStock({ productName: "", quantity: 0, arrivalDate: "" });
     } catch (error) {
       console.error(
         "Failed to add pending stock",
         error.response?.data || error.message || error
       );
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleConfirmStock = async (id) => {
     try {
+      setIsLoading(true);
       await confirmStock(id);
-      fetchPendingStocks();
+      await fetchPendingStocks();
     } catch (error) {
       console.error("Failed to confirm stock", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -133,13 +147,16 @@ const PendingStockManagement = () => {
   const confirmCancelStock = async () => {
     if (selectedStock) {
       try {
+        setIsLoading(true);
         await cancelPendingStock(selectedStock.id);
-        fetchPendingStocks();
+        await fetchPendingStocks();
         setShowCancelModal(false);
         setSelectedStock(null);
       } catch (error) {
         setErrorMessage("Failed to cancel stock.");
         console.error("Failed to cancel stock", error);
+      } finally {
+        setIsLoading(false);
       }
     }
   };
@@ -151,8 +168,9 @@ const PendingStockManagement = () => {
     }
 
     try {
+      setIsLoading(true);
       await updateArrivalDate(pendingStockId, newDate);
-      fetchPendingStocks();
+      await fetchPendingStocks();
       setEditingStockId(null);
       setNewDate("");
     } catch (error) {
@@ -160,6 +178,8 @@ const PendingStockManagement = () => {
         "Failed to update arrival date",
         error.response?.data || error.message || error
       );
+    } finally {
+      setIsLoading(false);
     }
   };
 

@@ -25,11 +25,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import logo from "../../assets/g&f-logo.png";
 import { useNavigate } from "react-router-dom";
 import ConfirmRestoreModal from "./ConfirmRestoreModal";
+import { useLoading } from "../../contexts/LoadingContext";
 
 const ArchivedProductsPage = () => {
   const [archivedProducts, setArchivedProducts] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showProductDetailsModal, setShowProductDetailsModal] = useState(false);
@@ -47,10 +47,11 @@ const ArchivedProductsPage = () => {
   const [showConfirmRestoreModal, setShowConfirmRestoreModal] = useState(false);
 
   const navigate = useNavigate();
+  const { setIsLoading } = useLoading();
 
   const loadArchivedProducts = useCallback(async () => {
     try {
-      setLoading(true);
+      setIsLoading(true);
       const response = await fetchAllArchivedProducts(sortOrder);
       if (response && response.status === 200) {
         const products = response.data.map((product) => {
@@ -69,12 +70,12 @@ const ArchivedProductsPage = () => {
         setError("Invalid response from the server.");
         setArchivedProducts([]);
       }
-      setLoading(false);
     } catch (err) {
       setError(err.message);
-      setLoading(false);
+    } finally {
+      setIsLoading(false);
     }
-  }, [sortOrder]);
+  }, [sortOrder, setIsLoading]);
 
   useEffect(() => {
     loadArchivedProducts();
@@ -82,6 +83,7 @@ const ArchivedProductsPage = () => {
 
   const handleRestoreProduct = async () => {
     try {
+      setIsLoading(true);
       await restoreArchivedProductById(selectedProduct.id);
       setSuccessMessage(
         `Product ${selectedProduct.name} successfully restored.`
@@ -92,6 +94,8 @@ const ArchivedProductsPage = () => {
     } catch (err) {
       setError(err.message);
       setShowConfirmRestoreModal(false);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -103,6 +107,7 @@ const ArchivedProductsPage = () => {
 
   const handleRestoreMultiple = async () => {
     try {
+      setIsLoading(true);
       await restoreMultipleArchivedProducts(selectedProducts);
       setSuccessMessage("Selected products successfully restored.");
       setShowSuccessModal(true);
@@ -110,6 +115,8 @@ const ArchivedProductsPage = () => {
       setSelectedProducts([]);
     } catch (err) {
       setError(err.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -124,17 +131,17 @@ const ArchivedProductsPage = () => {
   const confirmRestoreAll = async () => {
     if (confirmInput === "CONFIRM RESTORE ALL") {
       try {
-        setLoading(true);
+        setIsLoading(true);
         const result = await restoreAllArchivedProducts();
         setSuccessMessage(result.message);
         setShowSuccessModal(true);
         loadArchivedProducts();
-        setLoading(false);
         setShowRestoreAllConfirmModal(false);
         setConfirmInput("");
       } catch (err) {
-        setError(err.message);
-        setLoading(false);
+        setErrorMessage(err.message);
+      } finally {
+        setIsLoading(false);
       }
     } else {
       setErrorMessage("Please type 'CONFIRM RESTORE ALL' to confirm.");
@@ -147,6 +154,7 @@ const ArchivedProductsPage = () => {
 
   const handleConfirmDelete = async (productId) => {
     try {
+      setIsLoading(true);
       await permanentlyDeleteArchivedProduct(productId);
       setSuccessMessage(`Product with ID ${productId} successfully deleted.`);
       setShowSuccessModal(true);
@@ -154,6 +162,8 @@ const ArchivedProductsPage = () => {
       setDeleteProduct(null);
     } catch (err) {
       setErrorMessage(err.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -207,10 +217,8 @@ const ArchivedProductsPage = () => {
           </div>
           <h1>Archives</h1>
         </div>
-        {loading ? (
-          <p>Loading...</p>
-        ) : error ? (
-          <p>Error: {error}</p>
+        {error ? (
+          <p className="error-message">Error: {error}</p>
         ) : (
           <>
             <div className="archived-products-actions">
@@ -228,21 +236,21 @@ const ArchivedProductsPage = () => {
               <button
                 className="primary-button"
                 onClick={handleRestoreAll}
-                disabled={loading}
+                disabled={false}
               >
                 <FontAwesomeIcon icon={faRecycle} /> Restore All
               </button>
               <button
                 className="secondary-button"
                 onClick={handleRestoreMultiple}
-                disabled={!selectedProducts.length || loading}
+                disabled={!selectedProducts.length}
               >
                 <FontAwesomeIcon icon={faUndo} /> Restore Selected
               </button>
               <button
                 className="danger-button"
                 onClick={handleDeleteAllArchivedProducts}
-                disabled={loading}
+                disabled={false}
               >
                 <FontAwesomeIcon icon={faTrashAlt} /> Empty Archives
               </button>
@@ -344,6 +352,7 @@ const ArchivedProductsPage = () => {
             onClose={() => setShowDeleteAllConfirmModal(false)}
             onConfirm={async () => {
               try {
+                setIsLoading(true);
                 await deleteAllArchivedProducts();
                 setSuccessMessage(
                   "All archived products have been successfully deleted."
@@ -354,6 +363,8 @@ const ArchivedProductsPage = () => {
                 setConfirmInput("");
               } catch (err) {
                 setErrorMessage(err.message);
+              } finally {
+                setIsLoading(false);
               }
             }}
             confirmInput={confirmInput}

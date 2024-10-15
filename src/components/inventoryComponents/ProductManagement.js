@@ -29,6 +29,7 @@ import { faPrint, faSync } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import logo from "../../assets/g&f-logo.png";
 import DuplicateProductModal from "./DuplicateProductModal";
+import { useLoading } from "../../contexts/LoadingContext";
 
 const ProductManagement = () => {
   const [products, setProducts] = useState([]);
@@ -50,14 +51,16 @@ const ProductManagement = () => {
   const [showDuplicateModal, setShowDuplicateModal] = useState(false);
   const [additionalStock, setAdditionalStock] = useState(0);
 
+  const navigate = useNavigate();
+  const { setIsLoading } = useLoading();
+
   useEffect(() => {
     fetchProducts();
   }, []);
 
-  const navigate = useNavigate();
-
-  const fetchProducts = async () => {
+  const fetchProducts = useCallback(async () => {
     try {
+      setIsLoading(true);
       const response = await getAllProducts();
       if (response.data && Array.isArray(response.data.data)) {
         setProducts(response.data.data);
@@ -76,8 +79,10 @@ const ProductManagement = () => {
       console.error("Failed to fetch products", error);
       setProducts([]);
       setAllProducts([]);
+    } finally {
+      setIsLoading(false);
     }
-  };
+  }, [setIsLoading]);
 
   const handleLowStock = async () => {
     if (isShowingLowStock) {
@@ -85,6 +90,7 @@ const ProductManagement = () => {
       setIsShowingLowStock(false);
     } else {
       try {
+        setIsLoading(true);
         const response = await getLowStockProducts();
         if (response && Array.isArray(response.data)) {
           setProducts(response.data);
@@ -100,12 +106,15 @@ const ProductManagement = () => {
           "Failed to fetch low stock products. Please try again later."
         );
         setIsShowingLowStock(true);
+      } finally {
+        setIsLoading(false);
       }
     }
   };
 
   const handleSearch = async () => {
     try {
+      setIsLoading(true);
       let filteredProducts = allProducts;
 
       if (searchQuery) {
@@ -137,6 +146,8 @@ const ProductManagement = () => {
     } catch (error) {
       console.error("Failed to search products", error);
       setErrorMessage("Failed to search products. Please try again later.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -151,6 +162,7 @@ const ProductManagement = () => {
 
   const handleDateRangeSearch = async () => {
     try {
+      setIsLoading(true);
       const response = await getProductsByDateRange(startDate, endDate);
       if (response.data && Array.isArray(response.data.data)) {
         setProducts(response.data.data);
@@ -173,6 +185,8 @@ const ProductManagement = () => {
             "Failed to fetch products. Please try again later."
         );
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -183,6 +197,7 @@ const ProductManagement = () => {
 
   const handleAddProduct = async (productData) => {
     try {
+      setIsLoading(true);
       const response = await addProduct(productData);
 
       if (response.status === 409) {
@@ -204,11 +219,14 @@ const ProductManagement = () => {
             "Failed to add product. Check if the data is already exist."
         );
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleUpdateProduct = async (updatedProduct) => {
     try {
+      setIsLoading(true);
       await updateProductById(updatedProduct.id, updatedProduct);
       const updatedAllProducts = allProducts.map((product) =>
         product.id === updatedProduct.id ? updatedProduct : product
@@ -234,15 +252,19 @@ const ProductManagement = () => {
         error.response?.data?.error ||
           "Failed to update product. Please try again later."
       );
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleAddQuantityToExistingProduct = async () => {
     try {
+      setIsLoading(true);
       const quantityToAdd = parseInt(additionalStock, 10);
 
       if (isNaN(quantityToAdd) || quantityToAdd <= 0) {
         setErrorMessage("Please enter a valid quantity to add.");
+        setIsLoading(false);
         return;
       }
 
@@ -267,11 +289,14 @@ const ProductManagement = () => {
         error.message ||
           "Failed to update product stock. Please try again later."
       );
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleArchiveProduct = async (productId) => {
     try {
+      setIsLoading(true);
       await archiveProductById(productId);
       const updatedProducts = products.filter(
         (product) => product.id !== productId
@@ -285,6 +310,8 @@ const ProductManagement = () => {
       setErrorMessage(
         error.message || "Failed to archive product. Please try again later."
       );
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -431,7 +458,7 @@ const ProductManagement = () => {
                   <option value="4000">₱4,000</option>
                   <option value="5000">₱5,000</option>
                   <option value="6000">₱6,000</option>
-                  <option value="6000">₱7,000</option>
+                  <option value="7000">₱7,000</option>
                   <option value="8000">₱8,000</option>
                   <option value="9000">₱9,000</option>
                   <option value="10000">₱10,000</option>
@@ -565,7 +592,7 @@ const ProductManagement = () => {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="11" style={{ textAlign: "center" }}>
+                    <td colSpan="12" style={{ textAlign: "center" }}>
                       No products found.
                     </td>
                   </tr>
@@ -618,6 +645,7 @@ const ProductManagement = () => {
             errorMessage={errorMessage}
           />
         )}
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
       </div>
     </div>
   );
