@@ -27,10 +27,10 @@ import {
   Print as PrintIcon,
   FactCheck as FactCheckIcon,
 } from "@mui/icons-material";
+import { useLoading } from "../../contexts/LoadingContext";
 
 const OrdersList = () => {
   const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [orderToDelete, setOrderToDelete] = useState(null);
@@ -44,12 +44,13 @@ const OrdersList = () => {
   const [filterPaymentStatus, setFilterPaymentStatus] = useState("All");
   const [statusChangeOrder, setStatusChangeOrder] = useState(null);
   const [newStatus, setNewStatus] = useState("");
+  const { setIsLoading } = useLoading();
   const socket = useWebSocket();
   const navigate = useNavigate();
 
   const fetchOrders = useCallback(async () => {
     try {
-      setLoading(true);
+      setIsLoading(true);
       setError(null);
       let response;
       if (filterStatus === "All" && filterPaymentStatus === "All") {
@@ -70,17 +71,16 @@ const OrdersList = () => {
       } else {
         throw new Error("Unexpected response format.");
       }
-      setLoading(false);
     } catch (err) {
       console.error("Error fetching orders:", err);
       setError(err.message || "An unexpected error occurred.");
-      setLoading(false);
+    } finally {
+      setIsLoading(false);
     }
-  }, [filterStatus, filterPaymentStatus]);
+  }, [filterStatus, filterPaymentStatus, setIsLoading]);
 
   useEffect(() => {
     fetchOrders();
-
     if (socket) {
       socket.on("orderStatusUpdated", ({ orderId, newStatus }) => {
         setOrders((prevOrders) =>
@@ -90,7 +90,6 @@ const OrdersList = () => {
         );
       });
     }
-
     return () => {
       if (socket) {
         socket.off("orderStatusUpdated");
@@ -325,11 +324,7 @@ const OrdersList = () => {
           </div>
         </div>
 
-        {loading ? (
-          <div className="loading-spinner">
-            <p>Loading...</p>
-          </div>
-        ) : error ? (
+        {error ? (
           <div className="error-message">Error: {error}</div>
         ) : (
           <div className="table-container">
