@@ -26,6 +26,7 @@ export const AuthProvider = ({ children }) => {
     setCurrentUser(null);
     setToken("");
     localStorage.removeItem("authToken");
+    localStorage.removeItem("currentUser");
     if (logoutTimer.current) {
       clearTimeout(logoutTimer.current);
     }
@@ -55,21 +56,35 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const storedToken = localStorage.getItem("authToken");
+    const storedUser = localStorage.getItem("currentUser");
 
-    if (storedToken) {
+    if (storedUser) {
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        setIsAuthenticated(true);
+        setCurrentUser(parsedUser);
+        setToken(storedToken);
+        const expirationTime = getTokenExpirationTime(storedToken);
+        setAutoLogout(expirationTime);
+      } catch (error) {
+        handleTokenExpiration();
+      }
+    } else if (storedToken) {
       try {
         const decodedToken = jwtDecode(storedToken);
         const expirationTime = getTokenExpirationTime(storedToken);
 
         if (expirationTime && Date.now() < expirationTime) {
-          setIsAuthenticated(true);
-          setCurrentUser({
+          const user = {
             id: decodedToken.id,
             username: decodedToken.username,
             email: decodedToken.email,
             defaultAddressId: decodedToken.defaultAddressId,
-          });
+          };
+          setIsAuthenticated(true);
+          setCurrentUser(user);
           setToken(storedToken);
+          localStorage.setItem("currentUser", JSON.stringify(user));
           setAutoLogout(expirationTime);
         } else {
           handleTokenExpiration();
@@ -93,15 +108,18 @@ export const AuthProvider = ({ children }) => {
         const decodedToken = jwtDecode(authToken);
         const expirationTime = getTokenExpirationTime(authToken);
 
-        setIsAuthenticated(true);
-        setCurrentUser({
+        const updatedUser = {
           id: decodedToken.id,
           username: decodedToken.username,
           email: decodedToken.email,
           defaultAddressId: decodedToken.defaultAddressId,
-        });
+        };
+
+        setIsAuthenticated(true);
+        setCurrentUser(updatedUser);
         setToken(authToken);
         localStorage.setItem("authToken", authToken);
+        localStorage.setItem("currentUser", JSON.stringify(updatedUser));
         navigate("/online-store");
         if (expirationTime) {
           setAutoLogout(expirationTime);
@@ -114,16 +132,19 @@ export const AuthProvider = ({ children }) => {
   );
 
   const updateUserContext = useCallback((newData) => {
-    setCurrentUser((prevUser) => ({
-      ...prevUser,
-      ...newData,
-    }));
+    setCurrentUser((prevUser) => {
+      const updatedUser = { ...prevUser, ...newData };
+      localStorage.setItem("currentUser", JSON.stringify(updatedUser));
+      return updatedUser;
+    });
   }, []);
 
   const handleModalClose = useCallback(() => {
     setIsModalOpen(false);
     logout();
   }, [logout]);
+
+  useEffect(() => {}, [currentUser]);
 
   return (
     <AuthContext.Provider

@@ -61,7 +61,6 @@ const AddressCard = () => {
         token,
         ...formData,
       });
-
       setModalOpen(false);
       setError(null);
       if (response.address && response.address.isSetDefaultAddress) {
@@ -176,7 +175,9 @@ const AddressCard = () => {
                 <div
                   key={address.id}
                   className={`address-card ${
-                    address.isSetDefaultAddress ? "default-address" : ""
+                    currentUser.defaultAddressId === address.id
+                      ? "default-address"
+                      : ""
                   }`}
                 >
                   <div className="address-details">
@@ -193,14 +194,14 @@ const AddressCard = () => {
                       {address.barangay}, {address.city}, {address.province},{" "}
                       {address.region}, {address.postalCode}
                     </p>
-                    {address.isSetDefaultAddress && (
+                    {currentUser.defaultAddressId === address.id && (
                       <div className="default-label-container">
                         <p className="default-label">Default</p>
                       </div>
                     )}
                   </div>
                   <div className="address-actions">
-                    {!address.isSetDefaultAddress && (
+                    {currentUser.defaultAddressId !== address.id && (
                       <button
                         className="set-default-button"
                         onClick={() => handleSetAsDefault(address.id)}
@@ -218,7 +219,7 @@ const AddressCard = () => {
                       <button
                         className="delete-button"
                         onClick={() => handleDeleteAddressClick(address.id)}
-                        disabled={address.isSetDefaultAddress}
+                        disabled={currentUser.defaultAddressId === address.id}
                       >
                         <FaTrash className="action-icon" /> Delete
                       </button>
