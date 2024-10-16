@@ -211,26 +211,3 @@ export const getAddressById = async ({ addressId, token }) => {
     }
   }
 };
-
-export const getDefaultAddress = async ({ token }) => {
-  try {
-    const response = await api.get("/default-address", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.error(
-      "Error in getDefaultAddress:",
-      error.response ? error.response.data : error.message
-    );
-    if (error.response && error.response.data) {
-      throw new Error(error.response.data.message);
-    } else {
-      throw new Error(
-        "Failed to retrieve default address. Please try again later."
-      );
-    }
-  }
-};

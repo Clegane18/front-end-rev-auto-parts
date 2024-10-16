@@ -45,6 +45,8 @@ const OnlineStoreFrontPage = () => {
         if (keySequenceRef.current === secretCode) {
           setIsLoading(true);
           navigate("/login");
+          // Reset loading state after navigation
+          setIsLoading(false);
         }
       }
     };
