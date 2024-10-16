@@ -198,11 +198,11 @@
   color: #555555;
 }
 
-.rate-product-container {
+#root-order-tabs .rate-product-container {
   margin-top: 10px;
 }
 
-.rate-product-button {
+#root-order-tabs .rate-product-button {
   padding: 8px 16px;
   background-color: #1a2129;
   color: #ffffff;
@@ -213,8 +213,12 @@
   transition: background-color 0.3s ease;
 }
 
-.rate-product-button:hover {
-  background-color: #14181f;
+#root-order-tabs .rate-product-button:hover {
+  opacity: 0.75;
+}
+
+#root-order-tabs .order-items .already-rated-text {
+  color: gray;
 }
 
 @media (max-width: 768px) {

@@ -8,7 +8,6 @@ import { addProductToCart } from "../../services/cart-api";
 import { useAuth } from "../../contexts/AuthContext";
 import { getProductById } from "../../services/inventory-api";
 import {
-  createComment,
   getAllComments,
   verifyCustomerProductPurchase,
 } from "../../services/comments-api";
@@ -48,18 +47,11 @@ const OnlineProductDetailsPage = () => {
     count: 0,
   });
   const [comments, setComments] = useState([]);
-  const [newRating, setNewRating] = useState(5);
-  const [newCommentText, setNewCommentText] = useState("");
-  const [newImages, setNewImages] = useState([]);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submissionError, setSubmissionError] = useState(null);
-  const [canSubmitReview, setCanSubmitReview] = useState(true);
   const [imageModal, setImageModal] = useState({
     isOpen: false,
     images: [],
     currentIndex: 0,
   });
-  const [hasUserCommented, setHasUserCommented] = useState(false);
   const { setIsLoading } = useLoading();
 
   useEffect(() => {
@@ -118,21 +110,12 @@ const OnlineProductDetailsPage = () => {
           average: average,
           count: count,
         });
-        if (currentUser) {
-          const userHasCommented = fetchedComments.some(
-            (comment) => comment.customerId === currentUser.id
-          );
-          setHasUserCommented(userHasCommented);
-        }
         setLoading(false);
         if (currentUser) {
-          const response = await verifyCustomerProductPurchase(
+          await verifyCustomerProductPurchase(
             { customerId: currentUser.id, productId },
             token
           );
-          if (!response.data.hasPurchased) {
-            setCanSubmitReview(false);
-          }
         }
       } catch (err) {
         setError(err.message);
@@ -273,88 +256,6 @@ const OnlineProductDetailsPage = () => {
 
   const handleThumbnailClick = (imageUrl) => {
     setMainImageUrl(buildImageUrl(encodeURL(imageUrl)));
-  };
-
-  const handleRatingChange = (rating) => {
-    setNewRating(rating);
-  };
-
-  const handleCommentTextChange = (e) => {
-    setNewCommentText(e.target.value);
-  };
-
-  const handleImagesChange = (e) => {
-    setNewImages(Array.from(e.target.files));
-  };
-
-  const handleRemoveImage = (index) => {
-    setNewImages((prevImages) => prevImages.filter((_, i) => i !== index));
-  };
-
-  const handleSubmitComment = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmissionError(null);
-    if (!currentUser || !currentUser.id) {
-      setSubmissionError("You must be logged in to submit a review.");
-      setIsSubmitting(false);
-      return;
-    }
-    if (!product || !product.id) {
-      setSubmissionError("Product ID is missing or invalid.");
-      setIsSubmitting(false);
-      return;
-    }
-    try {
-      setIsLoading(true);
-      const formData = new FormData();
-      formData.append("rating", newRating);
-      formData.append("commentText", newCommentText);
-      newImages.forEach((image) => {
-        formData.append("images", image);
-      });
-      const createdComment = await createComment(
-        formData,
-        token,
-        Number(product.id)
-      );
-      const mappedComment = {
-        id: createdComment.data.commentId,
-        username: currentUser.username || "Anonymous",
-        rating: createdComment.data.rating,
-        comment: createdComment.data.commentText,
-        date: new Date(createdComment.data.createdAt)
-          .toISOString()
-          .split("T")[0],
-        images: createdComment.data.images
-          ? createdComment.data.images.map((image) => encodeURL(image))
-          : [],
-        customerId: currentUser.id,
-      };
-      setComments((prevComments) => [mappedComment, ...prevComments]);
-      setRatings((prevRatings) => {
-        const totalRating =
-          prevRatings.average * prevRatings.count + createdComment.data.rating;
-        const newCount = prevRatings.count + 1;
-        return {
-          average: totalRating / newCount,
-          count: newCount,
-        };
-      });
-      setNewRating(5);
-      setNewCommentText("");
-      setNewImages([]);
-      setHasUserCommented(true);
-      setIsLoading(false);
-    } catch (err) {
-      setIsLoading(false);
-      setSubmissionError(
-        err.response?.data?.message ||
-          "Failed to submit comment. Please try again."
-      );
-    } finally {
-      setIsSubmitting(false);
-    }
   };
 
   if (loading) {
@@ -527,104 +428,6 @@ const OnlineProductDetailsPage = () => {
             ))
           ) : (
             <p>No reviews yet. Be the first to review this product!</p>
-          )}
-        </div>
-
-        <div className="add-comment-section">
-          <h3>Write a Review</h3>
-          {submissionError && (
-            <p className="error-message">{submissionError}</p>
-          )}
-          {canSubmitReview && !hasUserCommented ? (
-            <form onSubmit={handleSubmitComment} className="comment-form">
-              <label className="form-label">
-                Rating:
-                <div className="star-rating">
-                  {[...Array(5)].map((star, index) => {
-                    const ratingValue = index + 1;
-                    return (
-                      <label key={index}>
-                        <input
-                          type="radio"
-                          name="rating"
-                          value={ratingValue}
-                          onClick={() => handleRatingChange(ratingValue)}
-                          style={{ display: "none" }}
-                        />
-                        <FaStar
-                          className="star"
-                          color={ratingValue <= newRating ? "#FFD700" : "#ccc"}
-                          size={24}
-                          onMouseOver={() => setNewRating(ratingValue)}
-                          onMouseLeave={() => setNewRating(newRating)}
-                          style={{ cursor: "pointer" }}
-                        />
-                      </label>
-                    );
-                  })}
-                </div>
-              </label>
-              <label className="form-label">
-                Comment:
-                <textarea
-                  value={newCommentText}
-                  onChange={handleCommentTextChange}
-                  className="form-textarea"
-                  rows="4"
-                  placeholder="Write your review here..."
-                ></textarea>
-              </label>
-              <label className="form-label">
-                Upload Images (optional):
-                <input
-                  type="file"
-                  accept="image/*"
-                  multiple
-                  onChange={handleImagesChange}
-                  className="form-input"
-                />
-              </label>
-              {newImages.length > 0 && (
-                <div className="image-previews">
-                  {newImages.map((image, index) => (
-                    <div key={index} className="image-preview">
-                      <img
-                        src={URL.createObjectURL(image)}
-                        alt={`Preview ${index + 1}`}
-                        className="preview-image"
-                      />
-                      <button
-                        type="button"
-                        className="remove-image-button"
-                        onClick={() => handleRemoveImage(index)}
-                        aria-label={`Remove image ${index + 1}`}
-                      >
-                        &times;
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
-              <button
-                type="submit"
-                className="submit-comment-button"
-                disabled={!canSubmitReview || isSubmitting}
-              >
-                {isSubmitting ? "Submitting..." : "Submit Review"}
-              </button>
-              {!canSubmitReview && (
-                <p className="error-message">
-                  You can only submit a review if you have purchased this
-                  product.
-                </p>
-              )}
-            </form>
-          ) : (
-            <p className="info-message">
-              {hasUserCommented
-                ? "You have already submitted a review for this product."
-                : "You can only submit a review if you have purchased this product."}
-            </p>
           )}
         </div>
       </div>

@@ -138,8 +138,6 @@ const OnlineCart = () => {
 
     if (validItems.length > 0) {
       navigate("/online-checkout", { state: { items: validItems } });
-    } else {
-      alert("Please select at least one item for checkout.");
     }
   };
 
@@ -244,7 +242,11 @@ const OnlineCart = () => {
                 >
                   Continue Shopping
                 </button>
-                <button className="pay-button" onClick={handlePay}>
+                <button
+                  className="pay-button"
+                  onClick={handlePay}
+                  disabled={selectedItems.length === 0}
+                >
                   Pay
                 </button>
               </div>

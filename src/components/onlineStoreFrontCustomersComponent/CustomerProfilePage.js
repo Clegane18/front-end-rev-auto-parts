@@ -85,7 +85,7 @@ const CustomerProfilePage = () => {
       return;
     }
 
-    if (profile.phoneNumber.length > 12) {
+    if (profile.phoneNumber.length > 14) {
       setError(
         "Phone number must not exceed 12 characters including the country code (+63)."
       );
@@ -156,7 +156,7 @@ const CustomerProfilePage = () => {
                     value={profile.phoneNumber ? profile.phoneNumber : "+63"}
                     onChange={(e) => {
                       const value = e.target.value;
-                      if (value.length > 12) {
+                      if (value.length > 14) {
                         setPhoneNumberError(
                           "Phone number must not exceed 12 characters including the country code (+63)."
                         );

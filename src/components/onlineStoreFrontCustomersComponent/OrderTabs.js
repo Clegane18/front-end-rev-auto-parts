@@ -223,7 +223,7 @@ const OrderTabs = ({ initialTab = "All" }) => {
                             Quantity: {item.quantity}
                           </p>
                         </div>
-                        {activeTab === "Completed" && (
+                        {activeTab === "Completed" && !item.hasCommented && (
                           <div className="rate-product-container">
                             <button
                               className="rate-product-button"
@@ -237,6 +237,9 @@ const OrderTabs = ({ initialTab = "All" }) => {
                               Rate Product
                             </button>
                           </div>
+                        )}
+                        {item.hasCommented && (
+                          <p className="already-rated-text">Already Rated</p>
                         )}
                       </div>
                     ))}

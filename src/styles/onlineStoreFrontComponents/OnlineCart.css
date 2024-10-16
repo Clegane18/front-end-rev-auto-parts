@@ -221,6 +221,11 @@
   opacity: 0.75;
 }
 
+#root-online-cart .pay-button:disabled {
+  background-color: #888;
+  cursor: not-allowed;
+}
+
 #root-online-cart .cart-summary-buttons .back-to-online-button {
   background-color: #ffffff;
   color: #696868;
