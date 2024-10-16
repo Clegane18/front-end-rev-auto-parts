@@ -8,7 +8,6 @@ import { AdminAuthProvider } from "./contexts/AdminAuthContext";
 import { CartProvider } from "./components/posComponents/CartContext";
 import { OnlineCartProvider } from "./components/onlineStoreFrontComponents/OnlineCartContext";
 import { WebSocketProvider } from "./contexts/WebSocketContext";
-import { CommentProvider } from "./contexts/CommentContext";
 import { LoadingProvider } from "./contexts/LoadingContext";
 import ErrorBoundary from "./ErrorBoundary";
 
@@ -20,19 +19,17 @@ root.render(
     <ErrorBoundary>
       <Router>
         <LoadingProvider>
-          <AuthProvider>
-            <AdminAuthProvider>
+          <AdminAuthProvider>
+            <AuthProvider>
               <CartProvider>
                 <OnlineCartProvider>
                   <WebSocketProvider>
-                    <CommentProvider>
-                      <App />
-                    </CommentProvider>
+                    <App />
                   </WebSocketProvider>
                 </OnlineCartProvider>
               </CartProvider>
-            </AdminAuthProvider>
-          </AuthProvider>
+            </AuthProvider>
+          </AdminAuthProvider>
         </LoadingProvider>
       </Router>
     </ErrorBoundary>

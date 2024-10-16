@@ -5,6 +5,7 @@ import OnlineCartIcon from "./OnlineCartIcon";
 import logo from "../../assets/g&f-logo.png";
 import { FiUser, FiLogIn, FiChevronDown } from "react-icons/fi";
 import useRequireAuth from "../../utils/useRequireAuth";
+import { useAuth } from "../../contexts/AuthContext";
 import "../../styles/onlineStoreFrontComponents/OnlineStoreFrontHeader.css";
 
 const OnlineStoreFrontHeader = ({
@@ -17,6 +18,7 @@ const OnlineStoreFrontHeader = ({
   const navigate = useNavigate();
   const checkAuth = useRequireAuth();
   const cartUpdateRef = useRef(null);
+  const { isAuthenticated } = useAuth();
 
   const handleCartUpdate = () => {
     if (cartUpdateRef.current) {
@@ -54,21 +56,21 @@ const OnlineStoreFrontHeader = ({
             </div>
             <div
               id="profile-icon"
-              onClick={() =>
-                checkAuth("/customer-profile") && navigate("/customer-profile")
-              }
+              onClick={() => {
+                if (checkAuth("/customer-profile")) {
+                  navigate("/customer-profile");
+                }
+              }}
             >
-              {checkAuth("/customer-profile") ? (
-                <FiUser size={30} />
-              ) : (
-                <FiLogIn size={30} />
-              )}
+              {isAuthenticated ? <FiUser size={30} /> : <FiLogIn size={30} />}
             </div>
             <div id="cart-icon">
               <OnlineCartIcon
-                onClick={() =>
-                  checkAuth("/online-cart") && navigate("/online-cart")
-                }
+                onClick={() => {
+                  if (checkAuth("/online-cart")) {
+                    navigate("/online-cart");
+                  }
+                }}
               />
             </div>
           </div>
