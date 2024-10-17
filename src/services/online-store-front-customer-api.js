@@ -1,11 +1,11 @@
 import axios from "axios";
 
-// const api = axios.create({
-//   baseURL: "https://rev-auto-parts.onrender.com/api/customer",
-// });
 const api = axios.create({
-  baseURL: "http://localhost:3002/api/customer",
+  baseURL: "https://rev-auto-parts.onrender.com/api/customer",
 });
+// const api = axios.create({
+//   baseURL: "http://localhost:3002/api/customer",
+// });
 
 export const signUp = async ({ username, email, password }) => {
   try {

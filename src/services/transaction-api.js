@@ -1,8 +1,8 @@
 import axios from "axios";
 
-// const BASE_URL = "https://rev-auto-parts.onrender.com/api/transactions";
+const BASE_URL = "https://rev-auto-parts.onrender.com/api/transactions";
 
-const BASE_URL = "http://localhost:3002/api/transactions";
+// const BASE_URL = "http://localhost:3002/api/transactions";
 
 export const getTotalNumberTransactions = async () => {
   try {

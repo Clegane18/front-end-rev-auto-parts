@@ -20,9 +20,9 @@ const encodeURL = (url) => url.replace(/\\/g, "/");
 
 const buildImageUrl = (imagePath) => {
   if (imagePath.startsWith("/")) {
-    return `http://localhost:3002${imagePath}`;
+    return `https://rev-auto-parts.onrender.com${imagePath}`;
   } else {
-    return `http://localhost:3002/${imagePath}`;
+    return `https://rev-auto-parts.onrender.com/${imagePath}`;
   }
 };
 
@@ -78,7 +78,7 @@ const OnlineProductDetailsPage = () => {
         setMainImageUrl(
           primaryImage
             ? buildImageUrl(encodeURL(primaryImage.imageUrl))
-            : "http://localhost:3002/default-image.jpg"
+            : "https://rev-auto-parts.onrender.com/default-image.jpg"
         );
         const commentsResponse = await getAllComments({ productId });
         if (commentsResponse.status !== 200) {
@@ -309,7 +309,8 @@ const OnlineProductDetailsPage = () => {
                     onClick={() => handleThumbnailClick(image.imageUrl)}
                     onError={(e) => {
                       e.target.onerror = null;
-                      e.target.src = "http://localhost:3002/default-image.jpg";
+                      e.target.src =
+                        "https://rev-auto-parts.onrender.com/default-image.jpg";
                     }}
                     loading="lazy"
                   />
@@ -408,7 +409,7 @@ const OnlineProductDetailsPage = () => {
                     {comment.images.map((image, imgIdx) => (
                       <img
                         key={imgIdx}
-                        src={`http://localhost:3002${image}`}
+                        src={`https://rev-auto-parts.onrender.com${image}`}
                         alt={`Attachment ${imgIdx + 1} for comment ${
                           comment.id
                         }`}
@@ -417,7 +418,7 @@ const OnlineProductDetailsPage = () => {
                         onError={(e) => {
                           e.target.onerror = null;
                           e.target.src =
-                            "http://localhost:3002/default-comment-image.jpg";
+                            "https://rev-auto-parts.onrender.com/default-comment-image.jpg";
                         }}
                         loading="lazy"
                       />
@@ -450,7 +451,7 @@ const OnlineProductDetailsPage = () => {
               onClick={closeImageModal}
             />
             <img
-              src={`http://localhost:3002${
+              src={`https://rev-auto-parts.onrender.com${
                 imageModal.images[imageModal.currentIndex]
               }`}
               alt="Comment Attachment"
