@@ -40,7 +40,6 @@ const OnlineProductDetailsPage = () => {
   });
   const [product, setProduct] = useState(null);
   const [mainImageUrl, setMainImageUrl] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [ratings, setRatings] = useState({
     average: 0,
@@ -110,7 +109,6 @@ const OnlineProductDetailsPage = () => {
           average: average,
           count: count,
         });
-        setLoading(false);
         if (currentUser) {
           await verifyCustomerProductPurchase(
             { customerId: currentUser.id, productId },
@@ -119,7 +117,6 @@ const OnlineProductDetailsPage = () => {
         }
       } catch (err) {
         setError(err.message);
-        setLoading(false);
       } finally {
         setIsLoading(false);
       }
@@ -175,11 +172,11 @@ const OnlineProductDetailsPage = () => {
         token,
         quantity,
       });
-      setIsLoading(false);
       navigate(-1);
     } catch (error) {
-      setIsLoading(false);
       setError("Failed to add product to cart. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   }, [
     checkAuth,
@@ -257,14 +254,6 @@ const OnlineProductDetailsPage = () => {
   const handleThumbnailClick = (imageUrl) => {
     setMainImageUrl(buildImageUrl(encodeURL(imageUrl)));
   };
-
-  if (loading) {
-    return (
-      <div className="loading-container">
-        <p className="loading">Loading product details...</p>
-      </div>
-    );
-  }
 
   if (error) {
     return (
