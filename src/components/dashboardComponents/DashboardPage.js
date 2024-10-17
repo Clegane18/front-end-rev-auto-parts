@@ -181,79 +181,93 @@ const DashboardPage = () => {
 
     const storeName = "G&F Auto Supply";
     const issuanceDate = new Date().toLocaleString();
-    const newWindow = window.open();
-    newWindow.document.write(`
-            <html>
-              <head>
-                <title>Reports</title>
-                <style>
-                  body {
-                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                    margin: 20px;
-                    color: #333;
-                  }
-                  header {
-                    text-align: center;
-                    margin-bottom: 40px;
-                    border-bottom: 2px solid #DF2028;
-                    padding-bottom: 10px;
-                  }
-                  h1 {
-                    margin: 0;
-                    font-size: 28px;
-                    font-weight: bold;
-                    color: #DF2028;
-                  }
-                  p {
-                    margin: 5px 0;
-                    font-size: 16px;
-                  }
-                  table {
-                    width: 100%;
-                    border-collapse: collapse;
-                    margin-bottom: 20px;
-                  }
-                  th, td {
-                    border: 1px solid #ccc;
-                    padding: 10px;
-                    text-align: left;
-                    font-size: 14px;
-                  }
-                  th {
-                    background-color: #f2f2f2;
-                    font-weight: bold;
-                  }
-                  tr:nth-child(even) {
-                    background-color: #f9f9f9;
-                  }
-                  @media print {
-                    @page {
-                      margin: 0;
-                    }
-                    body {
-                      margin: 1cm;
-                    }
-                    .no-print {
-                      display: none;
-                    }
-                    input[type=checkbox] {
-                      display: none;
-                    }
-                  }
-                </style>
-              </head>
-              <body>
-                <header>
-                  <h1>${storeName}</h1>
-                  <p>Reports</p>
-                  <p>Issuance Date: ${issuanceDate}</p>
-                </header>
-                ${printableContent}
-              </body>
-            </html>
-          `);
-    newWindow.document.close();
-    newWindow.print();
+
+    const iframe = document.createElement("iframe");
+    iframe.style.position = "fixed";
+    iframe.style.right = "0";
+    iframe.style.bottom = "0";
+    iframe.style.width = "0";
+    iframe.style.height = "0";
+    iframe.style.border = "none";
+    document.body.appendChild(iframe);
+
+    iframe.contentWindow.document.open();
+    iframe.contentWindow.document.write(`
+      <html>
+        <head>
+          <title>Reports</title>
+          <style>
+            body {
+              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+              margin: 20px;
+              color: #333;
+            }
+            header {
+              text-align: center;
+              margin-bottom: 40px;
+              border-bottom: 2px solid #DF2028;
+              padding-bottom: 10px;
+            }
+            h1 {
+              margin: 0;
+              font-size: 28px;
+              font-weight: bold;
+              color: #DF2028;
+            }
+            p {
+              margin: 5px 0;
+              font-size: 16px;
+            }
+            table {
+              width: 100%;
+              border-collapse: collapse;
+              margin-bottom: 20px;
+            }
+            th, td {
+              border: 1px solid #ccc;
+              padding: 10px;
+              text-align: left;
+              font-size: 14px;
+            }
+            th {
+              background-color: #f2f2f2;
+              font-weight: bold;
+            }
+            tr:nth-child(even) {
+              background-color: #f9f9f9;
+            }
+            @media print {
+              @page {
+                margin: 0;
+              }
+              body {
+                margin: 1cm;
+              }
+              .no-print {
+                display: none;
+              }
+              input[type=checkbox] {
+                display: none;
+              }
+            }
+          </style>
+        </head>
+        <body>
+          <header>
+            <h1>${storeName}</h1>
+            <p>Reports</p>
+            <p>Issuance Date: ${issuanceDate}</p>
+          </header>
+          ${printableContent}
+        </body>
+      </html>
+    `);
+    iframe.contentWindow.document.close();
+    iframe.onload = () => {
+      iframe.contentWindow.focus();
+      iframe.contentWindow.print();
+      document.body.removeChild(iframe);
+    };
   };
 
   return (
