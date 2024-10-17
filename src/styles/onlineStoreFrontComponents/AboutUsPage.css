@@ -1,115 +1,271 @@
 #root-about-us-page .about-us-container {
-    background-color: #BB0000;
-    color: white;
-    display: flex;
-    justify-content: space-between; 
-    align-items: center; 
-    padding: 50px;
-    height: 100vh;
+  background-color: #bb0000;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 50px;
+  height: 100vh;
+  flex-wrap: wrap;
 }
 
 #root-about-us-page .about-us-content {
-    text-align: left;
-    max-width: 45%;
+  text-align: left;
+  max-width: 45%;
 }
 
 #root-about-us-page .about-us-heading {
-    font-size: 3rem;
-    font-weight: bold;
-    margin-bottom: 20px;
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 20px;
 }
 
 #root-about-us-page .about-us-description {
-    font-size: 1.2rem;
-    line-height: 1.6;
-    margin-bottom: 20px;
-    text-transform: none;
+  font-size: 1.2rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  text-transform: none;
 }
 
 #root-about-us-page .about-us-logo-container {
-    text-align: right;
-    flex-grow: 1;
+  text-align: right;
+  flex-grow: 1;
 }
 
 #root-about-us-page .about-us-logo {
-    max-width: 100%; 
-    height: auto;
-    filter: brightness(0.1) contrast(0.8);
-    margin-bottom: 180px;
+  max-width: 100%;
+  height: auto;
+  filter: brightness(0.1) contrast(0.8);
+  margin-bottom: 180px;
 }
 
 #root-about-us-page .company-info-container {
-    background-color: #f7f7f7;
-    color: #333;
-    padding: 50px;
-    text-align: center;
+  background-color: #f7f7f7;
+  color: #333;
+  padding: 50px;
+  text-align: center;
 }
 
 #root-about-us-page .company-overview-heading {
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 20px;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
 }
 
 #root-about-us-page .company-info-description {
-    font-size: 1.1rem;
-    line-height: 1.6;
-    margin-bottom: 30px;
-    text-transform: none;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 30px;
+  text-transform: none;
 }
 
-#root-about-us-page .mission-heading, .vision-heading {
-    font-size: 1.8rem;
-    color: #BB0000;
-    font-weight: bold;
-    margin-bottom: 10px;
+#root-about-us-page .mission-heading,
+.vision-heading {
+  font-size: 1.8rem;
+  color: #bb0000;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
 #root-about-us-page .product-range-heading {
-    margin-top: 5px;
-    font-size: 1.8rem;
-    font-weight: bold;
-    margin-bottom: 30px;
+  margin-top: 5px;
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 30px;
 }
 
 #root-about-us-page .product-range-list {
-    list-style-type: disc;
-    margin-left: 20px;
-    text-align: left;
-    font-size: 1.1rem;
-    line-height: 1.6;
+  list-style-type: disc;
+  margin-left: 20px;
+  text-align: left;
+  font-size: 1.1rem;
+  line-height: 1.6;
 }
 
 #root-about-us-page .mission-vision-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    width: 100%;
-    padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  padding: 20px;
 }
 
-#root-about-us-page .mission-heading, .vision-heading {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #BB0000;
-    margin-bottom: 20px;
+#root-about-us-page .mission-heading,
+.vision-heading {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #bb0000;
+  margin-bottom: 20px;
 }
 
 #root-about-us-page .mission-vision-text {
-    font-size: 1.2rem;
-    line-height: 1.8;
-    color: #333;
-    margin-bottom: 50px;
-    text-transform: none;
+  font-size: 1.2rem;
+  line-height: 1.8;
+  color: #333;
+  margin-bottom: 50px;
+  text-transform: none;
 }
 
 #root-about-us-page .small-letter {
-    text-transform: none;
+  text-transform: none;
 }
 
 #root-about-us-page .mission-vision-text-container {
-    max-width: 60%;
-    margin: 0 auto;
+  max-width: 60%;
+  margin: 0 auto;
+}
+
+@media (max-width: 1024px) {
+  #root-about-us-page .about-us-container {
+    padding: 40px;
+    height: auto;
+  }
+
+  #root-about-us-page .about-us-content {
+    max-width: 50%;
+  }
+
+  #root-about-us-page .about-us-logo {
+    margin-bottom: 120px;
+  }
+
+  #root-about-us-page .mission-heading,
+  .vision-heading {
+    font-size: 1.8rem;
+  }
+
+  #root-about-us-page .mission-vision-text {
+    font-size: 1.1rem;
+  }
+
+  #root-about-us-page .company-info-container {
+    padding: 40px;
+  }
+
+  #root-about-us-page .company-overview-heading {
+    font-size: 1.8rem;
+  }
+
+  #root-about-us-page .company-info-description {
+    font-size: 1rem;
+  }
+
+  #root-about-us-page .product-range-heading {
+    font-size: 1.6rem;
+  }
+
+  #root-about-us-page .product-range-list {
+    font-size: 1rem;
+  }
+
+  #root-about-us-page .mission-vision-text-container {
+    max-width: 70%;
+  }
+}
+
+@media (max-width: 768px) {
+  #root-about-us-page .about-us-container {
+    flex-direction: column;
+    padding: 30px;
+  }
+
+  #root-about-us-page .about-us-content,
+  #root-about-us-page .about-us-logo-container {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  #root-about-us-page .about-us-logo {
+    margin-bottom: 50px;
+  }
+
+  #root-about-us-page .about-us-heading {
+    font-size: 2.5rem;
+  }
+
+  #root-about-us-page .about-us-description {
+    font-size: 1rem;
+  }
+
+  #root-about-us-page .company-info-container {
+    padding: 30px;
+  }
+
+  #root-about-us-page .company-overview-heading {
+    font-size: 1.6rem;
+  }
+
+  #root-about-us-page .company-info-description {
+    font-size: 0.95rem;
+  }
+
+  #root-about-us-page .mission-heading,
+  .vision-heading {
+    font-size: 1.6rem;
+  }
+
+  #root-about-us-page .mission-vision-text {
+    font-size: 1rem;
+  }
+
+  #root-about-us-page .product-range-heading {
+    font-size: 1.6rem;
+  }
+
+  #root-about-us-page .product-range-list {
+    font-size: 0.95rem;
+  }
+
+  #root-about-us-page .mission-vision-text-container {
+    max-width: 80%;
+  }
+}
+
+@media (max-width: 480px) {
+  #root-about-us-page .about-us-container {
+    padding: 20px;
+  }
+
+  #root-about-us-page .about-us-heading {
+    font-size: 2rem;
+  }
+
+  #root-about-us-page .about-us-description {
+    font-size: 0.9rem;
+  }
+
+  #root-about-us-page .company-info-container {
+    padding: 20px;
+  }
+
+  #root-about-us-page .company-overview-heading {
+    font-size: 1.4rem;
+  }
+
+  #root-about-us-page .company-info-description {
+    font-size: 0.9rem;
+  }
+
+  #root-about-us-page .mission-heading,
+  .vision-heading {
+    font-size: 1.4rem;
+  }
+
+  #root-about-us-page .mission-vision-text {
+    font-size: 0.9rem;
+  }
+
+  #root-about-us-page .product-range-heading {
+    font-size: 1.4rem;
+  }
+
+  #root-about-us-page .product-range-list {
+    font-size: 0.9rem;
+  }
+
+  #root-about-us-page .mission-vision-text-container {
+    max-width: 90%;
+  }
 }

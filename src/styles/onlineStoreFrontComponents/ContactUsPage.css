@@ -175,3 +175,230 @@
   margin-top: 10px;
   font-size: 1em;
 }
+
+@media (max-width: 1200px) {
+  #root-contact-us-page .contact-us-content {
+    padding: 40px 80px;
+  }
+
+  #root-contact-us-page .contact-options {
+    padding: 25px;
+  }
+
+  #root-contact-us-page .contact-details h3 {
+    font-size: 1.5em;
+  }
+
+  #root-contact-us-page .contact-details p,
+  #root-contact-us-page .contact-details a {
+    font-size: 1em;
+  }
+
+  #root-contact-us-page .contact-form-container {
+    margin-left: 40px;
+    padding: 25px;
+  }
+
+  #root-contact-us-page .form-row {
+    gap: 15px;
+  }
+
+  #root-contact-us-page input,
+  #root-contact-us-page textarea {
+    padding: 12px;
+    font-size: 1em;
+  }
+
+  #root-contact-us-page .send-message-button {
+    padding: 12px 30px;
+    font-size: 1.1em;
+  }
+
+  #root-contact-us-page .get-directions-button {
+    font-size: 1.1em;
+  }
+}
+
+@media (max-width: 1024px) {
+  #root-contact-us-page .contact-us-content {
+    padding: 30px 60px;
+  }
+
+  #root-contact-us-page .contact-options {
+    padding: 20px;
+  }
+
+  #root-contact-us-page .contact-details h3 {
+    font-size: 1.4em;
+  }
+
+  #root-contact-us-page .contact-details p,
+  #root-contact-us-page .contact-details a {
+    font-size: 0.95em;
+  }
+
+  #root-contact-us-page .contact-form-container {
+    margin-left: 30px;
+    padding: 20px;
+  }
+
+  #root-contact-us-page .form-row {
+    gap: 10px;
+    flex-direction: column;
+  }
+
+  #root-contact-us-page input,
+  #root-contact-us-page textarea {
+    padding: 10px;
+    font-size: 0.95em;
+  }
+
+  #root-contact-us-page .send-message-button {
+    padding: 12px 30px;
+    font-size: 1.1em;
+  }
+
+  #root-contact-us-page .get-directions-button {
+    font-size: 1em;
+  }
+}
+
+@media (max-width: 768px) {
+  #root-contact-us-page .contact-us-content {
+    flex-direction: column;
+    padding: 30px 40px;
+  }
+
+  #root-contact-us-page .contact-options {
+    margin-bottom: 30px;
+    padding: 20px;
+  }
+
+  #root-contact-us-page .contact-form-container {
+    margin-left: 0;
+    padding: 20px;
+  }
+
+  #root-contact-us-page .form-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  #root-contact-us-page .contact-details h3 {
+    font-size: 1.3em;
+  }
+
+  #root-contact-us-page .contact-details p,
+  #root-contact-us-page .contact-details a {
+    font-size: 0.9em;
+  }
+
+  #root-contact-us-page input,
+  #root-contact-us-page textarea {
+    padding: 10px;
+    font-size: 0.9em;
+  }
+
+  #root-contact-us-page .send-message-button {
+    padding: 12px 25px;
+    font-size: 1em;
+  }
+
+  #root-contact-us-page .get-directions-button {
+    font-size: 0.95em;
+  }
+}
+
+@media (max-width: 600px) {
+  #root-contact-us-page .contact-us-content {
+    padding: 20px 20px;
+  }
+
+  #root-contact-us-page .contact-option {
+    gap: 10px;
+  }
+
+  #root-contact-us-page .icon {
+    font-size: 2em;
+  }
+
+  #root-contact-us-page .contact-details h3 {
+    font-size: 1.2em;
+  }
+
+  #root-contact-us-page .contact-details p,
+  #root-contact-us-page .contact-details a {
+    font-size: 0.85em;
+  }
+
+  #root-contact-us-page .contact-form-container {
+    padding: 15px;
+  }
+
+  #root-contact-us-page .form-row {
+    gap: 8px;
+  }
+
+  #root-contact-us-page input,
+  #root-contact-us-page textarea {
+    padding: 8px;
+    font-size: 0.85em;
+  }
+
+  #root-contact-us-page .send-message-button {
+    padding: 10px 20px;
+    font-size: 0.95em;
+  }
+
+  #root-contact-us-page .get-directions-button {
+    font-size: 0.9em;
+  }
+}
+
+@media (max-width: 480px) {
+  #root-contact-us-page .contact-us-content {
+    padding: 15px 15px;
+  }
+
+  #root-contact-us-page .contact-option {
+    gap: 8px;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+  }
+
+  #root-contact-us-page .icon {
+    font-size: 1.8em;
+  }
+
+  #root-contact-us-page .contact-details h3 {
+    font-size: 1.1em;
+  }
+
+  #root-contact-us-page .contact-details p,
+  #root-contact-us-page .contact-details a {
+    font-size: 0.8em;
+  }
+
+  #root-contact-us-page .contact-form-container {
+    padding: 10px;
+  }
+
+  #root-contact-us-page .form-row {
+    gap: 5px;
+  }
+
+  #root-contact-us-page input,
+  #root-contact-us-page textarea {
+    padding: 6px;
+    font-size: 0.8em;
+  }
+
+  #root-contact-us-page .send-message-button {
+    padding: 8px 15px;
+    font-size: 0.9em;
+  }
+
+  #root-contact-us-page .get-directions-button {
+    font-size: 0.85em;
+  }
+}

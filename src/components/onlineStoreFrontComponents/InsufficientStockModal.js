@@ -6,14 +6,16 @@ const InsufficientStockModal = ({ isOpen, productName, stock, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div id="root-insufficient-stock-modal">
+    <div id="root-insufficient-stock-modal" role="dialog" aria-modal="true">
       <div className="modal-content">
         <h2>Insufficient Stock</h2>
-        <p>
+        <p className="small-letter">
           The quantity for "{productName}" exceeds the available stock of{" "}
-          {stock}.
+          <strong>{stock}</strong>.
         </p>
-        <button onClick={onClose}>Close</button>
+        <button className="insuff-button" onClick={onClose}>
+          Close
+        </button>
       </div>
     </div>
   );

@@ -9,6 +9,7 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  padding: 10px;
 }
 
 #root-addresses-modal .address-modal-content {
@@ -113,6 +114,49 @@
   opacity: 0.75;
 }
 
+@media (max-width: 1024px) {
+  #root-addresses-modal .address-modal-content {
+    width: 600px;
+  }
+
+  #root-addresses-modal .address-modal-content h3 {
+    font-size: 22px;
+  }
+
+  #root-addresses-modal .add-address-button,
+  #root-addresses-modal .default-btn,
+  #root-addresses-modal .modal-close-btn {
+    font-size: 15px;
+    padding: 9px;
+  }
+
+  #root-addresses-modal .address-details-text {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  #root-addresses-modal .address-modal-content {
+    width: 80%;
+    padding: 25px;
+  }
+
+  #root-addresses-modal .address-modal-content h3 {
+    font-size: 20px;
+  }
+
+  #root-addresses-modal .add-address-button,
+  #root-addresses-modal .default-btn,
+  #root-addresses-modal .modal-close-btn {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  #root-addresses-modal .address-details-text {
+    font-size: 14px;
+  }
+}
+
 @media (max-width: 600px) {
   #root-addresses-modal .address-modal-content {
     width: 90%;
@@ -132,5 +176,27 @@
 
   #root-addresses-modal .address-details-text {
     font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  #root-addresses-modal .address-modal-content {
+    width: 95%;
+    padding: 15px;
+  }
+
+  #root-addresses-modal .address-modal-content h3 {
+    font-size: 18px;
+  }
+
+  #root-addresses-modal .add-address-button,
+  #root-addresses-modal .default-btn,
+  #root-addresses-modal .modal-close-btn {
+    font-size: 13px;
+    padding: 7px;
+  }
+
+  #root-addresses-modal .address-details-text {
+    font-size: 13px;
   }
 }
