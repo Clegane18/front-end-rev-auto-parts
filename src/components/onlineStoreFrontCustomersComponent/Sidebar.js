@@ -7,6 +7,7 @@ import {
   LocationOn,
   ShoppingCart,
   ExitToApp,
+  Lock,
 } from "@mui/icons-material";
 import { useAuth } from "../../contexts/AuthContext";
 import LogoutConfirmationModal from "./LogoutConfirmationModal";
@@ -25,6 +26,10 @@ const Sidebar = ({ selectedMenu, setSelectedMenu }) => {
     logout();
     setModalOpen(false);
     navigate("/customer-login");
+  };
+
+  const handleChangePassword = () => {
+    navigate("/change-password");
   };
 
   return (
@@ -51,6 +56,12 @@ const Sidebar = ({ selectedMenu, setSelectedMenu }) => {
                   onClick={() => setSelectedMenu("Addresses")}
                 >
                   <LocationOn className="icon" /> Addresses
+                </li>
+                <li
+                  className={selectedMenu === "ChangePassword" ? "active" : ""}
+                  onClick={handleChangePassword}
+                >
+                  <Lock className="icon" /> Change Password
                 </li>
                 <li onClick={() => setModalOpen(true)}>
                   <ExitToApp className="icon" /> Logout

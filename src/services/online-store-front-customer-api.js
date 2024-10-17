@@ -227,3 +227,34 @@ export const deleteCustomerById = async (customerId) => {
     }
   }
 };
+
+export const requestChangePassword = async (email) => {
+  try {
+    const response = await api.post("/request-change-password", { email });
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(
+        "Failed to request change password. Please try again later."
+      );
+    }
+  }
+};
+
+export const changePassword = async (token, newPassword, confirmPassword) => {
+  try {
+    const response = await api.post(`/change-password/${token}`, {
+      newPassword,
+      confirmPassword,
+    });
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error("Failed to change password. Please try again later.");
+    }
+  }
+};

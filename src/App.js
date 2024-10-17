@@ -29,6 +29,8 @@ import AccountSuspended from "./components/dashboardComponents/AccountSuspended"
 import TermsAndConditions from "./components/onlineStoreFrontCustomersComponent/TermsAndConditions";
 import OnlineProductDetailsPage from "./components/onlineStoreFrontComponents/OnlineProductDetailsPage";
 import ChangeCredentialsPage from "./components/LoginComponents/ChangeCredentialsPage";
+import RequestChangePasswordPage from "./components/onlineStoreFrontCustomersComponent/RequestChangePasswordPage";
+import ChangePasswordPage from "./components/onlineStoreFrontCustomersComponent/ChangePasswordPage";
 
 const App = () => {
   const { authToken: adminAuthToken, login } = useAdminAuth();
@@ -106,6 +108,8 @@ const App = () => {
       <Route path="/create-account" element={<CreateAccountPage />} />
       <Route path="/reset-password" element={<RequestResetPasswordPage />} />
       <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
+      <Route path="/change-password" element={<RequestChangePasswordPage />} />
+      <Route path="/change-password/:token" element={<ChangePasswordPage />} />
       <Route
         path="/customer-profile"
         element={
