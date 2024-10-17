@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { searchProducts } from "../../services/pos-api";
+import { searchPublishedProducts } from "../../services/pos-api";
 import "../../styles/onlineStoreFrontComponents/OnlineProductSearch.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
@@ -43,7 +43,7 @@ const ProductSearch = ({ onSelectProduct }) => {
 
       try {
         const query = { name: term, description: term };
-        const products = await searchProducts(query);
+        const products = await searchPublishedProducts(query);
         if (products.length === 0) {
           setProductSuggestions([
             { id: "no-results", name: "No products found" },

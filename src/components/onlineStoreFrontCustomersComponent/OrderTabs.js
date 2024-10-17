@@ -1,3 +1,4 @@
+// OrderTabs.jsx
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getOrdersByStatus, cancelOrder } from "../../services/order-api";
@@ -131,8 +132,8 @@ const OrderTabs = ({ initialTab = "All" }) => {
     }
   };
 
-  const openRatingModal = (product) => {
-    setSelectedProduct(product);
+  const openRatingModal = (orderId, product) => {
+    setSelectedProduct({ orderId, ...product });
     setIsRatingModalOpen(true);
   };
 
@@ -142,6 +143,22 @@ const OrderTabs = ({ initialTab = "All" }) => {
   };
 
   const handleRatingSubmit = (newCommentData) => {
+    const { orderId, productId } = selectedProduct;
+    setOrders((prevOrders) =>
+      prevOrders.map((order) => {
+        if (order.orderId === orderId) {
+          return {
+            ...order,
+            items: order.items.map((item) =>
+              item.productId === productId
+                ? { ...item, hasCommented: true }
+                : item
+            ),
+          };
+        }
+        return order;
+      })
+    );
     setSuccessMessage("Review submitted successfully!");
     setIsSuccessModalOpen(true);
   };
@@ -228,7 +245,7 @@ const OrderTabs = ({ initialTab = "All" }) => {
                             <button
                               className="rate-product-button"
                               onClick={() =>
-                                openRatingModal({
+                                openRatingModal(order.orderId, {
                                   productId: item.productId,
                                   productName: item.productName,
                                 })

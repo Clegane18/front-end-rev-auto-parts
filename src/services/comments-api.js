@@ -22,11 +22,7 @@ export const createComment = async (formData, token, productId) => {
 
     return response.data;
   } catch (error) {
-    if (error.response && error.response.data) {
-      throw new Error(error.response.data.message);
-    } else {
-      throw new Error("Failed to create comment. Please try again later.");
-    }
+    throw error;
   }
 };
 

@@ -49,3 +49,18 @@ export const buyProductsOnPhysicalStore = async (payload) => {
     throw error;
   }
 };
+
+export const searchPublishedProducts = async (query) => {
+  try {
+    const response = await axios.get(
+      `${BASE_URL}/online-products/filter/nameOrDescription`,
+      {
+        params: query,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error searching published products:", error);
+    throw error;
+  }
+};

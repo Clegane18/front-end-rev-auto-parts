@@ -42,7 +42,10 @@ const AddressesModal = ({ isOpen, onClose, onAddressChange }) => {
     }
   };
 
-  const openAddAddressModal = () => setIsAddAddressModalOpen(true);
+  const openAddAddressModal = () => {
+    setError("");
+    setIsAddAddressModalOpen(true);
+  };
   const closeAddAddressModal = () => setIsAddAddressModalOpen(false);
 
   const handleSaveAddress = async (formData) => {
@@ -78,7 +81,6 @@ const AddressesModal = ({ isOpen, onClose, onAddressChange }) => {
           <button onClick={openAddAddressModal} className="add-address-button">
             Add New Address
           </button>
-          {error && <p className="error-message">{error}</p>}
           <ul className="address-list">
             {Array.isArray(addresses) && addresses.length > 0 ? (
               addresses.map((address) => (
@@ -117,6 +119,7 @@ const AddressesModal = ({ isOpen, onClose, onAddressChange }) => {
         onClose={closeAddAddressModal}
         onSave={handleSaveAddress}
         isFirstAddress={addresses.length === 0}
+        errorMessage={error}
       />
     </div>
   );

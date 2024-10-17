@@ -1,3 +1,4 @@
+// RatingModal.jsx
 import React, { useState } from "react";
 import { FaStar, FaTimes } from "react-icons/fa";
 import { createComment as createCommentAPI } from "../../services/comments-api";
@@ -65,13 +66,12 @@ const RatingModal = ({ isOpen, onClose, product, onSubmit }) => {
       setImages([]);
       onClose();
     } catch (err) {
-      console.error("Error submitting comment:", err.message);
-      if (err.response) {
-        setSubmissionError(
-          err.response.data.message || "Failed to submit comment."
-        );
-      } else if (err.request) {
-        setSubmissionError("No response from server. Please try again later.");
+      console.error("Error submitting comment:", err);
+
+      if (err.response && err.response.data && err.response.data.message) {
+        setSubmissionError(err.response.data.message);
+      } else if (err.message) {
+        setSubmissionError(err.message);
       } else {
         setSubmissionError("An unexpected error occurred.");
       }
@@ -134,6 +134,7 @@ const RatingModal = ({ isOpen, onClose, product, onSubmit }) => {
                 className="form-textarea"
                 rows="4"
                 placeholder="Write your review here..."
+                required
               ></textarea>
             </div>
             <div className="form-group">
