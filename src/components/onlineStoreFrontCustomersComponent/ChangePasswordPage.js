@@ -49,7 +49,7 @@ const ChangePasswordPage = () => {
       <div className="change-password-container">
         <h2>Change Your Password</h2>
         <p>Please set your new password.</p>
-        {message && <p className="message">{message}</p>}
+        <strong>{message && <p className="message">{message}</p>}</strong>
         <form onSubmit={handleChangePassword}>
           <div className="input-group">
             <label>New Password</label>
