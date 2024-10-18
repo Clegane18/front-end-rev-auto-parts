@@ -1,3 +1,4 @@
+// Sidebar.js
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
@@ -11,11 +12,12 @@ import {
 } from "@mui/icons-material";
 import { useAuth } from "../../contexts/AuthContext";
 import LogoutConfirmationModal from "./LogoutConfirmationModal";
+import { getPasswordChangeMethod } from "../../services/online-store-front-customer-api";
 
 const Sidebar = ({ selectedMenu, setSelectedMenu }) => {
   const [isAccountMenuOpen, setAccountMenuOpen] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
-  const { logout } = useAuth();
+  const { logout, customerId } = useAuth();
   const navigate = useNavigate();
 
   const handleAccountClick = () => {
@@ -28,8 +30,25 @@ const Sidebar = ({ selectedMenu, setSelectedMenu }) => {
     navigate("/customer-login");
   };
 
-  const handleChangePassword = () => {
-    navigate("/change-password");
+  const handleChangePassword = async () => {
+    try {
+      const response = await getPasswordChangeMethod({ customerId });
+      if (response.status === 200) {
+        if (response.method === "email") {
+          navigate("/change-password");
+        } else if (response.method === "oldPassword") {
+          navigate("/request-change-password-manual");
+        } else {
+          navigate("/");
+        }
+      } else {
+        console.error(response.message);
+        navigate("/");
+      }
+    } catch (error) {
+      console.error("Failed to get password change method:", error.message);
+      navigate("/");
+    }
   };
 
   return (

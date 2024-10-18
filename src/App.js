@@ -31,6 +31,8 @@ import OnlineProductDetailsPage from "./components/onlineStoreFrontComponents/On
 import ChangeCredentialsPage from "./components/LoginComponents/ChangeCredentialsPage";
 import RequestChangePasswordPage from "./components/onlineStoreFrontCustomersComponent/RequestChangePasswordPage";
 import ChangePasswordPage from "./components/onlineStoreFrontCustomersComponent/ChangePasswordPage";
+import RequestChangePasswordManualPage from "./components/onlineStoreFrontCustomersComponent/RequestChangePasswordManualPage";
+import ChangePasswordManualPage from "./components/onlineStoreFrontCustomersComponent/ChangePasswordManualPage";
 
 const App = () => {
   const { authToken: adminAuthToken, login } = useAdminAuth();
@@ -110,6 +112,15 @@ const App = () => {
       <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
       <Route path="/change-password" element={<RequestChangePasswordPage />} />
       <Route path="/change-password/:token" element={<ChangePasswordPage />} />
+      <Route
+        path="/request-change-password-manual"
+        element={<RequestChangePasswordManualPage />}
+      />
+      <Route
+        path="/change-password-manual"
+        element={<ChangePasswordManualPage />}
+      />
+
       <Route
         path="/customer-profile"
         element={

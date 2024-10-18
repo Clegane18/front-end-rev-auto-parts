@@ -21,6 +21,8 @@
   cursor: pointer;
   width: 100%;
   text-align: left;
+  display: flex;
+  align-items: center;
 }
 
 #root-side-bar .sidebar-menu button.active {
@@ -40,8 +42,16 @@
 }
 
 #root-side-bar .submenu li {
+  display: flex;
+  align-items: center;
   margin-bottom: 8px;
   cursor: pointer;
+  white-space: nowrap;
+}
+
+#root-side-bar .submenu li .icon {
+  margin-right: 8px;
+  font-size: 20px;
 }
 
 #root-side-bar .submenu li.active {
@@ -51,4 +61,19 @@
 
 #root-side-bar .submenu li:hover {
   opacity: 0.75;
+}
+
+@media (max-width: 768px) {
+  #root-side-bar .sidebar {
+    width: 200px;
+  }
+
+  #root-side-bar .sidebar-menu button,
+  #root-side-bar .submenu li {
+    font-size: 14px;
+  }
+
+  #root-side-bar .submenu li .icon {
+    font-size: 18px;
+  }
 }

@@ -1,24 +1,33 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../../styles/onlineStoreFrontCustomersComponent/RequestChangePasswordPage.css";
-import { requestChangePassword } from "../../services/online-store-front-customer-api";
+import "../../styles/onlineStoreFrontCustomersComponent/RequestChangePasswordManualPage.css";
+import { verifyOldPassword } from "../../services/online-store-front-customer-api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { faLock } from "@fortawesome/free-solid-svg-icons";
 import LoginHeader from "./LoginHeader";
 import { useLoading } from "../../contexts/LoadingContext";
+import { useAuth } from "../../contexts/AuthContext";
 
-const RequestChangePasswordPage = () => {
-  const [email, setEmail] = useState("");
+const RequestChangePasswordManualPage = () => {
+  const [oldPassword, setOldPassword] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
   const { setIsLoading } = useLoading();
+  const { customerId, token } = useAuth();
 
-  const handleRequestChangePassword = async (event) => {
+  const handleVerifyOldPassword = async (event) => {
     event.preventDefault();
     setIsLoading(true);
     try {
-      const response = await requestChangePassword(email);
+      const response = await verifyOldPassword({
+        customerId,
+        oldPassword,
+        token,
+      });
       setMessage(response.message);
+      if (response.status === 200) {
+        navigate("/change-password-manual");
+      }
     } catch (error) {
       setMessage(error.message);
     } finally {
@@ -27,31 +36,31 @@ const RequestChangePasswordPage = () => {
   };
 
   const handleCancel = () => {
-    navigate("/customer-login");
+    navigate("/");
   };
 
   return (
-    <div id="root-request-change-password">
+    <div id="root-request-change-password-manual">
       <LoginHeader />
       <div className="change-password-container">
         <h2>Change Your Password</h2>
-        <p>We will send you an email to change your password.</p>
+        <p>Please enter your current password to proceed.</p>
         <strong>{message && <p className="message">{message}</p>}</strong>
-        <form onSubmit={handleRequestChangePassword}>
+        <form onSubmit={handleVerifyOldPassword}>
           <div className="input-group">
-            <label>Email</label>
+            <label>Old Password</label>
             <div className="input-icon">
-              <FontAwesomeIcon icon={faEnvelope} className="input-field-icon" />
+              <FontAwesomeIcon icon={faLock} className="input-field-icon" />
               <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                type="password"
+                value={oldPassword}
+                onChange={(e) => setOldPassword(e.target.value)}
                 required
               />
             </div>
           </div>
           <button type="submit" className="submit-button">
-            Submit
+            Verify
           </button>
         </form>
         <button onClick={handleCancel} className="cancel-link">
@@ -68,4 +77,4 @@ const RequestChangePasswordPage = () => {
   );
 };
 
-export default RequestChangePasswordPage;
+export default RequestChangePasswordManualPage;

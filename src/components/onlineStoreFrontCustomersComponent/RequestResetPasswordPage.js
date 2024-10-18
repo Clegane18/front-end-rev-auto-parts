@@ -36,7 +36,7 @@ const RequestResetPasswordPage = () => {
       <div className="reset-password-container">
         <h2>Reset Your Password</h2>
         <p>We will send you an email to reset your password.</p>
-        {message && <p className="message">{message}</p>}
+        <strong>{message && <p className="message">{message}</p>}</strong>
         <form onSubmit={handleRequestResetPassword}>
           <div className="input-group">
             <label>Email</label>

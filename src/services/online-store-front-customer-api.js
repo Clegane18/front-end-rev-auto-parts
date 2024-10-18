@@ -258,3 +258,95 @@ export const changePassword = async (token, newPassword, confirmPassword) => {
     }
   }
 };
+
+export const verifyOldPassword = async ({ customerId, oldPassword, token }) => {
+  try {
+    const response = await api.post(
+      `/verify-old-password`,
+      {
+        customerId,
+        oldPassword,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Error in verifyOldPassword:",
+      error.response ? error.response.data : error.message
+    );
+    if (error.response && error.response.data) {
+      throw new Error(
+        error.response.data.message || "Failed to verify old password."
+      );
+    } else {
+      throw new Error("Failed to verify old password. Please try again later.");
+    }
+  }
+};
+
+export const updatePassword = async ({
+  customerId,
+  newPassword,
+  confirmPassword,
+  token,
+}) => {
+  try {
+    const response = await api.post(
+      `/update-password`,
+      {
+        customerId,
+        newPassword,
+        confirmPassword,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Error in updatePassword:",
+      error.response ? error.response.data : error.message
+    );
+    if (error.response && error.response.data) {
+      throw new Error(
+        error.response.data.message || "Failed to update password."
+      );
+    } else {
+      throw new Error("Failed to update password. Please try again later.");
+    }
+  }
+};
+
+export const getPasswordChangeMethod = async (token) => {
+  try {
+    const response = await api.get("/password-change-method", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Error in getPasswordChangeMethod API call:",
+      error.response ? error.response.data : error.message
+    );
+    if (error.response && error.response.data) {
+      throw new Error(
+        error.response.data.message ||
+          "Failed to determine password change method."
+      );
+    } else {
+      throw new Error(
+        "Failed to determine password change method. Please try again later."
+      );
+    }
+  }
+};
