@@ -1,4 +1,3 @@
-// Sidebar.js
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
@@ -17,7 +16,7 @@ import { getPasswordChangeMethod } from "../../services/online-store-front-custo
 const Sidebar = ({ selectedMenu, setSelectedMenu }) => {
   const [isAccountMenuOpen, setAccountMenuOpen] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
-  const { logout, customerId } = useAuth();
+  const { logout, currentUser, token } = useAuth();
   const navigate = useNavigate();
 
   const handleAccountClick = () => {
@@ -31,15 +30,24 @@ const Sidebar = ({ selectedMenu, setSelectedMenu }) => {
   };
 
   const handleChangePassword = async () => {
+    if (!currentUser || !currentUser.id || !token) {
+      console.error("User is not authenticated properly.");
+      navigate("/customer-login");
+      return;
+    }
+
     try {
-      const response = await getPasswordChangeMethod({ customerId });
+      const response = await getPasswordChangeMethod({
+        customerId: currentUser.id,
+        token,
+      });
       if (response.status === 200) {
         if (response.method === "email") {
           navigate("/change-password");
         } else if (response.method === "oldPassword") {
           navigate("/request-change-password-manual");
         } else {
-          navigate("/");
+          navigate("/customer-login");
         }
       } else {
         console.error(response.message);

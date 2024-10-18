@@ -325,9 +325,10 @@ export const updatePassword = async ({
   }
 };
 
-export const getPasswordChangeMethod = async (token) => {
+export const getPasswordChangeMethod = async ({ customerId, token }) => {
   try {
     const response = await api.get("/password-change-method", {
+      params: { customerId },
       headers: {
         Authorization: `Bearer ${token}`,
       },
