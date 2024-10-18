@@ -20,7 +20,6 @@ const RequestChangePasswordPage = () => {
       const response = await requestChangePassword(email);
       setMessage(response.message);
     } catch (error) {
-      console.error("Error in handleRequestChangePassword:", error);
       setMessage(error.message);
     } finally {
       setIsLoading(false);
@@ -37,7 +36,7 @@ const RequestChangePasswordPage = () => {
       <div className="change-password-container">
         <h2>Change Your Password</h2>
         <p>We will send you an email to change your password.</p>
-        <strong>{message && <p>{message}</p>}</strong>
+        {message && <p className="message">{message}</p>}
         <form onSubmit={handleRequestChangePassword}>
           <div className="input-group">
             <label>Email</label>

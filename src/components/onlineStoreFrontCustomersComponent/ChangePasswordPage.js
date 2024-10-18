@@ -29,7 +29,6 @@ const ChangePasswordPage = () => {
       setMessage(response.message);
       navigate("/customer-login");
     } catch (error) {
-      console.error("Error in handleChangePassword:", error);
       setMessage(error.message);
     } finally {
       setIsLoading(false);
@@ -50,7 +49,7 @@ const ChangePasswordPage = () => {
       <div className="change-password-container">
         <h2>Change Your Password</h2>
         <p>Please set your new password.</p>
-        {message && <p className="error-message">{message}</p>}
+        {message && <p className="message">{message}</p>}
         <form onSubmit={handleChangePassword}>
           <div className="input-group">
             <label>New Password</label>

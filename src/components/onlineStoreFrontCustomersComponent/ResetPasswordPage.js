@@ -25,7 +25,6 @@ const ResetPasswordPage = () => {
       setMessage(response.message);
       navigate("/customer-login");
     } catch (error) {
-      console.error("Error in handleResetPassword:", error);
       setMessage(error.message);
     } finally {
       setIsLoading(false);
@@ -46,7 +45,7 @@ const ResetPasswordPage = () => {
       <div className="reset-password-container">
         <h2>Reset Your Password</h2>
         <p>Please set your new password.</p>
-        {message && <p className="error-message">{message}</p>}
+        {message && <p className="message">{message}</p>}
         <form onSubmit={handleResetPassword}>
           <div className="input-group">
             <label>New Password</label>

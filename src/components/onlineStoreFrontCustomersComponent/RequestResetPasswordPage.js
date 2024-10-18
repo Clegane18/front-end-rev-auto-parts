@@ -20,7 +20,6 @@ const RequestResetPasswordPage = () => {
       const response = await requestResetPassword(email);
       setMessage(response.message);
     } catch (error) {
-      console.error("Error in handleRequestResetPassword:", error);
       setMessage(error.message);
     } finally {
       setIsLoading(false);
@@ -37,7 +36,7 @@ const RequestResetPasswordPage = () => {
       <div className="reset-password-container">
         <h2>Reset Your Password</h2>
         <p>We will send you an email to reset your password.</p>
-        <strong>{message && <p>{message}</p>}</strong>
+        {message && <p className="message">{message}</p>}
         <form onSubmit={handleRequestResetPassword}>
           <div className="input-group">
             <label>Email</label>
