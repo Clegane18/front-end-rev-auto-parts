@@ -3,13 +3,14 @@ import { useNavigate } from "react-router-dom";
 import "../../styles/onlineStoreFrontCustomersComponent/RequestChangePasswordManualPage.css";
 import { verifyOldPassword } from "../../services/online-store-front-customer-api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLock } from "@fortawesome/free-solid-svg-icons";
+import { faLock, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import LoginHeader from "./LoginHeader";
 import { useLoading } from "../../contexts/LoadingContext";
 import { useAuth } from "../../contexts/AuthContext";
 
 const RequestChangePasswordManualPage = () => {
   const [oldPassword, setOldPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
   const { setIsLoading } = useLoading();
@@ -39,6 +40,10 @@ const RequestChangePasswordManualPage = () => {
     navigate("/");
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div id="root-request-change-password-manual">
       <LoginHeader />
@@ -52,11 +57,18 @@ const RequestChangePasswordManualPage = () => {
             <div className="input-icon">
               <FontAwesomeIcon icon={faLock} className="input-field-icon" />
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 value={oldPassword}
                 onChange={(e) => setOldPassword(e.target.value)}
                 required
               />
+              <button
+                type="button"
+                onClick={togglePasswordVisibility}
+                className="password-toggle-button"
+              >
+                <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+              </button>
             </div>
           </div>
           <button type="submit" className="submit-button">

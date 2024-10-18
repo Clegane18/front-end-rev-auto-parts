@@ -13,13 +13,16 @@ const ChangePasswordManualPage = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [message, setMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
   const { setIsLoading } = useLoading();
   const { customerId, token } = useAuth();
 
   const handleChangePassword = async (event) => {
     event.preventDefault();
+    setErrorMessage("");
+    setSuccessMessage("");
     setIsLoading(true);
     try {
       const response = await updatePassword({
@@ -28,12 +31,12 @@ const ChangePasswordManualPage = () => {
         confirmPassword,
         token,
       });
-      setMessage(response.message);
+      setSuccessMessage(response.message);
       if (response.status === 200) {
         navigate("/customer-login");
       }
     } catch (error) {
-      setMessage(error.message);
+      setErrorMessage(error.message);
     } finally {
       setIsLoading(false);
     }
@@ -53,13 +56,15 @@ const ChangePasswordManualPage = () => {
       <div className="change-password-container">
         <h2>Change Your Password</h2>
         <p>Please set your new password.</p>
-        {message && <p className="message">{message}</p>}
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
+        {successMessage && <p className="success-message">{successMessage}</p>}
         <form onSubmit={handleChangePassword}>
           <div className="input-group">
-            <label>New Password</label>
+            <label htmlFor="newPassword">New Password</label>
             <div className="input-icon">
               <FontAwesomeIcon icon={faLock} className="input-field-icon" />
               <input
+                id="newPassword"
                 type={showNewPassword ? "text" : "password"}
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
@@ -69,16 +74,18 @@ const ChangePasswordManualPage = () => {
                 type="button"
                 onClick={toggleNewPasswordVisibility}
                 className="password-toggle-button"
+                aria-label="Toggle New Password Visibility"
               >
                 <FontAwesomeIcon icon={showNewPassword ? faEyeSlash : faEye} />
               </button>
             </div>
           </div>
           <div className="input-group">
-            <label>Confirm Password</label>
+            <label htmlFor="confirmPassword">Confirm Password</label>
             <div className="input-icon">
               <FontAwesomeIcon icon={faLock} className="input-field-icon" />
               <input
+                id="confirmPassword"
                 type={showConfirmPassword ? "text" : "password"}
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
@@ -88,6 +95,7 @@ const ChangePasswordManualPage = () => {
                 type="button"
                 onClick={toggleConfirmPasswordVisibility}
                 className="password-toggle-button"
+                aria-label="Toggle Confirm Password Visibility"
               >
                 <FontAwesomeIcon
                   icon={showConfirmPassword ? faEyeSlash : faEye}
@@ -99,15 +107,9 @@ const ChangePasswordManualPage = () => {
             Submit
           </button>
         </form>
-        <button onClick={() => navigate("/account")} className="cancel-link">
+        <button onClick={() => navigate("/")} className="cancel-link">
           Cancel
         </button>
-      </div>
-      <div className="login-footer">
-        <p>
-          Your security is our priority. Make sure to choose a strong password
-          to protect your account.
-        </p>
       </div>
     </div>
   );
