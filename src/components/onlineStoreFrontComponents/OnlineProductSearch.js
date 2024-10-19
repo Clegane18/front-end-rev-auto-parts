@@ -43,7 +43,10 @@ const ProductSearch = ({ onSelectProduct }) => {
 
       try {
         const query = { name: term, description: term };
-        const products = await searchPublishedProducts(query);
+        const response = await searchPublishedProducts(query);
+
+        const products = response.data;
+
         if (products.length === 0) {
           setProductSuggestions([
             { id: "no-results", name: "No products found" },
