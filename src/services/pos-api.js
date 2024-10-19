@@ -53,7 +53,7 @@ export const buyProductsOnPhysicalStore = async (payload) => {
 export const searchPublishedProducts = async (query) => {
   try {
     const response = await axios.get(
-      `${BASE_URL}/online-products/filter/nameOrDescription`,
+      `${BASE_URL}/inventory/online-products/filter/nameOrDescription`,
       {
         params: query,
       }
