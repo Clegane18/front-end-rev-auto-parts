@@ -6,7 +6,7 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useLocation, useNavigate } from "react-router-dom";
 import useRequireAuth from "../../utils/useRequireAuth";
 
-const ProductSearch = ({ onSelectProduct }) => {
+const ProductSearch = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedTerm, setDebouncedTerm] = useState("");
   const [productSuggestions, setProductSuggestions] = useState([]);
@@ -18,6 +18,7 @@ const ProductSearch = ({ onSelectProduct }) => {
     const timer = setTimeout(() => {
       setDebouncedTerm(searchTerm);
     }, 500);
+
     return () => clearTimeout(timer);
   }, [searchTerm]);
 
@@ -68,9 +69,11 @@ const ProductSearch = ({ onSelectProduct }) => {
   };
 
   const handleSuggestionClick = (product) => {
+    if (product.id === "no-results") return;
+
     setSearchTerm(product.name);
     setProductSuggestions([]);
-    onSelectProduct(product);
+    navigate(`/product/${product.id}`);
   };
 
   return (
@@ -82,7 +85,13 @@ const ProductSearch = ({ onSelectProduct }) => {
           value={searchTerm}
           onChange={handleChange}
         />
-        <div className="search-icon" onClick={() => handleSearch(searchTerm)}>
+        <div
+          className="search-icon"
+          onClick={() => handleSearch(searchTerm)}
+          role="button"
+          tabIndex={0}
+          onKeyPress={() => handleSearch(searchTerm)}
+        >
           <FontAwesomeIcon icon={faSearch} />
         </div>
       </div>
@@ -95,9 +104,10 @@ const ProductSearch = ({ onSelectProduct }) => {
               className={`suggestion-item ${
                 product.id === "no-results" ? "no-results" : ""
               }`}
-              onClick={() =>
-                product.id !== "no-results" && handleSuggestionClick(product)
-              }
+              onClick={() => handleSuggestionClick(product)}
+              role="button"
+              tabIndex={0}
+              onKeyPress={() => handleSuggestionClick(product)}
             >
               {product.name}
             </div>

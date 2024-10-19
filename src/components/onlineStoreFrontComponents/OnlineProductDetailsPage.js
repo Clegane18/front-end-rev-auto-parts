@@ -57,6 +57,15 @@ const OnlineProductDetailsPage = () => {
     const fetchProductAndComments = async () => {
       try {
         setIsLoading(true);
+        setProduct(null);
+        setMainImageUrl(null);
+        setComments([]);
+        setRatings({
+          average: 0,
+          count: 0,
+        });
+        setError(null);
+
         if (!productId) {
           throw new Error("Product ID is missing.");
         }
@@ -265,14 +274,14 @@ const OnlineProductDetailsPage = () => {
 
   if (!product) {
     return (
-      <div className="error-container">
-        <p className="error">Product not found.</p>
+      <div className="loading-container">
+        <p className="loading">Loading product details...</p>
       </div>
     );
   }
 
   return (
-    <div id="root-product-details-page">
+    <div id="root-product-details-page" key={productId}>
       <OnlineStoreFrontHeader />
       <div className="product-details-container">
         <div className="product-image-section">
@@ -357,7 +366,6 @@ const OnlineProductDetailsPage = () => {
           )}
         </div>
       </div>
-
       <div className="ratings-comments-container">
         <div className="ratings-summary">
           <h3>Customer Reviews</h3>
@@ -421,14 +429,12 @@ const OnlineProductDetailsPage = () => {
           )}
         </div>
       </div>
-
       <InsufficientStockModal
         isOpen={modalInfo.isOpen}
         productName={modalInfo.productName}
         stock={modalInfo.stock}
         onClose={closeModal}
       />
-
       {imageModal.isOpen && (
         <div className="image-modal" onClick={closeImageModal}>
           <div
@@ -461,7 +467,6 @@ const OnlineProductDetailsPage = () => {
           </div>
         </div>
       )}
-
       <OnlineStoreFrontFooter />
     </div>
   );
