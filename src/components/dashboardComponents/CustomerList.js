@@ -19,6 +19,7 @@ import PurchaseHistoryModal from "./PurchaseHistoryModal";
 import ConfirmDeleteCustomerModal from "./ConfirmDeleteCustomerModal";
 import ConfirmToggleStatusModal from "./ConfirmToggleStatusModal";
 import { useLoading } from "../../contexts/LoadingContext";
+import SuccessModal from "../SuccessModal";
 
 const CustomerList = () => {
   const [customers, setCustomers] = useState([]);
@@ -26,6 +27,8 @@ const CustomerList = () => {
   const [selectedCustomerId, setSelectedCustomerId] = useState(null);
   const [customerToDelete, setCustomerToDelete] = useState(null);
   const [customerToToggle, setCustomerToToggle] = useState(null);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
 
   const navigate = useNavigate();
   const { setIsLoading } = useLoading();
@@ -62,7 +65,19 @@ const CustomerList = () => {
             : customer
         )
       );
+
       handleCloseToggleModal();
+
+      setSuccessMessage(
+        `Customer status has been successfully ${
+          currentStatus === "Active" ? "suspended" : "activated"
+        }.`
+      );
+      setShowSuccessModal(true);
+
+      setTimeout(() => {
+        setShowSuccessModal(false);
+      }, 3000);
     } catch (err) {
       console.error("Error updating status:", err.message);
     } finally {
@@ -191,6 +206,13 @@ const CustomerList = () => {
           </table>
         </div>
       </div>
+
+      {showSuccessModal && (
+        <SuccessModal
+          message={successMessage}
+          onClose={() => setShowSuccessModal(false)}
+        />
+      )}
 
       {selectedCustomerId && (
         <PurchaseHistoryModal
