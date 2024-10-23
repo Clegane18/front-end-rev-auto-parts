@@ -62,6 +62,7 @@ const CustomerList = () => {
             : customer
         )
       );
+      handleCloseToggleModal();
     } catch (err) {
       console.error("Error updating status:", err.message);
     } finally {
