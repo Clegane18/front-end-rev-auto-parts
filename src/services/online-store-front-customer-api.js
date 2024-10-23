@@ -7,12 +7,18 @@ const api = axios.create({
 //   baseURL: "http://localhost:3002/api/customer",
 // });
 
-export const signUp = async ({ username, email, password }) => {
+export const signUp = async ({
+  username,
+  email,
+  password,
+  confirmPassword,
+}) => {
   try {
     const response = await api.post("/signUp", {
       username,
       email,
       password,
+      confirmPassword,
     });
     return response.data;
   } catch (error) {

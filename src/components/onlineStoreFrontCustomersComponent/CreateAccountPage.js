@@ -44,7 +44,12 @@ const CreateAccountPage = () => {
 
     setIsLoading(true);
     try {
-      const result = await signUp({ username, email, password });
+      const result = await signUp({
+        username,
+        email,
+        password,
+        confirmPassword,
+      });
       login(result.accountInfo, result.token);
       navigate("/");
     } catch (error) {
