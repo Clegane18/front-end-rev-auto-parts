@@ -263,7 +263,7 @@ const UploadProducts = () => {
         <div className="header">
           <div className="search-container">
             <div className="store-name" onClick={handleBack}>
-              <img src={logo} alt="Your Logo" className="shop-logo" />
+              <img src={logo} alt="G&F Auto logo" className="shop-logo" />
             </div>
             <div className="search-field">
               <input

@@ -127,17 +127,17 @@
 }
 
 #root-upload-products .status-draft {
-  text-transform: capitalize;
+  text-transform: capitalize !important;
   color: #6c757d;
 }
 
 #root-upload-products .status-ready {
-  text-transform: capitalize;
+  text-transform: capitalize !important;
   color: #ffa500;
 }
 
 #root-upload-products .status-published {
-  text-transform: capitalize;
+  text-transform: capitalize !important;
   color: #28a745;
 }
 
