@@ -143,14 +143,15 @@ const ChangeCredentialsPage = () => {
                 />
               </span>
             </div>
-            <button type="submit" className="change-button">
-              Update Password
-            </button>
+            <div className="button-container">
+              <button type="submit" className="change-button">
+                Update Password
+              </button>
+              <button className="back-button" onClick={() => navigate(-1)}>
+                Back
+              </button>
+            </div>
           </form>
-
-          <button className="back-button" onClick={() => navigate(-1)}>
-            Back
-          </button>
         </div>
       </div>
 
