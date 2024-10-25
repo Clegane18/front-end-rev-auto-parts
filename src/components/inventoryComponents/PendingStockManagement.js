@@ -33,6 +33,7 @@ const PendingStockManagement = () => {
   const [editingStockId, setEditingStockId] = useState(null);
   const [newDate, setNewDate] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [isFirstInput, setIsFirstInput] = useState(true);
   const [debouncedTerm, setDebouncedTerm] = useState("");
   const [showAddModal, setShowAddModal] = useState(false);
   const [showCancelModal, setShowCancelModal] = useState(false);
@@ -199,6 +200,17 @@ const PendingStockManagement = () => {
     navigate("/dashboard");
   };
 
+  const handleInputChange = (e) => {
+    const value = parseInt(e.target.value) || 0;
+
+    if (isFirstInput) {
+      setIsFirstInput(false);
+      setNewPendingStock({ ...newPendingStock, quantity: value });
+    } else {
+      setNewPendingStock({ ...newPendingStock, quantity: value });
+    }
+  };
+
   return (
     <div id="pending-stock-root">
       <div className="pending-stock-container">
@@ -237,12 +249,7 @@ const PendingStockManagement = () => {
               placeholder="Quantity"
               value={newPendingStock.quantity}
               className="quantity-textbox"
-              onChange={(e) =>
-                setNewPendingStock({
-                  ...newPendingStock,
-                  quantity: parseInt(e.target.value) || 0,
-                })
-              }
+              onChange={handleInputChange}
             />
             <input
               type="date"
