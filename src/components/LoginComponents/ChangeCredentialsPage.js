@@ -96,7 +96,7 @@ const ChangeCredentialsPage = () => {
                 placeholder="New Email"
               />
             </div>
-            <button type="submit" className="change-button">
+            <button type="submit" className="change-email-button">
               Update Email
             </button>
           </form>
