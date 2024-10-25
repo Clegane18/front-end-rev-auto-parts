@@ -250,7 +250,13 @@ const PendingStockManagement = () => {
               value={newPendingStock.quantity}
               className="quantity-textbox"
               onChange={handleInputChange}
+              onFocus={() => {
+                if (newPendingStock.quantity === 0) {
+                  setNewPendingStock({ ...newPendingStock, quantity: "" });
+                }
+              }}
             />
+
             <input
               type="date"
               value={newPendingStock.arrivalDate}
