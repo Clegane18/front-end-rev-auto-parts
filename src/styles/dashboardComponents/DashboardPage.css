@@ -438,6 +438,20 @@ body {
   display: inline-block;
 }
 
+#root-dashboard-page .wiggle {
+  animation: wiggle 1s infinite;
+}
+
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: rotate(-1deg);
+  }
+  50% {
+    transform: rotate(1deg);
+  }
+}
+
 #root-dashboard-page .report-button {
   display: inline-flex;
   align-items: center;
@@ -467,8 +481,4 @@ body {
 
 #root-dashboard-page .report-button:active {
   background-color: #3f0808;
-}
-
-#root-dashboard-page .wiggle {
-  animation: wiggle 1s infinite;
 }
