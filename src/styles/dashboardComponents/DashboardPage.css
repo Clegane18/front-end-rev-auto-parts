@@ -442,6 +442,16 @@ body {
   animation: wiggle 1s infinite;
 }
 
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+}
+
 #root-dashboard-page .report-button {
   display: inline-flex;
   align-items: center;
