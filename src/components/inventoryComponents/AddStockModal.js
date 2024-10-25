@@ -53,8 +53,13 @@ const AddStockModal = ({ product, onClose, onSave }) => {
               <input
                 type="number"
                 id="quantity"
-                value={quantity}
+                value={quantity === 0 ? "" : quantity}
                 onChange={(e) => setQuantity(parseInt(e.target.value))}
+                onFocus={() => {
+                  if (quantity === 0) {
+                    setQuantity("");
+                  }
+                }}
                 required
                 min="1"
               />
