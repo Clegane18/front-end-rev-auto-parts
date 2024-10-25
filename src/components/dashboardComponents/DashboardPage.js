@@ -353,9 +353,9 @@ const DashboardPage = () => {
           </header>
           <section
             id="sales-section"
-            className={`sales-section ${isReportMode ? " hoverable" : ""} ${
-              selectedReports.includes("sales-section") ? "selected" : ""
-            }`}
+            className={`sales-section ${
+              isReportMode ? "wiggle hoverable" : ""
+            } ${selectedReports.includes("sales-section") ? "selected" : ""}`}
             onClick={() =>
               isReportMode && handleReportSelection("sales-section")
             }
@@ -379,7 +379,7 @@ const DashboardPage = () => {
             <div
               id="stock-reminder-low-stock-reminder"
               className={`stock-reminder-low-stock-reminder ${
-                isReportMode ? " hoverable" : ""
+                isReportMode ? "wiggle hoverable" : ""
               } ${
                 selectedReports.includes("stock-reminder-low-stock-reminder")
                   ? "selected"
@@ -436,7 +436,7 @@ const DashboardPage = () => {
             <div
               id="transaction-overview"
               className={`transaction-overview ${
-                isReportMode ? " hoverable" : ""
+                isReportMode ? "wiggle hoverable" : ""
               } ${
                 selectedReports.includes("transaction-overview")
                   ? "selected"
@@ -478,9 +478,9 @@ const DashboardPage = () => {
             </div>
             <div
               id="total-income"
-              className={`total-income ${isReportMode ? " hoverable" : ""} ${
-                selectedReports.includes("total-income") ? "selected" : ""
-              }`}
+              className={`total-income ${
+                isReportMode ? "wiggle hoverable" : ""
+              } ${selectedReports.includes("total-income") ? "selected" : ""}`}
               onClick={() =>
                 isReportMode && handleReportSelection("total-income")
               }
@@ -518,7 +518,7 @@ const DashboardPage = () => {
           <section
             id="todays-transactions-section"
             className={`todays-transactions-section ${
-              isReportMode ? " hoverable" : ""
+              isReportMode ? "wiggle hoverable" : ""
             } ${
               selectedReports.includes("todays-transactions-section")
                 ? "selected"
@@ -584,7 +584,7 @@ const DashboardPage = () => {
           <section
             id="bestsellers-section"
             className={`bestsellers-section ${
-              isReportMode ? " hoverable" : ""
+              isReportMode ? "wiggle hoverable" : ""
             } ${
               selectedReports.includes("bestsellers-section") ? "selected" : ""
             }`}

@@ -136,6 +136,7 @@ body {
   border: 1px solid #ddd;
   background-color: #fff;
   font-family: "Montserrat", sans-serif;
+  text-transform: capitalize;
 }
 
 #root-dashboard-page table th {
