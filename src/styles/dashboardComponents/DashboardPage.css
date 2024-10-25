@@ -468,3 +468,7 @@ body {
 #root-dashboard-page .report-button:active {
   background-color: #3f0808;
 }
+
+#root-dashboard-page .wiggle {
+  animation: wiggle 1s infinite;
+}
