@@ -348,11 +348,20 @@ const ProductManagement = () => {
       return;
     }
 
-    const originalContent = document.body.innerHTML;
     const content = contentElement.innerHTML;
     const issuanceDate = new Date().toLocaleDateString();
 
-    document.body.innerHTML = `
+    const iframe = document.createElement("iframe");
+    iframe.style.position = "absolute";
+    iframe.style.width = "0";
+    iframe.style.height = "0";
+    iframe.style.border = "none";
+    document.body.appendChild(iframe);
+
+    const doc = iframe.contentWindow || iframe.contentDocument;
+
+    doc.document.open();
+    doc.document.write(`
       <html>
         <head>
           <title>Print</title>
@@ -385,31 +394,38 @@ const ProductManagement = () => {
             table {
               width: 100%;
               border-collapse: collapse;
-              margin-bottom: 20px;
-            }
-            table, th, td {
-              border: 1px solid #000;
             }
             th, td {
+              border: 1px solid #ddd;
               padding: 8px;
               text-align: left;
+            }
+            th {
+              background-color: #f4f4f4;
+            }
+            .print-hide {
+              display: none;
             }
           </style>
         </head>
         <body>
           <div class="header">
-            <h1>Report</h1>
+            <h1>G&F Auto Supply</h1>
           </div>
-          <div class="report-title">Your Report Title</div>
-          <div class="date">Issued on: ${issuanceDate}</div>
-          ${content}
+          <div class="report-title">Inventory Report</div>
+          <div class="date">Issuance Date: ${issuanceDate}</div>
+          <div>
+            ${content}
+          </div>
         </body>
       </html>
-    `;
+    `);
+    doc.document.close();
 
-    window.print();
-
-    document.body.innerHTML = originalContent;
+    iframe.onload = () => {
+      doc.defaultView.print();
+      document.body.removeChild(iframe);
+    };
   };
 
   return (
