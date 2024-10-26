@@ -348,73 +348,56 @@ const ProductManagement = () => {
       return;
     }
 
-    const printWindow = window.open("", "", "width=800,height=600");
+    const originalContent = document.body.innerHTML;
     const content = contentElement.innerHTML;
     const issuanceDate = new Date().toLocaleDateString();
 
-    printWindow.document.open();
-    printWindow.document.write(`
-      <html>
-        <head>
-          <title>Print</title>
-          <style>
-            body {
-              font-family: Arial, sans-serif;
-              margin: 20px;
-            }
-            .header {
-              text-align: center;
-              margin-bottom: 20px;
-            }
-            .header h1 {
-              margin: 0;
-              font-size: 36px; 
-              font-weight: bold;
-            }
-            .report-title {
-              text-align: center;
-              font-size: 24px; 
-              font-weight: bold;
-              margin-bottom: 10px;
-            }
-            .date {
-              text-align: center;
-              margin-bottom: 20px;
-              font-size: 14px;
-              color: #555;
-            }
-            table {
-              width: 100%;
-              border-collapse: collapse;
-            }
-            th, td {
-              border: 1px solid #ddd;
-              padding: 8px;
-              text-align: left;
-            }
-            th {
-              background-color: #f4f4f4;
-            }
-            .print-hide {
-              display: none;
-            }
-          </style>
-        </head>
-        <body>
-          <div class="header">
-            <h1>G&F Auto Supply</h1>
-          </div>
-          <div class="report-title">Inventory Report</div>
-          <div class="date">Issuance Date: ${issuanceDate}</div>
-          <div>
-            ${content}
-          </div>
-        </body>
-      </html>
-    `);
-    printWindow.document.close();
-    printWindow.focus();
-    printWindow.print();
+    document.body.innerHTML = `
+        <html>
+            <head>
+                <title>Print</title>
+                <style>
+                    @media print {
+                        body {
+                            font-family: Arial, sans-serif;
+                            margin: 0;
+                            padding: 0;
+                        }
+                        .print-header {
+                            position: fixed;
+                            top: 0;
+                            width: 100%;
+                            background: white;
+                            text-align: center;
+                            border-bottom: 1px solid #000;
+                            padding: 10px 0;
+                            z-index: 1000;
+                        }
+                        .print-content {
+                            margin-top: 100px; /* Adjust this to prevent content overlap */
+                        }
+                        .page-break {
+                            page-break-before: always;
+                        }
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="print-header">
+                    <img src="g&f-logo.png" alt="Store Logo" style="max-width: 200px; height: auto;">
+                    <h1>Inventory Report</h1>
+                    <p class="date">${issuanceDate}</p>
+                </div>
+                <div class="print-content">
+                    ${content}
+                </div>
+            </body>
+        </html>
+    `;
+
+    window.print();
+
+    document.body.innerHTML = originalContent;
   };
 
   return (
