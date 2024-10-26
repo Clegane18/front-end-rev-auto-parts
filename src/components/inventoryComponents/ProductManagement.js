@@ -348,10 +348,12 @@ const ProductManagement = () => {
       return;
     }
 
+    const printWindow = window.open("", "", "width=800,height=600");
     const content = contentElement.innerHTML;
     const issuanceDate = new Date().toLocaleDateString();
 
-    window.document.write(`
+    printWindow.document.open();
+    printWindow.document.write(`
       <html>
         <head>
           <title>Print</title>
@@ -410,8 +412,9 @@ const ProductManagement = () => {
         </body>
       </html>
     `);
-    window.focus();
-    window.print();
+    printWindow.document.close();
+    printWindow.focus();
+    printWindow.print();
   };
 
   return (
