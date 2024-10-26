@@ -353,46 +353,58 @@ const ProductManagement = () => {
     const issuanceDate = new Date().toLocaleDateString();
 
     document.body.innerHTML = `
-        <html>
-            <head>
-                <title>Print</title>
-                <style>
-                    @media print {
-                        body {
-                            font-family: Arial, sans-serif;
-                            margin: 0;
-                            padding: 0;
-                        }
-                        .print-header {
-                            position: fixed;
-                            top: 0;
-                            width: 100%;
-                            background: white;
-                            text-align: center;
-                            border-bottom: 1px solid #000;
-                            padding: 10px 0;
-                            z-index: 1000;
-                        }
-                        .print-content {
-                            margin-top: 100px; /* Adjust this to prevent content overlap */
-                        }
-                        .page-break {
-                            page-break-before: always;
-                        }
-                    }
-                </style>
-            </head>
-            <body>
-                <div class="print-header">
-                    <img src="g&f-logo.png" alt="Store Logo" style="max-width: 200px; height: auto;">
-                    <h1>Inventory Report</h1>
-                    <p class="date">${issuanceDate}</p>
-                </div>
-                <div class="print-content">
-                    ${content}
-                </div>
-            </body>
-        </html>
+      <html>
+        <head>
+          <title>Print</title>
+          <style>
+            body {
+              font-family: Arial, sans-serif;
+              margin: 20px;
+            }
+            .header {
+              text-align: center;
+              margin-bottom: 20px;
+            }
+            .header h1 {
+              margin: 0;
+              font-size: 36px; 
+              font-weight: bold;
+            }
+            .report-title {
+              text-align: center;
+              font-size: 24px; 
+              font-weight: bold;
+              margin-bottom: 10px;
+            }
+            .date {
+              text-align: center;
+              margin-bottom: 20px;
+              font-size: 14px;
+              color: #555;
+            }
+            table {
+              width: 100%;
+              border-collapse: collapse;
+              margin-bottom: 20px;
+            }
+            table, th, td {
+              border: 1px solid #000;
+            }
+            th, td {
+              padding: 8px;
+              text-align: left;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <h1>Report</h1>
+          </div>
+          <div class="report-title">Your Report Title</div>
+          <div class="date">Issued on: ${issuanceDate}</div>
+          ${content}
+        </body>
+      </html>
     `;
 
     window.print();
