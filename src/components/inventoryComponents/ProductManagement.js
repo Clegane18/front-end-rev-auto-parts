@@ -351,8 +351,8 @@ const ProductManagement = () => {
     const content = contentElement.innerHTML;
     const issuanceDate = new Date().toLocaleDateString();
 
-    printWindow.document.open();
-    printWindow.document.write(`
+    window.document.open();
+    window.document.write(`
       <html>
         <head>
           <title>Print</title>
