@@ -351,17 +351,8 @@ const ProductManagement = () => {
     const content = contentElement.innerHTML;
     const issuanceDate = new Date().toLocaleDateString();
 
-    const iframe = document.createElement("iframe");
-    iframe.style.position = "absolute";
-    iframe.style.width = "0";
-    iframe.style.height = "0";
-    iframe.style.border = "none";
-    document.body.appendChild(iframe);
-
-    const doc = iframe.contentWindow || iframe.contentDocument;
-
-    doc.document.open();
-    doc.document.write(`
+    printWindow.document.open();
+    printWindow.document.write(`
       <html>
         <head>
           <title>Print</title>
@@ -420,12 +411,9 @@ const ProductManagement = () => {
         </body>
       </html>
     `);
-    doc.document.close();
-
-    iframe.onload = () => {
-      doc.defaultView.print();
-      document.body.removeChild(iframe);
-    };
+    window.document.close();
+    window.focus();
+    window.print();
   };
 
   return (
