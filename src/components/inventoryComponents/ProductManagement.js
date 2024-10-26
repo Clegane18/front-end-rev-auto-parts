@@ -351,7 +351,6 @@ const ProductManagement = () => {
     const content = contentElement.innerHTML;
     const issuanceDate = new Date().toLocaleDateString();
 
-    window.document.open();
     window.document.write(`
       <html>
         <head>
@@ -411,7 +410,6 @@ const ProductManagement = () => {
         </body>
       </html>
     `);
-    window.document.close();
     window.focus();
     window.print();
   };
