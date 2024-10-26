@@ -5,8 +5,8 @@ import "../../styles/inventoryComponents/AddStockModal.css";
 const AddStockModal = ({ product, onClose, onSave }) => {
   const [quantity, setQuantity] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
-  const [loading, setLoading] = useState(false);
   const modalRef = useRef(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -25,15 +25,12 @@ const AddStockModal = ({ product, onClose, onSave }) => {
 
   const handleSave = async (event) => {
     event.preventDefault();
-    if (loading) return;
-    setLoading(true);
     try {
       if (quantity <= 0 || isNaN(quantity)) {
         setErrorMessage("Please enter a valid quantity.");
-        setLoading(false);
         return;
       }
-
+      setLoading(true);
       const response = await addToProductStock(product.id, quantity);
       onSave(response.product);
       onClose();
@@ -45,23 +42,42 @@ const AddStockModal = ({ product, onClose, onSave }) => {
   };
 
   return (
-    <div className="add-stock-modal" ref={modalRef} tabIndex="0">
-      <form onSubmit={handleSave}>
-        <label>
-          Quantity:
-          <input
-            type="number"
-            value={quantity}
-            onChange={(e) => setQuantity(e.target.value)}
-            min="1"
-            required
-          />
-        </label>
-        {errorMessage && <div className="error-message">{errorMessage}</div>}
-        <button type="submit" disabled={loading}>
-          Add
-        </button>
-      </form>
+    <div id="root-add-stock-modal">
+      <div className="modal-overlay">
+        <div className="modal-content" ref={modalRef} tabIndex="-1">
+          <button className="close-button" onClick={onClose}>
+            &times;
+          </button>
+          <h2>Add Stock for {product.name}</h2>
+          {errorMessage && <div className="error-message">{errorMessage}</div>}
+          <form onSubmit={handleSave}>
+            <div className="form-group">
+              <label htmlFor="quantity">Quantity to Add</label>
+              <input
+                type="number"
+                id="quantity"
+                value={quantity === 0 ? "" : quantity}
+                onChange={(e) => setQuantity(parseInt(e.target.value))}
+                onFocus={() => {
+                  if (quantity === 0) {
+                    setQuantity("");
+                  }
+                }}
+                required
+                min="1"
+              />
+            </div>
+            <div className="button-group">
+              <button type="submit" disabled={loading}>
+                {loading ? "Adding..." : "Add Stock"}
+              </button>{" "}
+              <button type="button" onClick={onClose}>
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   );
 };
