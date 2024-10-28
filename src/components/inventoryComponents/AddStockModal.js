@@ -70,7 +70,7 @@ const AddStockModal = ({ product, onClose, onSave }) => {
             <div className="button-group">
               <button type="submit" disabled={loading}>
                 {loading ? "Adding..." : "Add Stock"}
-              </button>{" "}
+              </button>
               <button type="button" onClick={onClose}>
                 Cancel
               </button>

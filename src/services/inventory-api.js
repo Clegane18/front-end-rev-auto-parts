@@ -123,6 +123,31 @@ export const getLowStockProducts = async () => {
   }
 };
 
+export const getAllProductsByStatus = async (status) => {
+  if (!status) {
+    throw new Error("Product status is required to fetch products.");
+  }
+
+  try {
+    const response = await api.get("/products/filter/status", {
+      params: { status },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching products by status:", error);
+
+    if (error.response && error.response.data && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    } else if (error.message) {
+      throw new Error(error.message);
+    } else {
+      throw new Error(
+        "Failed to fetch products by status. Please try again later."
+      );
+    }
+  }
+};
+
 // Pending Stock APIs
 export const addPendingStock = (pendingStockData) =>
   api.post("/products/pendingStocks/add-pendingStock", pendingStockData);

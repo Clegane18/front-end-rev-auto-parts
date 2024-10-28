@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { getAllProducts } from "../../services/inventory-api";
+import {
+  getAllProducts,
+  getAllProductsByStatus,
+} from "../../services/inventory-api";
 import {
   uploadProductImages,
   getProductByIdAndPublish,
@@ -50,6 +53,7 @@ const UploadProducts = () => {
   const [imagesLoading, setImagesLoading] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState("");
   const navigate = useNavigate();
   const { setIsLoading } = useLoading();
 
@@ -257,6 +261,23 @@ const UploadProducts = () => {
     setSuccessMessage("");
   };
 
+  const handleStatusFilterChange = async (event) => {
+    const status = event.target.value;
+    setSelectedStatus(status);
+    setIsLoading(true);
+    try {
+      const response = await getAllProductsByStatus({ status });
+      if (response.data) {
+        setFilteredProducts(response.data.products);
+      } else {
+        setFilteredProducts([]);
+      }
+    } catch (error) {
+      setErrorMessage("Failed to filter products by status.");
+    }
+    setIsLoading(false);
+  };
+
   return (
     <div id="root-upload-products">
       <div className="container">
@@ -265,6 +286,20 @@ const UploadProducts = () => {
             <div className="store-name" onClick={handleBack}>
               <img src={logo} alt="G&F Auto logo" className="shop-logo" />
             </div>
+            <div className="status-filter-container">
+              <label htmlFor="status-filter">Filter by Status:</label>
+              <select
+                id="status-filter"
+                value={selectedStatus}
+                onChange={handleStatusFilterChange}
+              >
+                <option value="">All</option>
+                <option value="draft">Draft</option>
+                <option value="ready">Ready</option>
+                <option value="published">Published</option>
+              </select>
+            </div>
+
             <div className="search-field">
               <input
                 type="text"
