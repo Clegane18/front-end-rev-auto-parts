@@ -138,8 +138,11 @@ const ProductManagement = () => {
       }
 
       if (minPrice && maxPrice) {
-        const response = await getProductByPriceRange(minPrice, maxPrice);
-        filteredProducts = response.data;
+        filteredProducts = filteredProducts.filter(
+          (product) =>
+            product.price >= parseFloat(minPrice) &&
+            product.price <= parseFloat(maxPrice)
+        );
       }
 
       setProducts(filteredProducts);
@@ -452,6 +455,8 @@ const ProductManagement = () => {
                   style={{ width: "100%" }}
                 >
                   <option value="">Min Price</option>
+                  <option value="100">₱100</option>
+                  <option value="500">₱500</option>
                   <option value="1000">₱1,000</option>
                   <option value="2000">₱2,000</option>
                   <option value="3000">₱3,000</option>
@@ -497,9 +502,11 @@ const ProductManagement = () => {
                 />
               </div>
             )}
-            <button onClick={handleDateRangeSearch}>
-              <FaSearch />
-            </button>
+            {filterType !== "price" && (
+              <button onClick={handleDateRangeSearch}>
+                <FaSearch />
+              </button>
+            )}
           </div>
 
           <button className="low-stock-button" onClick={handleLowStock}>
