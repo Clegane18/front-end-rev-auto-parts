@@ -137,7 +137,7 @@ const ProductManagement = () => {
         );
       }
 
-      if (minPrice || maxPrice) {
+      if (minPrice && maxPrice) {
         const response = await getProductByPriceRange(minPrice, maxPrice);
         filteredProducts = response.data;
       }
