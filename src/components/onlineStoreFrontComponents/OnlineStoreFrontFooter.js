@@ -65,7 +65,10 @@ const OnlineStoreFrontFooter = () => {
           </div>
           <div className="footer-section">
             <h3>Support</h3>
-            <p className="padding-bottom">Sta. Maria, Bulacan, Philippines</p>
+            <p className="padding-bottom">
+              {" "}
+              1104 Gov Fortunato Halili Rd, Santa Maria, Bulacan, Philippines
+            </p>
             <p className="small-letter">gf.autosupply1724@gmail.com</p>
             <p className="padding-bottom">09175590729/</p>
             <p className="padding-bottom">09329605591</p>
