@@ -63,9 +63,9 @@ const Receipt = () => {
           </ul>
 
           <div className="totals">
-            <p>Total Amount: ₱{formatCurrency(receipt.totalAmount)}</p>
-            <p>Payment Amount: ₱{formatCurrency(receipt.paymentAmount)}</p>
-            <p>Change: ₱{formatCurrency(receipt.change)}</p>
+            <p>Total Amount: {formatCurrency(receipt.totalAmount)}</p>
+            <p>Payment Amount: {formatCurrency(receipt.paymentAmount)}</p>
+            <p>Change: {formatCurrency(receipt.change)}</p>
           </div>
           <div className="buttons-container">
             <button className="print-button" onClick={handlePrint}>
