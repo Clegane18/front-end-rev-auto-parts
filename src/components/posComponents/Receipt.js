@@ -53,10 +53,10 @@ const Receipt = () => {
                 </div>
                 <span className="item-name">{item.productName}</span>
                 <span className="item-amount">
-                  Amount: ₱{formatCurrency(item.unitPrice)}
+                  Amount: {formatCurrency(item.unitPrice)}
                 </span>
                 <span className="item-subtotal">
-                  Subtotal: ₱{formatCurrency(item.subtotalAmount)}
+                  Subtotal: {formatCurrency(item.subtotalAmount)}
                 </span>
               </li>
             ))}
