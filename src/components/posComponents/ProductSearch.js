@@ -36,7 +36,6 @@ const ProductSearch = ({ onSelectProduct }) => {
       setProductSuggestions(products);
     } catch (error) {
       console.error("Error during product search:", error);
-      alert(`Search failed: ${error.response?.data?.message || error.message}`);
     }
     setIsSearching(false);
   };
