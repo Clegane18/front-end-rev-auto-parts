@@ -247,7 +247,7 @@ const OnlineCart = () => {
                   onClick={handlePay}
                   disabled={selectedItems.length === 0}
                 >
-                  Pay
+                  Check Out
                 </button>
               </div>
             </div>
