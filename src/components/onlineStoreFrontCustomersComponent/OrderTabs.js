@@ -1,4 +1,3 @@
-// OrderTabs.jsx
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getOrdersByStatus, cancelOrder } from "../../services/order-api";
@@ -232,10 +231,14 @@ const OrderTabs = ({ initialTab = "All" }) => {
                             <p>No image available</p>
                           )}
                         </div>
+
                         <div className="item-details-container">
                           <p className="text-in-my-purchases">
                             {item.productName}
                           </p>
+                          {item.purchaseMethod === "in-store-pickup" && (
+                            <p className="pickup-message">{order.message}</p>
+                          )}
                           <p className="text-in-my-purchases">
                             Quantity: {item.quantity}
                           </p>
