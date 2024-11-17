@@ -66,8 +66,8 @@ const TermsAndConditions = () => {
           added for every kilometer outside Metro Manila.
         </p>
         <p>
-          Shipping fees are calculated during checkout based on the distance
-          from Metro Manila.
+          <strong>3.3.3.</strong>Shipping fees are calculated during checkout
+          based on the distance from Metro Manila.
         </p>
         <p>
           <strong>3.4.</strong> Customers must ensure that the delivery address
