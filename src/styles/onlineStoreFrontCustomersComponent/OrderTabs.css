@@ -97,7 +97,6 @@
 #root-order-tabs .order-item-details {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   padding: 10px 0;
   border-bottom: 1px solid #e0e0e0;
 }
@@ -225,7 +224,7 @@
 #root-order-tabs .pickup-message,
 #root-order-tabs .remaining-balance-message {
   text-transform: none;
-  color: #555555;
+  color: black;
   margin-left: auto;
   text-align: right;
 }
