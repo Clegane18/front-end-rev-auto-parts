@@ -243,12 +243,14 @@ const OrderTabs = ({ initialTab = "All" }) => {
                           {item.purchaseMethod === "in-store-pickup" && (
                             <>
                               <p className="pickup-message">{order.message}</p>
-                              <p className="text-in-my-purchases">
-                                Please prepare this remaining amount for
-                                in-store pickup:{" "}
-                                {formatCurrency(
-                                  calculateRemainingBalance([item])
-                                )}
+                              <p className="remaining-balance-message">
+                                and prepare the remaining amount of:{" "}
+                                <span className="bold">
+                                  {formatCurrency(
+                                    calculateRemainingBalance([item])
+                                  )}
+                                </span>
+                                for in-store pickup.
                               </p>
                             </>
                           )}
