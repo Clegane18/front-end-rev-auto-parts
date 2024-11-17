@@ -8,6 +8,7 @@ import { formatCurrency } from "../../utils/formatCurrency";
 import RatingModal from "./RatingModal";
 import SuccessModal from "../SuccessModal";
 import { useLoading } from "../../contexts/LoadingContext";
+import { calculateRemainingBalance } from "../../utils/calculateRemainingBalance";
 
 const OrderTabs = ({ initialTab = "All" }) => {
   const [activeTab, setActiveTab] = useState(initialTab);
@@ -236,12 +237,21 @@ const OrderTabs = ({ initialTab = "All" }) => {
                           <p className="text-in-my-purchases">
                             {item.productName}
                           </p>
-                          {item.purchaseMethod === "in-store-pickup" && (
-                            <p className="pickup-message">{order.message}</p>
-                          )}
                           <p className="text-in-my-purchases">
                             Quantity: {item.quantity}
                           </p>
+                          {item.purchaseMethod === "in-store-pickup" && (
+                            <>
+                              <p className="pickup-message">{order.message}</p>
+                              <p className="text-in-my-purchases">
+                                Please prepare this remaining amount for
+                                in-store pickup:{" "}
+                                {formatCurrency(
+                                  calculateRemainingBalance([item])
+                                )}
+                              </p>
+                            </>
+                          )}
                         </div>
                         {activeTab === "Completed" && !item.hasCommented && (
                           <div className="rate-product-container">

@@ -221,6 +221,10 @@
   color: gray;
 }
 
+#root-order-tabs .pickup-message {
+  text-transform: none;
+}
+
 @media (max-width: 768px) {
   #root-order-tabs .order-tabs {
     flex-wrap: wrap;
