@@ -271,7 +271,7 @@ const OrderTabs = ({ initialTab = "All" }) => {
                             </button>
                           </div>
                         )}
-                        {item.hasCommented && (
+                        {activeTab === "Completed" && item.hasCommented && (
                           <p className="already-rated-text">Already Rated</p>
                         )}
                       </div>
