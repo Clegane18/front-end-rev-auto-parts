@@ -235,7 +235,12 @@
   line-height: 1.4;
 }
 
-#root-order-tabs .remaining-balance-message .bold {
+#root-order-tabs .order-item .order-id {
+  text-transform: none;
+}
+
+#root-order-tabs .remaining-balance-message .bold,
+#root-order-tabs .order-id .bold {
   font-weight: bold;
 }
 

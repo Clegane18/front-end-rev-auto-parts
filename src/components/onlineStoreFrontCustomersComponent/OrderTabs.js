@@ -210,9 +210,6 @@ const OrderTabs = ({ initialTab = "All" }) => {
                     <p className="text-in-my-purchases">
                       Order Total: {formatCurrency(order.totalAmount)}
                     </p>
-                    <p className="text-in-my-purchases">
-                      Order Number: {order.orderNumber}
-                    </p>
                     <p className="text-in-active-tab">
                       {activeTab === "All"
                         ? order.status || "Status Unavailable"
@@ -281,6 +278,10 @@ const OrderTabs = ({ initialTab = "All" }) => {
                     {order.status === "To Ship" && (
                       <p className="order-eta">ETA: {order.eta}</p>
                     )}
+                    <p className="order-id">
+                      Order ID:{" "}
+                      <span className="bold">{order.orderNumber}</span>
+                    </p>
                     <Link to="/contact-us" className="contact-seller-btn">
                       Contact Seller
                     </Link>
