@@ -247,7 +247,7 @@ const OrderTabs = ({ initialTab = "All" }) => {
                                   {formatCurrency(
                                     calculateRemainingBalance([item])
                                   )}
-                                </span>
+                                </span>{" "}
                                 for in-store pickup.
                               </p>
                             </>
