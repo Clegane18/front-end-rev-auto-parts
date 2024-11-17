@@ -45,68 +45,97 @@ const TermsAndConditions = () => {
           the order at the time of pickup.
         </p>
 
-        <h3>3. PICKUP PROCEDURE</h3>
+        <h3>3. DELIVERY POLICY</h3>
         <p>
-          <strong>3.1.</strong> Items will be available for pickup at our
+          <strong>3.1.</strong> Items can be delivered to the default address
+          provided during checkout.
+        </p>
+        <p>
+          <strong>3.2.</strong> <strong>Free Shipping:</strong> Delivery
+          addresses within Metro Manila are eligible for free shipping.
+        </p>
+        <p>
+          <strong>3.3.</strong> For delivery addresses outside Metro Manila,
+          shipping fees are calculated as follows:
+        </p>
+        <p>
+          <strong>3.3.1.</strong> A base shipping fee of ₱50 applies.
+        </p>
+        <p>
+          <strong>3.3.2.</strong> An additional charge of ₱5 per kilometer is
+          added for every kilometer outside Metro Manila.
+        </p>
+        <p>
+          Shipping fees are calculated during checkout based on the distance
+          from Metro Manila.
+        </p>
+        <p>
+          <strong>3.4.</strong> Customers must ensure that the delivery address
+          provided is accurate. G&F Auto Supply will not be responsible for
+          failed deliveries due to incorrect or incomplete addresses.
+        </p>
+
+        <h3>4. PICKUP PROCEDURE</h3>
+        <p>
+          <strong>4.1.</strong> Items will be available for pickup at our
           designated store location during regular business hours.
         </p>
         <p>
-          <strong>3.2.</strong> Customers must pick up the purchased items
-          within [specify timeframe, e.g., 7 days] from the date of purchase.
-          Failure to do so may result in cancellation of the order and
-          forfeiture of payment.
+          <strong>4.2.</strong> Customers must pick up the purchased items
+          within 7 days from the date of purchase. Failure to do so may result
+          in cancellation of the order and forfeiture of payment.
         </p>
         <p>
-          <strong>3.3.</strong> In the event that a customer is unable to pick
+          <strong>4.3.</strong> In the event that a customer is unable to pick
           up the purchased items personally, they may designate a representative
           to do so on their behalf. The representative must present a signed
           authorization letter from the customer along with their own
           government-issued identification.
         </p>
 
-        <h3>4. LIABILITY AND RESPONSIBILITY</h3>
+        <h3>5. LIABILITY AND RESPONSIBILITY</h3>
         <p>
-          <strong>4.1.</strong> Customers are solely responsible for inspecting
+          <strong>5.1.</strong> Customers are solely responsible for inspecting
           the purchased items at the time of pickup and ensuring that they meet
           their expectations and requirements.
         </p>
         <p>
-          <strong>4.2.</strong> Any damages, defects, or discrepancies must be
+          <strong>5.2.</strong> Any damages, defects, or discrepancies must be
           reported to our staff immediately upon pickup for resolution.
         </p>
 
-        <h3>5. CANCELLATION AND REFUNDS</h3>
+        <h3>6. CANCELLATION AND REFUNDS</h3>
         <p>
-          <strong>5.1.</strong> Orders for items eligible for in-store pickup
+          <strong>6.1.</strong> Orders for items eligible for in-store pickup
           cannot be canceled or refunded once the pickup process has been
           initiated.
         </p>
         <p>
-          <strong>5.2.</strong> Orders for deliverable items cannot be canceled
+          <strong>6.2.</strong> Orders for deliverable items cannot be canceled
           or refunded once the items have been shipped.
         </p>
 
-        <h3>6. PROTECTION AGAINST SCAMS</h3>
+        <h3>7. PROTECTION AGAINST SCAMS</h3>
         <p>
-          <strong>6.1.</strong> In-store pickup of items is implemented to
+          <strong>7.1.</strong> In-store pickup of items is implemented to
           protect our store from fraudulent activities and scams.
         </p>
         <p>
-          <strong>6.2.</strong> By requiring in-store pickup, we can verify the
+          <strong>7.2.</strong> By requiring in-store pickup, we can verify the
           authenticity of the purchase and ensure that the customer receives the
           correct product.
         </p>
 
-        <h3>7. AMENDMENT OF TERMS</h3>
+        <h3>8. AMENDMENT OF TERMS</h3>
         <p>
-          <strong>7.1.</strong> We reserve the right to amend these terms and
+          <strong>8.1.</strong> We reserve the right to amend these terms and
           conditions at any time without prior notice. Any changes will be
           effective immediately upon posting on our website.
         </p>
 
-        <h3>8. CONTACT INFORMATION</h3>
+        <h3>9. CONTACT INFORMATION</h3>
         <p>
-          <strong>8.1.</strong> For any inquiries or assistance regarding
+          <strong>9.1.</strong> For any inquiries or assistance regarding
           in-store pickup of items, please contact us at{" "}
           <a href="mailto:support@gnfauto.com">support@gnfauto.com</a> or call
           us at 09123456789.

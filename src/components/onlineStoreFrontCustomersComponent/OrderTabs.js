@@ -210,6 +210,9 @@ const OrderTabs = ({ initialTab = "All" }) => {
                     <p className="text-in-my-purchases">
                       Order Total: {formatCurrency(order.totalAmount)}
                     </p>
+                    <p className="text-in-my-purchases">
+                      Order Number: {order.orderNumber}
+                    </p>
                     <p className="text-in-active-tab">
                       {activeTab === "All"
                         ? order.status || "Status Unavailable"
