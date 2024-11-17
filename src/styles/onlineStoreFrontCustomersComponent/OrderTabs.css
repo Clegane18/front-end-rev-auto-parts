@@ -237,7 +237,7 @@
 
 #root-order-tabs .order-item .order-id {
   text-transform: none;
-  color: black;
+  color: #555555;
 }
 
 #root-order-tabs .remaining-balance-message .bold,
