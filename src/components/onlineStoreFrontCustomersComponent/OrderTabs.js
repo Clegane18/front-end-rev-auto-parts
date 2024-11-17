@@ -237,9 +237,7 @@ const OrderTabs = ({ initialTab = "All" }) => {
                           <p className="text-in-my-purchases">
                             {item.productName}
                           </p>
-                          <p className="text-in-my-purchases">
-                            Quantity: {item.quantity}
-                          </p>
+                          <p className="quantity">Quantity: {item.quantity}</p>
                           {item.purchaseMethod === "in-store-pickup" && (
                             <>
                               <p className="pickup-message">{order.message}</p>

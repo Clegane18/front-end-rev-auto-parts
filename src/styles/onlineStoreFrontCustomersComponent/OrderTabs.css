@@ -137,8 +137,13 @@
 
 #root-order-tabs .order-item .text-in-my-purchases {
   font-family: "Montserrat", serif;
-  text-transform: none;
   color: black;
+  margin: 0;
+}
+
+#root-order-tabs .order-item .quantity {
+  font-family: "Montserrat", serif;
+  color: #333;
   margin: 0;
 }
 
@@ -221,12 +226,13 @@
   color: gray;
 }
 
-#root-order-tabs .pickup-message,
-#root-order-tabs .remaining-balance-message {
+#root-order-tabs .order-item .pickup-message,
+#root-order-tabs .order-item .remaining-balance-message {
   text-transform: none;
-  color: black;
-  margin-left: auto;
-  text-align: right;
+  color: #666;
+  font-size: 0.85rem;
+  margin-top: 5px;
+  line-height: 1.4;
 }
 
 #root-order-tabs .remaining-balance-message .bold {
