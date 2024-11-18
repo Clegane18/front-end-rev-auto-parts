@@ -1,24 +1,37 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
 import { getCartItemCount, addProductToCart } from "../services/cart-api";
-
+import { useAuth } from "../contexts/AuthContext";
 const CartContext = createContext();
 
-export const OnlineStoreFrontCartProvider = ({ children, token }) => {
+export const OnlineStoreFrontCartProvider = ({ children }) => {
+  const { token } = useAuth();
   const [cartItems, setCartItems] = useState([]);
   const [itemCount, setItemCount] = useState(0);
 
+  useEffect(() => {
+    if (token) {
+      fetchCartItems();
+    }
+  }, [token]);
   const fetchCartItems = async () => {
     try {
-      if (!token) return;
+      if (!token) {
+        console.error("Token is not available.");
+        return;
+      }
       const response = await getCartItemCount({ token });
       setItemCount(response.data);
     } catch (error) {
-      console.error("Error fetching cart items:", error);
+      console.error("Error fetching cart items:", error.message);
     }
   };
 
   const addToCart = async ({ customerId, productId, quantity }) => {
     try {
+      if (!token) {
+        console.error("Token is not available.");
+        return;
+      }
       await addProductToCart({
         customerId,
         productId,
@@ -28,8 +41,7 @@ export const OnlineStoreFrontCartProvider = ({ children, token }) => {
 
       setItemCount((prevCount) => prevCount + quantity);
     } catch (error) {
-      console.error("Error adding product to cart:", error);
-      throw error;
+      console.error("Error adding product to cart:", error.message);
     }
   };
 
