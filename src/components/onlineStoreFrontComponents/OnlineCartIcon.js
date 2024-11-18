@@ -3,9 +3,10 @@ import { FiShoppingCart } from "react-icons/fi";
 import "../../styles/onlineStoreFrontComponents/OnlineCartIcon.css";
 import { getCartItemCount } from "../../services/cart-api";
 import { useAuth } from "../../contexts/AuthContext";
+import { useCart } from "../../contexts/OnlineStoreCartContext";
 
 const OnlineCartIcon = ({ onCartUpdateRef, onClick }) => {
-  const [itemCount, setItemCount] = useState(0);
+  const { itemCount } = useCart();
   const { token } = useAuth();
 
   useEffect(() => {

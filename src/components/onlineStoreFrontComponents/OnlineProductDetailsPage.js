@@ -4,7 +4,6 @@ import InsufficientStockModal from "./InsufficientStockModal";
 import "../../styles/onlineStoreFrontComponents/OnlineProductDetailsPage.css";
 import { formatCurrency } from "../../utils/formatCurrency";
 import useRequireAuth from "../../utils/useRequireAuth";
-import { addProductToCart } from "../../services/cart-api";
 import { useAuth } from "../../contexts/AuthContext";
 import { getProductById } from "../../services/inventory-api";
 import {
@@ -15,6 +14,7 @@ import OnlineStoreFrontHeader from "./OnlineStoreFrontHeader";
 import OnlineStoreFrontFooter from "./OnlineStoreFrontFooter";
 import { FaStar, FaTimes, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useLoading } from "../../contexts/LoadingContext";
+import { useCart } from "../../contexts/OnlineStoreCartContext";
 
 const encodeURL = (url) => url.replace(/\\/g, "/");
 
@@ -29,6 +29,7 @@ const buildImageUrl = (imagePath) => {
 const OnlineProductDetailsPage = () => {
   const { productId } = useParams();
   const navigate = useNavigate();
+  const { addToCart } = useCart();
   const checkAuth = useRequireAuth();
   const { currentUser, token } = useAuth();
   const [showBuyNow, setShowBuyNow] = useState(false);
@@ -175,13 +176,12 @@ const OnlineProductDetailsPage = () => {
     }
     try {
       setIsLoading(true);
-      await addProductToCart({
+      await addToCart({
         customerId: currentUser.id,
         productId: product.id,
         token,
         quantity,
       });
-      navigate(-1);
     } catch (error) {
       setError("Failed to add product to cart. Please try again.");
     } finally {
@@ -195,6 +195,7 @@ const OnlineProductDetailsPage = () => {
     token,
     navigate,
     setIsLoading,
+    addToCart,
   ]);
 
   const handleQuantityChange = (e) => {

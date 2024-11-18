@@ -6,6 +6,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import { AdminAuthProvider } from "./contexts/AdminAuthContext";
 import { CartProvider } from "./components/posComponents/CartContext";
+import { CartProvider } from "./contexts/OnlineStoreCartContext";
 import { OnlineCartProvider } from "./components/onlineStoreFrontComponents/OnlineCartContext";
 import { WebSocketProvider } from "./contexts/WebSocketContext";
 import { LoadingProvider } from "./contexts/LoadingContext";
@@ -22,11 +23,13 @@ root.render(
           <AdminAuthProvider>
             <AuthProvider>
               <CartProvider>
-                <OnlineCartProvider>
-                  <WebSocketProvider>
-                    <App />
-                  </WebSocketProvider>
-                </OnlineCartProvider>
+                <CartProvider>
+                  <OnlineCartProvider>
+                    <WebSocketProvider>
+                      <App />
+                    </WebSocketProvider>
+                  </OnlineCartProvider>
+                </CartProvider>
               </CartProvider>
             </AuthProvider>
           </AdminAuthProvider>
