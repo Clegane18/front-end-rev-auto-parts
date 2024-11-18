@@ -1,32 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { FiShoppingCart } from "react-icons/fi";
 import "../../styles/onlineStoreFrontComponents/OnlineCartIcon.css";
-import { getCartItemCount } from "../../services/cart-api";
-import { useAuth } from "../../contexts/AuthContext";
 import { useCart } from "../../contexts/OnlineStoreCartContext";
+import { useAuth } from "../../contexts/AuthContext";
 
 const OnlineCartIcon = ({ onCartUpdateRef, onClick }) => {
-  const { itemCount } = useCart();
+  const { itemCount, fetchCartItems } = useCart();
   const { token } = useAuth();
 
   useEffect(() => {
-    const fetchItemCount = async () => {
-      try {
-        const response = await getCartItemCount({ token });
-        setItemCount(response.data);
-      } catch (error) {
-        console.error("Error fetching item count:", error.message);
-      }
-    };
-
     if (token) {
-      fetchItemCount();
+      fetchCartItems();
     }
 
     if (onCartUpdateRef) {
-      onCartUpdateRef.current = fetchItemCount;
+      onCartUpdateRef.current = fetchCartItems;
     }
-  }, [token, onCartUpdateRef]);
+  }, [token, fetchCartItems, onCartUpdateRef]);
 
   return (
     <div id="root-online-cart-icon" onClick={onClick}>
