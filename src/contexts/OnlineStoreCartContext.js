@@ -3,7 +3,7 @@ import { getCartItemCount, addProductToCart } from "../services/cart-api";
 
 const CartContext = createContext();
 
-export const CartProvider = ({ children, token }) => {
+export const OnlineStoreFrontCartProvider = ({ children, token }) => {
   const [cartItems, setCartItems] = useState([]);
   const [itemCount, setItemCount] = useState(0);
 

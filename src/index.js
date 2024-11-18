@@ -6,7 +6,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import { AdminAuthProvider } from "./contexts/AdminAuthContext";
 import { CartProvider } from "./components/posComponents/CartContext";
-import { CartProvider } from "./contexts/OnlineStoreCartContext";
+import { OnlineStoreFrontCartProvider } from "./contexts/OnlineStoreCartContext";
 import { OnlineCartProvider } from "./components/onlineStoreFrontComponents/OnlineCartContext";
 import { WebSocketProvider } from "./contexts/WebSocketContext";
 import { LoadingProvider } from "./contexts/LoadingContext";
@@ -22,7 +22,7 @@ root.render(
         <LoadingProvider>
           <AdminAuthProvider>
             <AuthProvider>
-              <CartProvider>
+              <OnlineStoreFrontCartProvider>
                 <CartProvider>
                   <OnlineCartProvider>
                     <WebSocketProvider>
@@ -30,7 +30,7 @@ root.render(
                     </WebSocketProvider>
                   </OnlineCartProvider>
                 </CartProvider>
-              </CartProvider>
+              </OnlineStoreFrontCartProvider>
             </AuthProvider>
           </AdminAuthProvider>
         </LoadingProvider>
