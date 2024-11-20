@@ -37,9 +37,6 @@ const ProductDetailsInArchivedPage = ({ product, onClose }) => {
               <strong>Price:</strong> {formatCurrency(product.price)}
             </p>
             <p>
-              <strong>Stock:</strong> {product.stock}
-            </p>
-            <p>
               <strong>Added Date:</strong>{" "}
               {new Date(product.dateAdded).toLocaleDateString()}
             </p>
