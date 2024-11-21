@@ -1,12 +1,10 @@
 import axios from "axios";
+import config from "../config";
 
 const api = axios.create({
-  baseURL: "https://rev-auto-parts.onrender.com/api/admin",
+  baseURL:
+    process.env.NODE_ENV === "development" ? config.adminDev : config.adminProd,
 });
-
-// const api = axios.create({
-//   baseURL: "http://localhost:3002/api/admin",
-// });
 
 export const adminLogIn = async ({ email, password }) => {
   try {

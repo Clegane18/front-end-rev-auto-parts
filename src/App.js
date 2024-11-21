@@ -34,6 +34,16 @@ import ChangePasswordPage from "./components/onlineStoreFrontCustomersComponent/
 import RequestChangePasswordManualPage from "./components/onlineStoreFrontCustomersComponent/RequestChangePasswordManualPage";
 import ChangePasswordManualPage from "./components/onlineStoreFrontCustomersComponent/ChangePasswordManualPage";
 
+console.log("THIS LOG IS FROM APP.JS NODE_ENV:", process.env.NODE_ENV);
+console.log(
+  "THIS LOG IS FROM APP.JS REACT_APP_API_SERVICE_ADDRESS_URL_DEV:",
+  process.env.REACT_APP_API_SERVICE_ADDRESS_URL_DEV
+);
+console.log(
+  "THIS LOG IS FROM APP.JS REACT_APP_API_SERVICE_ADDRESS_URL_PROD:",
+  process.env.REACT_APP_API_SERVICE_ADDRESS_URL_PROD
+);
+
 const App = () => {
   const { authToken: adminAuthToken, login } = useAdminAuth();
   const { token: customerAuthToken } = useAuth();

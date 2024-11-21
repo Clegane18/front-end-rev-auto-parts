@@ -1,11 +1,12 @@
 import axios from "axios";
+import config from "../config";
 
 const api = axios.create({
-  baseURL: "https://rev-auto-parts.onrender.com/api/customer",
+  baseURL:
+    process.env.NODE_ENV === "development"
+      ? config.customerProd
+      : config.customerDev,
 });
-// const api = axios.create({
-//   baseURL: "http://localhost:3002/api/customer",
-// });
 
 export const signUp = async ({
   username,

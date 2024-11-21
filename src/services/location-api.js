@@ -1,11 +1,12 @@
 import axios from "axios";
+import config from "../config";
 
 const api = axios.create({
-  baseURL: "https://rev-auto-parts.onrender.com/api/location",
+  baseURL:
+    process.env.NODE_ENV === "development"
+      ? config.locationDev
+      : config.locationProd,
 });
-// const api = axios.create({
-//   baseURL: "http://localhost:3002/api/location",
-// });
 
 export const getRegions = async () => {
   try {

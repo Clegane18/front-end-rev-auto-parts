@@ -1,12 +1,15 @@
 import axios from "axios";
+import config from "../config";
 
 const api = axios.create({
-  baseURL: "https://rev-auto-parts.onrender.com/api/address",
+  baseURL:
+    process.env.NODE_ENV === "development"
+      ? config.addressDev
+      : config.addressProd,
 });
-// const api = axios.create({
-//   baseURL: "http://localhost:3002/api/address",
-// });
 
+console.log("Environment:", process.env.NODE_ENV);
+console.log("API Base URL:", api.defaults.baseURL);
 export const addAddress = async ({
   id,
   phoneNumber,

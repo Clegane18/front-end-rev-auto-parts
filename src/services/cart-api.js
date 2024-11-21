@@ -1,11 +1,10 @@
 import axios from "axios";
+import config from "../config";
 
 const api = axios.create({
-  baseURL: "https://rev-auto-parts.onrender.com/api/cart",
+  baseURL:
+    process.env.NODE_ENV === "development" ? config.cartDev : config.cartProd,
 });
-// const api = axios.create({
-//   baseURL: "http://localhost:3002/api/cart",
-// });
 
 export const addProductToCart = async ({ customerId, productId, token }) => {
   try {

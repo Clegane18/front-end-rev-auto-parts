@@ -1,8 +1,10 @@
 import axios from "axios";
+import config from "../config";
 
-const BASE_URL = "https://rev-auto-parts.onrender.com/api/transactions";
-
-// const BASE_URL = "http://localhost:3002/api/transactions";
+const BASE_URL =
+  process.env.NODE_ENV === "development"
+    ? config.baseUrlDev
+    : config.baseUrlProd;
 
 export const getTotalNumberTransactions = async () => {
   try {
