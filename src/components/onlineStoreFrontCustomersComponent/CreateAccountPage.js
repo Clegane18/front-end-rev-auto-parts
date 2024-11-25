@@ -14,16 +14,16 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import TermsAndConditionsModal from "./TermsAndConditionsModal";
 import { useLoading } from "../../contexts/LoadingContext";
+import { useTerms } from "../../contexts/TermsContext";
+import { useFormData } from "../../contexts/FormDataContext";
 
 const CreateAccountPage = () => {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const { formData, setFormData, clearFormData } = useFormData();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const [error, setError] = useState("");
-  const [isTermsAgreed, setIsTermsAgreed] = useState(false);
+  const { isTermsAgreed } = useTerms();
   const [showModal, setShowModal] = useState(false);
   const { login } = useAuth();
   const { setIsLoading } = useLoading();
@@ -37,20 +37,16 @@ const CreateAccountPage = () => {
       return;
     }
 
-    if (password !== confirmPassword) {
+    if (formData.password !== formData.confirmPassword) {
       setError("Passwords do not match.");
       return;
     }
 
     setIsLoading(true);
     try {
-      const result = await signUp({
-        username,
-        email,
-        password,
-        confirmPassword,
-      });
+      const result = await signUp(formData);
       login(result.accountInfo, result.token);
+      clearFormData();
       navigate("/");
     } catch (error) {
       setError(error.message);
@@ -66,6 +62,14 @@ const CreateAccountPage = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
   return (
     <div id="root-create-account-page">
       <LoginHeader />
@@ -79,8 +83,9 @@ const CreateAccountPage = () => {
               <FontAwesomeIcon icon={faUser} className="input-field-icon" />
               <input
                 type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                name="username"
+                value={formData.username}
+                onChange={handleInputChange}
                 required
               />
             </div>
@@ -91,8 +96,9 @@ const CreateAccountPage = () => {
               <FontAwesomeIcon icon={faEnvelope} className="input-field-icon" />
               <input
                 type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
                 required
               />
             </div>
@@ -103,8 +109,9 @@ const CreateAccountPage = () => {
               <FontAwesomeIcon icon={faLock} className="input-field-icon" />
               <input
                 type={showPassword ? "text" : "password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
                 required
               />
               <button
@@ -122,8 +129,9 @@ const CreateAccountPage = () => {
               <FontAwesomeIcon icon={faLock} className="input-field-icon" />
               <input
                 type={showConfirmPassword ? "text" : "password"}
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleInputChange}
                 required
               />
               <button
@@ -137,17 +145,7 @@ const CreateAccountPage = () => {
               </button>
             </div>
           </div>
-          <div className="terms-checkbox">
-            <input
-              type="checkbox"
-              id="termsCheckbox"
-              checked={isTermsAgreed}
-              onChange={(e) => setIsTermsAgreed(e.target.checked)}
-            />
-            <label htmlFor="termsCheckbox">
-              I have read and agree to the terms and conditions.
-            </label>
-          </div>
+
           <button type="submit" className="create-account-button">
             Create Account
           </button>
@@ -162,7 +160,13 @@ const CreateAccountPage = () => {
           </button>
           <p className="terms-link">
             By creating an account, you agree to our{" "}
-            <Link to="/terms-and-conditions">Terms and Conditions</Link>.
+            <Link
+              to="/terms-and-conditions"
+              state={{ fromCreateAccount: true }}
+            >
+              Terms and Conditions
+            </Link>
+            .
           </p>
         </div>
       </div>

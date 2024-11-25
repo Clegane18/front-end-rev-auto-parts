@@ -8,6 +8,7 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  LabelList,
 } from "recharts";
 import { formatCurrency } from "../../utils/formatCurrency";
 import "../../styles/dashboardComponents/SalesChart.css";
@@ -26,11 +27,38 @@ const SalesChart = ({ data }) => (
           dataKey="grossIncome"
           stroke="#8884d8"
           activeDot={{ r: 8 }}
-        />
-        <Line type="monotone" dataKey="netIncome" stroke="#82ca9d" />
+        >
+          <LabelList
+            dataKey="grossIncome"
+            position="top"
+            content={<PrintLabel />}
+          />
+        </Line>
+        <Line type="monotone" dataKey="netIncome" stroke="#82ca9d">
+          <LabelList
+            dataKey="netIncome"
+            position="top"
+            content={<PrintLabel />}
+          />
+        </Line>
       </LineChart>
     </ResponsiveContainer>
   </div>
 );
+
+const PrintLabel = ({ x, y, value }) => {
+  return (
+    <text
+      x={x}
+      y={y}
+      dy={-10}
+      textAnchor="middle"
+      fill="#000"
+      className="print-label"
+    >
+      {formatCurrency(value)}
+    </text>
+  );
+};
 
 export default SalesChart;

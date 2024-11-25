@@ -10,6 +10,8 @@ import { OnlineStoreFrontCartProvider } from "./contexts/OnlineStoreCartContext"
 import { OnlineCartProvider } from "./components/onlineStoreFrontComponents/OnlineCartContext";
 import { WebSocketProvider } from "./contexts/WebSocketContext";
 import { LoadingProvider } from "./contexts/LoadingContext";
+import { TermsProvider } from "./contexts/TermsContext";
+import { FormDataProvider } from "./contexts/FormDataContext";
 import ErrorBoundary from "./ErrorBoundary";
 
 const container = document.getElementById("root");
@@ -22,15 +24,19 @@ root.render(
         <LoadingProvider>
           <AdminAuthProvider>
             <AuthProvider>
-              <OnlineStoreFrontCartProvider>
-                <CartProvider>
-                  <OnlineCartProvider>
-                    <WebSocketProvider>
-                      <App />
-                    </WebSocketProvider>
-                  </OnlineCartProvider>
-                </CartProvider>
-              </OnlineStoreFrontCartProvider>
+              <FormDataProvider>
+                <TermsProvider>
+                  <OnlineStoreFrontCartProvider>
+                    <CartProvider>
+                      <OnlineCartProvider>
+                        <WebSocketProvider>
+                          <App />
+                        </WebSocketProvider>
+                      </OnlineCartProvider>
+                    </CartProvider>
+                  </OnlineStoreFrontCartProvider>
+                </TermsProvider>
+              </FormDataProvider>
             </AuthProvider>
           </AdminAuthProvider>
         </LoadingProvider>

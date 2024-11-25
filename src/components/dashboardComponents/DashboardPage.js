@@ -547,7 +547,6 @@ const DashboardPage = () => {
                     <tr>
                       <th>Transaction No</th>
                       <th>Type</th>
-                      <th>Status</th>
                       <th>Date</th>
                       <th>Total Amount</th>
                       <th>Total Items</th>
@@ -560,7 +559,6 @@ const DashboardPage = () => {
                         <tr key={index}>
                           <td>{transaction.transactionNo}</td>
                           <td>{transaction.transactionType}</td>
-                          <td>{transaction.transactionStatus}</td>
                           <td>
                             {new Date(
                               transaction.transactionDate

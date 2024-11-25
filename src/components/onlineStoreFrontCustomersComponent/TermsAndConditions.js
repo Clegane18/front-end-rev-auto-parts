@@ -1,9 +1,20 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "../../styles/onlineStoreFrontCustomersComponent/TermsAndConditions.css";
+import { useTerms } from "../../contexts/TermsContext";
 
 const TermsAndConditions = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { isTermsAgreed, setIsTermsAgreed } = useTerms();
+
+  const fromCreateAccount = location.state?.fromCreateAccount || false;
+
+  const handleAgree = () => {
+    if (fromCreateAccount && isTermsAgreed) {
+      navigate(-1);
+    }
+  };
 
   return (
     <div id="root-terms-and-conditions">
@@ -193,19 +204,42 @@ const TermsAndConditions = () => {
           resulting from the deletion of an account, whether initiated by us or
           at the customer's request.
         </p>
-
-        <button
-          className="back-button"
-          onClick={() => {
-            if (window.history.length > 1) {
-              navigate(-1);
-            } else {
-              navigate("/");
-            }
-          }}
-        >
-          Back
-        </button>
+        {fromCreateAccount && (
+          <div className="terms-checkbox">
+            <input
+              type="checkbox"
+              id="termsCheckbox"
+              checked={isTermsAgreed}
+              onChange={(e) => setIsTermsAgreed(e.target.checked)}
+            />
+            <label htmlFor="termsCheckbox">
+              I have read and agree to the terms and conditions.
+            </label>
+          </div>
+        )}
+        {fromCreateAccount && (
+          <button
+            onClick={handleAgree}
+            className="agree-button"
+            disabled={!isTermsAgreed}
+          >
+            Agree and Return
+          </button>
+        )}
+        {!fromCreateAccount && (
+          <button
+            className="back-button"
+            onClick={() => {
+              if (window.history.length > 1) {
+                navigate(-1);
+              } else {
+                navigate("/");
+              }
+            }}
+          >
+            Back
+          </button>
+        )}
       </div>
     </div>
   );

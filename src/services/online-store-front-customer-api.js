@@ -1,11 +1,12 @@
 import axios from "axios";
 
-const api = axios.create({
-  baseURL: "https://rev-auto-parts.onrender.com/api/customer",
-});
 // const api = axios.create({
-//   baseURL: "http://localhost:3002/api/customer",
+//   baseURL: "https://rev-auto-parts.onrender.com/api/customer",
 // });
+
+const api = axios.create({
+  baseURL: "http://localhost:3002/api/customer",
+});
 
 export const signUp = async ({
   username,
@@ -30,6 +31,27 @@ export const signUp = async ({
       throw new Error(error.response.data.message);
     } else {
       throw new Error("Failed to sign up. Please try again later.");
+    }
+  }
+};
+
+export const verifyPin = async ({ email, pin }) => {
+  try {
+    const response = await api.post("/verify-pin", {
+      email,
+      pin,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Error in verifyPin:",
+      error.response ? error.response.data : error.message
+    );
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error("Failed to verify PIN. Please try again later.");
     }
   }
 };

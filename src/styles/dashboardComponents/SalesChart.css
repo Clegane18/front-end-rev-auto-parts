@@ -14,3 +14,14 @@
   font-size: 14px;
   color: #333;
 }
+
+@media print {
+  .print-label {
+    visibility: visible !important;
+    opacity: 0;
+  }
+}
+#root-sales-chart .print-label {
+  visibility: hidden;
+  opacity: 0;
+}
