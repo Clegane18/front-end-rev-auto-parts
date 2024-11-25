@@ -23,7 +23,7 @@ const CreateAccountPage = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const [error, setError] = useState("");
-  const { isTermsAgreed } = useTerms();
+  const { isTermsAgreed, resetTermsAgreement } = useTerms();
   const [showModal, setShowModal] = useState(false);
   const { login } = useAuth();
   const { setIsLoading } = useLoading();
@@ -47,6 +47,7 @@ const CreateAccountPage = () => {
       const result = await signUp(formData);
       login(result.accountInfo, result.token);
       clearFormData();
+      resetTermsAgreement();
       navigate("/");
     } catch (error) {
       setError(error.message);
