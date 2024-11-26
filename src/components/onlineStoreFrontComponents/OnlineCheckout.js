@@ -540,7 +540,7 @@ const OnlineCheckout = () => {
             )}
             {regularItems.length > 0 && (
               <div className="payment-row">
-                <span>Shipping Total:</span>
+                <span>Shipping Fee:</span>
                 <span>
                   {isFreeShipping
                     ? "Free Shipping Fee"
@@ -553,6 +553,19 @@ const OnlineCheckout = () => {
               <span>{formatCurrency(totalPayment)}</span>
             </div>
           </div>
+        </div>
+        <div className="disclaimer">
+          <p className="disclaimer-message">
+            <strong>Note:</strong> Item returns must be done in-store. For
+            assistance, please
+            <a
+              href="/contact-us"
+              style={{ textDecoration: "none", color: "#d32f2f" }}
+            >
+              {" "}
+              contact us here.
+            </a>
+          </p>
         </div>
         <div className="checkout-actions">
           <button

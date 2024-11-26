@@ -354,6 +354,13 @@
   font-family: "Montserrat", serif;
 }
 
+#root-online-checkout .disclaimer .disclaimer-message {
+  text-align: right;
+  padding-top: 15px;
+  padding-bottom: 5px;
+  text-transform: none;
+}
+
 #root-warning-match-ref-no-modal .warning-modal-overlay {
   position: fixed;
   top: 0;
