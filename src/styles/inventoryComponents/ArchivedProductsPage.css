@@ -4,7 +4,8 @@
   background-color: #f9f9fb;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 1200px;
+  max-width: 98%;
+  height: 98vh;
   margin: 20px auto;
 }
 

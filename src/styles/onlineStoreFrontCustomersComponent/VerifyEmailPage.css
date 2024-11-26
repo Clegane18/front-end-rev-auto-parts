@@ -83,7 +83,8 @@
   margin-bottom: 15px;
 }
 
-#root-verify-email-page .verify-button {
+#root-verify-email-page .verify-button,
+#root-verify-email-page .resend-button {
   width: 100%;
   padding: 12px;
   font-size: 14px;
@@ -94,26 +95,13 @@
   cursor: pointer;
 }
 
-#root-verify-email-page .verify-button:hover {
+#root-verify-email-page .verify-button:hover,
+#root-verify-email-page .resend-button:hover {
   opacity: 0.75;
 }
 
 #root-verify-email-page .resend-pin {
   margin-top: 15px;
-}
-
-#root-verify-email-page .resend-button {
-  padding: 10px 15px;
-  font-size: 14px;
-  color: #bb0000;
-  background-color: transparent;
-  border: 1px solid #bb0000;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-#root-verify-email-page .resend-button:hover {
-  opacity: 0.65;
 }
 
 #root-verify-email-page .login-footer {
