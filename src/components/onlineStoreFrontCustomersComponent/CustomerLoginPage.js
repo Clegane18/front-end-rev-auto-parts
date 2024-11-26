@@ -44,6 +44,17 @@ const CustomerLoginPage = () => {
         return;
       }
 
+      if (
+        result.status === 400 &&
+        result.data.message ===
+          "Your email has not been verified. Please verify your email first."
+      ) {
+        setError(
+          "Your email has not been verified. Please verify your email first."
+        );
+        return;
+      }
+
       if (result.status !== 200) {
         setError(result.data.message || "An error occurred.");
         return;
@@ -116,6 +127,10 @@ const CustomerLoginPage = () => {
     }
   }, [location.search, loginUser, checkAuth]);
 
+  const handleVerifyEmail = () => {
+    navigate("/verify-email", { state: { from: "login" } });
+  };
+
   return (
     <div id="root-customer-login-page">
       <LoginHeader />
@@ -155,7 +170,7 @@ const CustomerLoginPage = () => {
             </div>
           </div>
           <button type="submit" className="sign-in-button">
-            Sign In
+            Log In
           </button>
         </form>
         <div className="google-login">
@@ -165,7 +180,7 @@ const CustomerLoginPage = () => {
             className="google-button"
           >
             <img src={googleLogo} alt="Google logo" className="google-logo" />
-            Sign in with Google
+            Log in with Google
           </button>
         </div>
         <div className="additional-options">
@@ -186,6 +201,17 @@ const CustomerLoginPage = () => {
             Forgot your password?
           </button>
         </div>
+        {error && error.includes("Your email has not been verified") && (
+          <div className="verification-link">
+            <p className="verification-text">
+              <strong>Note:</strong> Please{" "}
+              <button onClick={handleVerifyEmail} className="verify-email-text">
+                verify your email
+              </button>
+              .
+            </p>
+          </div>
+        )}
       </div>
       <div className="login-footer">
         <p>

@@ -1,0 +1,151 @@
+#root-verify-email-page .verify-email-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-image: url("../../assets/g&f-background.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+#root-verify-email-page .verify-email-container {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 30px;
+  background-color: rgba(255, 255, 255, 0.85);
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  text-align: center;
+}
+
+#root-verify-email-page .verify-email-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: 300;
+}
+
+#root-verify-email-page .verify-email-title {
+  font-size: 22px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+#root-verify-email-page .verify-email-instructions {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+#root-verify-email-page .verify-email-form .input-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+#root-verify-email-page .input-label {
+  font-size: 14px;
+  display: block;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+#root-verify-email-page .input-field {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  text-transform: none;
+  padding-left: 35px;
+}
+
+#root-verify-email-page .input-field:focus {
+  outline: none;
+  border-color: #000;
+  border-width: 2px;
+  padding-left: 35px;
+}
+
+#root-verify-email-page .error-message {
+  color: #d9534f;
+  font-size: 13px;
+  margin-top: -10px;
+  margin-bottom: 15px;
+}
+
+#root-verify-email-page .success-message {
+  color: #5cb85c;
+  font-size: 13px;
+  margin-top: -10px;
+  margin-bottom: 15px;
+}
+
+#root-verify-email-page .verify-button {
+  width: 100%;
+  padding: 12px;
+  font-size: 14px;
+  color: #fff;
+  background-color: #bb0000;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#root-verify-email-page .verify-button:hover {
+  opacity: 0.75;
+}
+
+#root-verify-email-page .resend-pin {
+  margin-top: 15px;
+}
+
+#root-verify-email-page .resend-button {
+  padding: 10px 15px;
+  font-size: 14px;
+  color: #bb0000;
+  background-color: transparent;
+  border: 1px solid #bb0000;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#root-verify-email-page .resend-button:hover {
+  opacity: 0.65;
+}
+
+#root-verify-email-page .login-footer {
+  margin-top: 20px;
+  font-size: 12px;
+  color: #ffffff;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 10px;
+  border-radius: 5px;
+}
+
+#root-verify-email-page .input-with-icon {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+#root-verify-email-page .input-icon {
+  position: absolute;
+  left: 10px;
+  color: #888;
+  font-size: 16px;
+}
+
+#root-verify-email-page .input-label {
+  font-family: "Montserrat", serif;
+  font-size: 17px;
+}
+
+#root-verify-email-page .verify-email-instructions {
+  font-family: "Montserrat", serif;
+  text-transform: none;
+  margin-top: 10px;
+}

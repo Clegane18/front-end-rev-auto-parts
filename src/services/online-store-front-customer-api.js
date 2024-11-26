@@ -55,6 +55,25 @@ export const verifyPin = async ({ email, pin }) => {
   }
 };
 
+export const resendPin = async ({ email }) => {
+  try {
+    const response = await api.post("/resend-pin", { email });
+
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Error in resendPin:",
+      error.response ? error.response.data : error.message
+    );
+
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error("Failed to resend the PIN. Please try again later.");
+    }
+  }
+};
+
 export const login = async ({ email, password }) => {
   try {
     const response = await api.post(

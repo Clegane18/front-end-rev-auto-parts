@@ -48,7 +48,7 @@ const CreateAccountPage = () => {
       login(result.accountInfo, result.token);
       clearFormData();
       resetTermsAgreement();
-      navigate("/");
+      navigate("/verify-email");
     } catch (error) {
       setError(error.message);
     }
