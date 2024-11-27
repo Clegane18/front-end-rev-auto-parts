@@ -90,13 +90,17 @@ export const getOrdersByStatus = async ({ status, customerId, token }) => {
   }
 };
 
-export const cancelOrder = async ({ orderId, token }) => {
+export const cancelOrder = async ({ orderId, token, cancellationReason }) => {
   try {
-    const response = await api.post(`/orders/${orderId}/cancel`, null, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await api.post(
+      `/orders/${orderId}/cancel`,
+      { cancellationReason },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return response;
   } catch (error) {
     if (error.response && error.response.data) {
@@ -104,6 +108,19 @@ export const cancelOrder = async ({ orderId, token }) => {
     } else {
       throw new Error("Failed to cancel order. Please try again later.");
     }
+  }
+};
+
+export const getCancellationCounts = async () => {
+  try {
+    const response = await api.get("/orders/cancel-reason-count");
+    if (response && response.data) {
+      return response.data;
+    }
+    throw new Error("Failed to fetch cancellation counts.");
+  } catch (error) {
+    console.error(error);
+    throw new Error("An error occurred while fetching cancellation counts.");
   }
 };
 

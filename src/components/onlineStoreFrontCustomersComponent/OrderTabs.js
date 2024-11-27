@@ -9,6 +9,7 @@ import RatingModal from "./RatingModal";
 import SuccessModal from "../SuccessModal";
 import { useLoading } from "../../contexts/LoadingContext";
 import { calculateRemainingBalance } from "../../utils/calculateRemainingBalance";
+import CancelOrderReasonModal from "./CancelOrderReasonModal";
 
 const OrderTabs = ({ initialTab = "All" }) => {
   const [activeTab, setActiveTab] = useState(initialTab);
@@ -23,6 +24,8 @@ const OrderTabs = ({ initialTab = "All" }) => {
   const { currentUser, token } = useAuth();
   const socket = useWebSocket();
   const { setIsLoading } = useLoading();
+  const [isCancelModalOpen, setCancelModalOpen] = useState(false);
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
 
   const [isRatingModalOpen, setIsRatingModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -109,26 +112,34 @@ const OrderTabs = ({ initialTab = "All" }) => {
     };
   }, [activeTab, currentUser, token, socket, setIsLoading]);
 
-  const onCancelOrder = async (orderId) => {
-    setIsLoading(true);
-    setError(null);
+  const handleOpenCancelModal = (orderId) => {
+    if (!orderId) {
+      console.error("Order ID is undefined");
+      return;
+    }
+    setSelectedOrderId(orderId);
+    setCancelModalOpen(true);
+  };
 
+  const handleConfirmCancellation = async (reason) => {
     try {
-      const response = await cancelOrder({ orderId, token });
-      if (response.status === 200) {
-        setOrders((prevOrders) =>
-          prevOrders.filter((order) => order.orderId !== orderId)
-        );
-        setToPayCount((prevCount) => prevCount - 1);
-      } else {
-        setError(response.message || "Failed to cancel order.");
-      }
-    } catch (err) {
-      setError(
-        err.message || "Failed to cancel order. Please try again later."
-      );
-    } finally {
-      setIsLoading(false);
+      await cancelOrder({
+        token,
+        orderId: selectedOrderId,
+        cancellationReason: reason,
+      });
+
+      setCancelModalOpen(false);
+      setSelectedOrderId(null);
+
+      setSuccessMessage("Order canceled successfully!");
+      setIsSuccessModalOpen(true);
+
+      const updatedOrders = await getOrdersByStatus(activeTab);
+      setOrders(updatedOrders);
+    } catch (error) {
+      setSuccessMessage("Failed to cancel order. Please try again.");
+      setIsSuccessModalOpen(true);
     }
   };
 
@@ -288,7 +299,7 @@ const OrderTabs = ({ initialTab = "All" }) => {
                     {activeTab === "To Pay" && (
                       <button
                         className="cancel-order-btn"
-                        onClick={() => onCancelOrder(order.orderId)}
+                        onClick={() => handleOpenCancelModal(order.orderId)}
                       >
                         Cancel Order
                       </button>
@@ -300,6 +311,11 @@ const OrderTabs = ({ initialTab = "All" }) => {
           )}
         </div>
       </div>
+      <CancelOrderReasonModal
+        isOpen={isCancelModalOpen}
+        onClose={() => setCancelModalOpen(false)}
+        onConfirm={handleConfirmCancellation}
+      />
 
       {selectedProduct && (
         <RatingModal

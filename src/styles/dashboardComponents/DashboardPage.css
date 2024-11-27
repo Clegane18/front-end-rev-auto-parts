@@ -213,7 +213,8 @@ body {
 
 #root-dashboard-page .transaction-overview,
 #root-dashboard-page .stock-reminder-low-stock-reminder,
-#root-dashboard-page .total-income {
+#root-dashboard-page .total-income,
+#root-dashboard-page .cancel-order-counts {
   padding: 20px;
   border-radius: 8px;
   flex: 1;
@@ -231,9 +232,19 @@ body {
   position: relative;
 }
 
+#root-dashboard-page .cancel-order-counts h3 {
+  font-size: 1.6em;
+  color: #000;
+  margin-bottom: 20px;
+  font-weight: 600;
+  text-transform: uppercase;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
 #root-dashboard-page .transaction-overview h3,
-#root-dashboard-page .total-income h3,
-#root-dashboard-page .stock-reminder-low-stock-reminder h3 {
+#root-dashboard-page .stock-reminder-low-stock-reminder h3,
+#root-dashboard-page .cancel-order-counts h3 {
   font-size: 1.6em;
   color: #000;
   margin-bottom: 20px;
@@ -290,6 +301,24 @@ body {
   margin: 10px 0;
 }
 
+#root-dashboard-page .cancellation-counts-details p {
+  margin: 0;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+  color: #333;
+  font-weight: 500;
+  font-size: 0.9em;
+  text-align: center;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  text-transform: none;
+  text-align: center;
+  width: 320px;
+  margin-left: 15px;
+}
+
 #root-dashboard-page .income-item p,
 #root-dashboard-page .transaction-details-total p,
 #root-dashboard-page .transaction-details-pos p,
@@ -311,7 +340,8 @@ body {
 #root-dashboard-page .transaction-details-total p:hover,
 #root-dashboard-page .transaction-details-pos p:hover,
 #root-dashboard-page .transaction-details-online p:hover,
-#root-dashboard-page .income-details-item p:hover {
+#root-dashboard-page .income-details-item p:hover,
+#root-dashboard-page .cancellation-counts-details p:hover {
   transform: scale(1.05);
   background-color: #e9ecef;
 }
@@ -328,7 +358,8 @@ body {
 #root-dashboard-page .income-details-item,
 #root-dashboard-page .transaction-details-total,
 #root-dashboard-page .transaction-details-pos,
-#root-dashboard-page .transaction-details-online {
+#root-dashboard-page .transaction-details-online,
+#root-dashboard-page .cancellation-count-item {
   margin-bottom: 10px;
 }
 

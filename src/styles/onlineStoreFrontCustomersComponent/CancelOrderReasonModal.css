@@ -1,0 +1,64 @@
+#root-cancel-order-reason-modal .cancel-order-reason-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+#root-cancel-order-reason-modal .cancel-order-reason-modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+}
+
+#root-cancel-order-reason-modal
+  .cancel-order-reason-modal-content
+  .cancel-order-text {
+  margin-bottom: 20px;
+  margin-top: 10px;
+  font-size: 14px;
+  color: #000000;
+  text-transform: none;
+}
+
+#root-cancel-order-reason-modal .cancel-reason-select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: "Montserrat", serif;
+  text-transform: none;
+}
+
+#root-cancel-order-reason-modal .cancel-order-reason-modal-actions {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+#root-cancel-order-reason-modal .cancel-button,
+#root-cancel-order-reason-modal .confirm-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#root-cancel-order-reason-modal .cancel-button {
+  background-color: #ccc;
+}
+
+#root-cancel-order-reason-modal .confirm-button {
+  background-color: #d9534f;
+  color: white;
+}

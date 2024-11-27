@@ -15,6 +15,7 @@ import {
   calculateTotalIncomeByMonth,
   calculateTotalIncome,
 } from "../../services/transaction-api";
+import { getCancellationCounts } from "../../services/order-api";
 import "../../styles/dashboardComponents/DashboardPage.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -40,7 +41,6 @@ import { useLoading } from "../../contexts/LoadingContext";
 
 const DashboardPage = () => {
   const [monthlyIncome, setMonthlyIncome] = useState([]);
-  const [totalIncome, setTotalIncome] = useState(0);
   const [bestSellers, setBestSellers] = useState([]);
   const [totalStock, setTotalStock] = useState(0);
   const [totalItems, setTotalItems] = useState(0);
@@ -53,6 +53,8 @@ const DashboardPage = () => {
   const [isReportMode, setIsReportMode] = useState(false);
   const [selectedReports, setSelectedReports] = useState([]);
   const [isAllSelected, setIsAllSelected] = useState(false);
+  const [cancellationCounts, setCancellationCounts] = useState(null);
+  const [error, setError] = useState(null);
   const stockReminderRef = useRef();
   const { logout } = useAdminAuth();
   const navigate = useNavigate();
@@ -77,19 +79,14 @@ const DashboardPage = () => {
           getTodaysTransactions(),
         ]);
 
-        const [
-          incomeData,
-          totalIncomeData,
-          bestSellersData,
-          stockData,
-          transactionData,
-        ] = await Promise.all([
-          fetchIncomeData,
-          fetchTotalIncome,
-          fetchBestSellers,
-          fetchStockData,
-          fetchTransactionData,
-        ]);
+        const [incomeData, bestSellersData, stockData, transactionData] =
+          await Promise.all([
+            fetchIncomeData,
+            fetchTotalIncome,
+            fetchBestSellers,
+            fetchStockData,
+            fetchTransactionData,
+          ]);
 
         setMonthlyIncome(
           Object.entries(incomeData.data).map(([key, value]) => ({
@@ -98,11 +95,6 @@ const DashboardPage = () => {
             netIncome: parseFloat(value.totalNetIncome.replace(/,/g, "")),
           }))
         );
-
-        setTotalIncome({
-          grossIncome: totalIncomeData.data.totalGrossIncome,
-          netIncome: totalIncomeData.data.totalNetIncome,
-        });
 
         setBestSellers(bestSellersData.data);
 
@@ -123,6 +115,19 @@ const DashboardPage = () => {
 
     fetchData();
   }, [setIsLoading]);
+
+  useEffect(() => {
+    const fetchCancellationCounts = async () => {
+      try {
+        const data = await getCancellationCounts();
+        setCancellationCounts(data.data);
+      } catch (error) {
+        setError(error.message);
+      }
+    };
+
+    fetchCancellationCounts();
+  }, []);
 
   const openLogoutModal = () => {
     setIsLogoutModalOpen(true);
@@ -153,7 +158,7 @@ const DashboardPage = () => {
         "bestsellers-section",
         "stock-reminder-low-stock-reminder",
         "transaction-overview",
-        "total-income",
+        "cancellation-counts-section",
       ]);
     }
     setIsAllSelected(!isAllSelected);
@@ -476,43 +481,46 @@ const DashboardPage = () => {
                 </div>
               </div>
             </div>
-            <div
-              id="total-income"
-              className={`total-income ${
-                isReportMode ? "wiggle hoverable" : ""
-              } ${selectedReports.includes("total-income") ? "selected" : ""}`}
-              onClick={() =>
-                isReportMode && handleReportSelection("total-income")
-              }
-            >
-              <h3>Total Income</h3>
-              {isReportMode && (
-                <input
-                  type="checkbox"
-                  className="report-checkbox"
-                  checked={selectedReports.includes("total-income")}
-                  readOnly
-                />
-              )}
-              {totalIncome ? (
-                <div className="income-details">
-                  <div className="income-item">
-                    <div className="income-details-item">
-                      <p>
-                        Gross Income: ₱
-                        {totalIncome.grossIncome.toLocaleString()}
-                      </p>
-                    </div>
-                    <div className="income-details-item">
-                      <p>
-                        Net Income: ₱{totalIncome.netIncome.toLocaleString()}
-                      </p>
-                    </div>
+            <div id="cancellation-counts-section">
+              <div
+                id="cancel-order-counts"
+                className={`cancel-order-counts ${
+                  isReportMode ? "wiggle hoverable" : ""
+                } ${
+                  selectedReports.includes("cancel-order-counts")
+                    ? "selected"
+                    : ""
+                }`}
+                onClick={() =>
+                  isReportMode && handleReportSelection("cancel-order-counts")
+                }
+              >
+                <h3>Cancellation Reasons</h3>
+                {isReportMode && (
+                  <input
+                    type="checkbox"
+                    className="report-checkbox"
+                    checked={selectedReports.includes("cancel-order-counts")}
+                    readOnly
+                  />
+                )}
+                {cancellationCounts ? (
+                  <div className="cancellation-counts-details">
+                    {cancellationCounts.map((reasonCount, index) => (
+                      <div key={index} className="cancellation-count-item">
+                        <p>
+                          {reasonCount.cancellationReason}:{" "}
+                          <strong>{reasonCount.count}</strong>{" "}
+                        </p>
+                      </div>
+                    ))}
                   </div>
-                </div>
-              ) : (
-                <p>No income data available</p>
-              )}
+                ) : error ? (
+                  <p>Error: {error}</p>
+                ) : (
+                  <p>Loading cancellation counts...</p>
+                )}
+              </div>
             </div>
           </section>
           <section
