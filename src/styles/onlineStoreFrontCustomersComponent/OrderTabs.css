@@ -245,6 +245,12 @@
   font-weight: bold;
 }
 
+.MuiTooltip-tooltip {
+  font-size: 1.25rem !important;
+  padding: 8px !important;
+  max-width: 250px;
+}
+
 @media (max-width: 768px) {
   #root-order-tabs .order-tabs {
     flex-wrap: wrap;

@@ -10,6 +10,9 @@ import SuccessModal from "../SuccessModal";
 import { useLoading } from "../../contexts/LoadingContext";
 import { calculateRemainingBalance } from "../../utils/calculateRemainingBalance";
 import CancelOrderReasonModal from "./CancelOrderReasonModal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import Tooltip from "@mui/material/Tooltip";
 
 const OrderTabs = ({ initialTab = "All" }) => {
   const [activeTab, setActiveTab] = useState(initialTab);
@@ -286,9 +289,19 @@ const OrderTabs = ({ initialTab = "All" }) => {
                     ))}
                   </div>
                   <div className="order-actions">
-                    {order.status === "To Ship" && (
-                      <p className="order-eta">ETA: {order.eta}</p>
+                    {(order.status === "To Ship" ||
+                      order.status === "To Receive") && (
+                      <p className="order-eta">
+                        <Tooltip title="The ETA may take longer if there are external factors, such as weather conditions or holidays.">
+                          <FontAwesomeIcon
+                            icon={faInfoCircle}
+                            className="payment-note-icon"
+                          />
+                        </Tooltip>{" "}
+                        ETA: {order.eta}
+                      </p>
                     )}
+
                     <p className="order-id">
                       Order ID:{" "}
                       <span className="bold">{order.orderNumber}</span>

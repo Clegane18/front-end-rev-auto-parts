@@ -153,6 +153,22 @@ export const updateOrderStatus = async (orderId, newStatus) => {
   }
 };
 
+export const updateOrderETA = async (orderId, newETA) => {
+  try {
+    const response = await api.put(`/orders/${orderId}/update-ETA`, {
+      newETA,
+    });
+
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error("Failed to update order ETA. Please try again later.");
+    }
+  }
+};
+
 export const deleteOrderById = async (orderId) => {
   try {
     const response = await api.delete(`/orders/${orderId}`);

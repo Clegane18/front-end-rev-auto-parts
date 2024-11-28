@@ -6,6 +6,7 @@ import {
   updateOrderStatus,
   updateOrderPaymentStatus,
   deleteOrderById,
+  updateOrderETA,
 } from "../../services/order-api";
 import "../../styles/dashboardComponents/OrderList.css";
 import OrderDetailsModal from "./OrderDetailsModal";
@@ -27,7 +28,9 @@ import {
   Print as PrintIcon,
   FactCheck as FactCheckIcon,
 } from "@mui/icons-material";
+import EditIcon from "@mui/icons-material/Edit";
 import { useLoading } from "../../contexts/LoadingContext";
+import ETAModal from "./ETAModal";
 
 const OrdersList = () => {
   const [orders, setOrders] = useState([]);
@@ -44,6 +47,8 @@ const OrdersList = () => {
   const [filterPaymentStatus, setFilterPaymentStatus] = useState("All");
   const [statusChangeOrder, setStatusChangeOrder] = useState(null);
   const [newStatus, setNewStatus] = useState("");
+  const [isETAModalOpen, setIsETAModalOpen] = useState(false);
+  const [selectedOrderForETA, setSelectedOrderForETA] = useState(null);
   const { setIsLoading } = useLoading();
   const socket = useWebSocket();
   const navigate = useNavigate();
@@ -103,6 +108,42 @@ const OrdersList = () => {
 
   const closeModal = () => {
     setSelectedOrder(null);
+  };
+
+  const handleOpenETAModal = (order) => {
+    setSelectedOrderForETA(order);
+    setIsETAModalOpen(true);
+  };
+
+  const handleCloseETAModal = () => {
+    setSelectedOrderForETA(null);
+    setIsETAModalOpen(false);
+  };
+
+  const handleUpdateETA = async (newETA) => {
+    try {
+      if (!selectedOrderForETA) return;
+
+      const { id: orderId } = selectedOrderForETA;
+
+      const updatedOrder = await updateOrderETA(orderId, newETA);
+
+      setOrders((prevOrders) =>
+        prevOrders.map((order) =>
+          order.id === orderId ? { ...order, eta: updatedOrder.eta } : order
+        )
+      );
+
+      setSuccessMessage("ETA updated successfully!");
+      setIsSuccessModalOpen(true);
+
+      handleCloseETAModal();
+    } catch (err) {
+      console.error("Failed to update ETA:", err);
+      setError(
+        err.message || "An unexpected error occurred while updating ETA."
+      );
+    }
   };
 
   const handleStatusChange = (orderId, status) => {
@@ -503,6 +544,18 @@ const OrdersList = () => {
                             </IconButton>
                           </Tooltip>
                         )}
+                        {order.status === "To Ship" && (
+                          <Tooltip title="Change ETA">
+                            <IconButton
+                              color="primary"
+                              onClick={() => {
+                                handleOpenETAModal(order);
+                              }}
+                            >
+                              <EditIcon />{" "}
+                            </IconButton>
+                          </Tooltip>
+                        )}
                       </td>
                     </tr>
                   );
@@ -543,6 +596,13 @@ const OrdersList = () => {
           <SuccessModal
             message={successMessage}
             onClose={() => setIsSuccessModalOpen(false)}
+          />
+        )}
+        {isETAModalOpen && selectedOrderForETA && (
+          <ETAModal
+            order={selectedOrderForETA}
+            onClose={handleCloseETAModal}
+            onUpdateETA={handleUpdateETA}
           />
         )}
       </div>
