@@ -13,7 +13,6 @@ import {
   getTotalCountOfTransactionsFromOnline,
   getTodaysTransactions,
   calculateTotalIncomeByMonth,
-  calculateTotalIncome,
 } from "../../services/transaction-api";
 import { getCancellationCounts } from "../../services/order-api";
 import "../../styles/dashboardComponents/DashboardPage.css";
@@ -65,7 +64,6 @@ const DashboardPage = () => {
       try {
         setIsLoading(true);
         const fetchIncomeData = calculateTotalIncomeByMonth();
-        const fetchTotalIncome = calculateTotalIncome();
         const fetchBestSellers = getTopBestSellerItems();
         const fetchStockData = Promise.all([
           getTotalStock(),
@@ -82,7 +80,6 @@ const DashboardPage = () => {
         const [incomeData, bestSellersData, stockData, transactionData] =
           await Promise.all([
             fetchIncomeData,
-            fetchTotalIncome,
             fetchBestSellers,
             fetchStockData,
             fetchTransactionData,
