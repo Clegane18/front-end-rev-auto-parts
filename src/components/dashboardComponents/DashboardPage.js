@@ -65,12 +65,12 @@ const DashboardPage = () => {
         setIsLoading(true);
         const fetchIncomeData = calculateTotalIncomeByMonth();
         const fetchBestSellers = getTopBestSellerItems();
-        const fetchStockData = Promise.all([
+        const fetchStockData = Promise.allSettled([
           getTotalStock(),
           getTotalItems(),
           getLowStockProducts(),
         ]);
-        const fetchTransactionData = Promise.all([
+        const fetchTransactionData = Promise.allSettled([
           getTotalNumberTransactions(),
           getTotalCountOfTransactionsFromPOS(),
           getTotalCountOfTransactionsFromOnline(),
@@ -78,7 +78,7 @@ const DashboardPage = () => {
         ]);
 
         const [incomeData, bestSellersData, stockData, transactionData] =
-          await Promise.all([
+          await Promise.allSettled([
             fetchIncomeData,
             fetchBestSellers,
             fetchStockData,
