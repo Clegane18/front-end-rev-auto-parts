@@ -7,6 +7,7 @@ import {
   changePrimaryProductImageById,
 } from "../../services/online-store-front-api";
 import ViewPicturesConfirmationModal from "./ViewPicturesConfirmationModal";
+import { useAdminAuth } from "../../contexts/AdminAuthContext";
 
 const ViewPicturesModal = ({ images = [], loading, baseUrl, onClose }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -14,11 +15,11 @@ const ViewPicturesModal = ({ images = [], loading, baseUrl, onClose }) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [isSettingPrimary, setIsSettingPrimary] = useState(false);
   const [error, setError] = useState("");
-
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const [confirmationTitle, setConfirmationTitle] = useState("");
   const [confirmationMessage, setConfirmationMessage] = useState("");
   const [confirmationAction, setConfirmationAction] = useState(null);
+  const { authToken } = useAdminAuth();
 
   useEffect(() => {
     setLocalImages(images);
@@ -75,6 +76,7 @@ const ViewPicturesModal = ({ images = [], loading, baseUrl, onClose }) => {
     try {
       const message = await deleteProductImageById({
         productImageId,
+        authToken,
       });
       console.log(message);
 
@@ -117,6 +119,7 @@ const ViewPicturesModal = ({ images = [], loading, baseUrl, onClose }) => {
     try {
       const message = await changePrimaryProductImageById({
         productImageId,
+        authToken,
       });
       console.log(message);
 

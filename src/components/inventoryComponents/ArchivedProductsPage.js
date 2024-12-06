@@ -26,6 +26,7 @@ import logo from "../../assets/g&f-logo.png";
 import { useNavigate } from "react-router-dom";
 import ConfirmRestoreModal from "./ConfirmRestoreModal";
 import { useLoading } from "../../contexts/LoadingContext";
+import { useAdminAuth } from "../../contexts/AdminAuthContext";
 
 const ArchivedProductsPage = () => {
   const [archivedProducts, setArchivedProducts] = useState([]);
@@ -48,11 +49,12 @@ const ArchivedProductsPage = () => {
 
   const navigate = useNavigate();
   const { setIsLoading } = useLoading();
+  const { authToken } = useAdminAuth();
 
   const loadArchivedProducts = useCallback(async () => {
     try {
       setIsLoading(true);
-      const response = await fetchAllArchivedProducts(sortOrder);
+      const response = await fetchAllArchivedProducts(sortOrder, authToken);
       if (response && response.status === 200) {
         const products = response.data.map((product) => {
           const now = new Date();
@@ -75,7 +77,7 @@ const ArchivedProductsPage = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [sortOrder, setIsLoading]);
+  }, [sortOrder, setIsLoading, authToken]);
 
   useEffect(() => {
     loadArchivedProducts();
@@ -84,7 +86,7 @@ const ArchivedProductsPage = () => {
   const handleRestoreProduct = async () => {
     try {
       setIsLoading(true);
-      await restoreArchivedProductById(selectedProduct.id);
+      await restoreArchivedProductById(selectedProduct.id, authToken);
       setSuccessMessage(
         `Product ${selectedProduct.name} successfully restored.`
       );
@@ -108,7 +110,7 @@ const ArchivedProductsPage = () => {
   const handleRestoreMultiple = async () => {
     try {
       setIsLoading(true);
-      await restoreMultipleArchivedProducts(selectedProducts);
+      await restoreMultipleArchivedProducts(selectedProducts, authToken);
       setSuccessMessage("Selected products successfully restored.");
       setShowSuccessModal(true);
       loadArchivedProducts();
@@ -132,7 +134,7 @@ const ArchivedProductsPage = () => {
     if (confirmInput === "CONFIRM RESTORE ALL") {
       try {
         setIsLoading(true);
-        const result = await restoreAllArchivedProducts();
+        const result = await restoreAllArchivedProducts(authToken);
         setSuccessMessage(result.message);
         setShowSuccessModal(true);
         loadArchivedProducts();
@@ -155,7 +157,7 @@ const ArchivedProductsPage = () => {
   const handleConfirmDelete = async (productId) => {
     try {
       setIsLoading(true);
-      await permanentlyDeleteArchivedProduct(productId);
+      await permanentlyDeleteArchivedProduct(productId, authToken);
       setSuccessMessage(`Product with ID ${productId} successfully deleted.`);
       setShowSuccessModal(true);
       loadArchivedProducts();
@@ -196,7 +198,7 @@ const ArchivedProductsPage = () => {
     setErrorMessage("");
   };
 
-  const handleDeleteAllArchivedProducts = () => {
+  const handleDeleteAllArchivedProducts = async () => {
     if (archivedProducts.length === 0) {
       setWarningMessage("There are no archived products to delete.");
       return;
@@ -249,7 +251,19 @@ const ArchivedProductsPage = () => {
               </button>
               <button
                 className="danger-button"
-                onClick={handleDeleteAllArchivedProducts}
+                onClick={async () => {
+                  try {
+                    if (archivedProducts.length === 0) {
+                      setWarningMessage(
+                        "There are no archived products to delete."
+                      );
+                      return;
+                    }
+                    setShowDeleteAllConfirmModal(true);
+                  } catch (err) {
+                    setErrorMessage(err.message);
+                  }
+                }}
                 disabled={false}
               >
                 <FontAwesomeIcon icon={faTrashAlt} /> Empty Archives
@@ -336,7 +350,22 @@ const ArchivedProductsPage = () => {
           <ConfirmDeleteModal
             product={deleteProduct}
             onClose={() => setDeleteProduct(null)}
-            onConfirm={handleConfirmDelete}
+            onConfirm={async (productId) => {
+              try {
+                setIsLoading(true);
+                await permanentlyDeleteArchivedProduct(productId, authToken);
+                setSuccessMessage(
+                  `Product with ID ${productId} successfully deleted.`
+                );
+                setShowSuccessModal(true);
+                loadArchivedProducts();
+                setDeleteProduct(null);
+              } catch (err) {
+                setErrorMessage(err.message);
+              } finally {
+                setIsLoading(false);
+              }
+            }}
             errorMessage={errorMessage}
             clearErrorMessage={clearErrorMessage}
           />
@@ -353,7 +382,7 @@ const ArchivedProductsPage = () => {
             onConfirm={async () => {
               try {
                 setIsLoading(true);
-                await deleteAllArchivedProducts();
+                await deleteAllArchivedProducts(authToken);
                 setSuccessMessage(
                   "All archived products have been successfully deleted."
                 );

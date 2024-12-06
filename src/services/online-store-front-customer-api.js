@@ -212,12 +212,19 @@ export const getAllCustomers = async () => {
   }
 };
 
-export const toggleCustomerStatus = async (customerId, currentStatus) => {
+export const toggleCustomerStatus = async (
+  customerId,
+  currentStatus,
+  authToken
+) => {
   try {
     const response = await api.put(
       `/customers/${customerId}/account-status/toggle-status`,
+      { currentStatus },
       {
-        currentStatus,
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
       }
     );
     return response.data;
@@ -255,10 +262,13 @@ export const getCustomerOnlinePurchaseHistory = async (customerId) => {
   }
 };
 
-export const deleteCustomerById = async (customerId) => {
+export const deleteCustomerById = async (customerId, authToken) => {
   try {
-    const response = await api.delete(`/delete-account/${customerId}`);
-
+    const response = await api.delete(`/delete-account/${customerId}`, {
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error(

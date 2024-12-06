@@ -31,6 +31,7 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import { useLoading } from "../../contexts/LoadingContext";
 import ETAModal from "./ETAModal";
+import { useAdminAuth } from "../../contexts/AdminAuthContext";
 
 const OrdersList = () => {
   const [orders, setOrders] = useState([]);
@@ -52,6 +53,7 @@ const OrdersList = () => {
   const { setIsLoading } = useLoading();
   const socket = useWebSocket();
   const navigate = useNavigate();
+  const { authToken } = useAdminAuth();
 
   const fetchOrders = useCallback(async () => {
     try {
@@ -126,7 +128,7 @@ const OrdersList = () => {
 
       const { id: orderId } = selectedOrderForETA;
 
-      const updatedOrder = await updateOrderETA(orderId, newETA);
+      const updatedOrder = await updateOrderETA(orderId, newETA, authToken);
 
       setOrders((prevOrders) =>
         prevOrders.map((order) =>
@@ -158,7 +160,7 @@ const OrdersList = () => {
 
   const updateStatus = async (orderId, status) => {
     try {
-      await updateOrderStatus(orderId, status);
+      await updateOrderStatus(orderId, status, authToken);
       setOrders((prevOrders) =>
         prevOrders.map((order) =>
           order.id === orderId ? { ...order, status } : order
@@ -189,7 +191,7 @@ const OrdersList = () => {
 
   const handlePaymentStatusChange = async (orderId, newPaymentStatus) => {
     try {
-      await updateOrderPaymentStatus(orderId, newPaymentStatus);
+      await updateOrderPaymentStatus(orderId, newPaymentStatus, authToken);
       setOrders((prevOrders) =>
         prevOrders.map((order) =>
           order.id === orderId
@@ -205,7 +207,7 @@ const OrdersList = () => {
 
   const handleDeleteOrder = async (orderId) => {
     try {
-      const response = await deleteOrderById(orderId);
+      const response = await deleteOrderById(orderId, authToken);
       if (response.status === 200) {
         setOrders((prevOrders) =>
           prevOrders.filter((order) => order.id !== orderId)

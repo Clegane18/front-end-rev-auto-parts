@@ -5,7 +5,6 @@ import {
   addProduct,
   getLowStockProducts,
   getProductsByDateRange,
-  getProductByPriceRange,
   addToProductStock,
 } from "../../services/inventory-api";
 import { archiveProductById } from "../../services/archive-api";
@@ -30,6 +29,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import logo from "../../assets/g&f-logo.png";
 import DuplicateProductModal from "./DuplicateProductModal";
 import { useLoading } from "../../contexts/LoadingContext";
+import { useAdminAuth } from "../../contexts/AdminAuthContext";
 
 const ProductManagement = () => {
   const [products, setProducts] = useState([]);
@@ -53,15 +53,12 @@ const ProductManagement = () => {
 
   const navigate = useNavigate();
   const { setIsLoading } = useLoading();
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
+  const { authToken } = useAdminAuth();
 
   const fetchProducts = useCallback(async () => {
     try {
       setIsLoading(true);
-      const response = await getAllProducts();
+      const response = await getAllProducts(authToken);
       if (response.data && Array.isArray(response.data.data)) {
         setProducts(response.data.data);
         setAllProducts(response.data.data);
@@ -82,7 +79,11 @@ const ProductManagement = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [setIsLoading]);
+  }, [setIsLoading, authToken]);
+
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
 
   const handleLowStock = async () => {
     if (isShowingLowStock) {
@@ -91,7 +92,7 @@ const ProductManagement = () => {
     } else {
       try {
         setIsLoading(true);
-        const response = await getLowStockProducts();
+        const response = await getLowStockProducts(authToken);
         if (response && Array.isArray(response.data)) {
           setProducts(response.data);
           setIsShowingLowStock(true);
@@ -166,7 +167,11 @@ const ProductManagement = () => {
   const handleDateRangeSearch = async () => {
     try {
       setIsLoading(true);
-      const response = await getProductsByDateRange(startDate, endDate);
+      const response = await getProductsByDateRange(
+        startDate,
+        endDate,
+        authToken
+      );
       if (response.data && Array.isArray(response.data.data)) {
         setProducts(response.data.data);
         setIsShowingLowStock(false);
@@ -201,7 +206,7 @@ const ProductManagement = () => {
   const handleAddProduct = async (productData) => {
     try {
       setIsLoading(true);
-      const response = await addProduct(productData);
+      const response = await addProduct(productData, authToken);
 
       if (response.status === 409) {
         setDuplicateProduct(response.data.product);
@@ -219,7 +224,7 @@ const ProductManagement = () => {
         console.error("Failed to add product", error);
         setErrorMessage(
           error.response?.data?.error ||
-            "Failed to add product. Check if the data is already exist."
+            "Failed to add product. Check if the data already exists."
         );
       }
     } finally {
@@ -230,7 +235,7 @@ const ProductManagement = () => {
   const handleUpdateProduct = async (updatedProduct) => {
     try {
       setIsLoading(true);
-      await updateProductById(updatedProduct.id, updatedProduct);
+      await updateProductById(updatedProduct.id, updatedProduct, authToken);
       const updatedAllProducts = allProducts.map((product) =>
         product.id === updatedProduct.id ? updatedProduct : product
       );
@@ -270,11 +275,13 @@ const ProductManagement = () => {
         setIsLoading(false);
         return;
       }
-
       const productId = duplicateProduct.id;
 
-      const response = await addToProductStock(productId, quantityToAdd);
-
+      const response = await addToProductStock(
+        productId,
+        quantityToAdd,
+        authToken
+      );
       setProducts((prevProducts) =>
         prevProducts.map((product) =>
           product.id === productId
@@ -300,7 +307,7 @@ const ProductManagement = () => {
   const handleArchiveProduct = async (productId) => {
     try {
       setIsLoading(true);
-      await archiveProductById(productId);
+      await archiveProductById(productId, authToken);
       const updatedProducts = products.filter(
         (product) => product.id !== productId
       );

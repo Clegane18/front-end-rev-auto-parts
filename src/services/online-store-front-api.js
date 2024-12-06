@@ -7,7 +7,7 @@ const api = axios.create({
   baseURL: "http://localhost:3002/api/online-store-front",
 });
 
-export const uploadProductImages = async (productId, files) => {
+export const uploadProductImages = async (productId, files, authToken) => {
   try {
     const formData = new FormData();
 
@@ -18,11 +18,14 @@ export const uploadProductImages = async (productId, files) => {
     const response = await api.post(`/uploadPhotos/${productId}`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${authToken}`,
       },
     });
 
     return response.data;
   } catch (error) {
+    console.error("Error uploading product images:", error);
+
     if (error.response && error.response.data) {
       throw new Error(error.response.data.message);
     } else {
@@ -33,18 +36,26 @@ export const uploadProductImages = async (productId, files) => {
   }
 };
 
-export const getProductByIdAndPublish = async (productId) => {
+export const getProductByIdAndPublish = async (productId, authToken) => {
   try {
     const response = await api.post(
-      `products/getProductByIdAndPublish/${productId}`
+      `products/getProductByIdAndPublish/${productId}`,
+      null,
+      {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      }
     );
     return response.data;
   } catch (error) {
+    console.error("Error publishing product by ID:", error);
+
     if (error.response && error.response.data) {
       throw new Error(error.response.data.message);
     } else {
       throw new Error(
-        "Failed to publish product by product id. Please try again later."
+        "Failed to publish product by product ID. Please try again later."
       );
     }
   }
@@ -65,16 +76,26 @@ export const getPublishedItemsByCategory = async () => {
   }
 };
 
-export const unpublishItemByProductId = async (productId) => {
+export const unpublishItemByProductId = async (productId, authToken) => {
   try {
-    const response = await api.post(`products/unpublishedItem/${productId}`);
+    const response = await api.post(
+      `products/unpublishedItem/${productId}`,
+      null,
+      {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
+    console.error("Error unpublishing product by ID:", error);
+
     if (error.response && error.response.data) {
       throw new Error(error.response.data.message);
     } else {
       throw new Error(
-        "Failed to unpublish item by product id. Please try again later."
+        "Failed to unpublish item by product ID. Please try again later."
       );
     }
   }
@@ -169,14 +190,21 @@ export const updateProductPurchaseMethod = async ({
   }
 };
 
-export const deleteProductImageById = async ({ productImageId }) => {
+export const deleteProductImageById = async ({ productImageId, authToken }) => {
   try {
     const response = await api.delete(
-      `/products/${productImageId}/delete-product-image`
+      `/products/${productImageId}/delete-product-image`,
+      {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      }
     );
 
     return response.data.message;
   } catch (error) {
+    console.error("Error deleting product image by ID:", error);
+
     if (error.response && error.response.data) {
       throw new Error(error.response.data.message);
     } else {
@@ -221,7 +249,7 @@ export const getAllProductImagesByProductId = async ({ productId }) => {
   }
 };
 
-export const uploadShowcaseImages = async (files) => {
+export const uploadShowcaseImages = async (files, authToken) => {
   try {
     const formData = new FormData();
 
@@ -232,11 +260,14 @@ export const uploadShowcaseImages = async (files) => {
     const response = await api.post("/showcase-upload", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${authToken}`,
       },
     });
 
     return response.data;
   } catch (error) {
+    console.error("Error uploading showcase images:", error);
+
     if (error.response && error.response.data && error.response.data.message) {
       throw new Error(error.response.data.message);
     } else {
@@ -262,11 +293,18 @@ export const getShowcaseImages = async () => {
   }
 };
 
-export const deleteShowcaseImage = async (showcaseId) => {
+export const deleteShowcaseImage = async (showcaseId, authToken) => {
   try {
-    const response = await api.delete(`/delete-showcase-images/${showcaseId}`);
+    const response = await api.delete(`/delete-showcase-images/${showcaseId}`, {
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+    });
+
     return response.data;
   } catch (error) {
+    console.error("Error deleting showcase image by ID:", error);
+
     if (error.response && error.response.data && error.response.data.message) {
       throw new Error(error.response.data.message);
     } else {

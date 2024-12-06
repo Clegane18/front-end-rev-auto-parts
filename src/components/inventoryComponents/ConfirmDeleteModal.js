@@ -1,5 +1,6 @@
 import React from "react";
 import "../../styles/inventoryComponents/ConfirmDeleteModal.css";
+import { useAdminAuth } from "../../contexts/AdminAuthContext";
 
 const ConfirmDeleteModal = ({
   product,
@@ -8,6 +9,8 @@ const ConfirmDeleteModal = ({
   errorMessage,
   clearErrorMessage,
 }) => {
+  const { authToken } = useAdminAuth();
+
   return (
     <div id="root-confirm-delete-modal">
       <div className="modal-overlay">
@@ -22,7 +25,7 @@ const ConfirmDeleteModal = ({
           <div className="button-group">
             <button
               className="delete-button"
-              onClick={() => onConfirm(product.id)}
+              onClick={() => onConfirm(product.id, authToken)}
             >
               Delete
             </button>

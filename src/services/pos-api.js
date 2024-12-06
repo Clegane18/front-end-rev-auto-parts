@@ -34,11 +34,16 @@ export const getProductByItemCode = async (productItemCode) => {
   }
 };
 
-export const buyProductsOnPhysicalStore = async (payload) => {
+export const buyProductsOnPhysicalStore = async (payload, authToken) => {
   try {
     const response = await axios.post(
       `${BASE_URL}/transactions/products/buyProducts`,
-      payload
+      payload,
+      {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      }
     );
     return response.data;
   } catch (error) {

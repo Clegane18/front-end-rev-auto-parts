@@ -30,6 +30,7 @@ import {
 import logo from "../../assets/g&f-logo.png";
 import { useNavigate } from "react-router-dom";
 import { useLoading } from "../../contexts/LoadingContext";
+import { useAdminAuth } from "../../contexts/AdminAuthContext";
 
 const UploadProducts = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -52,13 +53,14 @@ const UploadProducts = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
   const { setIsLoading } = useLoading();
+  const { authToken } = useAdminAuth();
 
   const BASE_URL = "https://rev-auto-parts.onrender.com/";
 
-  const fetchProducts = async () => {
+  const fetchProducts = useCallback(async () => {
     setIsLoading(true);
     try {
-      const response = await getAllProducts();
+      const response = await getAllProducts(authToken);
       if (response.data?.data) {
         setAllProducts(response.data.data);
         setFilteredProducts(response.data.data);
@@ -70,11 +72,15 @@ const UploadProducts = () => {
       setErrorMessage("Failed to fetch products. Please try again later.");
     }
     setIsLoading(false);
-  };
+  }, [authToken, setIsLoading]);
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [fetchProducts]);
+
+  useEffect(() => {
+    fetchProducts();
+  }, [authToken]);
 
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
@@ -83,7 +89,6 @@ const UploadProducts = () => {
   const handleSearch = useCallback(() => {
     try {
       let filtered = allProducts;
-
       if (searchQuery) {
         const query = searchQuery.toLowerCase();
         filtered = filtered.filter(
@@ -96,7 +101,6 @@ const UploadProducts = () => {
             product.supplierName.toLowerCase().includes(query)
         );
       }
-
       setFilteredProducts(filtered);
     } catch (error) {
       setErrorMessage("Failed to search products. Please try again later.");
@@ -122,6 +126,7 @@ const UploadProducts = () => {
       setImagesLoading(true);
       const imagesData = await getAllProductImagesByProductId({
         productId: product.id,
+        authToken,
       });
       setImages(imagesData || []);
       setSelectedProduct(product);
@@ -154,14 +159,12 @@ const UploadProducts = () => {
   const handleSavePhoto = async (product, files) => {
     setIsLoading(true);
     try {
-      await uploadProductImages(product.id, files);
+      await uploadProductImages(product.id, files, authToken);
       await fetchProducts();
       setShowUploadModal(false);
       setSelectedProduct(null);
     } catch (error) {
-      setErrorMessage(
-        error.response?.data?.message || "An unexpected error occurred."
-      );
+      setErrorMessage(error.message || "An unexpected error occurred.");
     }
     setIsLoading(false);
   };
@@ -169,15 +172,13 @@ const UploadProducts = () => {
   const handleSaveShowcasePhotos = async (files) => {
     setIsLoading(true);
     try {
-      await uploadShowcaseImages(files);
+      await uploadShowcaseImages(files, authToken);
       await fetchProducts();
       setShowShowcaseUploadModal(false);
       setSuccessMessage("Showcase images uploaded successfully.");
       setShowSuccessModal(true);
     } catch (error) {
-      setErrorMessage(
-        error.response?.data?.message || "An unexpected error occurred."
-      );
+      setErrorMessage(error.message || "An unexpected error occurred.");
     }
     setIsLoading(false);
   };
@@ -198,9 +199,9 @@ const UploadProducts = () => {
     setIsLoading(true);
     try {
       if (action === "publish") {
-        await getProductByIdAndPublish(selectedProduct.id);
+        await getProductByIdAndPublish(selectedProduct.id, authToken);
       } else if (action === "unpublish") {
-        await unpublishItemByProductId(selectedProduct.id);
+        await unpublishItemByProductId(selectedProduct.id, authToken);
       }
       await fetchProducts();
       setShowConfirmationModal(false);
@@ -224,6 +225,7 @@ const UploadProducts = () => {
       await updateProductPurchaseMethod({
         productId: selectedProduct.id,
         newPurchaseMethod,
+        authToken,
       });
       await fetchProducts();
       setShowChangePurchaseMethodModal(false);

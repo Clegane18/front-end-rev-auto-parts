@@ -7,6 +7,7 @@ import {
   getShowcaseImages,
 } from "../../services/online-store-front-api";
 import ViewPicturesConfirmationModal from "./ViewPicturesConfirmationModal";
+import { useAdminAuth } from "../../contexts/AdminAuthContext";
 
 const encodeURL = (url) => (url ? url.replace(/\\/g, "/") : "");
 
@@ -27,6 +28,7 @@ const ShowcaseImagesModal = ({ onClose }) => {
   const [imageToDelete, setImageToDelete] = useState(null);
   const [deleting, setDeleting] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
+  const { authToken } = useAdminAuth();
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -84,7 +86,7 @@ const ShowcaseImagesModal = ({ onClose }) => {
     setIsConfirmationOpen(false);
 
     try {
-      await deleteShowcaseImage(imageToDelete.id);
+      await deleteShowcaseImage(imageToDelete.id, authToken);
       setImages((prevImages) =>
         prevImages.filter((img) => img.id !== imageToDelete.id)
       );

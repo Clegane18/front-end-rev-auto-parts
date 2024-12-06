@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { addToProductStock } from "../../services/inventory-api";
 import "../../styles/inventoryComponents/AddStockModal.css";
+import { useAdminAuth } from "../../contexts/AdminAuthContext";
 
 const AddStockModal = ({ product, onClose, onSave }) => {
   const [quantity, setQuantity] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
   const modalRef = useRef(null);
   const [loading, setLoading] = useState(false);
+  const { authToken } = useAdminAuth();
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -31,7 +33,7 @@ const AddStockModal = ({ product, onClose, onSave }) => {
         return;
       }
       setLoading(true);
-      const response = await addToProductStock(product.id, quantity);
+      const response = await addToProductStock(product.id, quantity, authToken);
       onSave(response.product);
       onClose();
     } catch (error) {

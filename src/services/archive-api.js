@@ -8,9 +8,13 @@ const api = axios.create({
   baseURL: "http://localhost:3002/api/archives",
 });
 
-export const archiveProductById = async (productId) => {
+export const archiveProductById = async (productId, authToken) => {
   try {
-    const response = await api.post(`/products/archive/${productId}`);
+    const response = await api.post(`/products/archive/${productId}`, null, {
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+    });
     return response.data;
   } catch (error) {
     if (error.response && error.response.data) {
@@ -85,9 +89,16 @@ export const restoreAllArchivedProducts = async () => {
   }
 };
 
-export const permanentlyDeleteArchivedProduct = async (productId) => {
+export const permanentlyDeleteArchivedProduct = async (
+  productId,
+  authToken
+) => {
   try {
-    const response = await api.delete(`/products/${productId}`);
+    const response = await api.delete(`/products/${productId}`, {
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+    });
     return response.data;
   } catch (error) {
     if (error.response && error.response.data) {
@@ -98,9 +109,13 @@ export const permanentlyDeleteArchivedProduct = async (productId) => {
   }
 };
 
-export const deleteAllArchivedProducts = async () => {
+export const deleteAllArchivedProducts = async (authToken) => {
   try {
-    const response = await api.post("/archive/delete-all");
+    const response = await api.post("/archive/delete-all", null, {
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+    });
     return response.data;
   } catch (error) {
     if (error.response && error.response.data) {

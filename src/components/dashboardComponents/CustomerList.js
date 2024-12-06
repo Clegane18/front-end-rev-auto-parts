@@ -20,6 +20,7 @@ import ConfirmDeleteCustomerModal from "./ConfirmDeleteCustomerModal";
 import ConfirmToggleStatusModal from "./ConfirmToggleStatusModal";
 import { useLoading } from "../../contexts/LoadingContext";
 import SuccessModal from "../SuccessModal";
+import { useAdminAuth } from "../../contexts/AdminAuthContext";
 
 const CustomerList = () => {
   const [customers, setCustomers] = useState([]);
@@ -32,12 +33,13 @@ const CustomerList = () => {
 
   const navigate = useNavigate();
   const { setIsLoading } = useLoading();
+  const { authToken } = useAdminAuth();
 
   useEffect(() => {
     const fetchCustomers = async () => {
       try {
         setIsLoading(true);
-        const response = await getAllCustomers();
+        const response = await getAllCustomers(authToken);
         setCustomers(response.data);
       } catch (error) {
         console.error("Error fetching customers:", error);
@@ -48,21 +50,23 @@ const CustomerList = () => {
     };
 
     fetchCustomers();
-  }, [setIsLoading]);
+  }, [authToken, setIsLoading]);
 
   const handleToggleStatus = async (customerId, currentStatus) => {
     try {
       setIsLoading(true);
-      const updatedCustomer = await toggleCustomerStatus(
+
+      const response = await toggleCustomerStatus(
         customerId,
-        currentStatus
+        currentStatus,
+        authToken
       );
+
+      const updatedCustomer = response.data;
 
       setCustomers((prevCustomers) =>
         prevCustomers.map((customer) =>
-          customer.id === customerId
-            ? { ...customer, accountStatus: updatedCustomer.data.accountStatus }
-            : customer
+          customer.id === customerId ? updatedCustomer : customer
         )
       );
 
@@ -70,7 +74,7 @@ const CustomerList = () => {
 
       setSuccessMessage(
         `Customer status has been successfully ${
-          currentStatus === "Active" ? "suspended" : "activated"
+          updatedCustomer.accountStatus === "Active" ? "activated" : "suspended"
         }.`
       );
       setShowSuccessModal(true);
@@ -112,7 +116,7 @@ const CustomerList = () => {
   const handleDeleteCustomer = async (customerId) => {
     try {
       setIsLoading(true);
-      await deleteCustomerById(customerId);
+      await deleteCustomerById(customerId, authToken);
       setCustomers((prevCustomers) =>
         prevCustomers.filter((customer) => customer.id !== customerId)
       );
@@ -225,7 +229,7 @@ const CustomerList = () => {
         <ConfirmDeleteCustomerModal
           customer={customerToDelete}
           onClose={handleCloseDeleteModal}
-          onConfirm={handleDeleteCustomer}
+          onConfirm={() => handleDeleteCustomer(customerToDelete.id)}
         />
       )}
 

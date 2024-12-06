@@ -8,13 +8,46 @@ const api = axios.create({
 });
 
 // Product APIs
-export const addProduct = (productData) => api.post("/addProduct", productData);
+export const addProduct = async (productData, authToken) => {
+  try {
+    const response = await api.post(" /addProduct", productData, {
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message ||
+        "Failed to add product. Please try again later."
+    );
+  }
+};
+
 export const getAllProducts = () => api.get("/products");
 export const getProductById = (productId) =>
   api.get(`/getProductById/${productId}`);
 
-export const updateProductById = (productId, productData) =>
-  api.put(`/updateProductById/${productId}`, productData);
+export const updateProductById = async (productId, productData, authToken) => {
+  try {
+    const response = await api.put(
+      `/updateProductById/${productId}`,
+      productData,
+      {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error("Failed to update product. Please try again later.");
+    }
+  }
+};
 
 export const getTopBestSellerItems = async (date = null) => {
   try {
@@ -28,19 +61,21 @@ export const getTopBestSellerItems = async (date = null) => {
   }
 };
 
-export const addToProductStock = async (productId, quantityToAdd) => {
-  try {
-    const response = await api.put(`/addToProductStock/${productId}`, {
-      quantityToAdd,
-    });
-    return response.data;
-  } catch (error) {
-    if (error.response && error.response.data) {
-      throw new Error(error.response.data.message);
-    } else {
-      throw new Error("Failed to add stock. Please try again later.");
+export const addToProductStock = async (
+  productId,
+  quantityToAdd,
+  authToken
+) => {
+  const response = await api.put(
+    `/addToProductStock/${productId}`,
+    { quantityToAdd },
+    {
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
     }
-  }
+  );
+  return response.data;
 };
 
 export const getTotalStock = async (date = null) => {
@@ -157,14 +192,90 @@ export const getAllProductsByStatus = async (status) => {
 };
 
 // Pending Stock APIs
-export const addPendingStock = (pendingStockData) =>
-  api.post("/products/pendingStocks/add-pendingStock", pendingStockData);
-export const confirmStock = (id) =>
-  api.put(`/products/pendingStocks/confirm-stock/${id}`);
-export const cancelPendingStock = (id) =>
-  api.put(`/products/pendingStocks/cancel-stock/${id}`);
+export const addPendingStock = async (pendingStockData, authToken) => {
+  try {
+    const response = await api.post(
+      "/products/pendingStocks/add-pendingStock",
+      pendingStockData,
+      {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error("Failed to add pending stock. Please try again later.");
+    }
+  }
+};
+
+export const confirmStock = async (id, authToken) => {
+  try {
+    const response = await api.put(
+      `/products/pendingStocks/confirm-stock/${id}`,
+      null,
+      {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error("Failed to confirm stock. Please try again later.");
+    }
+  }
+};
+
+export const cancelPendingStock = async (id, authToken) => {
+  try {
+    const response = await api.put(
+      `/products/pendingStocks/cancel-stock/${id}`,
+      null,
+      {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(
+        "Failed to cancel pending stock. Please try again later."
+      );
+    }
+  }
+};
+
 export const getAllPendingStocks = () => api.get("/products/pending-stocks");
-export const updateArrivalDate = (id, newArrivalDate) =>
-  api.put(`/products/pendingStocks/updateArrivalDate/${id}`, {
-    newArrivalDate,
-  });
+
+export const updateArrivalDate = async (id, newArrivalDate, authToken) => {
+  try {
+    const response = await api.put(
+      `/products/pendingStocks/updateArrivalDate/${id}`,
+      { newArrivalDate },
+      {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error("Failed to update arrival date. Please try again later.");
+    }
+  }
+};

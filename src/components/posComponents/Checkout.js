@@ -4,6 +4,7 @@ import { buyProductsOnPhysicalStore } from "../../services/pos-api";
 import InsufficientModal from "./InsufficientModal";
 import "../../styles/posComponents/Checkout.css";
 import { useLoading } from "../../contexts/LoadingContext";
+import { useAdminAuth } from "../../contexts/AdminAuthContext";
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -13,6 +14,7 @@ const Checkout = () => {
   const [totalAmount, setTotalAmount] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { setIsLoading } = useLoading();
+  const { authToken } = useAdminAuth();
 
   useEffect(() => {
     const total = items.reduce(
@@ -42,7 +44,7 @@ const Checkout = () => {
 
     setIsLoading(true);
     try {
-      const response = await buyProductsOnPhysicalStore(payload);
+      const response = await buyProductsOnPhysicalStore(payload, authToken);
       if (response.receipt) {
         navigate("/receipt", { state: { receipt: response.receipt } });
       } else {

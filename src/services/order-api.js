@@ -139,11 +139,17 @@ export const getAllOrders = async () => {
   }
 };
 
-export const updateOrderStatus = async (orderId, newStatus) => {
+export const updateOrderStatus = async (orderId, newStatus, authToken) => {
   try {
-    const response = await api.put(`/orders/${orderId}/update-status`, {
-      newStatus,
-    });
+    const response = await api.put(
+      `/orders/${orderId}/update-status`,
+      { newStatus },
+      {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      }
+    );
 
     return response.data;
   } catch (error) {
@@ -155,11 +161,17 @@ export const updateOrderStatus = async (orderId, newStatus) => {
   }
 };
 
-export const updateOrderETA = async (orderId, newETA) => {
+export const updateOrderETA = async (orderId, newETA, authToken) => {
   try {
-    const response = await api.put(`/orders/${orderId}/update-ETA`, {
-      newETA,
-    });
+    const response = await api.put(
+      `/orders/${orderId}/update-ETA`,
+      { newETA },
+      {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      }
+    );
 
     return response.data;
   } catch (error) {
@@ -171,9 +183,13 @@ export const updateOrderETA = async (orderId, newETA) => {
   }
 };
 
-export const deleteOrderById = async (orderId) => {
+export const deleteOrderById = async (orderId, authToken) => {
   try {
-    const response = await api.delete(`/orders/${orderId}`);
+    const response = await api.delete(`/orders/${orderId}`, {
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+    });
 
     return {
       status: response.status,
@@ -188,11 +204,21 @@ export const deleteOrderById = async (orderId) => {
   }
 };
 
-export const updateOrderPaymentStatus = async (orderId, newPaymentStatus) => {
+export const updateOrderPaymentStatus = async (
+  orderId,
+  newPaymentStatus,
+  authToken
+) => {
   try {
-    const response = await api.put(`/orders/${orderId}/update-payment-status`, {
-      newPaymentStatus,
-    });
+    const response = await api.put(
+      `/orders/${orderId}/update-payment-status`,
+      { newPaymentStatus },
+      {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      }
+    );
 
     return response.data;
   } catch (error) {
