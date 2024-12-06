@@ -1,12 +1,12 @@
 import axios from "axios";
 
-// const api = axios.create({
-//   baseURL: "https://rev-auto-parts.onrender.com/api/archives",
-// });
-
 const api = axios.create({
-  baseURL: "http://localhost:3002/api/archives",
+  baseURL: "https://rev-auto-parts.onrender.com/api/archives",
 });
+
+// const api = axios.create({
+//   baseURL: "http://localhost:3002/api/archives",
+// });
 
 export const archiveProductById = async (productId, authToken) => {
   try {

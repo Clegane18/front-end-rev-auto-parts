@@ -1,11 +1,11 @@
 import axios from "axios";
 
-// const api = axios.create({
-//   baseURL: "https://rev-auto-parts.onrender.com/api/audit-logs",
-// });
 const api = axios.create({
-  baseURL: "http://localhost:3002/api/audit-logs",
+  baseURL: "https://rev-auto-parts.onrender.com/api/audit-logs",
 });
+// const api = axios.create({
+//   baseURL: "http://localhost:3002/api/audit-logs",
+// });
 
 export const getAllAuditLogs = async () => {
   try {
