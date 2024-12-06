@@ -75,3 +75,23 @@ export const updateAdminPassword = async (
     }
   }
 };
+
+export const adminLogout = async (token) => {
+  try {
+    const response = await api.post("/logout", null, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(
+        "An unexpected error occurred during logout. Please try again later."
+      );
+    }
+  }
+};

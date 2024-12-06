@@ -34,6 +34,7 @@ import ChangePasswordPage from "./components/onlineStoreFrontCustomersComponent/
 import RequestChangePasswordManualPage from "./components/onlineStoreFrontCustomersComponent/RequestChangePasswordManualPage";
 import ChangePasswordManualPage from "./components/onlineStoreFrontCustomersComponent/ChangePasswordManualPage";
 import VerifyEmailPage from "./components/onlineStoreFrontCustomersComponent/VerifyEmailPage";
+import AuditLogs from "./components/dashboardComponents/AuditLogs";
 
 const App = () => {
   const { authToken: adminAuthToken, login } = useAdminAuth();
@@ -100,6 +101,10 @@ const App = () => {
       <Route
         path="/orders"
         element={adminAuthToken ? <OrderList /> : <Navigate to="/login" />}
+      />
+      <Route
+        path="/audit-logs"
+        element={adminAuthToken ? <AuditLogs /> : <Navigate to="/login" />}
       />
       <Route path="/change-credentials" element={<ChangeCredentialsPage />} />
       <Route

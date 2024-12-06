@@ -403,6 +403,12 @@ const DashboardPage = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/audit-logs">
+                  <FontAwesomeIcon icon={faClipboardList} /> Audit Logs
+                </Link>
+              </li>
+
+              <li>
                 <Link to="/archived-products">
                   <FontAwesomeIcon icon={faArchive} /> Product Archives
                 </Link>

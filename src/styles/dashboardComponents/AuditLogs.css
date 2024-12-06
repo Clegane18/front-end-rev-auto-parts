@@ -1,0 +1,148 @@
+/* AuditLogs.css */
+
+#root-audit-logs {
+  font-family: "Montserrat", serif;
+  color: #333;
+  width: 100%;
+  margin: auto;
+}
+
+#root-audit-logs .audit-logs-container {
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 98%;
+  height: auto;
+  margin: auto;
+}
+
+#root-audit-logs .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+#root-audit-logs .header-left {
+  display: flex;
+  align-items: center;
+}
+
+#root-audit-logs .header h1 {
+  font-size: 24px;
+  color: #1e2633;
+}
+
+#root-audit-logs .logo-back-button {
+  width: 170px;
+  height: auto;
+  cursor: pointer;
+  margin-right: 15px;
+  transition: all 0.3s ease-in-out;
+}
+
+#root-audit-logs .logo-back-button:hover {
+  opacity: 0.85;
+  transform: scale(1.05);
+}
+
+#root-audit-logs .filter-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#root-audit-logs .filter-label {
+  font-weight: 500;
+  color: #1e2633;
+}
+
+#root-audit-logs .filter-input {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+#root-audit-logs .filter-button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background-color: #1d2b3a;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+#root-audit-logs .filter-button:hover {
+  background-color: #3a4b5c;
+}
+
+#root-audit-logs .reset-button {
+  background-color: #d9534f;
+}
+
+#root-audit-logs .reset-button:hover {
+  background-color: #c9302c;
+}
+
+#root-audit-logs .loading {
+  text-align: center;
+  font-size: 16px;
+  color: #555;
+  margin-top: 20px;
+}
+
+#root-audit-logs .error-message {
+  text-align: center;
+  color: #d9534f;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+#root-audit-logs .no-data {
+  text-align: center;
+  font-size: 16px;
+  color: #555;
+  margin-top: 20px;
+}
+
+#root-audit-logs .audit-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#root-audit-logs .audit-table thead th {
+  background-color: #1d2b3a;
+  color: white;
+  padding: 15px;
+  text-align: center;
+  font-weight: bold;
+  border-bottom: 2px solid #e0e0e0;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+#root-audit-logs .audit-table tbody td {
+  padding: 15px;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: center;
+}
+
+#root-audit-logs .audit-table tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+#root-audit-logs .table-container {
+  max-height: 600px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+}

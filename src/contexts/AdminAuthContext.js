@@ -1,6 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import { adminLogout } from "../services/admin-api";
 
 const AdminAuthContext = createContext();
 
@@ -47,12 +48,19 @@ export const AdminAuthProvider = ({ children }) => {
     }
   };
 
-  const logout = () => {
-    setIsAuthenticated(false);
-    setCurrentAdmin(null);
-    setToken("");
-    localStorage.removeItem("adminAuthToken");
-    navigate("/login");
+  const logout = async () => {
+    try {
+      if (token) {
+        await adminLogout(token);
+      }
+      setIsAuthenticated(false);
+      setCurrentAdmin(null);
+      setToken("");
+      localStorage.removeItem("adminAuthToken");
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout failed:", error.message);
+    }
   };
 
   const updateAdminContext = (newData) => {
