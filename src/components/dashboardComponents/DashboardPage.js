@@ -32,6 +32,7 @@ import {
   faFileAlt,
   faList,
   faUserEdit,
+  faCalendarAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import LogOutConfirmationModal from "./LogOutConfirmationModal";
 import { formatCurrency } from "../../utils/formatCurrency";
@@ -53,78 +54,147 @@ const DashboardPage = () => {
   const [selectedReports, setSelectedReports] = useState([]);
   const [isAllSelected, setIsAllSelected] = useState(false);
   const [cancellationCounts, setCancellationCounts] = useState(null);
-  const [error, setError] = useState(null);
+  const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const toggleDatePicker = () => setIsDatePickerVisible(!isDatePickerVisible);
+
+  const [error] = useState(null);
   const stockReminderRef = useRef();
   const { logout } = useAdminAuth();
   const navigate = useNavigate();
   const { setIsLoading } = useLoading();
 
+  const formatDate = (date) => {
+    const parsedDate = new Date(date);
+    if (isNaN(parsedDate)) {
+      console.error("Invalid date format");
+      return null;
+    }
+    return parsedDate.toISOString().split("T")[0];
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const fetchIncomeData = calculateTotalIncomeByMonth();
-        const fetchBestSellers = getTopBestSellerItems();
-        const fetchStockData = Promise.allSettled([
-          getTotalStock(),
-          getTotalItems(),
-          getLowStockProducts(),
-        ]);
-        const fetchTransactionData = Promise.allSettled([
-          getTotalNumberTransactions(),
-          getTotalCountOfTransactionsFromPOS(),
-          getTotalCountOfTransactionsFromOnline(),
-          getTodaysTransactions(),
+
+        const formattedDate = selectedDate ? formatDate(selectedDate) : null;
+        const dateParam = formattedDate ? formattedDate : null;
+
+        const [
+          incomeDataResult,
+          bestSellersResult,
+          stockDataResults,
+          transactionDataResults,
+          cancellationDataResult,
+        ] = await Promise.all([
+          calculateTotalIncomeByMonth(dateParam),
+          getTopBestSellerItems(dateParam),
+          Promise.all([
+            getTotalStock(dateParam),
+            getTotalItems(dateParam),
+            getLowStockProducts(dateParam),
+          ]),
+          Promise.all([
+            getTotalNumberTransactions(dateParam),
+            getTotalCountOfTransactionsFromPOS(dateParam),
+            getTotalCountOfTransactionsFromOnline(dateParam),
+            getTodaysTransactions(dateParam),
+          ]),
+          getCancellationCounts(dateParam),
         ]);
 
-        const [incomeData, bestSellersData, stockData, transactionData] =
-          await Promise.allSettled([
-            fetchIncomeData,
-            fetchBestSellers,
-            fetchStockData,
-            fetchTransactionData,
-          ]);
+        const processApiResponse = (
+          result,
+          setter,
+          key = null,
+          fallback = null
+        ) => {
+          if (
+            result?.status === 200 &&
+            (key ? result[key] !== undefined : result)
+          ) {
+            setter(key ? result[key] : result);
+          } else {
+            if (fallback !== null) {
+              setter(fallback);
+            }
+          }
+        };
 
-        setMonthlyIncome(
-          Object.entries(incomeData.data).map(([key, value]) => ({
-            month: key,
-            grossIncome: parseFloat(value.totalGrossIncome.replace(/,/g, "")),
-            netIncome: parseFloat(value.totalNetIncome.replace(/,/g, "")),
-          }))
+        if (incomeDataResult?.status === 200 && incomeDataResult.data) {
+          const income = Object.entries(incomeDataResult.data).map(
+            ([key, value]) => ({
+              month: key,
+              grossIncome: parseFloat(value.totalGrossIncome.replace(/,/g, "")),
+              netIncome: parseFloat(value.totalNetIncome.replace(/,/g, "")),
+            })
+          );
+          setMonthlyIncome(income);
+        } else {
+          setMonthlyIncome([]);
+        }
+
+        processApiResponse(bestSellersResult, setBestSellers, "data", []);
+
+        const [totalStockResult, totalItemsResult, lowStockResult] =
+          stockDataResults;
+
+        processApiResponse(totalStockResult, setTotalStock, "totalStocks", 0);
+        processApiResponse(totalItemsResult, setTotalItems, "totalItems", 0);
+        processApiResponse(lowStockResult, setLowStockProducts, "data", []);
+
+        const [
+          totalTransactionsResult,
+          posTransactionsResult,
+          onlineTransactionsResult,
+          todaysTransactionsResult,
+        ] = transactionDataResults;
+
+        processApiResponse(
+          totalTransactionsResult,
+          setTotalTransactions,
+          "totalTransactions",
+          0
+        );
+        processApiResponse(
+          posTransactionsResult,
+          setPosTransactions,
+          "TotalCountOfTransactions",
+          0
+        );
+        processApiResponse(
+          onlineTransactionsResult,
+          setOnlineTransactions,
+          "TotalCountOfTransactions",
+          0
+        );
+        processApiResponse(
+          todaysTransactionsResult,
+          setTodaysTransactions,
+          "TodaysTransactions",
+          []
         );
 
-        setBestSellers(bestSellersData.data);
-
-        setTotalStock(stockData[0].totalStocks);
-        setTotalItems(stockData[1].totalItems);
-        setLowStockProducts(stockData[2].data);
-
-        setTotalTransactions(transactionData[0].TotalTransactions || 0);
-        setPosTransactions(transactionData[1].TotalCountOfTransactions || 0);
-        setOnlineTransactions(transactionData[2].TotalCountOfTransactions || 0);
-        setTodaysTransactions(transactionData[3].TodaysTransactions);
+        processApiResponse(
+          cancellationDataResult,
+          setCancellationCounts,
+          "data",
+          {}
+        );
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
         setIsLoading(false);
       }
     };
-
     fetchData();
-  }, [setIsLoading]);
+  }, [selectedDate, setIsLoading]);
 
-  useEffect(() => {
-    const fetchCancellationCounts = async () => {
-      try {
-        const data = await getCancellationCounts();
-        setCancellationCounts(data.data);
-      } catch (error) {
-        setError(error.message);
-      }
-    };
-
-    fetchCancellationCounts();
-  }, []);
+  const clearDatePicker = () => {
+    setSelectedDate(null);
+    setIsDatePickerVisible(false);
+  };
 
   const openLogoutModal = () => {
     setIsLogoutModalOpen(true);
@@ -141,7 +211,13 @@ const DashboardPage = () => {
   };
 
   const toggleReportMode = () => {
-    setIsReportMode(!isReportMode);
+    setIsReportMode((prev) => {
+      if (prev) {
+        setIsDatePickerVisible(false);
+        clearDatePicker();
+      }
+      return !prev;
+    });
     setSelectedReports([]);
   };
 
@@ -183,6 +259,16 @@ const DashboardPage = () => {
 
     const storeName = "G&F Auto Supply";
     const issuanceDate = new Date().toLocaleString();
+    const reportDate = selectedDate
+      ? new Date(selectedDate).toLocaleDateString(undefined, {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        })
+      : null;
+    const dateFilterText = reportDate
+      ? `<p>Report Date: ${reportDate}</p>`
+      : "";
 
     const iframe = document.createElement("iframe");
     iframe.style.position = "fixed";
@@ -193,8 +279,7 @@ const DashboardPage = () => {
     iframe.style.border = "none";
     document.body.appendChild(iframe);
 
-    iframe.contentWindow.document.open();
-    iframe.contentWindow.document.write(`
+    const completeContent = `
       <html>
         <head>
           <title>Reports</title>
@@ -240,10 +325,10 @@ const DashboardPage = () => {
             }
             @media print {
               @page {
-                margin: 0;
+                margin: 20mm;
               }
               body {
-                margin: 1cm;
+                margin: 0;
               }
               .no-print {
                 display: none;
@@ -259,16 +344,22 @@ const DashboardPage = () => {
             <h1>${storeName}</h1>
             <p>Reports</p>
             <p>Issuance Date: ${issuanceDate}</p>
+            ${dateFilterText}
           </header>
           ${printableContent}
         </body>
       </html>
-    `);
+    `;
+
+    iframe.contentWindow.document.open();
+    iframe.contentWindow.document.write(completeContent);
     iframe.contentWindow.document.close();
+
     iframe.onload = () => {
       iframe.contentWindow.focus();
       iframe.contentWindow.print();
       document.body.removeChild(iframe);
+      clearDatePicker();
     };
   };
 
@@ -342,17 +433,39 @@ const DashboardPage = () => {
                 </>
               )}
             </button>
+
             {isReportMode && (
               <>
                 <button onClick={toggleSelectAll} className="report-button">
                   {isAllSelected ? "Deselect All" : "Select All"}
+                </button>
+                <button onClick={toggleDatePicker} className="report-button">
+                  <FontAwesomeIcon icon={faCalendarAlt} /> Select Date
                 </button>
                 <button onClick={printReports} className="report-button">
                   <FontAwesomeIcon icon={faFileAlt} /> Generate Report
                 </button>
               </>
             )}
+
+            {isDatePickerVisible && (
+              <div className="date-picker-container">
+                <input
+                  type="date"
+                  className="date-picker"
+                  value={selectedDate || ""}
+                  onChange={(e) => {
+                    const selectedDate = e.target.value;
+                    const processedDate = new Date(selectedDate)
+                      .toISOString()
+                      .split("T")[0];
+                    setSelectedDate(processedDate);
+                  }}
+                />
+              </div>
+            )}
           </header>
+
           <section
             id="sales-section"
             className={`sales-section ${
@@ -497,7 +610,9 @@ const DashboardPage = () => {
                   <input
                     type="checkbox"
                     className="report-checkbox"
-                    checked={selectedReports.includes("cancel-order-counts")}
+                    checked={selectedReports.includes(
+                      "cancellation-counts-section"
+                    )}
                     readOnly
                   />
                 )}

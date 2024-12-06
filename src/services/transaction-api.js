@@ -4,9 +4,11 @@ import axios from "axios";
 
 const BASE_URL = "http://localhost:3002/api/transactions";
 
-export const getTotalNumberTransactions = async () => {
+export const getTotalNumberTransactions = async (date = null) => {
   try {
-    const response = await axios.get(`${BASE_URL}/today/total`);
+    const response = await axios.get(`${BASE_URL}/today/total`, {
+      params: { date },
+    });
     return response.data;
   } catch (error) {
     console.error(
@@ -17,9 +19,11 @@ export const getTotalNumberTransactions = async () => {
   }
 };
 
-export const getTotalCountOfTransactionsFromPOS = async () => {
+export const getTotalCountOfTransactionsFromPOS = async (date = null) => {
   try {
-    const response = await axios.get(`${BASE_URL}/today/total/pos`);
+    const response = await axios.get(`${BASE_URL}/today/total/pos`, {
+      params: { date },
+    });
     return response.data;
   } catch (error) {
     console.error(
@@ -30,9 +34,11 @@ export const getTotalCountOfTransactionsFromPOS = async () => {
   }
 };
 
-export const getTotalCountOfTransactionsFromOnline = async () => {
+export const getTotalCountOfTransactionsFromOnline = async (date = null) => {
   try {
-    const response = await axios.get(`${BASE_URL}/today/total/online`);
+    const response = await axios.get(`${BASE_URL}/today/total/online`, {
+      params: { date },
+    });
     return response.data;
   } catch (error) {
     console.error(
@@ -43,9 +49,11 @@ export const getTotalCountOfTransactionsFromOnline = async () => {
   }
 };
 
-export const getTodaysTransactions = async () => {
+export const getTodaysTransactions = async (date = null) => {
   try {
-    const response = await axios.get(`${BASE_URL}/today`);
+    const response = await axios.get(`${BASE_URL}/today`, {
+      params: { date },
+    });
     return response.data;
   } catch (error) {
     console.error(
@@ -56,9 +64,11 @@ export const getTodaysTransactions = async () => {
   }
 };
 
-export const calculateTotalIncomeByMonth = async () => {
+export const calculateTotalIncomeByMonth = async (date = null) => {
   try {
-    const response = await axios.get(`${BASE_URL}/income/totalMonthlyIncome`);
+    const response = await axios.get(`${BASE_URL}/income/totalMonthlyIncome`, {
+      params: { date },
+    });
     return response.data;
   } catch (error) {
     console.error(

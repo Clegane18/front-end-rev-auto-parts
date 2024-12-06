@@ -111,9 +111,11 @@ export const cancelOrder = async ({ orderId, token, cancellationReason }) => {
   }
 };
 
-export const getCancellationCounts = async () => {
+export const getCancellationCounts = async (date = null) => {
   try {
-    const response = await api.get("/orders/cancel-reason-count");
+    const response = await api.get("/orders/cancel-reason-count", {
+      params: { date },
+    });
     if (response && response.data) {
       return response.data;
     }

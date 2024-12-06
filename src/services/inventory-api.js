@@ -16,9 +16,11 @@ export const getProductById = (productId) =>
 export const updateProductById = (productId, productData) =>
   api.put(`/updateProductById/${productId}`, productData);
 
-export const getTopBestSellerItems = async () => {
+export const getTopBestSellerItems = async (date = null) => {
   try {
-    const response = await api.get("/products/best-seller-items");
+    const response = await api.get("/products/best-seller-items", {
+      params: { date },
+    });
     return response.data;
   } catch (error) {
     console.error("Error fetching top best seller items:", error);
@@ -41,22 +43,26 @@ export const addToProductStock = async (productId, quantityToAdd) => {
   }
 };
 
-export const getTotalStock = async () => {
+export const getTotalStock = async (date = null) => {
   try {
-    const response = await api.get("/products/totalNumberOfStocks");
+    const response = await api.get("/products/totalNumberOfStocks", {
+      params: { date },
+    });
     return response.data;
   } catch (error) {
-    if (error.response && error.response.data) {
-      throw new Error(error.response.data.message);
-    } else {
-      throw new Error("Failed to fetch total stock. Please try again later.");
-    }
+    const errorMessage =
+      error.response?.data?.message ||
+      "Failed to fetch total stock. Please try again later.";
+    console.error("Error fetching total stock:", errorMessage);
+    throw new Error(errorMessage);
   }
 };
 
-export const getTotalItems = async () => {
+export const getTotalItems = async (date = null) => {
   try {
-    const response = await api.get("/products/totalNumberOfItems");
+    const response = await api.get("/products/totalNumberOfItems", {
+      params: { date },
+    });
     return response.data;
   } catch (error) {
     if (error.response && error.response.data) {
@@ -108,9 +114,11 @@ export const getProductsByDateRange = (startDate, endDate) =>
     `/products/filter/dateRange?startDate=${startDate}&endDate=${endDate}`
   );
 
-export const getLowStockProducts = async () => {
+export const getLowStockProducts = async (date = null) => {
   try {
-    const response = await api.get("/products/filter/lowStocks");
+    const response = await api.get("/products/filter/lowStocks", {
+      params: { date },
+    });
     return response.data;
   } catch (error) {
     if (error.response && error.response.data) {
