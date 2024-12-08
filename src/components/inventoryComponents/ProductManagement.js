@@ -206,27 +206,26 @@ const ProductManagement = () => {
   const handleAddProduct = async (productData) => {
     try {
       setIsLoading(true);
+
       const response = await addProduct(productData, authToken);
 
       if (response.status === 409) {
-        setDuplicateProduct(response.data.product);
+        setDuplicateProduct(response.product || null);
         setShowDuplicateModal(true);
-      } else {
-        handleProductAdded(response.data.product);
+      } else if (response.product) {
+        handleProductAdded(response.product);
         setAddingProduct(false);
         clearErrorMessage();
+      } else {
+        throw new Error("Unexpected response format from the server.");
       }
     } catch (error) {
-      if (error.response && error.response.status === 409) {
-        setDuplicateProduct(error.response.data.product);
-        setShowDuplicateModal(true);
-      } else {
-        console.error("Failed to add product", error);
-        setErrorMessage(
-          error.response?.data?.error ||
-            "Failed to add product. Check if the data already exists."
-        );
-      }
+      console.error("Failed to add product", error);
+
+      setErrorMessage(
+        error.response?.data?.message ||
+          "Failed to add product. Please check the data and try again."
+      );
     } finally {
       setIsLoading(false);
     }

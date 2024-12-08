@@ -10,7 +10,7 @@ const api = axios.create({
 // Product APIs
 export const addProduct = async (productData, authToken) => {
   try {
-    const response = await api.post(" /addProduct", productData, {
+    const response = await api.post("/addProduct", productData, {
       headers: {
         Authorization: `Bearer ${authToken}`,
       },
