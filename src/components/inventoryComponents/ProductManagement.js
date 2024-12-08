@@ -223,7 +223,7 @@ const ProductManagement = () => {
       console.error("Failed to add product", error);
 
       setErrorMessage(
-        error.response?.data?.message ||
+        error.message ||
           "Failed to add product. Please check the data and try again."
       );
     } finally {

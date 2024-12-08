@@ -11,6 +11,25 @@ const DuplicateProductModal = ({
 }) => {
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
+      handleConfirm();
+    }
+  };
+
+  const handleInputClick = () => {
+    if (additionalStock === "0") {
+      setAdditionalStock("");
+    }
+  };
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    if (!isNaN(value) && Number(value) >= 0) {
+      setAdditionalStock(value);
+    }
+  };
+
+  const handleConfirm = () => {
+    if (additionalStock && additionalStock !== "0") {
       onConfirm();
     }
   };
@@ -41,13 +60,18 @@ const DuplicateProductModal = ({
           <input
             type="number"
             value={additionalStock}
-            onChange={(e) => setAdditionalStock(e.target.value)}
+            onClick={handleInputClick}
+            onChange={handleChange}
             placeholder="Enter additional quantity"
             className="quantity-input"
             onKeyDown={handleKeyDown}
           />
           <div className="modal-buttons">
-            <button className="btn-confirm" onClick={onConfirm}>
+            <button
+              className="btn-confirm"
+              onClick={handleConfirm}
+              disabled={!additionalStock || additionalStock === "0"}
+            >
               Add Quantity
             </button>
             <button className="btn-cancel" onClick={onClose}>

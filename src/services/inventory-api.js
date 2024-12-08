@@ -17,6 +17,9 @@ export const addProduct = async (productData, authToken) => {
     });
     return response.data;
   } catch (error) {
+    if (error.response?.status === 409) {
+      return error.response.data;
+    }
     throw new Error(
       error.response?.data?.message ||
         "Failed to add product. Please try again later."
