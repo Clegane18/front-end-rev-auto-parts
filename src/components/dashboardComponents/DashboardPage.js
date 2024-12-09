@@ -74,62 +74,18 @@ const DashboardPage = () => {
   };
 
   useEffect(() => {
-    const formattedDate = selectedDate ? formatDate(selectedDate) : null;
-    const dateParam = formattedDate || null;
-
-    const fetchDailyData = async (dateParam) => {
+    const fetchData = async () => {
       try {
-        const [
-          totalTransactionsResult,
-          posTransactionsResult,
-          onlineTransactionsResult,
-          todaysTransactionsResult,
-        ] = await Promise.all([
-          getTotalNumberTransactions(dateParam),
-          getTotalCountOfTransactionsFromPOS(dateParam),
-          getTotalCountOfTransactionsFromOnline(dateParam),
-          getTodaysTransactions(dateParam),
-        ]);
+        setIsLoading(true);
 
-        processApiResponse(
-          totalTransactionsResult,
-          setTotalTransactions,
-          "totalTransactions",
-          0,
-          true
-        );
-        processApiResponse(
-          posTransactionsResult,
-          setPosTransactions,
-          "TotalCountOfTransactions",
-          0,
-          true
-        );
-        processApiResponse(
-          onlineTransactionsResult,
-          setOnlineTransactions,
-          "TotalCountOfTransactions",
-          0,
-          true
-        );
-        processApiResponse(
-          todaysTransactionsResult,
-          setTodaysTransactions,
-          "TodaysTransactions",
-          [],
-          true
-        );
-      } catch (error) {
-        console.error("Error fetching daily data:", error);
-      }
-    };
+        const formattedDate = selectedDate ? formatDate(selectedDate) : null;
+        const dateParam = formattedDate ? formattedDate : null;
 
-    const fetchMonthlyAndOverallData = async (dateParam) => {
-      try {
         const [
           incomeDataResult,
           bestSellersResult,
           stockDataResults,
+          transactionDataResults,
           cancellationDataResult,
         ] = await Promise.all([
           calculateTotalIncomeByMonth(dateParam),
@@ -139,8 +95,32 @@ const DashboardPage = () => {
             getTotalItems(dateParam),
             getLowStockProducts(dateParam),
           ]),
+          Promise.all([
+            getTotalNumberTransactions(dateParam),
+            getTotalCountOfTransactionsFromPOS(dateParam),
+            getTotalCountOfTransactionsFromOnline(dateParam),
+            getTodaysTransactions(dateParam),
+          ]),
           getCancellationCounts(dateParam),
         ]);
+
+        const processApiResponse = (
+          result,
+          setter,
+          key = null,
+          fallback = null
+        ) => {
+          if (
+            result?.status === 200 &&
+            (key ? result[key] !== undefined : result)
+          ) {
+            setter(key ? result[key] : result);
+          } else {
+            if (fallback !== null) {
+              setter(fallback);
+            }
+          }
+        };
 
         if (incomeDataResult?.status === 200 && incomeDataResult.data) {
           const income = Object.entries(incomeDataResult.data).map(
@@ -151,65 +131,72 @@ const DashboardPage = () => {
             })
           );
           setMonthlyIncome(income);
+        } else {
+          setMonthlyIncome([]);
         }
 
-        processApiResponse(
-          bestSellersResult,
-          setBestSellers,
-          "data",
-          null,
-          false
-        );
+        processApiResponse(bestSellersResult, setBestSellers, "data", []);
 
         const [totalStockResult, totalItemsResult, lowStockResult] =
           stockDataResults;
+
+        processApiResponse(totalStockResult, setTotalStock, "totalStocks", 0);
+        processApiResponse(totalItemsResult, setTotalItems, "totalItems", 0);
+        processApiResponse(lowStockResult, setLowStockProducts, "data", []);
+
+        const [
+          totalTransactionsResult,
+          posTransactionsResult,
+          onlineTransactionsResult,
+          todaysTransactionsResult,
+        ] = transactionDataResults;
+
         processApiResponse(
-          totalStockResult,
-          setTotalStock,
-          "totalStocks",
-          null,
-          false
+          totalTransactionsResult,
+          setTotalTransactions,
+          "totalTransactions",
+          0
         );
         processApiResponse(
-          totalItemsResult,
-          setTotalItems,
-          "totalItems",
-          null,
-          false
+          posTransactionsResult,
+          setPosTransactions,
+          "TotalCountOfTransactions",
+          0
         );
         processApiResponse(
-          lowStockResult,
-          setLowStockProducts,
-          "data",
-          null,
-          false
+          onlineTransactionsResult,
+          setOnlineTransactions,
+          "TotalCountOfTransactions",
+          0
+        );
+        processApiResponse(
+          todaysTransactionsResult,
+          setTodaysTransactions,
+          "TodaysTransactions",
+          []
         );
 
         processApiResponse(
           cancellationDataResult,
           setCancellationCounts,
           "data",
-          null,
-          false
+          {}
         );
       } catch (error) {
-        console.error("Error fetching monthly/overall data:", error);
+        console.error("Error fetching data:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
-    setIsLoading(true);
-    fetchDailyData(dateParam).then(() => {
-      fetchMonthlyAndOverallData(dateParam).finally(() => {
-        setIsLoading(false);
-      });
-    });
+    fetchData();
 
     const interval = setInterval(() => {
-      fetchDailyData(dateParam);
+      fetchData();
     }, 60000);
 
     return () => clearInterval(interval);
-  }, [selectedDate]);
+  }, [selectedDate, setIsLoading]);
 
   const clearDatePicker = () => {
     setSelectedDate(null);
