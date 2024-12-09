@@ -174,7 +174,7 @@ const OrdersList = () => {
 
   const confirmStatusChange = async (orderId, status) => {
     try {
-      await updateOrderStatus(orderId, status);
+      await updateOrderStatus(orderId, status, authToken);
       setOrders((prevOrders) =>
         prevOrders.map((order) =>
           order.id === orderId ? { ...order, status } : order
